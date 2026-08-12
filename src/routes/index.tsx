@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Section, SectionHeader } from "@/components/site/Section";
-import { GridPanel, InfoCard, ArticleCard } from "@/components/site/Cards";
+import { GridPanel, InfoCard } from "@/components/site/Cards";
 import { buttonStyles, CTABlock } from "@/components/site/CTA";
 
 export const Route = createFileRoute("/")({
@@ -48,27 +48,6 @@ const labCategories = [
   },
 ];
 
-const articles = [
-  {
-    title: "Yazı başlığı yer tutucusu",
-    category: "AI for Engineers",
-    date: "—",
-    excerpt: "Bu alan yakında yayımlanacak yazılar için ayrılmıştır. İçerik henüz bağlanmadı.",
-  },
-  {
-    title: "Yazı başlığı yer tutucusu",
-    category: "Mechanical",
-    date: "—",
-    excerpt: "Bu alan yakında yayımlanacak yazılar için ayrılmıştır. İçerik henüz bağlanmadı.",
-  },
-  {
-    title: "Yazı başlığı yer tutucusu",
-    category: "Research",
-    date: "—",
-    excerpt: "Bu alan yakında yayımlanacak yazılar için ayrılmıştır. İçerik henüz bağlanmadı.",
-  },
-];
-
 const researchThemes = [
   { title: "Tribology", body: "Sürtünme ve aşınma davranışı." },
   { title: "Surface Engineering", body: "Yüzey işlemleri ve yüzey karakterizasyonu." },
@@ -78,10 +57,20 @@ const researchThemes = [
 ];
 
 const services = [
-  { title: "AI for Engineers", body: "Mühendisler için uygulamalı yapay zeka eğitimi." },
-  { title: "Corporate AI Training", body: "Kurumsal ekiplere yönelik yapay zeka programları." },
-  { title: "Engineering / R&D Consulting", body: "Mühendislik ve Ar-Ge süreçleri için danışmanlık." },
+  {
+    title: "AI for Engineers",
+    body: "Mühendislik iş akışlarında üretken yapay zekânın uygulamalı kullanımı.",
+  },
+  {
+    title: "Kurumsal Yapay Zekâ Eğitimleri",
+    body: "Teknik ekiplerin yapay zekâ araçlarını güvenli ve verimli biçimde kullanmasına yönelik uygulamalı eğitimler.",
+  },
+  {
+    title: "Mühendislik & Ar-Ge Danışmanlığı",
+    body: "Mühendislik, araştırma ve teknoloji geliştirme süreçleri için teknik danışmanlık.",
+  },
 ];
+
 
 function Index() {
   return (
@@ -96,8 +85,9 @@ function Index() {
             Gökçe Mehmet Ay
           </h1>
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            Mühendislik pratiği, yapay zeka ve akademik araştırmanın kesiştiği noktada çalışıyorum.
-            Bu platform; mühendisler ve araştırmacılar için araçlar, yazılar ve kaynaklar sunar.
+            Mühendislik pratiğini, akademik araştırmayı ve üretken yapay zekâyı bir araya
+            getiriyorum. Mühendisler ve araştırmacılar için araçlar geliştiriyor, eğitimler veriyor
+            ve teknoloji üzerine yazıyorum.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -115,7 +105,7 @@ function Index() {
               rel="noreferrer"
               className="underline underline-offset-4 hover:text-foreground"
             >
-              “Mühendisliğin Yapay Zeka Mentoru”nu Oku
+              {"“Mühendisliğin Yapay Zeka Mentoru”nu Oku"}
             </a>
           </p>
         </div>
@@ -125,13 +115,14 @@ function Index() {
         <SectionHeader
           eyebrow="Engineering Lab"
           title="GMA Engineering Lab"
-          description="Mühendisler ve araştırmacılar için pratik araçlardan oluşan bir koleksiyon."
+          description="Mühendislik hesapları, yapay zekâ iş akışları ve araştırma süreçleri için geliştirilen pratik araçlar."
           action={
             <Link to="/lab" className={buttonStyles.secondary}>
-              Tüm kategoriler
+              Lab'deki araçları keşfet
             </Link>
           }
         />
+
         <GridPanel columns={4} className="mt-8">
           {labCategories.map((c) => (
             <InfoCard
@@ -153,28 +144,28 @@ function Index() {
         <SectionHeader
           eyebrow="Yazılar"
           title="Son yazılar"
-          description="Mühendislik, yapay zeka, araştırma ve teknoloji üzerine yazılar."
+          description="Mühendislik, yapay zekâ, akademik araştırma ve teknoloji üzerine notlar, rehberler ve uygulama örnekleri."
           action={
             <Link to="/articles" className={buttonStyles.secondary}>
               Tüm yazılar
             </Link>
           }
         />
-        <GridPanel columns={3} className="mt-8">
-          {articles.map((a, i) => (
-            <ArticleCard key={i} {...a} />
-          ))}
-        </GridPanel>
+        <div className="mt-8 border border-dashed border-border bg-card p-6 md:p-8">
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            Substack yazıları yakında burada gösterilecek.
+          </p>
+        </div>
       </Section>
 
       <Section>
         <SectionHeader
           eyebrow="Araştırma"
           title="Araştırma ve mühendislik"
-          description="Triboloji ve yüzey mühendisliği başta olmak üzere çalışma alanları."
+          description="Triboloji, yüzey mühendisliği, kaplamalar ve mühendislikte yapay zekâ başta olmak üzere çalışma alanları."
           action={
             <Link to="/research" className={buttonStyles.secondary}>
-              Araştırma
+              Araştırmaları Gör
             </Link>
           }
         />
@@ -184,6 +175,7 @@ function Index() {
           ))}
         </GridPanel>
       </Section>
+
 
       <Section>
         <SectionHeader eyebrow="Kitaplar" title="Öne çıkan kitap" />
@@ -198,10 +190,11 @@ function Index() {
               Makine Mühendisleri için 100 Prompt
             </h3>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              Kitap açıklaması, yayınevi ve künye bilgileri henüz eklenmedi.
+              Mühendislerin üretken yapay zekâyı teknik iş akışlarında daha sistematik kullanmasına
+              yardımcı olmak üzere hazırlanmış bir kaynak.
             </p>
             <Link to="/kitaplar" className={`${buttonStyles.secondary} mt-6`}>
-              Kitaplar
+              Kitapları Gör
             </Link>
           </div>
         </div>
@@ -210,8 +203,8 @@ function Index() {
       <Section>
         <SectionHeader
           eyebrow="Eğitim & Danışmanlık"
-          title="Eğitim ve danışmanlık"
-          description="Mühendislik ekipleri ve kurumlar için uygulamalı programlar."
+          title="Eğitim &amp; Danışmanlık"
+          description="Mühendisler, teknik ekipler ve kurumlar için yapay zekâ, mühendislik ve Ar-Ge odaklı eğitim ve danışmanlık."
         />
         <GridPanel columns={3} className="mt-8">
           {services.map((s) => (
@@ -220,7 +213,7 @@ function Index() {
         </GridPanel>
         <div className="mt-6">
           <Link to="/egitim" className={buttonStyles.primary}>
-            Eğitim & Danışmanlık
+            Eğitim &amp; Danışmanlık
           </Link>
         </div>
       </Section>
@@ -228,13 +221,14 @@ function Index() {
       <Section>
         <CTABlock
           title="Mühendis, araştırmacı, eğitmen ve yazar."
-          description="Mühendislik pratiği ile akademik araştırmayı yapay zeka araçlarıyla birleştiriyorum. Ayrıntılı profesyonel hikâye hazırlanıyor."
+          description="Mühendislik uygulamaları, akademik araştırma ve teknoloji geliştirme arasında çalışan; deneyimini eğitim, araştırma, yazılım araçları ve teknik yayınlarla paylaşan bir mühendis."
         >
           <Link to="/about" className={buttonStyles.secondary}>
             Hakkımda
           </Link>
         </CTABlock>
       </Section>
+
     </>
   );
 }
