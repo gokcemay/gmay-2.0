@@ -71,7 +71,7 @@ function TrainingPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Training & Consulting"
+        eyebrow="Eğitim & Danışmanlık"
         title="Eğitim ve Danışmanlık"
         description="Mühendislik ekipleri, kurumlar ve araştırma grupları için uygulamalı eğitim ve danışmanlık programları."
       />

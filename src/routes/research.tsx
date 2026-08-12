@@ -37,7 +37,7 @@ function ResearchPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Research"
+        eyebrow="Araştırma"
         title="Araştırma"
         description="Triboloji ve yüzey mühendisliği başta olmak üzere akademik ve uygulamalı araştırma alanları."
       />

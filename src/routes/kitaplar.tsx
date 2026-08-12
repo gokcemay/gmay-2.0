@@ -40,7 +40,7 @@ function BooksPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Books"
+        eyebrow="Kitaplar"
         title="Kitaplar"
         description="Mühendislik ve teknoloji alanındaki yayınlar ile edebi çalışmalar."
       />
