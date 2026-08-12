@@ -96,8 +96,9 @@ function Index() {
             Gökçe Mehmet Ay
           </h1>
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            Mühendislik pratiği, yapay zeka ve akademik araştırmanın kesiştiği noktada çalışıyorum.
-            Bu platform; mühendisler ve araştırmacılar için araçlar, yazılar ve kaynaklar sunar.
+            Mühendislik pratiğini, akademik araştırmayı ve üretken yapay zekâyı bir araya
+            getiriyorum. Mühendisler ve araştırmacılar için araçlar geliştiriyor, eğitimler veriyor
+            ve teknoloji üzerine yazıyorum.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -115,7 +116,7 @@ function Index() {
               rel="noreferrer"
               className="underline underline-offset-4 hover:text-foreground"
             >
-              “Mühendisliğin Yapay Zeka Mentoru”nu Oku
+              {"“Mühendisliğin Yapay Zeka Mentoru”nu Oku"}
             </a>
           </p>
         </div>
@@ -125,13 +126,14 @@ function Index() {
         <SectionHeader
           eyebrow="Engineering Lab"
           title="GMA Engineering Lab"
-          description="Mühendisler ve araştırmacılar için pratik araçlardan oluşan bir koleksiyon."
+          description="Mühendislik hesapları, yapay zekâ iş akışları ve araştırma süreçleri için geliştirilen pratik araçlar."
           action={
             <Link to="/lab" className={buttonStyles.secondary}>
-              Tüm kategoriler
+              Lab'deki araçları keşfet
             </Link>
           }
         />
+
         <GridPanel columns={4} className="mt-8">
           {labCategories.map((c) => (
             <InfoCard
