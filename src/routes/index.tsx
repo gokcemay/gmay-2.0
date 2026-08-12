@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Section, SectionHeader } from "@/components/site/Section";
 import { GridPanel, InfoCard } from "@/components/site/Cards";
 import { buttonStyles, CTABlock } from "@/components/site/CTA";
+import { book, profileLinks } from "@/lib/profiles";
+import bookCover from "@/assets/makine-muhendisleri-icin-100-prompt-kapak.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
