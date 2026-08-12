@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Section, SectionHeader } from "@/components/site/Section";
-import { GridPanel, InfoCard, ArticleCard } from "@/components/site/Cards";
+import { GridPanel, InfoCard } from "@/components/site/Cards";
 import { buttonStyles, CTABlock } from "@/components/site/CTA";
 
 export const Route = createFileRoute("/")({
