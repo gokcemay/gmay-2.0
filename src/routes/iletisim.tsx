@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
 import { GridPanel, InfoCard, PlaceholderNote } from "@/components/site/Cards";
-import { buttonStyles } from "@/components/site/CTA";
+import { emails, professionalProfiles } from "@/lib/profiles";
 
 export const Route = createFileRoute("/iletisim")({
   head: () => ({
@@ -49,73 +49,61 @@ function ContactPage() {
       <Section>
         <SectionHeader
           eyebrow="02"
-          title="Mesaj gönderin"
-          description="Form şu an görsel bir yer tutucudur; gönderim altyapısı henüz bağlanmadı."
+          title="E-posta"
+          description="Doğrudan e-posta ile iletişime geçebilirsiniz."
         />
-        <div className="mt-8 grid gap-10 md:grid-cols-[2fr_1fr]">
-          <form
-            aria-label="İletişim formu"
-            onSubmit={(e) => e.preventDefault()}
-            className="border border-border bg-card p-6 md:p-8"
-          >
-            <div className="grid gap-6 sm:grid-cols-2">
-              <div className="flex flex-col gap-2">
-                <label htmlFor="name" className="font-mono text-xs tracking-[0.2em] uppercase">
-                  Ad Soyad
-                </label>
-                <input
-                  id="name"
-                  name="name"
-                  disabled
-                  placeholder="Yer tutucu"
-                  className="border border-input bg-background px-3 py-2 text-sm text-foreground"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label htmlFor="email" className="font-mono text-xs tracking-[0.2em] uppercase">
-                  E-posta
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  disabled
-                  placeholder="Yer tutucu"
-                  className="border border-input bg-background px-3 py-2 text-sm text-foreground"
-                />
-              </div>
-            </div>
-            <div className="mt-6 flex flex-col gap-2">
-              <label htmlFor="message" className="font-mono text-xs tracking-[0.2em] uppercase">
-                Mesaj
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                rows={6}
-                disabled
-                placeholder="Yer tutucu"
-                className="border border-input bg-background px-3 py-2 text-sm text-foreground"
-              />
-            </div>
-            <button type="submit" disabled className={`${buttonStyles.primary} mt-6 opacity-50`}>
-              Gönder (devre dışı)
-            </button>
-          </form>
+        <div className="mt-8 grid gap-px border border-border bg-border sm:grid-cols-2">
+          <div className="bg-card p-6 md:p-8">
+            <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
+              Akademik / Kurumsal
+            </p>
+            <a
+              href={`mailto:${emails.academic}`}
+              className="mt-3 inline-block font-display text-lg font-semibold text-foreground underline underline-offset-4"
+            >
+              {emails.academic}
+            </a>
+          </div>
+          <div className="bg-card p-6 md:p-8">
+            <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
+              Genel iletişim
+            </p>
+            <a
+              href={`mailto:${emails.general}`}
+              className="mt-3 inline-block font-display text-lg font-semibold text-foreground underline underline-offset-4"
+            >
+              {emails.general}
+            </a>
+          </div>
+        </div>
+      </Section>
 
-          <aside className="space-y-6">
-            <div className="border border-border bg-card p-6">
-              <h3 className="font-display text-base font-semibold text-foreground">
-                Doğrudan iletişim
-              </h3>
-              <p className="mt-3 text-sm text-muted-foreground">
-                E-posta adresi ve sosyal medya bağlantıları eklenecektir.
-              </p>
-            </div>
-            <PlaceholderNote>
-              Form gönderimi için arka uç altyapısı bu adımda kurulmadı.
-            </PlaceholderNote>
-          </aside>
+      <Section>
+        <SectionHeader eyebrow="03" title="Profesyonel profiller" />
+        <ul className="mt-8 flex flex-wrap gap-3">
+          {professionalProfiles.map((p) => (
+            <li key={p.label}>
+              <a
+                href={p.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${p.label} profili (yeni sekmede açılır)`}
+                className="inline-flex border border-border bg-card px-4 py-2 text-sm text-foreground transition-colors hover:bg-muted"
+              >
+                {p.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </Section>
+
+      <Section>
+        <SectionHeader eyebrow="04" title="İletişim formu" />
+        <div className="mt-8 max-w-2xl">
+          <PlaceholderNote>
+            Web sitesi üzerinden mesaj gönderme özelliği henüz aktif değildir. Lütfen yukarıdaki
+            e-posta adreslerini kullanın.
+          </PlaceholderNote>
         </div>
       </Section>
     </>
