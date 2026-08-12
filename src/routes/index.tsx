@@ -48,27 +48,6 @@ const labCategories = [
   },
 ];
 
-const articles = [
-  {
-    title: "Yazı başlığı yer tutucusu",
-    category: "AI for Engineers",
-    date: "—",
-    excerpt: "Bu alan yakında yayımlanacak yazılar için ayrılmıştır. İçerik henüz bağlanmadı.",
-  },
-  {
-    title: "Yazı başlığı yer tutucusu",
-    category: "Mechanical",
-    date: "—",
-    excerpt: "Bu alan yakında yayımlanacak yazılar için ayrılmıştır. İçerik henüz bağlanmadı.",
-  },
-  {
-    title: "Yazı başlığı yer tutucusu",
-    category: "Research",
-    date: "—",
-    excerpt: "Bu alan yakında yayımlanacak yazılar için ayrılmıştır. İçerik henüz bağlanmadı.",
-  },
-];
-
 const researchThemes = [
   { title: "Tribology", body: "Sürtünme ve aşınma davranışı." },
   { title: "Surface Engineering", body: "Yüzey işlemleri ve yüzey karakterizasyonu." },
@@ -78,10 +57,20 @@ const researchThemes = [
 ];
 
 const services = [
-  { title: "AI for Engineers", body: "Mühendisler için uygulamalı yapay zeka eğitimi." },
-  { title: "Corporate AI Training", body: "Kurumsal ekiplere yönelik yapay zeka programları." },
-  { title: "Engineering / R&D Consulting", body: "Mühendislik ve Ar-Ge süreçleri için danışmanlık." },
+  {
+    title: "AI for Engineers",
+    body: "Mühendislik iş akışlarında üretken yapay zekânın uygulamalı kullanımı.",
+  },
+  {
+    title: "Kurumsal Yapay Zekâ Eğitimleri",
+    body: "Teknik ekiplerin yapay zekâ araçlarını güvenli ve verimli biçimde kullanmasına yönelik uygulamalı eğitimler.",
+  },
+  {
+    title: "Mühendislik & Ar-Ge Danışmanlığı",
+    body: "Mühendislik, araştırma ve teknoloji geliştirme süreçleri için teknik danışmanlık.",
+  },
 ];
+
 
 function Index() {
   return (
