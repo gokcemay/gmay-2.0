@@ -32,14 +32,14 @@ function ContactPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Contact"
+        eyebrow="İletişim"
         title="İletişim"
         description="Eğitim, danışmanlık, araştırma iş birliği ve etkinlik talepleri için iletişime geçebilirsiniz."
       />
 
       <Section>
         <SectionHeader eyebrow="01" title="İletişim konuları" />
-        <GridPanel columns={4} className="mt-10">
+        <GridPanel columns={4} className="mt-8">
           {topics.map((t) => (
             <InfoCard key={t.title} title={t.title} body={t.body} />
           ))}
@@ -52,7 +52,7 @@ function ContactPage() {
           title="Mesaj gönderin"
           description="Form şu an görsel bir yer tutucudur; gönderim altyapısı henüz bağlanmadı."
         />
-        <div className="mt-10 grid gap-10 md:grid-cols-[2fr_1fr]">
+        <div className="mt-8 grid gap-10 md:grid-cols-[2fr_1fr]">
           <form
             aria-label="İletişim formu"
             onSubmit={(e) => e.preventDefault()}

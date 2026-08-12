@@ -36,13 +36,13 @@ export function InfoCard({
   footer?: ReactNode;
 }) {
   return (
-    <article className="flex flex-col bg-card p-6 md:p-8">
+    <article className="flex flex-col bg-card p-6 md:p-7">
       {label && (
         <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">{label}</p>
       )}
       <h3 className="mt-3 font-display text-lg font-semibold text-foreground">{title}</h3>
       {body && <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{body}</p>}
-      {footer && <div className="mt-6 pt-2">{footer}</div>}
+      {footer && <div className="mt-5">{footer}</div>}
     </article>
   );
 }
@@ -59,7 +59,7 @@ export function ArticleCard({
   excerpt: string;
 }) {
   return (
-    <article className="flex flex-col bg-card p-6 md:p-8">
+    <article className="flex flex-col bg-card p-6 md:p-7">
       <div className="flex items-center gap-3 font-mono text-xs tracking-[0.15em] text-muted-foreground uppercase">
         <span className="text-accent">{category}</span>
         <span aria-hidden="true">/</span>
@@ -71,7 +71,7 @@ export function ArticleCard({
       <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{excerpt}</p>
       <Link
         to="/articles"
-        className="mt-6 text-sm font-medium text-foreground underline underline-offset-4"
+        className="mt-5 text-sm font-medium text-foreground underline underline-offset-4"
       >
         Yazıyı oku
       </Link>

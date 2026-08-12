@@ -36,7 +36,7 @@ function ArticlesPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Articles"
+        eyebrow="Yazılar"
         title="Yazılar"
         description="Mühendislik, yapay zeka, araştırma ve teknoloji üzerine yazılar. Bülten içerikleri ileride bu sayfada listelenecektir."
       />
@@ -59,13 +59,13 @@ function ArticlesPage() {
           description="Aşağıdaki kartlar yapısal yer tutuculardır."
         />
 
-        <GridPanel columns={3} className="mt-10">
+        <GridPanel columns={3} className="mt-8">
           {placeholders.map((a, i) => (
             <ArticleCard key={i} {...a} />
           ))}
         </GridPanel>
 
-        <div className="mt-10">
+        <div className="mt-8">
           <PlaceholderNote>
             Bu sayfa, yazıların ileride bülten kaynağından yüklenebilmesi için hazırlandı. Şu anda
             harici bir bağlantı kurulmamıştır.

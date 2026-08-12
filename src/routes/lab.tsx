@@ -138,13 +138,13 @@ function LabPage() {
           <SectionHeader eyebrow={cat.eyebrow} title={cat.title} description={cat.description} />
 
           {cat.tools.length > 0 ? (
-            <div className="mt-10 grid max-w-4xl gap-4 lg:grid-cols-2">
+            <div className="mt-8 grid max-w-4xl gap-4 lg:grid-cols-2">
               {cat.tools.map((t) => (
                 <ToolCard key={t.name} tool={t} />
               ))}
             </div>
           ) : (
-            <div className="mt-10 max-w-2xl border border-dashed border-border p-5 md:p-6">
+            <div className="mt-8 max-w-2xl border border-dashed border-border p-5 md:p-6">
               <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
                 Daha sonra
               </p>

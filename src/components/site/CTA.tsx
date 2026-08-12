@@ -21,7 +21,7 @@ export function CTABlock({
   children?: ReactNode;
 }) {
   return (
-    <div className="border border-border bg-card p-8 md:p-12">
+    <div className="border border-border bg-card p-7 md:p-10">
       <h2 className="max-w-2xl font-display text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
         {title}
       </h2>
@@ -30,7 +30,7 @@ export function CTABlock({
           {description}
         </p>
       )}
-      {children && <div className="mt-8 flex flex-wrap gap-3">{children}</div>}
+      {children && <div className="mt-6 flex flex-wrap gap-3">{children}</div>}
     </div>
   );
 }

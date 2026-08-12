@@ -37,14 +37,14 @@ function ResearchPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Research"
+        eyebrow="Araştırma"
         title="Araştırma"
         description="Triboloji ve yüzey mühendisliği başta olmak üzere akademik ve uygulamalı araştırma alanları."
       />
 
       <Section>
         <SectionHeader eyebrow="01" title="Araştırma alanları" />
-        <GridPanel columns={3} className="mt-10">
+        <GridPanel columns={3} className="mt-8">
           {areas.map((a) => (
             <InfoCard key={a.title} title={a.title} body={a.body} />
           ))}
@@ -66,7 +66,7 @@ function ResearchPage() {
 
       <Section>
         <SectionHeader eyebrow="03" title="Seçilmiş yayınlar" />
-        <div className="mt-10 border border-border bg-card">
+        <div className="mt-8 border border-border bg-card">
           {[1, 2, 3].map((i) => (
             <div key={i} className="border-b border-border p-6 last:border-0 md:p-8">
               <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
@@ -94,7 +94,7 @@ function ResearchPage() {
 
       <Section>
         <SectionHeader eyebrow="05" title="Akademik profiller" />
-        <GridPanel columns={4} className="mt-10">
+        <GridPanel columns={4} className="mt-8">
           {profiles.map((p) => (
             <InfoCard key={p} title={p} body="Profil bağlantısı eklenecektir." />
           ))}
