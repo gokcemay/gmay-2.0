@@ -1,10 +1,13 @@
 import { Link } from "@tanstack/react-router";
+import { profileLinks } from "@/lib/profiles";
 
 const links = [
-  { label: "LinkedIn", href: "#" },
-  { label: "Substack", href: "https://gmehmetay.substack.com" },
-  { label: "YouTube", href: "#" },
-  { label: "Akademik profil", href: "#" },
+  { label: "LinkedIn", href: profileLinks.linkedin },
+  { label: "YouTube", href: profileLinks.youtube },
+  { label: "Substack", href: profileLinks.substack },
+  { label: "AVESIS", href: profileLinks.avesis },
+  { label: "Google Scholar", href: profileLinks.scholar },
+  { label: "ORCID", href: profileLinks.orcid },
 ];
 
 export function SiteFooter() {
@@ -27,8 +30,9 @@ export function SiteFooter() {
               <li key={l.label}>
                 <a
                   href={l.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-muted-foreground transition-colors hover:text-foreground"
-                  rel="noreferrer"
                 >
                   {l.label}
                 </a>
@@ -53,8 +57,9 @@ export function SiteFooter() {
             Mühendisliğin Yapay Zeka Mentoru
           </p>
           <a
-            href="https://gmehmetay.substack.com"
-            rel="noreferrer"
+            href={profileLinks.substack}
+            target="_blank"
+            rel="noopener noreferrer"
             className="mt-3 inline-block text-sm font-medium text-foreground underline underline-offset-4"
           >
             gmehmetay.substack.com
