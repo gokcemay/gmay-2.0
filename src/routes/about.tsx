@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
 import { GridPanel, InfoCard, PlaceholderNote } from "@/components/site/Cards";
 import { ContactCTA } from "@/components/site/CTA";
+import { professionalProfiles } from "@/lib/profiles";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
