@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
-import { GridPanel, InfoCard, PlaceholderNote } from "@/components/site/Cards";
 
 export const Route = createFileRoute("/lab")({
   head: () => ({
@@ -23,41 +22,108 @@ export const Route = createFileRoute("/lab")({
   component: LabPage,
 });
 
-const categories = [
+type Tool = {
+  name: string;
+  purpose: string;
+  category: string;
+};
+
+type Category = {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  tools: Tool[];
+  note?: string;
+};
+
+const categories: Category[] = [
   {
     id: "ai-for-engineers",
+    eyebrow: "01",
     title: "AI for Engineers",
-    description: "Mühendislik iş akışları için yapay zeka destekli araçlar.",
+    description: "Mühendislik iş akışlarında yapay zekâyı yapılandırılmış biçimde kullanmak için araçlar.",
     tools: [
-      { title: "Engineering Prompt Builder", body: "Mühendislik odaklı prompt üretimi. Yakında." },
-      { title: "Araç yer tutucusu", body: "Planlanan araç." },
+      {
+        name: "Engineering Prompt Builder",
+        category: "AI for Engineers",
+        purpose:
+          "Mühendislik görevleri için yapılandırılmış ve tekrar kullanılabilir yapay zekâ promptları oluşturur.",
+      },
     ],
   },
   {
-    id: "mechanical",
+    id: "mechanical-engineering",
+    eyebrow: "02",
     title: "Mechanical Engineering",
-    description: "Makine mühendisliği hesaplayıcıları.",
+    description: "Makine mühendisliği hesaplamaları için araçlar.",
     tools: [
-      { title: "Hertz Contact Calculator", body: "Hertz temas hesaplaması. Yakında." },
-      { title: "Araç yer tutucusu", body: "Planlanan araç." },
+      {
+        name: "Hertz Contact Calculator",
+        category: "Mechanical Engineering",
+        purpose:
+          "Küre-düzlem Hertz temasında temas yarıçapı ve temas basınçlarını hesaplamak için kullanılacaktır.",
+      },
     ],
   },
   {
     id: "tribology",
+    eyebrow: "03",
     title: "Tribology",
-    description: "Sürtünme, aşınma ve yüzey mühendisliği araçları.",
+    description: "Sürtünme, aşınma ve yüzey mühendisliği çalışmaları için araçlar.",
     tools: [
-      { title: "Wear Rate Calculator", body: "Aşınma hızı hesaplaması. Yakında." },
-      { title: "Sliding Distance Calculator", body: "Kayma mesafesi hesaplaması. Yakında." },
+      {
+        name: "Wear Rate Calculator",
+        category: "Tribology",
+        purpose:
+          "Aşınma hacmi, normal yük ve kayma mesafesinden özgül aşınma oranını hesaplamak için kullanılacaktır.",
+      },
+      {
+        name: "Sliding Distance Calculator",
+        category: "Tribology",
+        purpose:
+          "Dönme hızı, iz yarıçapı ve deney süresinden toplam kayma mesafesini hesaplamak için kullanılacaktır.",
+      },
     ],
   },
   {
     id: "research-tools",
+    eyebrow: "04",
     title: "Research Tools",
-    description: "Araştırmacılar için yardımcı araçlar.",
-    tools: [{ title: "Araç yer tutucusu", body: "Planlanan araç." }],
+    description: "Araştırmacılar ve akademisyenler için yardımcı araçlar.",
+    tools: [],
+    note: "Bu kategori için araçlar sonraki bir sürümde eklenecektir.",
   },
 ];
+
+function StatusBadge() {
+  return (
+    <span className="inline-flex items-center gap-2 border border-border px-2.5 py-1 font-mono text-[0.65rem] tracking-[0.18em] text-muted-foreground uppercase">
+      <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
+      Planlanıyor
+    </span>
+  );
+}
+
+function ToolCard({ tool }: { tool: Tool }) {
+  return (
+    <article className="flex flex-col bg-card p-6 md:p-8">
+      <div className="flex items-start justify-between gap-4">
+        <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
+          {tool.category}
+        </p>
+        <StatusBadge />
+      </div>
+      <h3 className="mt-4 font-display text-xl leading-snug font-semibold text-foreground">
+        {tool.name}
+      </h3>
+      <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{tool.purpose}</p>
+      <div className="mt-6 border-t border-border pt-4">
+        <span className="font-mono text-xs text-muted-foreground">Yakında kullanıma açılacak</span>
+      </div>
+    </article>
+  );
+}
 
 function LabPage() {
   return (
@@ -65,25 +131,37 @@ function LabPage() {
       <PageHeader
         eyebrow="Engineering Lab"
         title="GMA Engineering Lab"
-        description="Mühendisler ve araştırmacılar için pratik araçlardan oluşan bir koleksiyon. Araçlar aşamalı olarak yayına alınacaktır."
+        description="Mühendisler ve araştırmacılar için pratik araçlardan oluşan, zaman içinde büyüyen bir koleksiyon. Araçlar dört kategori altında toplanır ve aşamalı olarak yayına alınır."
       />
 
       {categories.map((cat) => (
         <Section key={cat.id} id={cat.id}>
-          <SectionHeader eyebrow="Kategori" title={cat.title} description={cat.description} />
-          <GridPanel columns={3} className="mt-10">
-            {cat.tools.map((t, i) => (
-              <InfoCard key={i} label="Araç" title={t.title} body={t.body} />
-            ))}
-          </GridPanel>
+          <SectionHeader eyebrow={cat.eyebrow} title={cat.title} description={cat.description} />
+
+          {cat.tools.length > 0 ? (
+            <div className="mt-10 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+              {cat.tools.map((t) => (
+                <ToolCard key={t.name} tool={t} />
+              ))}
+            </div>
+          ) : (
+            <div className="mt-10 border border-dashed border-border p-6 md:p-8">
+              <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
+                Daha sonra
+              </p>
+              <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
+                {cat.note}
+              </p>
+            </div>
+          )}
         </Section>
       ))}
 
       <Section>
-        <PlaceholderNote>
-          Araç fonksiyonları henüz uygulanmadı. Hesaplama mantığı, varsayımlar ve birimler bir
-          sonraki adımda eklenecektir.
-        </PlaceholderNote>
+        <p className="max-w-3xl border-l-2 border-accent bg-muted/50 px-5 py-4 text-sm leading-relaxed text-muted-foreground">
+          İlk araçlar geliştirme aşamasındadır. Hesaplama araçlarında kullanılan formüller,
+          varsayımlar ve birimler açık biçimde sunulacaktır.
+        </p>
       </Section>
     </>
   );
