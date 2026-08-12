@@ -79,7 +79,7 @@ function TrainingPage() {
       {sections.map((s) => (
         <Section key={s.title}>
           <SectionHeader eyebrow={s.eyebrow} title={s.title} description={s.description} />
-          <GridPanel columns={3} className="mt-10">
+          <GridPanel columns={3} className="mt-8">
             {s.items.map((i) => (
               <InfoCard key={i.title} title={i.title} body={i.body} />
             ))}

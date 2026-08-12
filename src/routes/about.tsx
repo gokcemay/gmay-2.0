@@ -36,14 +36,14 @@ function AboutPage() {
   return (
     <>
       <PageHeader
-        eyebrow="About"
+        eyebrow="Hakkımda"
         title="Gökçe Mehmet Ay"
         description="Mühendislik pratiği, yapay zeka ve akademik araştırmanın kesişiminde çalışıyorum."
       />
 
       <Section>
         <SectionHeader eyebrow="01" title="Profesyonel roller" />
-        <GridPanel columns={3} className="mt-10">
+        <GridPanel columns={3} className="mt-8">
           {roles.map((r) => (
             <InfoCard key={r.title} title={r.title} body={r.body} />
           ))}

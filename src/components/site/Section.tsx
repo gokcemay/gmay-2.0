@@ -12,7 +12,7 @@ export function Section({
 }) {
   return (
     <section id={id} className={cn("border-b border-border", className)}>
-      <div className="mx-auto max-w-6xl px-6 py-16 md:px-10 md:py-24">{children}</div>
+      <div className="mx-auto max-w-6xl px-6 py-12 md:px-10 md:py-18">{children}</div>
     </section>
   );
 }
@@ -29,12 +29,12 @@ export function SectionHeader({
   action?: ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+    <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
       <div className="max-w-2xl">
         {eyebrow && (
           <p className="font-mono text-xs tracking-[0.3em] text-accent uppercase">{eyebrow}</p>
         )}
-        <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
+        <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-foreground md:text-[2rem]">
           {title}
         </h2>
         {description && (
@@ -57,15 +57,15 @@ export function PageHeader({
 }) {
   return (
     <header className="border-b border-border">
-      <div className="relative mx-auto max-w-6xl px-6 py-16 md:px-10 md:py-24">
+      <div className="relative mx-auto max-w-6xl px-6 py-12 md:px-10 md:py-18">
         {eyebrow && (
           <p className="font-mono text-xs tracking-[0.3em] text-accent uppercase">{eyebrow}</p>
         )}
-        <h1 className="mt-4 max-w-3xl font-display text-4xl leading-[1.1] font-semibold tracking-tight text-foreground md:text-6xl">
+        <h1 className="mt-4 max-w-3xl font-display text-4xl leading-[1.1] font-semibold tracking-tight text-foreground md:text-5xl">
           {title}
         </h1>
         {description && (
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
             {description}
           </p>
         )}

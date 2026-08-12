@@ -47,7 +47,7 @@ function BooksPage() {
 
       <Section>
         <SectionHeader eyebrow="01" title="Mühendislik ve Teknoloji" />
-        <GridPanel columns={3} className="mt-10">
+        <GridPanel columns={3} className="mt-8">
           <BookCard
             title="Makine Mühendisleri için 100 Prompt"
             note="Kitap açıklaması ve künye bilgileri eklenecektir."
@@ -59,11 +59,11 @@ function BooksPage() {
 
       <Section>
         <SectionHeader eyebrow="02" title="Edebiyat" />
-        <GridPanel columns={3} className="mt-10">
+        <GridPanel columns={3} className="mt-8">
           <BookCard title="Kitap yer tutucusu" note="Bilgi eklenecektir." />
           <BookCard title="Kitap yer tutucusu" note="Bilgi eklenecektir." />
         </GridPanel>
-        <div className="mt-10">
+        <div className="mt-8">
           <PlaceholderNote>
             Kitap açıklamaları, yayınevi ve bağlantı bilgileri doğrulanmış içerik sağlandığında
             eklenecektir.

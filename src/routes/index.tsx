@@ -88,7 +88,7 @@ function Index() {
     <>
       <section className="relative overflow-hidden border-b border-border">
         <div className="pointer-events-none absolute inset-0 bg-grid opacity-[0.55]" />
-        <div className="relative mx-auto max-w-6xl px-6 py-20 md:px-10 md:py-32">
+        <div className="relative mx-auto max-w-6xl px-6 py-16 md:px-10 md:py-24">
           <p className="font-mono text-xs tracking-[0.3em] text-accent uppercase">
             Engineering × AI × Research
           </p>
@@ -100,12 +100,12 @@ function Index() {
             Bu platform; mühendisler ve araştırmacılar için araçlar, yazılar ve kaynaklar sunar.
           </p>
 
-          <div className="mt-10 flex flex-wrap items-center gap-3">
+          <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link to="/lab" className={buttonStyles.primary}>
-              Explore Engineering Lab
+              Engineering Lab'i Keşfet
             </Link>
             <Link to="/egitim" className={buttonStyles.secondary}>
-              Training &amp; Consulting
+              Eğitim &amp; Danışmanlık
             </Link>
           </div>
 
@@ -115,7 +115,7 @@ function Index() {
               rel="noreferrer"
               className="underline underline-offset-4 hover:text-foreground"
             >
-              Read “Mühendisliğin Yapay Zeka Mentoru”
+              “Mühendisliğin Yapay Zeka Mentoru”nu Oku
             </a>
           </p>
         </div>
@@ -132,7 +132,7 @@ function Index() {
             </Link>
           }
         />
-        <GridPanel columns={4} className="mt-12">
+        <GridPanel columns={4} className="mt-8">
           {labCategories.map((c) => (
             <InfoCard
               key={c.title}
@@ -141,7 +141,7 @@ function Index() {
               body={c.body}
               footer={
                 <Link to="/lab" className={buttonStyles.ghost}>
-                  Kategoriye git
+                  Daha fazla bilgi
                 </Link>
               }
             />
@@ -151,7 +151,7 @@ function Index() {
 
       <Section>
         <SectionHeader
-          eyebrow="Articles"
+          eyebrow="Yazılar"
           title="Son yazılar"
           description="Mühendislik, yapay zeka, araştırma ve teknoloji üzerine yazılar."
           action={
@@ -160,7 +160,7 @@ function Index() {
             </Link>
           }
         />
-        <GridPanel columns={3} className="mt-12">
+        <GridPanel columns={3} className="mt-8">
           {articles.map((a, i) => (
             <ArticleCard key={i} {...a} />
           ))}
@@ -169,7 +169,7 @@ function Index() {
 
       <Section>
         <SectionHeader
-          eyebrow="Research"
+          eyebrow="Araştırma"
           title="Araştırma ve mühendislik"
           description="Triboloji ve yüzey mühendisliği başta olmak üzere çalışma alanları."
           action={
@@ -178,7 +178,7 @@ function Index() {
             </Link>
           }
         />
-        <GridPanel columns={3} className="mt-12">
+        <GridPanel columns={3} className="mt-8">
           {researchThemes.map((t) => (
             <InfoCard key={t.title} title={t.title} body={t.body} />
           ))}
@@ -186,8 +186,8 @@ function Index() {
       </Section>
 
       <Section>
-        <SectionHeader eyebrow="Books" title="Öne çıkan kitap" />
-        <div className="mt-12 grid gap-px border border-border bg-border md:grid-cols-[minmax(0,1fr)_2fr]">
+        <SectionHeader eyebrow="Kitaplar" title="Öne çıkan kitap" />
+        <div className="mt-8 grid gap-px border border-border bg-border md:grid-cols-[minmax(0,1fr)_2fr]">
           <div className="flex aspect-[3/4] items-center justify-center bg-muted p-6 md:aspect-auto">
             <span className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
               Kapak görseli
@@ -200,7 +200,7 @@ function Index() {
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
               Kitap açıklaması, yayınevi ve künye bilgileri henüz eklenmedi.
             </p>
-            <Link to="/kitaplar" className={`${buttonStyles.secondary} mt-8`}>
+            <Link to="/kitaplar" className={`${buttonStyles.secondary} mt-6`}>
               Kitaplar
             </Link>
           </div>
@@ -209,18 +209,18 @@ function Index() {
 
       <Section>
         <SectionHeader
-          eyebrow="Training & Consulting"
+          eyebrow="Eğitim & Danışmanlık"
           title="Eğitim ve danışmanlık"
           description="Mühendislik ekipleri ve kurumlar için uygulamalı programlar."
         />
-        <GridPanel columns={3} className="mt-12">
+        <GridPanel columns={3} className="mt-8">
           {services.map((s) => (
             <InfoCard key={s.title} title={s.title} body={s.body} />
           ))}
         </GridPanel>
-        <div className="mt-8">
+        <div className="mt-6">
           <Link to="/egitim" className={buttonStyles.primary}>
-            Eğitim ve danışmanlık
+            Eğitim & Danışmanlık
           </Link>
         </div>
       </Section>
