@@ -103,8 +103,9 @@ function Index() {
 
           <p className="mt-6 text-sm text-muted-foreground">
             <a
-              href="https://gmehmetay.substack.com"
-              rel="noreferrer"
+              href={profileLinks.substack}
+              target="_blank"
+              rel="noopener noreferrer"
               className="underline underline-offset-4 hover:text-foreground"
             >
               {"“Mühendisliğin Yapay Zeka Mentoru”nu Oku"}
