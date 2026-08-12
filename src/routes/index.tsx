@@ -153,28 +153,28 @@ function Index() {
         <SectionHeader
           eyebrow="Yazılar"
           title="Son yazılar"
-          description="Mühendislik, yapay zeka, araştırma ve teknoloji üzerine yazılar."
+          description="Mühendislik, yapay zekâ, akademik araştırma ve teknoloji üzerine notlar, rehberler ve uygulama örnekleri."
           action={
             <Link to="/articles" className={buttonStyles.secondary}>
               Tüm yazılar
             </Link>
           }
         />
-        <GridPanel columns={3} className="mt-8">
-          {articles.map((a, i) => (
-            <ArticleCard key={i} {...a} />
-          ))}
-        </GridPanel>
+        <div className="mt-8 border border-dashed border-border bg-card p-6 md:p-8">
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            Substack yazıları yakında burada gösterilecek.
+          </p>
+        </div>
       </Section>
 
       <Section>
         <SectionHeader
           eyebrow="Araştırma"
           title="Araştırma ve mühendislik"
-          description="Triboloji ve yüzey mühendisliği başta olmak üzere çalışma alanları."
+          description="Triboloji, yüzey mühendisliği, kaplamalar ve mühendislikte yapay zekâ başta olmak üzere çalışma alanları."
           action={
             <Link to="/research" className={buttonStyles.secondary}>
-              Araştırma
+              Araştırmaları Gör
             </Link>
           }
         />
@@ -184,6 +184,7 @@ function Index() {
           ))}
         </GridPanel>
       </Section>
+
 
       <Section>
         <SectionHeader eyebrow="Kitaplar" title="Öne çıkan kitap" />
