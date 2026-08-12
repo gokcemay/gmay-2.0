@@ -62,6 +62,25 @@ function AboutPage() {
       </Section>
 
       <Section>
+        <SectionHeader eyebrow="03" title="Profesyonel profiller" />
+        <ul className="mt-8 flex flex-wrap gap-3">
+          {professionalProfiles.map((p) => (
+            <li key={p.label}>
+              <a
+                href={p.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${p.label} profili (yeni sekmede açılır)`}
+                className="inline-flex border border-border bg-card px-4 py-2 text-sm text-foreground transition-colors hover:bg-muted"
+              >
+                {p.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </Section>
+
+      <Section>
         <ContactCTA />
       </Section>
     </>
