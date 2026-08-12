@@ -198,10 +198,11 @@ function Index() {
               Makine Mühendisleri için 100 Prompt
             </h3>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              Kitap açıklaması, yayınevi ve künye bilgileri henüz eklenmedi.
+              Mühendislerin üretken yapay zekâyı teknik iş akışlarında daha sistematik kullanmasına
+              yardımcı olmak üzere hazırlanmış bir kaynak.
             </p>
             <Link to="/kitaplar" className={`${buttonStyles.secondary} mt-6`}>
-              Kitaplar
+              Kitapları Gör
             </Link>
           </div>
         </div>
@@ -210,8 +211,8 @@ function Index() {
       <Section>
         <SectionHeader
           eyebrow="Eğitim & Danışmanlık"
-          title="Eğitim ve danışmanlık"
-          description="Mühendislik ekipleri ve kurumlar için uygulamalı programlar."
+          title="Eğitim &amp; Danışmanlık"
+          description="Mühendisler, teknik ekipler ve kurumlar için yapay zekâ, mühendislik ve Ar-Ge odaklı eğitim ve danışmanlık."
         />
         <GridPanel columns={3} className="mt-8">
           {services.map((s) => (
@@ -220,7 +221,7 @@ function Index() {
         </GridPanel>
         <div className="mt-6">
           <Link to="/egitim" className={buttonStyles.primary}>
-            Eğitim & Danışmanlık
+            Eğitim &amp; Danışmanlık
           </Link>
         </div>
       </Section>
@@ -228,13 +229,14 @@ function Index() {
       <Section>
         <CTABlock
           title="Mühendis, araştırmacı, eğitmen ve yazar."
-          description="Mühendislik pratiği ile akademik araştırmayı yapay zeka araçlarıyla birleştiriyorum. Ayrıntılı profesyonel hikâye hazırlanıyor."
+          description="Mühendislik uygulamaları, akademik araştırma ve teknoloji geliştirme arasında çalışan; deneyimini eğitim, araştırma, yazılım araçları ve teknik yayınlarla paylaşan bir mühendis."
         >
           <Link to="/about" className={buttonStyles.secondary}>
             Hakkımda
           </Link>
         </CTABlock>
       </Section>
+
     </>
   );
 }
