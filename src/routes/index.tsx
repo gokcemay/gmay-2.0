@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Section, SectionHeader } from "@/components/site/Section";
 import { GridPanel, InfoCard } from "@/components/site/Cards";
 import { buttonStyles, CTABlock } from "@/components/site/CTA";
+import { book, profileLinks } from "@/lib/profiles";
+import bookCover from "@/assets/makine-muhendisleri-icin-100-prompt-kapak.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -101,8 +103,9 @@ function Index() {
 
           <p className="mt-6 text-sm text-muted-foreground">
             <a
-              href="https://gmehmetay.substack.com"
-              rel="noreferrer"
+              href={profileLinks.substack}
+              target="_blank"
+              rel="noopener noreferrer"
               className="underline underline-offset-4 hover:text-foreground"
             >
               {"“Mühendisliğin Yapay Zeka Mentoru”nu Oku"}
@@ -169,36 +172,53 @@ function Index() {
             </Link>
           }
         />
-        <GridPanel columns={3} className="mt-8">
-          {researchThemes.map((t) => (
-            <InfoCard key={t.title} title={t.title} body={t.body} />
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
+          {researchThemes.map((t, i) => (
+            <article
+              key={t.title}
+              className={`flex flex-col border border-border bg-card p-6 md:p-7 ${
+                i < 3 ? "lg:col-span-2" : "lg:col-span-3"
+              }`}
+            >
+              <h3 className="font-display text-lg font-semibold text-foreground">{t.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{t.body}</p>
+            </article>
           ))}
-        </GridPanel>
+        </div>
       </Section>
 
 
       <Section>
         <SectionHeader eyebrow="Kitaplar" title="Öne çıkan kitap" />
         <div className="mt-8 grid gap-px border border-border bg-border md:grid-cols-[minmax(0,1fr)_2fr]">
-          <div className="flex aspect-[3/4] items-center justify-center bg-muted p-6 md:aspect-auto">
-            <span className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
-              Kapak görseli
-            </span>
+          <div className="flex items-center justify-center bg-muted p-6">
+            <img
+              src={bookCover}
+              alt={book.coverAlt}
+              loading="lazy"
+              className="max-h-[420px] w-full max-w-[280px] object-contain"
+            />
           </div>
           <div className="bg-card p-8 md:p-12">
             <h3 className="font-display text-2xl font-semibold text-foreground md:text-3xl">
-              Makine Mühendisleri için 100 Prompt
+              {book.shortTitle}
             </h3>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
               Mühendislerin üretken yapay zekâyı teknik iş akışlarında daha sistematik kullanmasına
               yardımcı olmak üzere hazırlanmış bir kaynak.
             </p>
-            <Link to="/kitaplar" className={`${buttonStyles.secondary} mt-6`}>
-              Kitapları Gör
-            </Link>
+            <a
+              href={book.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${buttonStyles.secondary} mt-6`}
+            >
+              Kitabı İncele
+            </a>
           </div>
         </div>
       </Section>
+
 
       <Section>
         <SectionHeader
