@@ -107,20 +107,19 @@ function StatusBadge() {
 
 function ToolCard({ tool }: { tool: Tool }) {
   return (
-    <article className="flex flex-col bg-card p-6 md:p-8">
-      <div className="flex items-start justify-between gap-4">
-        <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
+    <article className="flex flex-col border border-border bg-card p-5 md:p-6">
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
+        <p className="min-w-0 truncate font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
           {tool.category}
         </p>
-        <StatusBadge />
+        <div className="shrink-0">
+          <StatusBadge />
+        </div>
       </div>
-      <h3 className="mt-4 font-display text-xl leading-snug font-semibold text-foreground">
+      <h3 className="mt-3 font-display text-lg leading-snug font-semibold text-foreground">
         {tool.name}
       </h3>
-      <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{tool.purpose}</p>
-      <div className="mt-6 border-t border-border pt-4">
-        <span className="font-mono text-xs text-muted-foreground">Yakında kullanıma açılacak</span>
-      </div>
+      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tool.purpose}</p>
     </article>
   );
 }
@@ -139,23 +138,22 @@ function LabPage() {
           <SectionHeader eyebrow={cat.eyebrow} title={cat.title} description={cat.description} />
 
           {cat.tools.length > 0 ? (
-            <div className="mt-10 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-10 grid max-w-4xl gap-4 lg:grid-cols-2">
               {cat.tools.map((t) => (
                 <ToolCard key={t.name} tool={t} />
               ))}
             </div>
           ) : (
-            <div className="mt-10 border border-dashed border-border p-6 md:p-8">
+            <div className="mt-10 max-w-2xl border border-dashed border-border p-5 md:p-6">
               <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
                 Daha sonra
               </p>
-              <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
-                {cat.note}
-              </p>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{cat.note}</p>
             </div>
           )}
         </Section>
       ))}
+
 
       <Section>
         <p className="max-w-3xl border-l-2 border-accent bg-muted/50 px-5 py-4 text-sm leading-relaxed text-muted-foreground">
