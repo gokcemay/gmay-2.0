@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { buttonStyles } from "@/components/site/CTA";
 import {
   calculateWearRate,
@@ -18,6 +19,10 @@ import type {
   WearResults,
   WearSIInputs,
 } from "@/lib/wearRate.types";
+import {
+  formatTransferredDistance,
+  type SlidingTransfer,
+} from "@/lib/wearRate.transfer";
 import {
   densityUnits,
   distanceUnits,
@@ -163,9 +168,33 @@ function buildSummary(form: WearFormState, si: WearSIInputs, r: WearResults): st
   return lines.join("\n");
 }
 
-export function WearRateCalculator() {
-  const [form, setForm] = useState<WearFormState>(defaultVolumeForm);
+export function WearRateCalculator({ transfer }: { transfer?: SlidingTransfer | null }) {
+  const transferredValue = transfer ? formatTransferredDistance(transfer.distanceMeters) : null;
+  const [form, setForm] = useState<WearFormState>(() =>
+    transferredValue
+      ? { ...defaultVolumeForm, distance: transferredValue, distanceUnit: "m" }
+      : defaultVolumeForm,
+  );
   const [copied, setCopied] = useState(false);
+  const [transferApplied, setTransferApplied] = useState(Boolean(transferredValue));
+
+  useEffect(() => {
+    if (!transferredValue) {
+      setTransferApplied(false);
+      return;
+    }
+    setForm((prev) => ({ ...prev, distance: transferredValue, distanceUnit: "m" }));
+    setTransferApplied(true);
+  }, [transferredValue]);
+
+  const clearTransferred = () => {
+    setForm((prev) => ({
+      ...prev,
+      distance: defaultsForMode(prev.mode).distance,
+      distanceUnit: defaultsForMode(prev.mode).distanceUnit,
+    }));
+    setTransferApplied(false);
+  };
 
   const errors = useMemo(() => validateWearForm(form), [form]);
   const si = useMemo(() => toSIInputs(form), [form]);
@@ -176,7 +205,10 @@ export function WearRateCalculator() {
 
   const switchMode = (mode: WearMode) => {
     if (mode === form.mode) return;
-    setForm(defaultsForMode(mode));
+    setForm((prev) => ({
+      ...defaultsForMode(mode),
+      ...(transferApplied ? { distance: prev.distance, distanceUnit: prev.distanceUnit } : {}),
+    }));
   };
 
   const copy = async () => {
@@ -283,6 +315,29 @@ export function WearRateCalculator() {
             onUnit={(u) => set("distanceUnit", u as DistanceUnit)}
             error={errors.distance}
           />
+
+          {transferApplied && (
+            <div className="border-l-2 border-accent bg-muted/50 px-4 py-3">
+              <p className="text-xs leading-relaxed text-muted-foreground">
+                Kayma mesafesi Sliding Distance Calculator'dan aktarıldı.
+              </p>
+              <div className="mt-2 flex flex-wrap items-center gap-4">
+                <button
+                  type="button"
+                  onClick={clearTransferred}
+                  className="text-xs text-foreground underline underline-offset-4"
+                >
+                  Aktarılan değeri temizle
+                </button>
+                <Link
+                  to="/lab/sliding-distance-calculator"
+                  className="text-xs text-muted-foreground underline underline-offset-4"
+                >
+                  Kayma mesafesini yeniden hesapla
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
 
         {isMass && (

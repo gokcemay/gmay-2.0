@@ -29,7 +29,8 @@ type Tool = {
   href?:
     | "/lab/engineering-prompt-builder"
     | "/lab/hertz-contact-calculator"
-    | "/lab/wear-rate-calculator";
+    | "/lab/wear-rate-calculator"
+    | "/lab/sliding-distance-calculator";
 };
 
 type Category = {
@@ -88,8 +89,9 @@ const categories: Category[] = [
       {
         name: "Sliding Distance Calculator",
         category: "Tribology",
+        href: "/lab/sliding-distance-calculator",
         purpose:
-          "Dönme hızı, iz yarıçapı ve deney süresinden toplam kayma mesafesini hesaplamak için kullanılacaktır.",
+          "Döner ve ileri-geri deneylerde toplam kayma mesafesini, çevrim sayısını ve ortalama kayma hızını hesaplar.",
       },
     ],
   },
