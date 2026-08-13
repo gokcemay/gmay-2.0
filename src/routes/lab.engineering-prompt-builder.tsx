@@ -55,7 +55,7 @@ const labelClass = "block font-mono text-xs tracking-[0.2em] text-muted-foregrou
 const controlClass =
   "mt-2 w-full border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent focus:outline-none";
 
-function FieldError({ message }: { message?: string }) {
+function FieldError({ message }: { message: string | undefined }) {
   if (!message) return null;
   return <p className="mt-2 text-xs text-destructive">{message}</p>;
 }

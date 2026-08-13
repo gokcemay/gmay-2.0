@@ -26,6 +26,7 @@ type Tool = {
   name: string;
   purpose: string;
   category: string;
+  href?: "/lab/engineering-prompt-builder";
 };
 
 type Category = {

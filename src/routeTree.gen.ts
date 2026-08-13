@@ -17,6 +17,7 @@ import { Route as IletisimRouteImport } from './routes/iletisim'
 import { Route as KitaplarRouteImport } from './routes/kitaplar'
 import { Route as LabRouteImport } from './routes/lab'
 import { Route as ResearchRouteImport } from './routes/research'
+import { Route as LabEngineeringPromptBuilderRouteImport } from './routes/lab.engineering-prompt-builder'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -58,6 +59,12 @@ const ResearchRoute = ResearchRouteImport.update({
   path: '/research',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LabEngineeringPromptBuilderRoute =
+  LabEngineeringPromptBuilderRouteImport.update({
+    id: '/engineering-prompt-builder',
+    path: '/engineering-prompt-builder',
+    getParentRoute: () => LabRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -66,8 +73,9 @@ export interface FileRoutesByFullPath {
   '/egitim': typeof EgitimRoute
   '/iletisim': typeof IletisimRoute
   '/kitaplar': typeof KitaplarRoute
-  '/lab': typeof LabRoute
+  '/lab': typeof LabRouteWithChildren
   '/research': typeof ResearchRoute
+  '/lab/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -76,8 +84,9 @@ export interface FileRoutesByTo {
   '/egitim': typeof EgitimRoute
   '/iletisim': typeof IletisimRoute
   '/kitaplar': typeof KitaplarRoute
-  '/lab': typeof LabRoute
+  '/lab': typeof LabRouteWithChildren
   '/research': typeof ResearchRoute
+  '/lab/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -87,8 +96,9 @@ export interface FileRoutesById {
   '/egitim': typeof EgitimRoute
   '/iletisim': typeof IletisimRoute
   '/kitaplar': typeof KitaplarRoute
-  '/lab': typeof LabRoute
+  '/lab': typeof LabRouteWithChildren
   '/research': typeof ResearchRoute
+  '/lab/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +111,7 @@ export interface FileRouteTypes {
     | '/kitaplar'
     | '/lab'
     | '/research'
+    | '/lab/engineering-prompt-builder'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,6 +122,7 @@ export interface FileRouteTypes {
     | '/kitaplar'
     | '/lab'
     | '/research'
+    | '/lab/engineering-prompt-builder'
   id:
     | '__root__'
     | '/'
@@ -121,6 +133,7 @@ export interface FileRouteTypes {
     | '/kitaplar'
     | '/lab'
     | '/research'
+    | '/lab/engineering-prompt-builder'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -130,7 +143,7 @@ export interface RootRouteChildren {
   EgitimRoute: typeof EgitimRoute
   IletisimRoute: typeof IletisimRoute
   KitaplarRoute: typeof KitaplarRoute
-  LabRoute: typeof LabRoute
+  LabRoute: typeof LabRouteWithChildren
   ResearchRoute: typeof ResearchRoute
 }
 
@@ -192,8 +205,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResearchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lab/engineering-prompt-builder': {
+      id: '/lab/engineering-prompt-builder'
+      path: '/engineering-prompt-builder'
+      fullPath: '/lab/engineering-prompt-builder'
+      preLoaderRoute: typeof LabEngineeringPromptBuilderRouteImport
+      parentRoute: typeof LabRoute
+    }
   }
 }
+
+interface LabRouteChildren {
+  LabEngineeringPromptBuilderRoute: typeof LabEngineeringPromptBuilderRoute
+}
+
+const LabRouteChildren: LabRouteChildren = {
+  LabEngineeringPromptBuilderRoute: LabEngineeringPromptBuilderRoute,
+}
+
+const LabRouteWithChildren = LabRoute._addFileChildren(LabRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -202,7 +232,7 @@ const rootRouteChildren: RootRouteChildren = {
   EgitimRoute: EgitimRoute,
   IletisimRoute: IletisimRoute,
   KitaplarRoute: KitaplarRoute,
-  LabRoute: LabRoute,
+  LabRoute: LabRouteWithChildren,
   ResearchRoute: ResearchRoute,
 }
 export const routeTree = rootRouteImport
