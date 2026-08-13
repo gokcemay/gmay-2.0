@@ -1,8 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader, Section } from "@/components/site/Section";
 import { WearRateCalculator } from "@/components/lab/WearRateCalculator";
+import { parseSlidingTransfer } from "@/lib/wearRate.transfer";
 
 export const Route = createFileRoute("/lab_/wear-rate-calculator")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    distance: typeof search["distance"] === "string" || typeof search["distance"] === "number"
+      ? search["distance"]
+      : undefined,
+    distanceUnit: typeof search["distanceUnit"] === "string" ? search["distanceUnit"] : undefined,
+    source: typeof search["source"] === "string" ? search["source"] : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Wear Rate Calculator | GMA Engineering Lab" },
@@ -77,12 +85,16 @@ const relatedTools = [
   },
   {
     name: "Sliding Distance Calculator",
-    status: "Planlanıyor",
-    purpose: "Dönme hızı, iz yarıçapı ve deney süresinden toplam kayma mesafesini hesaplayacaktır.",
+    status: "Kullanılabilir",
+    href: "/lab/sliding-distance-calculator" as const,
+    purpose:
+      "Döner ve ileri-geri deneylerde toplam kayma mesafesini, çevrim sayısını ve ortalama kayma hızını hesaplar.",
   },
 ];
 
 function WearRatePage() {
+  const search = Route.useSearch();
+  const transfer = parseSlidingTransfer(search);
   return (
     <>
       <PageHeader
@@ -99,7 +111,7 @@ function WearRatePage() {
         </p>
 
         <div className="mt-8">
-          <WearRateCalculator />
+          <WearRateCalculator transfer={transfer} />
         </div>
       </Section>
 
