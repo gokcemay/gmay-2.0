@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
-import { ArticleCard, GridPanel, PlaceholderNote } from "@/components/site/Cards";
+import { ArticleList, substackPostsQueryOptions } from "@/components/site/Articles";
+import { buttonStyles, CTABlock } from "@/components/site/CTA";
+import { profileLinks } from "@/lib/profiles";
 
 export const Route = createFileRoute("/articles")({
   head: () => ({
@@ -9,7 +12,7 @@ export const Route = createFileRoute("/articles")({
       {
         name: "description",
         content:
-          "Mühendislik, yapay zeka, araştırma ve teknoloji üzerine yazılar ve bülten içerikleri.",
+          "Mühendisliğin Yapay Zeka Mentoru'nda yayımlanan mühendislik, yapay zekâ, araştırma ve teknoloji yazıları.",
       },
       { property: "og:title", content: "Yazılar — Mühendislik, Yapay Zeka, Araştırma" },
       {
@@ -23,54 +26,45 @@ export const Route = createFileRoute("/articles")({
   component: ArticlesPage,
 });
 
-const categories = ["Tümü", "AI for Engineers", "Mechanical", "Tribology", "Research"];
-
-const placeholders = Array.from({ length: 6 }, () => ({
-  title: "Yazı başlığı yer tutucusu",
-  category: "Kategori",
-  date: "—",
-  excerpt: "Yazı özeti burada yer alacaktır. İçerik kaynağı henüz bağlanmadı.",
-}));
-
 function ArticlesPage() {
+  const { data, isLoading, isError } = useQuery(substackPostsQueryOptions);
+
   return (
     <>
       <PageHeader
         eyebrow="Yazılar"
         title="Yazılar"
-        description="Mühendislik, yapay zeka, araştırma ve teknoloji üzerine yazılar. Bülten içerikleri ileride bu sayfada listelenecektir."
+        description="Mühendisliğin Yapay Zeka Mentoru'nda yayımlanan mühendislik, yapay zekâ, araştırma ve teknoloji yazıları."
       />
 
       <Section>
-        <div className="flex flex-wrap gap-2">
-          {categories.map((c) => (
-            <span
-              key={c}
-              className="border border-border px-3 py-1.5 font-mono text-xs tracking-wide text-muted-foreground uppercase"
-            >
-              {c}
-            </span>
-          ))}
-        </div>
-
-        <SectionHeader
-          eyebrow="Arşiv"
-          title="Son yazılar"
-          description="Aşağıdaki kartlar yapısal yer tutuculardır."
-        />
-
-        <GridPanel columns={3} className="mt-8">
-          {placeholders.map((a, i) => (
-            <ArticleCard key={i} {...a} />
-          ))}
-        </GridPanel>
+        <SectionHeader eyebrow="Arşiv" title="Son yazılar" />
 
         <div className="mt-8">
-          <PlaceholderNote>
-            Bu sayfa, yazıların ileride bülten kaynağından yüklenebilmesi için hazırlandı. Şu anda
-            harici bir bağlantı kurulmamıştır.
-          </PlaceholderNote>
+          <ArticleList
+            posts={data?.posts}
+            isLoading={isLoading}
+            hasError={isError || Boolean(data?.error)}
+            limit={12}
+            columns={3}
+          />
         </div>
+      </Section>
+
+      <Section>
+        <CTABlock
+          title="Mühendisliğin Yapay Zeka Mentoru"
+          description="Yeni yazıları e-posta ile almak için Substack üzerinden abone olabilirsiniz."
+        >
+          <a
+            href={profileLinks.substack}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={buttonStyles.primary}
+          >
+            Substack'e Abone Ol
+          </a>
+        </CTABlock>
       </Section>
     </>
   );

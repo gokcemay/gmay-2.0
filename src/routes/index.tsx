@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { Section, SectionHeader } from "@/components/site/Section";
 import { GridPanel, InfoCard } from "@/components/site/Cards";
 import { buttonStyles, CTABlock } from "@/components/site/CTA";
+import { ArticleList, substackPostsQueryOptions } from "@/components/site/Articles";
 import { book, profileLinks } from "@/lib/profiles";
 import bookCover from "@/assets/makine-muhendisleri-icin-100-prompt-kapak.jpg";
 
@@ -75,6 +77,8 @@ const services = [
 
 
 function Index() {
+  const { data, isLoading, isError } = useQuery(substackPostsQueryOptions);
+
   return (
     <>
       <section className="relative overflow-hidden border-b border-border">
@@ -154,10 +158,14 @@ function Index() {
             </Link>
           }
         />
-        <div className="mt-8 border border-dashed border-border bg-card p-6 md:p-8">
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            Substack yazıları yakında burada gösterilecek.
-          </p>
+        <div className="mt-8">
+          <ArticleList
+            posts={data?.posts}
+            isLoading={isLoading}
+            hasError={isError || Boolean(data?.error)}
+            limit={3}
+            columns={3}
+          />
         </div>
       </Section>
 
