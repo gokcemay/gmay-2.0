@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
 
 export const Route = createFileRoute("/lab")({
@@ -98,16 +98,17 @@ const categories: Category[] = [
   },
 ];
 
-function StatusBadge() {
+function StatusBadge({ available }: { available: boolean }) {
   return (
     <span className="inline-flex items-center gap-2 border border-border px-2.5 py-1 font-mono text-[0.65rem] tracking-[0.18em] text-muted-foreground uppercase">
       <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
-      Planlanıyor
+      {available ? "Kullanılabilir" : "Planlanıyor"}
     </span>
   );
 }
 
 function ToolCard({ tool }: { tool: Tool }) {
+  const available = Boolean(tool.href);
   return (
     <article className="flex flex-col border border-border bg-card p-5 md:p-6">
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
@@ -115,13 +116,27 @@ function ToolCard({ tool }: { tool: Tool }) {
           {tool.category}
         </p>
         <div className="shrink-0">
-          <StatusBadge />
+          <StatusBadge available={available} />
         </div>
       </div>
       <h3 className="mt-3 font-display text-lg leading-snug font-semibold text-foreground">
-        {tool.name}
+        {tool.href ? (
+          <Link to={tool.href} className="hover:underline hover:underline-offset-4">
+            {tool.name}
+          </Link>
+        ) : (
+          tool.name
+        )}
       </h3>
       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tool.purpose}</p>
+      {tool.href && (
+        <Link
+          to={tool.href}
+          className="mt-4 self-start text-sm font-medium text-foreground underline underline-offset-4"
+        >
+          Aracı Aç
+        </Link>
+      )}
     </article>
   );
 }
