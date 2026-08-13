@@ -23,33 +23,39 @@ export const Route = createFileRoute("/")({
           "Mühendislik araçları, yapay zeka, akademik araştırma, yazılar, kitaplar, eğitim ve danışmanlık.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "/" }],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(substackPostsQueryOptions),
   component: Index,
 });
 
-const labCategories = [
+const labTools = [
   {
-    label: "01",
-    title: "AI for Engineers",
-    body: "Mühendislik problemleri için yapay zeka destekli pratik araçlar.",
+    label: "AI for Engineers",
+    title: "Engineering Prompt Builder",
+    body: "Mühendislik görevleri için yapılandırılmış yapay zekâ promptları oluşturun.",
+    href: "/lab/engineering-prompt-builder" as const,
   },
   {
-    label: "02",
-    title: "Mechanical Engineering",
-    body: "Makine mühendisliği hesaplamaları ve mühendislik yardımcıları.",
+    label: "Tribology & Contact",
+    title: "Hertz Contact Calculator",
+    body: "Küre-düzlem elastik temasında temas alanı ve Hertz basıncını hesaplayın.",
+    href: "/lab/hertz-contact-calculator" as const,
   },
   {
-    label: "03",
-    title: "Tribology",
-    body: "Sürtünme, aşınma ve yüzey mühendisliği odaklı araçlar.",
+    label: "Tribology & Contact",
+    title: "Wear Rate Calculator",
+    body: "Aşınma hacmi veya kütle kaybından hacimsel ve özgül aşınma oranlarını hesaplayın.",
+    href: "/lab/wear-rate-calculator" as const,
   },
   {
-    label: "04",
-    title: "Research Tools",
-    body: "Araştırmacılar ve akademisyenler için yardımcı araçlar.",
+    label: "Test Data & Planning",
+    title: "Sliding Distance Calculator",
+    body: "Döner ve ileri-geri deneylerde toplam kayma mesafesini ve kayma hızını hesaplayın.",
+    href: "/lab/sliding-distance-calculator" as const,
   },
 ];
 
@@ -123,29 +129,33 @@ function Index() {
         <SectionHeader
           eyebrow="Engineering Lab"
           title="GMA Engineering Lab"
-          description="Mühendislik hesapları, yapay zekâ iş akışları ve araştırma süreçleri için geliştirilen pratik araçlar."
+          description="Mühendislik hesaplamaları, test planlama ve yapay zekâ iş akışları için kullanılabilir durumdaki araçlar."
           action={
             <Link to="/lab" className={buttonStyles.secondary}>
-              Lab'deki araçları keşfet
+              Tüm Araçları Gör
             </Link>
           }
         />
 
-        <GridPanel columns={4} className="mt-8">
-          {labCategories.map((c) => (
-            <InfoCard
-              key={c.title}
-              label={c.label}
-              title={c.title}
-              body={c.body}
-              footer={
-                <Link to="/lab" className={buttonStyles.ghost}>
-                  Daha fazla bilgi
+        <div className="mt-8 grid gap-px border border-border bg-border sm:grid-cols-2">
+          {labTools.map((t) => (
+            <article key={t.title} className="flex flex-col bg-card p-5 md:p-6">
+              <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
+                {t.label}
+              </p>
+              <h3 className="mt-3 font-display text-base leading-snug font-semibold text-foreground">
+                <Link
+                  to={t.href}
+                  search={{ distance: undefined, distanceUnit: undefined, source: undefined }}
+                  className="hover:underline hover:underline-offset-4"
+                >
+                  {t.title}
                 </Link>
-              }
-            />
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{t.body}</p>
+            </article>
           ))}
-        </GridPanel>
+        </div>
       </Section>
 
       <Section>

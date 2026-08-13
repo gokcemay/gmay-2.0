@@ -19,8 +19,10 @@ export const Route = createFileRoute("/about")({
         content: "Mühendislik, yapay zeka ve araştırmanın kesişiminde profesyonel profil.",
       },
       { property: "og:type", content: "profile" },
+      { property: "og:url", content: "/about" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "/about" }],
   }),
   component: AboutPage,
 });

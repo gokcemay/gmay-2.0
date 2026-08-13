@@ -4,45 +4,48 @@ import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
 export const Route = createFileRoute("/lab")({
   head: () => ({
     meta: [
-      { title: "Engineering Lab — Mühendisler için araçlar | gmay.me" },
+      { title: "GMA Engineering Lab — Mühendislik araçları | gmay.me" },
       {
         name: "description",
         content:
-          "GMA Engineering Lab: yapay zeka, makine mühendisliği, triboloji ve araştırma için pratik mühendislik araçları.",
+          "Mühendisler ve araştırmacılar için ücretsiz hesaplama, triboloji, test planlama ve yapay zekâ araçları.",
       },
-      { property: "og:title", content: "Engineering Lab — Mühendisler için araçlar" },
+      { property: "og:title", content: "GMA Engineering Lab — Mühendislik araçları" },
       {
         property: "og:description",
-        content: "Yapay zeka, makine mühendisliği, triboloji ve araştırma araçları.",
+        content:
+          "Mühendisler ve araştırmacılar için ücretsiz hesaplama, triboloji, test planlama ve yapay zekâ araçları.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/lab" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "/lab" }],
   }),
   component: LabPage,
 });
 
+type ToolHref =
+  | "/lab/engineering-prompt-builder"
+  | "/lab/hertz-contact-calculator"
+  | "/lab/wear-rate-calculator"
+  | "/lab/sliding-distance-calculator";
+
 type Tool = {
   name: string;
   purpose: string;
-  category: string;
-  href?:
-    | "/lab/engineering-prompt-builder"
-    | "/lab/hertz-contact-calculator"
-    | "/lab/wear-rate-calculator"
-    | "/lab/sliding-distance-calculator";
+  href: ToolHref;
 };
 
-type Category = {
+type Group = {
   id: string;
   eyebrow: string;
   title: string;
   description: string;
   tools: Tool[];
-  note?: string;
 };
 
-const categories: Category[] = [
+const groups: Group[] = [
   {
     id: "ai-for-engineers",
     eyebrow: "01",
@@ -51,99 +54,77 @@ const categories: Category[] = [
     tools: [
       {
         name: "Engineering Prompt Builder",
-        category: "AI for Engineers",
         href: "/lab/engineering-prompt-builder",
         purpose:
-          "Mühendislik görevleri için yapılandırılmış ve tekrar kullanılabilir yapay zekâ promptları oluşturur.",
+          "Mühendislik görevleri için yapılandırılmış ve tekrar kullanılabilir yapay zekâ promptları oluşturun.",
       },
     ],
   },
   {
-    id: "mechanical-engineering",
+    id: "tribology-contact",
     eyebrow: "02",
-    title: "Mechanical Engineering",
-    description: "Makine mühendisliği hesaplamaları için araçlar.",
+    title: "Tribology & Contact",
+    description: "Temas mekaniği, sürtünme ve aşınma hesaplamaları için araçlar.",
     tools: [
       {
         name: "Hertz Contact Calculator",
-        category: "Mechanical Engineering",
         href: "/lab/hertz-contact-calculator",
         purpose:
-          "Küre-düzlem elastik Hertz temasında temas yarıçapı, temas alanı, maksimum basınç ve elastik yaklaşmayı hesaplar.",
+          "Küre-düzlem elastik temasında temas alanı, Hertz basıncı ve elastik yaklaşmayı hesaplayın.",
       },
-    ],
-  },
-  {
-    id: "tribology",
-    eyebrow: "03",
-    title: "Tribology",
-    description: "Sürtünme, aşınma ve yüzey mühendisliği çalışmaları için araçlar.",
-    tools: [
       {
         name: "Wear Rate Calculator",
-        category: "Tribology",
         href: "/lab/wear-rate-calculator",
         purpose:
-          "Aşınma hacmi veya kütle kaybından hacimsel aşınma ve özgül aşınma oranını hesaplar.",
-      },
-      {
-        name: "Sliding Distance Calculator",
-        category: "Tribology",
-        href: "/lab/sliding-distance-calculator",
-        purpose:
-          "Döner ve ileri-geri deneylerde toplam kayma mesafesini, çevrim sayısını ve ortalama kayma hızını hesaplar.",
+          "Aşınma hacmi veya kütle kaybından hacimsel ve özgül aşınma oranlarını hesaplayın.",
       },
     ],
   },
   {
-    id: "research-tools",
-    eyebrow: "04",
-    title: "Research Tools",
-    description: "Araştırmacılar ve akademisyenler için yardımcı araçlar.",
-    tools: [],
-    note: "Bu kategori için araçlar sonraki bir sürümde eklenecektir.",
+    id: "test-data-planning",
+    eyebrow: "03",
+    title: "Test Data & Planning",
+    description: "Deney planlama ve test parametreleri için araçlar.",
+    tools: [
+      {
+        name: "Sliding Distance Calculator",
+        href: "/lab/sliding-distance-calculator",
+        purpose:
+          "Döner ve ileri-geri triboloji deneylerinde toplam kayma mesafesini ve kayma hızını hesaplayın.",
+      },
+    ],
   },
 ];
 
-function StatusBadge({ available }: { available: boolean }) {
-  return (
-    <span className="inline-flex items-center gap-2 border border-border px-2.5 py-1 font-mono text-[0.65rem] tracking-[0.18em] text-muted-foreground uppercase">
-      <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
-      {available ? "Kullanılabilir" : "Planlanıyor"}
-    </span>
-  );
-}
-
-function ToolCard({ tool }: { tool: Tool }) {
-  const available = Boolean(tool.href);
+function ToolCard({ tool, group }: { tool: Tool; group: string }) {
   return (
     <article className="flex flex-col border border-border bg-card p-5 md:p-6">
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
         <p className="min-w-0 truncate font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
-          {tool.category}
+          {group}
         </p>
-        <div className="shrink-0">
-          <StatusBadge available={available} />
-        </div>
+        <span className="inline-flex shrink-0 items-center gap-2 border border-border px-2.5 py-1 font-mono text-[0.65rem] tracking-[0.18em] text-muted-foreground uppercase">
+          <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
+          Kullanılabilir
+        </span>
       </div>
       <h3 className="mt-3 font-display text-lg leading-snug font-semibold text-foreground">
-        {tool.href ? (
-          <Link to={tool.href} className="hover:underline hover:underline-offset-4">
-            {tool.name}
-          </Link>
-        ) : (
-          tool.name
-        )}
-      </h3>
-      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tool.purpose}</p>
-      {tool.href && (
         <Link
           to={tool.href}
-          className="mt-4 self-start text-sm font-medium text-foreground underline underline-offset-4"
+          search={{ distance: undefined, distanceUnit: undefined, source: undefined }}
+          className="hover:underline hover:underline-offset-4"
         >
-          Aracı Aç
+          {tool.name}
         </Link>
-      )}
+      </h3>
+      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tool.purpose}</p>
+      <Link
+        to={tool.href}
+        search={{ distance: undefined, distanceUnit: undefined, source: undefined }}
+        className="mt-4 self-start text-sm font-medium text-foreground underline underline-offset-4"
+      >
+        Aracı Aç
+      </Link>
     </article>
   );
 }
@@ -154,35 +135,90 @@ function LabPage() {
       <PageHeader
         eyebrow="Engineering Lab"
         title="GMA Engineering Lab"
-        description="Mühendisler ve araştırmacılar için pratik araçlardan oluşan, zaman içinde büyüyen bir koleksiyon. Araçlar dört kategori altında toplanır ve aşamalı olarak yayına alınır."
+        description="Ücretsiz mühendislik hesaplama, test planlama ve yapay zekâ araçları."
       />
 
-      {categories.map((cat) => (
-        <Section key={cat.id} id={cat.id}>
-          <SectionHeader eyebrow={cat.eyebrow} title={cat.title} description={cat.description} />
+      <Section>
+        <p className="max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
+          Mühendisler ve araştırmacılar için geliştirilen, hesaplama yöntemlerini ve varsayımlarını
+          açık biçimde gösteren pratik araçlar.
+        </p>
+      </Section>
 
-          {cat.tools.length > 0 ? (
-            <div className="mt-8 grid max-w-4xl gap-4 lg:grid-cols-2">
-              {cat.tools.map((t) => (
-                <ToolCard key={t.name} tool={t} />
-              ))}
-            </div>
-          ) : (
-            <div className="mt-8 max-w-2xl border border-dashed border-border p-5 md:p-6">
-              <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
-                Daha sonra
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{cat.note}</p>
-            </div>
-          )}
+      {groups.map((g) => (
+        <Section key={g.id} id={g.id}>
+          <SectionHeader eyebrow={g.eyebrow} title={g.title} description={g.description} />
+          <div className="mt-8 grid max-w-4xl gap-4 lg:grid-cols-2">
+            {g.tools.map((t) => (
+              <ToolCard key={t.name} tool={t} group={g.title} />
+            ))}
+          </div>
         </Section>
       ))}
 
+      <Section id="birlikte-kullanin">
+        <SectionHeader
+          eyebrow="04"
+          title="Birlikte kullanın"
+          description="Araçlar tek başına kullanılabilir; bazı durumlarda birlikte kullanıldığında deney planlama ve değerlendirme akışını tamamlar."
+        />
+        <div className="mt-8 grid max-w-4xl gap-4 lg:grid-cols-2">
+          <article className="border border-border bg-card p-5 md:p-6">
+            <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
+              İş akışı
+            </p>
+            <h3 className="mt-3 font-display text-base leading-snug font-semibold text-foreground">
+              Sliding Distance Calculator → Wear Rate Calculator
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              Triboloji deneyinizin toplam kayma mesafesini hesaplayın ve sonucu doğrudan Wear Rate
+              Calculator'a aktarın.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-4">
+              <Link
+                to="/lab/sliding-distance-calculator"
+                className="text-sm font-medium text-foreground underline underline-offset-4"
+              >
+                Sliding Distance Calculator
+              </Link>
+              <Link
+                to="/lab/wear-rate-calculator"
+                search={{ distance: undefined, distanceUnit: undefined, source: undefined }}
+                className="text-sm font-medium text-foreground underline underline-offset-4"
+              >
+                Wear Rate Calculator
+              </Link>
+            </div>
+          </article>
+
+          <article className="border border-border bg-card p-5 md:p-6">
+            <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
+              İlgili değerlendirme
+            </p>
+            <h3 className="mt-3 font-display text-base leading-snug font-semibold text-foreground">
+              Hertz Contact Calculator → Temas koşullarını değerlendirin
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              Deney öncesinde temas yarıçapı ve maksimum temas basıncını hesaplayarak yük
+              seçiminizin temas koşullarını gözden geçirin. Bu araçlar arasında otomatik veri
+              aktarımı bulunmaz.
+            </p>
+            <div className="mt-4">
+              <Link
+                to="/lab/hertz-contact-calculator"
+                className="text-sm font-medium text-foreground underline underline-offset-4"
+              >
+                Hertz Contact Calculator
+              </Link>
+            </div>
+          </article>
+        </div>
+      </Section>
 
       <Section>
         <p className="max-w-3xl border-l-2 border-accent bg-muted/50 px-5 py-4 text-sm leading-relaxed text-muted-foreground">
-          İlk araçlar geliştirme aşamasındadır. Hesaplama araçlarında kullanılan formüller,
-          varsayımlar ve birimler açık biçimde sunulacaktır.
+          Hesaplama araçlarında kullanılan denklemler, varsayımlar ve birimler açık biçimde sunulur.
+          Kritik mühendislik kararlarında sonuçlar bağımsız yöntemlerle doğrulanmalıdır.
         </p>
       </Section>
     </>

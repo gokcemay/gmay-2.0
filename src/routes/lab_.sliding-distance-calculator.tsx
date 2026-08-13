@@ -13,8 +13,10 @@ export const Route = createFileRoute("/lab_/sliding-distance-calculator")({
       { property: "og:title", content: "Sliding Distance Calculator | GMA Engineering Lab" },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/lab/sliding-distance-calculator" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "/lab/sliding-distance-calculator" }],
   }),
   component: SlidingDistancePage,
 });

@@ -17,8 +17,10 @@ export const Route = createFileRoute("/kitaplar")({
       { property: "og:title", content: "Kitaplar — Teknik ve Edebi Yayınlar" },
       { property: "og:description", content: "Mühendislik, teknoloji ve edebiyat yayınları." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/kitaplar" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "/kitaplar" }],
   }),
   component: BooksPage,
 });

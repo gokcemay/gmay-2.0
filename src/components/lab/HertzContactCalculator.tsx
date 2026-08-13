@@ -244,6 +244,7 @@ export function HertzContactCalculator() {
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start">
         {/* Inputs */}
         <form className="flex flex-col gap-6" noValidate onSubmit={(e) => e.preventDefault()}>
+          <h2 className="font-display text-xl font-semibold text-foreground">Girdiler</h2>
           <fieldset className="border border-border p-5 md:p-6">
             <legend className="px-2 font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
               Yük ve Geometri

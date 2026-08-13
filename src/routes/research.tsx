@@ -18,8 +18,10 @@ export const Route = createFileRoute("/research")({
         content: "Araştırma alanları, yayınlar ve güncel çalışmalar.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/research" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "/research" }],
   }),
   component: ResearchPage,
 });
