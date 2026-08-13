@@ -48,6 +48,7 @@ const categories: Category[] = [
       {
         name: "Engineering Prompt Builder",
         category: "AI for Engineers",
+        href: "/lab/engineering-prompt-builder",
         purpose:
           "Mühendislik görevleri için yapılandırılmış ve tekrar kullanılabilir yapay zekâ promptları oluşturur.",
       },
