@@ -109,13 +109,18 @@ function ToolCard({ tool, group }: { tool: Tool; group: string }) {
         </span>
       </div>
       <h3 className="mt-3 font-display text-lg leading-snug font-semibold text-foreground">
-        <Link to={tool.href} className="hover:underline hover:underline-offset-4">
+        <Link
+          to={tool.href}
+          search={{ distance: undefined, distanceUnit: undefined, source: undefined }}
+          className="hover:underline hover:underline-offset-4"
+        >
           {tool.name}
         </Link>
       </h3>
       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tool.purpose}</p>
       <Link
         to={tool.href}
+        search={{ distance: undefined, distanceUnit: undefined, source: undefined }}
         className="mt-4 self-start text-sm font-medium text-foreground underline underline-offset-4"
       >
         Aracı Aç
@@ -178,6 +183,7 @@ function LabPage() {
               </Link>
               <Link
                 to="/lab/wear-rate-calculator"
+                search={{ distance: undefined, distanceUnit: undefined, source: undefined }}
                 className="text-sm font-medium text-foreground underline underline-offset-4"
               >
                 Wear Rate Calculator
