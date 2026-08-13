@@ -32,7 +32,14 @@ const equations: { label: string; formula: string }[] = [
   { label: "Maksimum Hertz basıncı", formula: "p₀ = 3F / (2 π a²)" },
   { label: "Ortalama temas basıncı", formula: "p_mean = F / (π a²) = (2/3) p₀" },
   { label: "Elastik yaklaşma", formula: "δ = a² / R" },
-  { label: "Basınç dağılımı", formula: "p(r) = p₀ · √(1 − (r/a)²),  0 ≤ r ≤ a" },
+  {
+    label: "Basınç dağılımı (radyal, r ≥ 0)",
+    formula: "p(r) = p₀ · √(1 − (r/a)²),  0 ≤ r ≤ a",
+  },
+  {
+    label: "Basınç dağılımı (çap boyunca kesit, işaretli x)",
+    formula: "p(x) = p₀ · √(1 − (x/a)²),  −a ≤ x ≤ +a",
+  },
 ];
 
 const assumptions = [

@@ -26,7 +26,10 @@ type Tool = {
   name: string;
   purpose: string;
   category: string;
-  href?: "/lab/engineering-prompt-builder" | "/lab/hertz-contact-calculator";
+  href?:
+    | "/lab/engineering-prompt-builder"
+    | "/lab/hertz-contact-calculator"
+    | "/lab/wear-rate-calculator";
 };
 
 type Category = {
@@ -78,8 +81,9 @@ const categories: Category[] = [
       {
         name: "Wear Rate Calculator",
         category: "Tribology",
+        href: "/lab/wear-rate-calculator",
         purpose:
-          "Aşınma hacmi, normal yük ve kayma mesafesinden özgül aşınma oranını hesaplamak için kullanılacaktır.",
+          "Aşınma hacmi veya kütle kaybından hacimsel aşınma ve özgül aşınma oranını hesaplar.",
       },
       {
         name: "Sliding Distance Calculator",
