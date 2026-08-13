@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
 import { ArticleList, substackPostsQueryOptions } from "@/components/site/Articles";
 import { buttonStyles, CTABlock } from "@/components/site/CTA";
@@ -28,7 +28,7 @@ export const Route = createFileRoute("/articles")({
 });
 
 function ArticlesPage() {
-  const { data, isLoading, isError } = useQuery(substackPostsQueryOptions);
+  const data = Route.useLoaderData();
 
   return (
     <>
@@ -44,8 +44,8 @@ function ArticlesPage() {
         <div className="mt-8">
           <ArticleList
             posts={data?.posts}
-            isLoading={isLoading}
-            hasError={isError || Boolean(data?.error)}
+            isLoading={false}
+            hasError={Boolean(data?.error)}
             limit={12}
             columns={3}
           />

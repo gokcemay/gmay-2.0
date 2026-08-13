@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+
 import { Section, SectionHeader } from "@/components/site/Section";
 import { GridPanel, InfoCard } from "@/components/site/Cards";
 import { buttonStyles, CTABlock } from "@/components/site/CTA";
@@ -78,7 +78,7 @@ const services = [
 
 
 function Index() {
-  const { data, isLoading, isError } = useQuery(substackPostsQueryOptions);
+  const data = Route.useLoaderData();
 
   return (
     <>
@@ -162,8 +162,8 @@ function Index() {
         <div className="mt-8">
           <ArticleList
             posts={data?.posts}
-            isLoading={isLoading}
-            hasError={isError || Boolean(data?.error)}
+            isLoading={false}
+            hasError={Boolean(data?.error)}
             limit={3}
             columns={3}
           />
