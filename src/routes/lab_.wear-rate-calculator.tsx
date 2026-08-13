@@ -69,7 +69,12 @@ const interpretations = [
   },
 ];
 
-const relatedTools = [
+const relatedTools: {
+  name: string;
+  status: string;
+  href: "/lab/hertz-contact-calculator" | "/lab/engineering-prompt-builder" | "/lab/sliding-distance-calculator";
+  purpose: string;
+}[] = [
   {
     name: "Hertz Contact Calculator",
     status: "Kullanılabilir",
