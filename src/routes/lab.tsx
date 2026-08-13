@@ -26,7 +26,7 @@ type Tool = {
   name: string;
   purpose: string;
   category: string;
-  href?: "/lab/engineering-prompt-builder";
+  href?: "/lab/engineering-prompt-builder" | "/lab/hertz-contact-calculator";
 };
 
 type Category = {
@@ -63,8 +63,9 @@ const categories: Category[] = [
       {
         name: "Hertz Contact Calculator",
         category: "Mechanical Engineering",
+        href: "/lab/hertz-contact-calculator",
         purpose:
-          "Küre-düzlem Hertz temasında temas yarıçapı ve temas basınçlarını hesaplamak için kullanılacaktır.",
+          "Küre-düzlem elastik Hertz temasında temas yarıçapı, temas alanı, maksimum basınç ve elastik yaklaşmayı hesaplar.",
       },
     ],
   },
