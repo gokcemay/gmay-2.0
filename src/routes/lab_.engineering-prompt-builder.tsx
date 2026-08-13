@@ -19,7 +19,7 @@ import {
 } from "@/lib/promptBuilder.logic";
 import type { DetailLevel, PromptFormState } from "@/lib/promptBuilder.types";
 
-export const Route = createFileRoute("/lab/engineering-prompt-builder")({
+export const Route = createFileRoute("/lab_/engineering-prompt-builder")({
   head: () => ({
     meta: [
       { title: "Engineering Prompt Builder | GMA Engineering Lab" },
