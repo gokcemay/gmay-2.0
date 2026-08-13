@@ -83,17 +83,28 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Gökçe Mehmet Ay — Engineering × AI × Research" },
       {
         name: "description",
-        content: "Gökçe Mehmet Ay — mühendislik, yapay zeka ve araştırma platformu.",
+        content: "Mühendislik, yapay zekâ, akademik araştırma, eğitim ve mühendislik araçları.",
       },
       { name: "author", content: "Gökçe Mehmet Ay" },
       { property: "og:site_name", content: "gmay.me" },
       { property: "og:title", content: "Gökçe Mehmet Ay — Engineering × AI × Research" },
       {
         property: "og:description",
-        content: "Gökçe Mehmet Ay — mühendislik, yapay zeka ve araştırma platformu.",
+        content: "Mühendislik, yapay zekâ, akademik araştırma, eğitim ve mühendislik araçları.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "https://gmay.me/og-gmay.png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: "Gökçe Mehmet Ay — Engineering × AI × Research" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Gökçe Mehmet Ay — Engineering × AI × Research" },
+      {
+        name: "twitter:description",
+        content: "Mühendislik, yapay zekâ, akademik araştırma, eğitim ve mühendislik araçları.",
+      },
+      { name: "twitter:image", content: "https://gmay.me/og-gmay.png" },
+
 
     ],
     links: [
