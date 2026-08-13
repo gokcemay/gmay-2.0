@@ -90,9 +90,9 @@ export function calculateSphereFlatHertz(input: HertzSIInputs): HertzResults | n
   return Object.values(results).every((v) => Number.isFinite(v)) ? results : null;
 }
 
-/** Hertz pressure distribution p(r) for |r| <= a. */
-export function pressureAt(r: number, a: number, p0: number): number {
-  const ratio = r / a;
+/** Hertz pressure distribution along a diameter: p(x) = p0*sqrt(1-(x/a)^2) for |x| <= a. */
+export function pressureAt(x: number, a: number, p0: number): number {
+  const ratio = x / a;
   if (Math.abs(ratio) >= 1) return 0;
   return p0 * Math.sqrt(1 - ratio * ratio);
 }
