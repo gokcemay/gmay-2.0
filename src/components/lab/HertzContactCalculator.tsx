@@ -77,7 +77,6 @@ function PressureChart({ p0, a }: { p0: number; a: number }) {
   const plotH = height - padT - padB;
 
   const pressure = formatPressure(p0);
-  const scale = p0 / Number(pressure.value || 1);
   const radius = formatLength(a);
   const aDisp = Number(radius.value);
 
@@ -176,7 +175,6 @@ function PressureChart({ p0, a }: { p0: number; a: number }) {
       </svg>
       <p className="mt-2 font-mono text-xs text-muted-foreground">
         p(0) = {pressure.value} {pressure.unit} · p(±a) = 0 {pressure.unit}
-        {scale ? "" : ""}
       </p>
     </figure>
   );
