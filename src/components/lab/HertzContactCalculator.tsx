@@ -31,7 +31,7 @@ const inputClass =
 const selectClass =
   "border border-border bg-background px-2 py-2 font-mono text-xs text-foreground focus:border-accent focus:outline-none";
 
-function FieldError({ message }: { message?: string }) {
+function FieldError({ message }: { message?: string | undefined }) {
   if (!message) return null;
   return <p className="mt-2 text-xs text-destructive">{message}</p>;
 }
