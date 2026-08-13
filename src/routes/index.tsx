@@ -234,6 +234,11 @@ function Index() {
             >
               Kitabı İncele
             </a>
+            <div className="mt-4">
+              <Link to="/kitaplar" className={buttonStyles.ghost}>
+                Diğer kitaplar
+              </Link>
+            </div>
           </div>
         </div>
       </Section>
@@ -260,7 +265,7 @@ function Index() {
       <Section>
         <CTABlock
           title="Mühendis, araştırmacı, eğitmen ve yazar."
-          description="Mühendislik uygulamaları, akademik araştırma ve teknoloji geliştirme arasında çalışan; deneyimini eğitim, araştırma, yazılım araçları ve teknik yayınlarla paylaşan bir mühendis."
+          description="Mühendislik, akademik araştırma, yapay zekâ ve yazarlığı aynı merakın farklı yönleri olarak ele alıyorum."
         >
           <Link to="/about" className={buttonStyles.secondary}>
             Hakkımda
