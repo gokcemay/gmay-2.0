@@ -31,13 +31,13 @@ function decodeEntities(input: string): string {
 
 function stripCdata(value: string): string {
   const match = value.match(/^\s*<!\[CDATA\[([\s\S]*?)\]\]>\s*$/);
-  return match ? match[1] : value;
+  return match?.[1] !== undefined ? match[1] : value;
 }
 
 function tagContent(xml: string, tag: string): string | null {
   const re = new RegExp(`<${tag}(?:\\s[^>]*)?>([\\s\\S]*?)</${tag}>`, "i");
   const m = xml.match(re);
-  return m ? stripCdata(m[1]) : null;
+  return m?.[1] !== undefined ? stripCdata(m[1]) : null;
 }
 
 export function htmlToPlainText(html: string): string {
