@@ -1,4 +1,5 @@
 import type { SubstackFeedResult, SubstackPost } from "./articles.types";
+import { substackSnapshot } from "./articles.snapshot";
 
 export type { SubstackFeedResult, SubstackPost };
 
@@ -92,30 +93,94 @@ export function parseFeed(xml: string): SubstackPost[] {
   return posts;
 }
 
-export async function fetchSubstackPosts(): Promise<SubstackFeedResult> {
-  if (cache && Date.now() - cache.at < CACHE_TTL_MS) return cache.value;
+const isDev = process.env["NODE_ENV"] !== "production";
+
+function devLog(...args: unknown[]) {
+  if (isDev) console.info("[substack-rss]", ...args);
+}
+
+const REQUEST_TIMEOUT_MS = 10_000;
+
+class TransientFeedError extends Error {}
+
+async function fetchFeedOnce(): Promise<SubstackPost[]> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
 
   try {
     const response = await fetch(FEED_URL, {
       redirect: "follow",
+      signal: controller.signal,
       headers: {
         Accept: "application/rss+xml, application/xml, text/xml;q=0.9, */*;q=0.8",
-        "User-Agent": "gmay.me RSS Reader",
+        "User-Agent": "gmay.me RSS Reader (+https://gmay.me)",
       },
     });
 
+    const contentType = response.headers.get("content-type") ?? "";
+
     if (!response.ok) {
-      throw new Error(`Substack feed responded with HTTP ${response.status}`);
+      const transient = response.status === 429 || response.status >= 500;
+      const message = `HTTP ${response.status} (${contentType || "no content-type"})`;
+      throw transient ? new TransientFeedError(message) : new Error(message);
     }
 
     const xml = await response.text();
     const posts = parseFeed(xml);
-    const value: SubstackFeedResult = { posts, error: posts.length ? null : "empty" };
-    cache = { at: Date.now(), value };
-    return value;
-  } catch (error) {
-    console.error("[substack-rss] fetch failed", error);
-    if (cache) return cache.value;
-    return { posts: [], error: "unavailable" };
+    devLog("fetched", {
+      url: FEED_URL,
+      finalUrl: response.url,
+      status: response.status,
+      contentType,
+      bodyLength: xml.length,
+      items: posts.length,
+    });
+    return posts;
+  } finally {
+    clearTimeout(timer);
   }
+}
+
+export async function fetchSubstackPosts(): Promise<SubstackFeedResult> {
+  if (cache && Date.now() - cache.at < CACHE_TTL_MS) return cache.value;
+
+  let lastError: unknown;
+
+  for (let attempt = 1; attempt <= 2; attempt += 1) {
+    try {
+      const posts = await fetchFeedOnce();
+      if (!posts.length) throw new TransientFeedError("feed parsed to 0 items");
+      const value: SubstackFeedResult = { posts, error: null };
+      cache = { at: Date.now(), value };
+      return value;
+    } catch (error) {
+      lastError = error;
+      const transient =
+        error instanceof TransientFeedError ||
+        (error instanceof Error && (error.name === "AbortError" || error.name === "TypeError"));
+      devLog(`attempt ${attempt} failed`, error instanceof Error ? error.message : String(error));
+      if (!transient || attempt === 2) break;
+      await new Promise((resolve) => setTimeout(resolve, 750));
+    }
+  }
+
+  console.error(
+    "[substack-rss] fetch failed:",
+    lastError instanceof Error ? lastError.message : String(lastError),
+  );
+
+  // 1) stale server cache
+  if (cache) {
+    devLog("serving stale cache", { items: cache.value.posts.length });
+    return cache.value;
+  }
+
+  // 2) bundled last-known-good snapshot
+  if (substackSnapshot.length) {
+    devLog("serving bundled snapshot", { items: substackSnapshot.length });
+    return { posts: substackSnapshot, error: null };
+  }
+
+  // 3) user-facing error state
+  return { posts: [], error: "unavailable" };
 }

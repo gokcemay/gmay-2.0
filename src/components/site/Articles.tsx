@@ -113,7 +113,8 @@ export function ArticleList({
     );
   }
 
-  if (hasError || !posts || posts.length === 0) {
+  // Geçerli (bayat/anlık görüntü) içerik varsa hata durumunu gösterme.
+  if (!posts || posts.length === 0) {
     return <ArticlesUnavailable />;
   }
 
