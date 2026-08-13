@@ -18,6 +18,7 @@ import { Route as KitaplarRouteImport } from './routes/kitaplar'
 import { Route as LabRouteImport } from './routes/lab'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as LabEngineeringPromptBuilderRouteImport } from './routes/lab_.engineering-prompt-builder'
+import { Route as LabHertzContactCalculatorRouteImport } from './routes/lab_.hertz-contact-calculator'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -65,6 +66,12 @@ const LabEngineeringPromptBuilderRoute =
     path: '/lab/engineering-prompt-builder',
     getParentRoute: () => rootRouteImport,
   } as any)
+const LabHertzContactCalculatorRoute =
+  LabHertzContactCalculatorRouteImport.update({
+    id: '/lab_/hertz-contact-calculator',
+    path: '/lab/hertz-contact-calculator',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -76,6 +83,7 @@ export interface FileRoutesByFullPath {
   '/lab': typeof LabRoute
   '/research': typeof ResearchRoute
   '/lab/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
+  '/lab/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -87,6 +95,7 @@ export interface FileRoutesByTo {
   '/lab': typeof LabRoute
   '/research': typeof ResearchRoute
   '/lab/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
+  '/lab/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -99,6 +108,7 @@ export interface FileRoutesById {
   '/lab': typeof LabRoute
   '/research': typeof ResearchRoute
   '/lab_/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
+  '/lab_/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -112,6 +122,7 @@ export interface FileRouteTypes {
     | '/lab'
     | '/research'
     | '/lab/engineering-prompt-builder'
+    | '/lab/hertz-contact-calculator'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -123,6 +134,7 @@ export interface FileRouteTypes {
     | '/lab'
     | '/research'
     | '/lab/engineering-prompt-builder'
+    | '/lab/hertz-contact-calculator'
   id:
     | '__root__'
     | '/'
@@ -134,6 +146,7 @@ export interface FileRouteTypes {
     | '/lab'
     | '/research'
     | '/lab_/engineering-prompt-builder'
+    | '/lab_/hertz-contact-calculator'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -146,6 +159,7 @@ export interface RootRouteChildren {
   LabRoute: typeof LabRoute
   ResearchRoute: typeof ResearchRoute
   LabEngineeringPromptBuilderRoute: typeof LabEngineeringPromptBuilderRoute
+  LabHertzContactCalculatorRoute: typeof LabHertzContactCalculatorRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -213,6 +227,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabEngineeringPromptBuilderRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lab_/hertz-contact-calculator': {
+      id: '/lab_/hertz-contact-calculator'
+      path: '/lab/hertz-contact-calculator'
+      fullPath: '/lab/hertz-contact-calculator'
+      preLoaderRoute: typeof LabHertzContactCalculatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -226,6 +247,7 @@ const rootRouteChildren: RootRouteChildren = {
   LabRoute: LabRoute,
   ResearchRoute: ResearchRoute,
   LabEngineeringPromptBuilderRoute: LabEngineeringPromptBuilderRoute,
+  LabHertzContactCalculatorRoute: LabHertzContactCalculatorRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
