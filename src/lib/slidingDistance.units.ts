@@ -40,7 +40,6 @@ export function formatDistance(meters: number): { value: string; unit: "m" | "km
 export function formatShortLength(meters: number): { value: string; unit: LengthUnit } {
   const abs = Math.abs(meters);
   if (abs >= 1) return { value: formatNumber(meters), unit: "m" };
-  if (abs >= 0.01) return { value: formatNumber(meters * 100), unit: "cm" };
   return { value: formatNumber(meters * 1000), unit: "mm" };
 }
 
