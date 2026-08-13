@@ -1,7 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 import { getSubstackPosts } from "@/lib/articles.functions";
 import { profileLinks } from "@/lib/profiles";
-import type { SubstackPost } from "@/lib/rss.server";
+import type { SubstackPost } from "@/lib/articles.types";
 
 export const substackPostsQueryOptions = queryOptions({
   queryKey: ["substack-posts"],

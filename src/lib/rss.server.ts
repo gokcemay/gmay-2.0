@@ -1,15 +1,6 @@
-export type SubstackPost = {
-  title: string;
-  link: string;
-  pubDate: string | null;
-  excerpt: string;
-  category: string | null;
-};
+import type { SubstackFeedResult, SubstackPost } from "./articles.types";
 
-export type SubstackFeedResult = {
-  posts: SubstackPost[];
-  error: string | null;
-};
+export type { SubstackFeedResult, SubstackPost };
 
 const FEED_URL = "https://gmehmetay.substack.com/feed";
 const ALLOWED_HOSTS = ["gmehmetay.substack.com"];
