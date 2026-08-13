@@ -69,6 +69,8 @@ const literaryBooks: BookItem[] = [
     description: "Bilimkurgu ve uzay temalarını merkezine alan kurgu çalışması.",
     cover: hekateCover.url,
     alt: "Hekate'deki Sır kitap kapağı",
+    url: "https://play.google.com/store/books/details?id=AtaRDwAAQBAJ",
+    cta: "Google Play Books'ta İncele",
   },
   {
     title: "Kanyonaltı'nda Bir Tekinsiz",
@@ -77,6 +79,8 @@ const literaryBooks: BookItem[] = [
       "Bilimkurgu ve tekinsiz anlatılar ekseninde kurgulanan öykülerden oluşan bir çalışma.",
     cover: kanyonCover.url,
     alt: "Kanyonaltı'nda Bir Tekinsiz kitap kapağı",
+    url: "https://www.kitapyurdu.com/kitap/kanyonaltinda-bir-tekinsiz/609790.html",
+    cta: "İncele",
   },
 ];
 
