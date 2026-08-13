@@ -134,6 +134,10 @@ function HertzPage() {
               </div>
             ))}
           </dl>
+          <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+            r, temas merkezinden ölçülen radyal uzaklıktır (r ≥ 0). x ise temas çapı boyunca alınan
+            kesitte işaretli konumdur (−a ≤ x ≤ +a). Grafikte x koordinatı kullanılır.
+          </p>
         </details>
       </Section>
 
