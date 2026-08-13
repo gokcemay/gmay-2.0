@@ -19,6 +19,7 @@ import { Route as LabRouteImport } from './routes/lab'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as LabEngineeringPromptBuilderRouteImport } from './routes/lab_.engineering-prompt-builder'
 import { Route as LabHertzContactCalculatorRouteImport } from './routes/lab_.hertz-contact-calculator'
+import { Route as LabWearRateCalculatorRouteImport } from './routes/lab_.wear-rate-calculator'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -72,6 +73,11 @@ const LabHertzContactCalculatorRoute =
     path: '/lab/hertz-contact-calculator',
     getParentRoute: () => rootRouteImport,
   } as any)
+const LabWearRateCalculatorRoute = LabWearRateCalculatorRouteImport.update({
+  id: '/lab_/wear-rate-calculator',
+  path: '/lab/wear-rate-calculator',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/research': typeof ResearchRoute
   '/lab/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
   '/lab/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
+  '/lab/wear-rate-calculator': typeof LabWearRateCalculatorRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByTo {
   '/research': typeof ResearchRoute
   '/lab/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
   '/lab/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
+  '/lab/wear-rate-calculator': typeof LabWearRateCalculatorRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -109,6 +117,7 @@ export interface FileRoutesById {
   '/research': typeof ResearchRoute
   '/lab_/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
   '/lab_/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
+  '/lab_/wear-rate-calculator': typeof LabWearRateCalculatorRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -123,6 +132,7 @@ export interface FileRouteTypes {
     | '/research'
     | '/lab/engineering-prompt-builder'
     | '/lab/hertz-contact-calculator'
+    | '/lab/wear-rate-calculator'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -135,6 +145,7 @@ export interface FileRouteTypes {
     | '/research'
     | '/lab/engineering-prompt-builder'
     | '/lab/hertz-contact-calculator'
+    | '/lab/wear-rate-calculator'
   id:
     | '__root__'
     | '/'
@@ -147,6 +158,7 @@ export interface FileRouteTypes {
     | '/research'
     | '/lab_/engineering-prompt-builder'
     | '/lab_/hertz-contact-calculator'
+    | '/lab_/wear-rate-calculator'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -160,6 +172,7 @@ export interface RootRouteChildren {
   ResearchRoute: typeof ResearchRoute
   LabEngineeringPromptBuilderRoute: typeof LabEngineeringPromptBuilderRoute
   LabHertzContactCalculatorRoute: typeof LabHertzContactCalculatorRoute
+  LabWearRateCalculatorRoute: typeof LabWearRateCalculatorRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -234,6 +247,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabHertzContactCalculatorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lab_/wear-rate-calculator': {
+      id: '/lab_/wear-rate-calculator'
+      path: '/lab/wear-rate-calculator'
+      fullPath: '/lab/wear-rate-calculator'
+      preLoaderRoute: typeof LabWearRateCalculatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -248,6 +268,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResearchRoute: ResearchRoute,
   LabEngineeringPromptBuilderRoute: LabEngineeringPromptBuilderRoute,
   LabHertzContactCalculatorRoute: LabHertzContactCalculatorRoute,
+  LabWearRateCalculatorRoute: LabWearRateCalculatorRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

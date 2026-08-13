@@ -83,9 +83,9 @@ function PressureChart({ p0, a }: { p0: number; a: number }) {
   const points = useMemo(() => {
     const n = 121;
     return Array.from({ length: n }, (_, i) => {
-      const r = -a + (2 * a * i) / (n - 1);
-      const p = pressureAt(r, a, p0);
-      const x = padL + ((r + a) / (2 * a)) * plotW;
+      const xPos = -a + (2 * a * i) / (n - 1);
+      const p = pressureAt(xPos, a, p0);
+      const x = padL + ((xPos + a) / (2 * a)) * plotW;
       const y = padT + plotH - (p / p0) * plotH;
       return `${x.toFixed(2)},${y.toFixed(2)}`;
     }).join(" ");
@@ -99,13 +99,13 @@ function PressureChart({ p0, a }: { p0: number; a: number }) {
         Hertz Temas Basıncı Dağılımı
       </figcaption>
       <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-        p(r) = p₀ · √(1 − (r/a)²), −a ≤ r ≤ a
+        p(x) = p₀ · √(1 − (x/a)²), −a ≤ x ≤ +a
       </p>
       <svg
         viewBox={`0 0 ${width} ${height}`}
         className="mt-4 w-full"
         role="img"
-        aria-label={`Hertz temas basıncı dağılımı: merkezde ${pressure.value} ${pressure.unit}, r = ±${radius.value} ${radius.unit} konumunda sıfır.`}
+        aria-label={`Hertz temas basıncı dağılımı: merkezde ${pressure.value} ${pressure.unit}, x = ±${radius.value} ${radius.unit} konumunda sıfır.`}
       >
         <line
           x1={padL}
@@ -160,7 +160,7 @@ function PressureChart({ p0, a }: { p0: number; a: number }) {
           className="fill-muted-foreground"
           fontSize="12"
         >
-          Radyal konum, r [{radius.unit}]
+          Temas merkezinden konum, x [{radius.unit}]
         </text>
         <text
           x={14}
@@ -170,7 +170,7 @@ function PressureChart({ p0, a }: { p0: number; a: number }) {
           className="fill-muted-foreground"
           fontSize="12"
         >
-          p(r) [{pressure.unit}]
+          p(x) [{pressure.unit}]
         </text>
       </svg>
       <p className="mt-2 font-mono text-xs text-muted-foreground">
