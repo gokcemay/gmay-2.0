@@ -42,10 +42,10 @@ export function buildPrompt(form: PromptFormState): string {
   const analysis: string[] = [
     ...(fieldContext[form.field] ?? []),
     ...(taskInstructions[form.task] ?? []),
-    ...form.styles.map((s) => styleInstruction[s]).filter(Boolean),
+    ...form.styles.map((s) => styleInstruction[s]).filter((s): s is string => Boolean(s)),
     "Kullandığın teknik terimleri doğru bağlamda kullan.",
-    detailInstruction[form.detail],
-  ];
+    detailInstruction[form.detail] ?? "",
+  ].filter(Boolean);
 
   const parts: string[] = [
     `Bir ${form.field} uzmanı gibi hareket et.`,
