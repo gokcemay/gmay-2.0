@@ -35,8 +35,10 @@ export const Route = createFileRoute("/lab_/engineering-prompt-builder")({
           "Mühendislik görevleri için yapılandırılmış, tekrar kullanılabilir yapay zekâ promptları oluşturun.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/lab/engineering-prompt-builder" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "/lab/engineering-prompt-builder" }],
   }),
   component: PromptBuilderPage,
 });

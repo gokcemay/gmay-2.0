@@ -80,12 +80,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "gmay.me — Engineering × AI × Research" },
+      { title: "Gökçe Mehmet Ay — Engineering × AI × Research" },
       {
         name: "description",
         content: "Gökçe Mehmet Ay — mühendislik, yapay zeka ve araştırma platformu.",
       },
       { name: "author", content: "Gökçe Mehmet Ay" },
+      { property: "og:site_name", content: "gmay.me" },
+      { property: "og:title", content: "Gökçe Mehmet Ay — Engineering × AI × Research" },
+      {
+        property: "og:description",
+        content: "Gökçe Mehmet Ay — mühendislik, yapay zeka ve araştırma platformu.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
 

@@ -18,8 +18,10 @@ export const Route = createFileRoute("/egitim")({
         content: "Kurumsal eğitim, atölye ve Ar-Ge danışmanlığı hizmetleri.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/egitim" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "/egitim" }],
   }),
   component: TrainingPage,
 });

@@ -18,8 +18,10 @@ export const Route = createFileRoute("/lab_/hertz-contact-calculator")({
           "Küre-düzlem elastik Hertz teması için temas alanı, maksimum temas basıncı ve elastik yaklaşma hesaplayıcısı.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/lab/hertz-contact-calculator" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "/lab/hertz-contact-calculator" }],
   }),
   component: HertzPage,
 });

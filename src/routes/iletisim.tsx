@@ -15,8 +15,10 @@ export const Route = createFileRoute("/iletisim")({
       { property: "og:title", content: "İletişim — Eğitim, Danışmanlık, İş Birliği" },
       { property: "og:description", content: "Profesyonel iletişim ve iş birliği fırsatları." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/iletisim" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "/iletisim" }],
   }),
   component: ContactPage,
 });

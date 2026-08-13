@@ -26,8 +26,10 @@ export const Route = createFileRoute("/lab_/wear-rate-calculator")({
           "Aşınma hacmi veya kütle kaybından hacimsel ve özgül aşınma oranlarını hesaplayan ücretsiz triboloji aracı.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/lab/wear-rate-calculator" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "/lab/wear-rate-calculator" }],
   }),
   component: WearRatePage,
 });
