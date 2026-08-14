@@ -95,7 +95,7 @@ function Index() {
             Engineering × AI × Research
           </p>
           <h1 className="mt-6 max-w-3xl font-display text-5xl leading-[1.05] font-semibold tracking-tight text-foreground md:text-7xl">
-            Gökçe Mehmet Ay
+            Gökçe Mehmet Ay — Mühendislik, Yapay Zekâ ve Araştırma
           </h1>
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
             Mühendislik pratiğini, akademik araştırmayı ve üretken yapay zekâyı bir araya
