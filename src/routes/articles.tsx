@@ -24,6 +24,23 @@ export const Route = createFileRoute("/articles")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "/articles" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Yazılar — Mühendislik, Yapay Zeka, Araştırma",
+          url: "https://gmay.me/articles",
+          inLanguage: "tr-TR",
+          description:
+            "Mühendisliğin Yapay Zeka Mentoru'nda yayımlanan mühendislik, yapay zekâ, araştırma ve teknoloji yazıları.",
+          isPartOf: { "@type": "WebSite", "@id": "https://gmay.me/#website" },
+          about: ["Mühendislik", "Yapay zekâ", "Akademik araştırma"],
+          author: { "@id": "https://gmay.me/#person" },
+        }),
+      },
+    ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(substackPostsQueryOptions),
   component: ArticlesPage,

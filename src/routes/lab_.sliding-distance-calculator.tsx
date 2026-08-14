@@ -17,6 +17,24 @@ export const Route = createFileRoute("/lab_/sliding-distance-calculator")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "/lab/sliding-distance-calculator" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "Sliding Distance Calculator",
+          url: "https://gmay.me/lab/sliding-distance-calculator",
+          applicationCategory: "EngineeringApplication",
+          operatingSystem: "Web",
+          inLanguage: "tr-TR",
+          description: "Döner ve ileri-geri tribolojik testlerde toplam kayma mesafesi ve kayma hızını hesaplayan ücretsiz test planlama aracı.",
+          isPartOf: { "@type": "WebSite", "@id": "https://gmay.me/#website" },
+          author: { "@id": "https://gmay.me/#person" },
+          offers: { "@type": "Offer", price: "0", priceCurrency: "TRY" },
+        }),
+      },
+    ],
   }),
   component: SlidingDistancePage,
 });

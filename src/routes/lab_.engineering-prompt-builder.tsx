@@ -39,6 +39,24 @@ export const Route = createFileRoute("/lab_/engineering-prompt-builder")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "/lab/engineering-prompt-builder" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "Engineering Prompt Builder",
+          url: "https://gmay.me/lab/engineering-prompt-builder",
+          applicationCategory: "EngineeringApplication",
+          operatingSystem: "Web",
+          inLanguage: "tr-TR",
+          description: "Mühendislik görevleri için yapılandırılmış yapay zekâ promptları üreten ücretsiz tarayıcı tabanlı araç.",
+          isPartOf: { "@type": "WebSite", "@id": "https://gmay.me/#website" },
+          author: { "@id": "https://gmay.me/#person" },
+          offers: { "@type": "Offer", price: "0", priceCurrency: "TRY" },
+        }),
+      },
+    ],
   }),
   component: PromptBuilderPage,
 });
