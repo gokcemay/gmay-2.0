@@ -120,6 +120,48 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { rel: "icon", type: "image/png", href: "/favicon.png" },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebSite",
+              "@id": "https://gmay.me/#website",
+              url: "https://gmay.me",
+              name: "gmay.me",
+              inLanguage: "tr-TR",
+              description:
+                "Mühendislik, yapay zekâ, akademik araştırma, eğitim ve mühendislik araçları.",
+              publisher: { "@id": "https://gmay.me/#person" },
+            },
+            {
+              "@type": "Person",
+              "@id": "https://gmay.me/#person",
+              name: "Gökçe Mehmet Ay",
+              url: "https://gmay.me",
+              jobTitle: "Mühendis ve Araştırmacı",
+              knowsAbout: [
+                "Mechanical Engineering",
+                "Tribology",
+                "Surface Engineering",
+                "Coatings",
+                "Artificial Intelligence for Engineers",
+              ],
+              sameAs: [
+                profileLinks.linkedin,
+                profileLinks.youtube,
+                profileLinks.substack,
+                profileLinks.avesis,
+                profileLinks.scholar,
+                profileLinks.orcid,
+              ],
+            },
+          ],
+        }),
+      },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
