@@ -105,8 +105,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content: "Mühendislik, yapay zekâ, akademik araştırma, eğitim ve mühendislik araçları.",
       },
       { name: "twitter:image", content: "https://gmay.me/og-gmay.png" },
-
-
+      {
+        name: "google-site-verification",
+        content: "yCenLJsTBp9GGeiRby7D2NewTPxA13uFHwOwwm8Tv7Q",
+      },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
