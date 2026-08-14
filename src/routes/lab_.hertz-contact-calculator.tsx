@@ -22,6 +22,24 @@ export const Route = createFileRoute("/lab_/hertz-contact-calculator")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "/lab/hertz-contact-calculator" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "Hertz Contact Calculator",
+          url: "https://gmay.me/lab/hertz-contact-calculator",
+          applicationCategory: "EngineeringApplication",
+          operatingSystem: "Web",
+          inLanguage: "tr-TR",
+          description: "Küre-düzlem Hertz elastik temasında temas yarıçapı, temas alanı, maksimum basınç ve elastik yaklaşmayı hesaplayan ücretsiz mühendislik aracı.",
+          isPartOf: { "@type": "WebSite", "@id": "https://gmay.me/#website" },
+          author: { "@id": "https://gmay.me/#person" },
+          offers: { "@type": "Offer", price: "0", priceCurrency: "TRY" },
+        }),
+      },
+    ],
   }),
   component: HertzPage,
 });

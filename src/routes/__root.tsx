@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { profileLinks } from "@/lib/profiles";
 
 
 function NotFoundComponent() {
@@ -119,6 +120,48 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", type: "image/png", href: "/favicon.png" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebSite",
+              "@id": "https://gmay.me/#website",
+              url: "https://gmay.me",
+              name: "gmay.me",
+              inLanguage: "tr-TR",
+              description:
+                "Mühendislik, yapay zekâ, akademik araştırma, eğitim ve mühendislik araçları.",
+              publisher: { "@id": "https://gmay.me/#person" },
+            },
+            {
+              "@type": "Person",
+              "@id": "https://gmay.me/#person",
+              name: "Gökçe Mehmet Ay",
+              url: "https://gmay.me",
+              jobTitle: "Mühendis ve Araştırmacı",
+              knowsAbout: [
+                "Mechanical Engineering",
+                "Tribology",
+                "Surface Engineering",
+                "Coatings",
+                "Artificial Intelligence for Engineers",
+              ],
+              sameAs: [
+                profileLinks.linkedin,
+                profileLinks.youtube,
+                profileLinks.substack,
+                profileLinks.avesis,
+                profileLinks.scholar,
+                profileLinks.orcid,
+              ],
+            },
+          ],
+        }),
+      },
     ],
   }),
   shellComponent: RootShell,

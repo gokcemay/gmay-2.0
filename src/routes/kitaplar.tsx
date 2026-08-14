@@ -27,6 +27,30 @@ export const Route = createFileRoute("/kitaplar")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "/kitaplar" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "Kitaplar | Gökçe Mehmet Ay",
+          url: "https://gmay.me/kitaplar",
+          inLanguage: "tr-TR",
+          itemListElement: [...engineeringBooks, ...literaryBooks].map((b, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            item: {
+              "@type": "Book",
+              name: b.title,
+              author: { "@type": "Person", name: b.author },
+              description: b.description,
+              inLanguage: "tr",
+              ...(b.url ? { url: b.url } : {}),
+            },
+          })),
+        }),
+      },
+    ],
   }),
   component: BooksPage,
 });

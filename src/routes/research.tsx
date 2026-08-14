@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
-import { GridPanel, InfoCard, PlaceholderNote } from "@/components/site/Cards";
+import { GridPanel, InfoCard } from "@/components/site/Cards";
 import { academicProfiles } from "@/lib/profiles";
 
 export const Route = createFileRoute("/research")({
@@ -27,11 +27,41 @@ export const Route = createFileRoute("/research")({
 });
 
 const areas = [
-  { title: "Tribology", body: "Sürtünme ve aşınma davranışı." },
-  { title: "Surface Engineering", body: "Yüzey işlemleri ve karakterizasyon." },
-  { title: "Coatings", body: "Kaplama teknolojileri ve performansı." },
-  { title: "Engineering Materials", body: "Mühendislik malzemeleri." },
-  { title: "AI in Engineering", body: "Mühendislikte yapay zeka uygulamaları." },
+  {
+    title: "Tribology",
+    body: "Sürtünme ve aşınma davranışının deneysel olarak incelenmesi; aşınma mekanizmalarının ve özgül aşınma oranlarının değerlendirilmesi.",
+  },
+  {
+    title: "Surface Engineering",
+    body: "Yüzey işlemleri, yüzey pürüzlülüğü ve yüzey karakterizasyonu ile malzeme performansı arasındaki ilişkiler.",
+  },
+  {
+    title: "Coatings",
+    body: "Kaplama süreçleri, kaplama–altlık uyumu ve kaplamaların sürtünme, aşınma ve dayanım performansına etkisi.",
+  },
+  {
+    title: "Engineering Materials",
+    body: "Mühendislik malzemelerinin mekanik ve tribolojik özelliklerinin uygulama koşullarıyla birlikte değerlendirilmesi.",
+  },
+  {
+    title: "AI in Engineering",
+    body: "Üretken yapay zekâ ve veri odaklı yöntemlerin mühendislik analizi, dokümantasyon ve araştırma iş akışlarında kullanımı.",
+  },
+];
+
+const methods = [
+  {
+    title: "Deney kurgusu",
+    body: "Yük, kayma hızı, kayma mesafesi ve ortam koşullarının kontrollü biçimde tanımlandığı, tekrar üretilebilir tribolojik test planları.",
+  },
+  {
+    title: "Ölçüm ve değerlendirme",
+    body: "Kütle kaybı veya aşınma hacmi üzerinden hacimsel ve özgül aşınma oranlarının hesaplanması; temas koşullarının Hertz elastik temas yaklaşımıyla değerlendirilmesi.",
+  },
+  {
+    title: "Yüzey incelemesi",
+    body: "Aşınma izlerinin ve yüzey morfolojisinin incelenerek baskın aşınma mekanizmalarının yorumlanması.",
+  },
 ];
 
 function ResearchPage() {
@@ -56,45 +86,21 @@ function ResearchPage() {
         <SectionHeader
           eyebrow="02"
           title="Triboloji ve yüzey mühendisliği"
-          description="Sürtünme, aşınma, yağlama ve yüzey performansı üzerine çalışmalar."
+          description="Sürtünme, aşınma, yağlama ve yüzey performansı üzerine çalışmalarda izlenen yaklaşım."
         />
-        <div className="mt-8">
-          <PlaceholderNote>
-            Bu bölümün detaylı içeriği (yöntemler, ekipman, çalışma konuları) henüz eklenmedi.
-          </PlaceholderNote>
-        </div>
-      </Section>
-
-      <Section>
-        <SectionHeader eyebrow="03" title="Seçilmiş yayınlar" />
-        <div className="mt-8 border border-border bg-card">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="border-b border-border p-6 last:border-0 md:p-8">
-              <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
-                Yayın {i}
-              </p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Yayın bilgisi yer tutucusu — başlık, dergi ve yıl bilgisi eklenecektir.
-              </p>
-            </div>
+        <GridPanel columns={3} className="mt-8">
+          {methods.map((m) => (
+            <InfoCard key={m.title} title={m.title} body={m.body} />
           ))}
-        </div>
-        <div className="mt-8">
-          <PlaceholderNote>
-            Yayın listesi doğrulanmış bilgi sağlanana kadar boş bırakılmıştır.
-          </PlaceholderNote>
-        </div>
+        </GridPanel>
       </Section>
 
       <Section>
-        <SectionHeader eyebrow="04" title="Güncel çalışmalar" />
-        <div className="mt-8">
-          <PlaceholderNote>Güncel çalışma başlıkları henüz eklenmedi.</PlaceholderNote>
-        </div>
-      </Section>
-
-      <Section>
-        <SectionHeader eyebrow="05" title="Akademik profiller" />
+        <SectionHeader
+          eyebrow="03"
+          title="Yayınlar"
+          description="Yayın listesinin güncel ve doğrulanabilir hâli akademik profillerde tutulmaktadır."
+        />
         <ul className="mt-8 flex flex-wrap gap-3">
           {academicProfiles.map((p) => (
             <li key={p.label}>
@@ -102,10 +108,10 @@ function ResearchPage() {
                 href={p.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`${p.label} profili (yeni sekmede açılır)`}
+                aria-label={`${p.label} üzerinde yayın listesi (yeni sekmede açılır)`}
                 className="inline-flex border border-border bg-card px-4 py-2 text-sm text-foreground transition-colors hover:bg-muted"
               >
-                {p.label}
+                {p.label} üzerinde yayınlar
               </a>
             </li>
           ))}

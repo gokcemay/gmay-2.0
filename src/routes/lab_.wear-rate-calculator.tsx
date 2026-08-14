@@ -30,6 +30,24 @@ export const Route = createFileRoute("/lab_/wear-rate-calculator")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "/lab/wear-rate-calculator" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "Wear Rate Calculator",
+          url: "https://gmay.me/lab/wear-rate-calculator",
+          applicationCategory: "EngineeringApplication",
+          operatingSystem: "Web",
+          inLanguage: "tr-TR",
+          description: "Aşınma hacmi veya kütle kaybından hacimsel ve özgül aşınma oranını hesaplayan ücretsiz triboloji aracı.",
+          isPartOf: { "@type": "WebSite", "@id": "https://gmay.me/#website" },
+          author: { "@id": "https://gmay.me/#person" },
+          offers: { "@type": "Offer", price: "0", priceCurrency: "TRY" },
+        }),
+      },
+    ],
   }),
   component: WearRatePage,
 });

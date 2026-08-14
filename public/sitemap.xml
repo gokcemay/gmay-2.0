@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- TODO: set BASE_URL to the production origin once the domain is connected. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>/</loc></url>
-  <url><loc>/lab</loc></url>
-  <url><loc>/lab/engineering-prompt-builder</loc></url>
-  <url><loc>/lab/hertz-contact-calculator</loc></url>
-  <url><loc>/lab/wear-rate-calculator</loc></url>
-  <url><loc>/lab/sliding-distance-calculator</loc></url>
-  <url><loc>/articles</loc></url>
-  <url><loc>/research</loc></url>
-  <url><loc>/egitim</loc></url>
-  <url><loc>/kitaplar</loc></url>
-  <url><loc>/about</loc></url>
-  <url><loc>/iletisim</loc></url>
+  <url><loc>https://gmay.me/</loc></url>
+  <url><loc>https://gmay.me/lab</loc></url>
+  <url><loc>https://gmay.me/lab/engineering-prompt-builder</loc></url>
+  <url><loc>https://gmay.me/lab/hertz-contact-calculator</loc></url>
+  <url><loc>https://gmay.me/lab/wear-rate-calculator</loc></url>
+  <url><loc>https://gmay.me/lab/sliding-distance-calculator</loc></url>
+  <url><loc>https://gmay.me/articles</loc></url>
+  <url><loc>https://gmay.me/research</loc></url>
+  <url><loc>https://gmay.me/egitim</loc></url>
+  <url><loc>https://gmay.me/kitaplar</loc></url>
+  <url><loc>https://gmay.me/about</loc></url>
+  <url><loc>https://gmay.me/iletisim</loc></url>
 </urlset>

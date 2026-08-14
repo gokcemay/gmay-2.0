@@ -32,9 +32,18 @@ const sections = [
     title: "AI for Engineers",
     description: "Mühendislik problemlerine odaklı, uygulamalı yapay zeka eğitimi.",
     items: [
-      { title: "Program kapsamı", body: "İçerik başlıkları eklenecektir." },
-      { title: "Hedef kitle", body: "Mühendisler ve teknik ekipler." },
-      { title: "Format", body: "Çevrimiçi veya yüz yüze." },
+      {
+        title: "Program kapsamı",
+        body: "Üretken yapay zekânın temel çalışma mantığı, mühendislik görevleri için yapılandırılmış prompt kurgusu, teknik dokümantasyon ve rapor üretimi, veri yorumlama ve model çıktılarının mühendislik gözüyle doğrulanması.",
+      },
+      {
+        title: "Hedef kitle",
+        body: "Tasarım, üretim, kalite, bakım ve Ar-Ge alanlarında çalışan mühendisler ile teknik ekipler. Ön koşul olarak programlama bilgisi gerekmez.",
+      },
+      {
+        title: "Format",
+        body: "Çevrimiçi veya yüz yüze; yarım günlük tanıtım oturumundan çok oturumlu programa kadar ölçeklenebilir. Her oturumda katılımcılar kendi iş örnekleri üzerinde uygulama yapar.",
+      },
     ],
   },
   {
@@ -42,9 +51,18 @@ const sections = [
     title: "Kurumsal eğitim",
     description: "Şirket ekiplerine özel olarak hazırlanan programlar.",
     items: [
-      { title: "İhtiyaç analizi", body: "Detaylar eklenecektir." },
-      { title: "Özelleştirilmiş içerik", body: "Detaylar eklenecektir." },
-      { title: "Uygulama oturumları", body: "Detaylar eklenecektir." },
+      {
+        title: "İhtiyaç analizi",
+        body: "Program öncesinde ekibin mevcut iş akışları, kullandığı yazılımlar ve tekrar eden teknik görevleri konuşulur; eğitim içeriği bu görevler üzerine kurulur.",
+      },
+      {
+        title: "Özelleştirilmiş içerik",
+        body: "Örnekler, şablonlar ve alıştırmalar şirketin kendi ürün, süreç ve terminolojisiyle hazırlanır; sonunda ekibin kullanabileceği prompt ve kontrol listesi seti teslim edilir.",
+      },
+      {
+        title: "Uygulama oturumları",
+        body: "Teorik anlatım yerine ağırlıklı olarak canlı uygulama yapılır: gerçek görevler oturum içinde birlikte çözülür, çıktı kalitesi ve doğrulama yöntemleri tartışılır.",
+      },
     ],
   },
   {
@@ -52,9 +70,18 @@ const sections = [
     title: "Atölyeler",
     description: "Kısa süreli, uygulama ağırlıklı atölye çalışmaları.",
     items: [
-      { title: "Atölye başlığı", body: "Yer tutucu." },
-      { title: "Atölye başlığı", body: "Yer tutucu." },
-      { title: "Atölye başlığı", body: "Yer tutucu." },
+      {
+        title: "Mühendislikte prompt tasarımı",
+        body: "Rol, görev, bağlam, kısıt ve çıktı formatı yaklaşımıyla tekrar üretilebilir promptlar kurma; katılımcılar kendi görevleri için prompt kütüphanesi oluşturur.",
+      },
+      {
+        title: "Teknik doküman ve rapor üretimi",
+        body: "Test raporu, teknik şartname ve sunum taslaklarının yapay zekâ desteğiyle hazırlanması; mühendislik doğruluğunun korunması için kontrol adımları.",
+      },
+      {
+        title: "Akademik araştırmada dijital araçlar",
+        body: "Literatür tarama, kaynak yönetimi, veri düzenleme ve yazım süreçlerinde kullanılan dijital araçların araştırmacı iş akışına yerleştirilmesi.",
+      },
     ],
   },
   {
@@ -62,9 +89,18 @@ const sections = [
     title: "Mühendislik / Ar-Ge danışmanlığı",
     description: "Mühendislik süreçleri ve Ar-Ge projeleri için danışmanlık.",
     items: [
-      { title: "Süreç değerlendirme", body: "Detaylar eklenecektir." },
-      { title: "Malzeme ve yüzey konuları", body: "Detaylar eklenecektir." },
-      { title: "Yapay zeka entegrasyonu", body: "Detaylar eklenecektir." },
+      {
+        title: "Süreç değerlendirme",
+        body: "Mevcut tasarım, test ve dokümantasyon süreçlerinin gözden geçirilmesi; darboğazların belirlenmesi ve uygulanabilir iyileştirme önerileri.",
+      },
+      {
+        title: "Malzeme ve yüzey konuları",
+        body: "Sürtünme, aşınma, yağlama ve yüzey işlemleri ile ilgili problemlerde literatüre dayalı değerlendirme, test planı kurgusu ve sonuçların yorumlanması.",
+      },
+      {
+        title: "Yapay zeka entegrasyonu",
+        body: "Ar-Ge ve mühendislik ekiplerinin iş akışına yapay zekâ araçlarının aşamalı biçimde dahil edilmesi; kullanım kuralları ve doğrulama pratiklerinin tanımlanması.",
+      },
     ],
   },
 ];
