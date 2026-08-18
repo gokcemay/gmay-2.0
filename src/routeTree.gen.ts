@@ -18,6 +18,7 @@ import { Route as IletisimRouteImport } from './routes/iletisim'
 import { Route as KitaplarRouteImport } from './routes/kitaplar'
 import { Route as LabRouteImport } from './routes/lab'
 import { Route as ResearchRouteImport } from './routes/research'
+import { Route as AraclarTeknikRaporStiliRouteImport } from './routes/araclar.teknik-rapor-stili'
 import { Route as LabEngineeringPromptBuilderRouteImport } from './routes/lab_.engineering-prompt-builder'
 import { Route as LabHertzContactCalculatorRouteImport } from './routes/lab_.hertz-contact-calculator'
 import { Route as LabSlidingDistanceCalculatorRouteImport } from './routes/lab_.sliding-distance-calculator'
@@ -68,6 +69,11 @@ const ResearchRoute = ResearchRouteImport.update({
   path: '/research',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AraclarTeknikRaporStiliRoute = AraclarTeknikRaporStiliRouteImport.update({
+  id: '/araclar/teknik-rapor-stili',
+  path: '/araclar/teknik-rapor-stili',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LabEngineeringPromptBuilderRoute =
   LabEngineeringPromptBuilderRouteImport.update({
     id: '/lab_/engineering-prompt-builder',
@@ -102,6 +108,7 @@ export interface FileRoutesByFullPath {
   '/kitaplar': typeof KitaplarRoute
   '/lab': typeof LabRoute
   '/research': typeof ResearchRoute
+  '/araclar/teknik-rapor-stili': typeof AraclarTeknikRaporStiliRoute
   '/lab/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
   '/lab/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
   '/lab/sliding-distance-calculator': typeof LabSlidingDistanceCalculatorRoute
@@ -117,6 +124,7 @@ export interface FileRoutesByTo {
   '/kitaplar': typeof KitaplarRoute
   '/lab': typeof LabRoute
   '/research': typeof ResearchRoute
+  '/araclar/teknik-rapor-stili': typeof AraclarTeknikRaporStiliRoute
   '/lab/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
   '/lab/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
   '/lab/sliding-distance-calculator': typeof LabSlidingDistanceCalculatorRoute
@@ -133,6 +141,7 @@ export interface FileRoutesById {
   '/kitaplar': typeof KitaplarRoute
   '/lab': typeof LabRoute
   '/research': typeof ResearchRoute
+  '/araclar/teknik-rapor-stili': typeof AraclarTeknikRaporStiliRoute
   '/lab_/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
   '/lab_/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
   '/lab_/sliding-distance-calculator': typeof LabSlidingDistanceCalculatorRoute
@@ -150,6 +159,7 @@ export interface FileRouteTypes {
     | '/kitaplar'
     | '/lab'
     | '/research'
+    | '/araclar/teknik-rapor-stili'
     | '/lab/engineering-prompt-builder'
     | '/lab/hertz-contact-calculator'
     | '/lab/sliding-distance-calculator'
@@ -165,6 +175,7 @@ export interface FileRouteTypes {
     | '/kitaplar'
     | '/lab'
     | '/research'
+    | '/araclar/teknik-rapor-stili'
     | '/lab/engineering-prompt-builder'
     | '/lab/hertz-contact-calculator'
     | '/lab/sliding-distance-calculator'
@@ -180,6 +191,7 @@ export interface FileRouteTypes {
     | '/kitaplar'
     | '/lab'
     | '/research'
+    | '/araclar/teknik-rapor-stili'
     | '/lab_/engineering-prompt-builder'
     | '/lab_/hertz-contact-calculator'
     | '/lab_/sliding-distance-calculator'
@@ -196,6 +208,7 @@ export interface RootRouteChildren {
   KitaplarRoute: typeof KitaplarRoute
   LabRoute: typeof LabRoute
   ResearchRoute: typeof ResearchRoute
+  AraclarTeknikRaporStiliRoute: typeof AraclarTeknikRaporStiliRoute
   LabEngineeringPromptBuilderRoute: typeof LabEngineeringPromptBuilderRoute
   LabHertzContactCalculatorRoute: typeof LabHertzContactCalculatorRoute
   LabSlidingDistanceCalculatorRoute: typeof LabSlidingDistanceCalculatorRoute
@@ -267,6 +280,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResearchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/araclar/teknik-rapor-stili': {
+      id: '/araclar/teknik-rapor-stili'
+      path: '/araclar/teknik-rapor-stili'
+      fullPath: '/araclar/teknik-rapor-stili'
+      preLoaderRoute: typeof AraclarTeknikRaporStiliRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lab_/engineering-prompt-builder': {
       id: '/lab_/engineering-prompt-builder'
       path: '/lab/engineering-prompt-builder'
@@ -308,6 +328,7 @@ const rootRouteChildren: RootRouteChildren = {
   KitaplarRoute: KitaplarRoute,
   LabRoute: LabRoute,
   ResearchRoute: ResearchRoute,
+  AraclarTeknikRaporStiliRoute: AraclarTeknikRaporStiliRoute,
   LabEngineeringPromptBuilderRoute: LabEngineeringPromptBuilderRoute,
   LabHertzContactCalculatorRoute: LabHertzContactCalculatorRoute,
   LabSlidingDistanceCalculatorRoute: LabSlidingDistanceCalculatorRoute,
