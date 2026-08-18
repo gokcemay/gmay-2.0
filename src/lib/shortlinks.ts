@@ -74,6 +74,7 @@ export const shortLinks: Record<string, string> = {
   T25: "https://drive.google.com/file/d/1lTHz1_IToq7uuPaKqXoe_zyCif20x3Hl/view?usp=sharing",
   TURAN26:
     "https://drive.google.com/drive/folders/1NPH_xihIdDTw6JTANSAWKkgZa3i5vQUU?usp=sharing",
+  darbogaz: "https://drive.google.com/file/d/12s1ovCWsA0NhZgkDhW9uZ504Y4CNkhxl/view?usp=sharing",
 };
 
 export function resolveShortLink(code: string): string | undefined {
