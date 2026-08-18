@@ -29,7 +29,8 @@ type ToolHref =
   | "/lab/engineering-prompt-builder"
   | "/lab/hertz-contact-calculator"
   | "/lab/wear-rate-calculator"
-  | "/lab/sliding-distance-calculator";
+  | "/lab/sliding-distance-calculator"
+  | "/araclar/teknik-rapor-stili";
 
 type Tool = {
   name: string;
@@ -57,6 +58,12 @@ const groups: Group[] = [
         href: "/lab/engineering-prompt-builder",
         purpose:
           "Mühendislik görevleri için yapılandırılmış ve tekrar kullanılabilir yapay zekâ promptları oluşturun.",
+      },
+      {
+        name: "Teknik Rapor Stili",
+        href: "/araclar/teknik-rapor-stili",
+        purpose:
+          "Teknik rapor yazımı için Türkçe ve İngilizce Claude skill'i: yazma, düzenleme ve stil denetimi.",
       },
     ],
   },
@@ -97,6 +104,11 @@ const groups: Group[] = [
 ];
 
 function ToolCard({ tool, group }: { tool: Tool; group: string }) {
+  const linkProps = {
+    to: tool.href,
+    search: { distance: undefined, distanceUnit: undefined, source: undefined },
+  } as const;
+
   return (
     <article className="flex flex-col border border-border bg-card p-5 md:p-6">
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
@@ -109,18 +121,13 @@ function ToolCard({ tool, group }: { tool: Tool; group: string }) {
         </span>
       </div>
       <h3 className="mt-3 font-display text-lg leading-snug font-semibold text-foreground">
-        <Link
-          to={tool.href}
-          search={{ distance: undefined, distanceUnit: undefined, source: undefined }}
-          className="hover:underline hover:underline-offset-4"
-        >
+        <Link {...linkProps} className="hover:underline hover:underline-offset-4">
           {tool.name}
         </Link>
       </h3>
       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tool.purpose}</p>
       <Link
-        to={tool.href}
-        search={{ distance: undefined, distanceUnit: undefined, source: undefined }}
+        {...linkProps}
         className="mt-4 self-start text-sm font-medium text-foreground underline underline-offset-4"
       >
         Aracı Aç
