@@ -29,7 +29,8 @@ type ToolHref =
   | "/lab/engineering-prompt-builder"
   | "/lab/hertz-contact-calculator"
   | "/lab/wear-rate-calculator"
-  | "/lab/sliding-distance-calculator";
+  | "/lab/sliding-distance-calculator"
+  | "/araclar/teknik-rapor-stili";
 
 type Tool = {
   name: string;
