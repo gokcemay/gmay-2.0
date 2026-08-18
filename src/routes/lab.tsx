@@ -59,6 +59,12 @@ const groups: Group[] = [
         purpose:
           "Mühendislik görevleri için yapılandırılmış ve tekrar kullanılabilir yapay zekâ promptları oluşturun.",
       },
+      {
+        name: "Teknik Rapor Stili",
+        href: "/araclar/teknik-rapor-stili",
+        purpose:
+          "Teknik rapor yazımı için Türkçe ve İngilizce Claude skill'i: yazma, düzenleme ve stil denetimi.",
+      },
     ],
   },
   {
