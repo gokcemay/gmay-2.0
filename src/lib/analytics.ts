@@ -15,8 +15,9 @@ namespace Gtag {
 }
 
 function getMeasurementId(): string | undefined {
-  return import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_ANALYTICS_API_KEY;
+  return import.meta.env["VITE_LOVABLE_CONNECTOR_GOOGLE_ANALYTICS_API_KEY"];
 }
+
 
 export function initAnalytics(): void {
   const measurementId = getMeasurementId();
