@@ -1,19 +1,22 @@
+import { useEffect, useRef, type ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
   createRootRouteWithContext,
   useRouter,
+  useLocation,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { initAnalytics, trackPageView } from "@/lib/analytics";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { profileLinks } from "@/lib/profiles";
+
 
 
 function NotFoundComponent() {
@@ -190,6 +193,18 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const location = useLocation();
+  const analyticsInitialized = useRef(false);
+
+  useEffect(() => {
+    initAnalytics();
+    analyticsInitialized.current = true;
+  }, []);
+
+  useEffect(() => {
+    if (!analyticsInitialized.current) return;
+    trackPageView(location.pathname);
+  }, [location.pathname]);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -204,4 +219,5 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
+
 
