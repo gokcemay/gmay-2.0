@@ -1,4 +1,4 @@
-import { defineMcp } from "@lovable.dev/mcp-js";
+import { defineMcp, type AnyToolDefinition } from "@lovable.dev/mcp-js";
 import hertzContactTool from "./tools/hertz-contact";
 import wearRateTool from "./tools/wear-rate";
 import slidingDistanceTool from "./tools/sliding-distance";
@@ -17,5 +17,5 @@ export default defineMcp({
     slidingDistanceTool,
     engineeringPromptTool,
     latestArticlesTool,
-  ],
+  ] as AnyToolDefinition[],
 });

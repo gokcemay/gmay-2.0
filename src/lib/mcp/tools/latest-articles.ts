@@ -20,7 +20,7 @@ export default defineTool({
       excerpt: p.excerpt,
     }));
 
-    const out = { source: "https://gmehmetay.substack.com", stale: feed.stale ?? false, posts };
+    const out = { source: "https://gmehmetay.substack.com", error: feed.error, posts };
     return {
       content: [{ type: "text" as const, text: JSON.stringify(out, null, 2) }],
       structuredContent: out,
