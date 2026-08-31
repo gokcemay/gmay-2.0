@@ -193,6 +193,18 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const location = useLocation();
+  const analyticsInitialized = useRef(false);
+
+  useEffect(() => {
+    initAnalytics();
+    analyticsInitialized.current = true;
+  }, []);
+
+  useEffect(() => {
+    if (!analyticsInitialized.current) return;
+    trackPageView(location.pathname);
+  }, [location.pathname]);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -207,4 +219,5 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
+
 
