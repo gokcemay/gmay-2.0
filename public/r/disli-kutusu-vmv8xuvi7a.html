@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="googlebot" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dişli Kutusu Mukavemet Değerlendirmesi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F5F6F6; --panel:#FFFFFF; --ink:#1A1F24; --ink-2:#4A535C; --steel:#7A858F; --rule:#D3D9DE; --rule-2:#E6EAED;
+  --blue:#284B82; --blue-soft:#E3EAF5; --straw:#A67A1E; --straw-soft:#F6EDD6; --oxide:#A33A2C; --oxide-soft:#F6E1DD; --ok:#2C6A4E; --ok-soft:#E0EFE7;
+  --zone-g:#E7F0EA; --zone-y:#F6EFD9; --zone-r:#F4E2DF;
+  --font:"Barlow",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --cond:"Barlow Condensed","Arial Narrow","Roboto Condensed",system-ui,sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#15191E; --panel:#1C2128; --ink:#E5E9EC; --ink-2:#AEB7BF; --steel:#8C96A0; --rule:#323A43; --rule-2:#272E36;
+  --blue:#86A8DE; --blue-soft:#22324A; --straw:#D7AE56; --straw-soft:#3A3222; --oxide:#E3836F; --oxide-soft:#432722; --ok:#72C29A; --ok-soft:#1F3A2E;
+  --zone-g:#1D2B24; --zone-y:#2E2A1F; --zone-r:#33231F;}}
+:root[data-theme="dark"]{
+  --paper:#15191E; --panel:#1C2128; --ink:#E5E9EC; --ink-2:#AEB7BF; --steel:#8C96A0; --rule:#323A43; --rule-2:#272E36;
+  --blue:#86A8DE; --blue-soft:#22324A; --straw:#D7AE56; --straw-soft:#3A3222; --oxide:#E3836F; --oxide-soft:#432722; --ok:#72C29A; --ok-soft:#1F3A2E;
+  --zone-g:#1D2B24; --zone-y:#2E2A1F; --zone-r:#33231F;}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.55;font-variant-numeric:tabular-nums}
+img,svg{max-width:100%}
+a{color:var(--blue)}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:2px}
+h1,h2,h3{font-family:var(--cond);font-weight:600;line-height:1.1;margin:0;letter-spacing:.005em}
+h2{font-size:clamp(1.7rem,3.2vw,2.3rem);margin-bottom:.6rem}
+h3{font-size:1.3rem;margin:1.6rem 0 .5rem}
+p{margin:.5rem 0 .9rem}
+.muted{color:var(--ink-2)}
+.small{font-size:.88rem}
+/* top bar */
+.bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--rule);padding-top:env(safe-area-inset-top,0px);margin-top:calc(-1 * env(safe-area-inset-top,0px))}
+.bar-in{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:1rem;padding:.6rem 1.25rem}
+.bar .doc{font-family:var(--cond);font-weight:600;font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1 1 auto}
+@media (max-width:1180px){.bar .doc span{display:none}}
+.bar .doc span{color:var(--ink-2);font-weight:500}
+.bar nav{margin-left:auto;flex:0 1 auto;min-width:0;display:flex;gap:.2rem;overflow-x:auto;scrollbar-width:none}
+.bar nav::-webkit-scrollbar{display:none}
+.bar nav a{font-size:.9rem;text-decoration:none;color:var(--ink-2);padding:.35rem .55rem;border-radius:4px;white-space:nowrap}
+.bar nav a:hover,.bar nav a.on{color:var(--ink);background:var(--rule-2)}
+.btn-ic{border:1px solid var(--rule);background:var(--panel);color:var(--ink);border-radius:6px;height:34px;min-width:34px;display:inline-grid;place-items:center;cursor:pointer;font:inherit;font-size:.9rem;padding:0 .6rem}
+@media (max-width:900px){.bar nav{display:none}}
+.wrap{max-width:1240px;margin:0 auto;padding:0 1.25rem}
+section{padding:3.2rem 0 1rem;border-top:1px solid var(--rule)}
+.sec-head{display:grid;grid-template-columns:4.2rem 1fr;gap:0 1rem;align-items:baseline;max-width:880px}
+.sec-no{font-family:var(--cond);font-weight:700;font-size:1.6rem;color:var(--steel)}
+.sec-head p{grid-column:2;margin-top:0;color:var(--ink-2);max-width:68ch}
+@media (max-width:640px){.sec-head{grid-template-columns:1fr}.sec-no{font-size:1.1rem}.sec-head p{grid-column:1}}
+.prose{max-width:72ch}
+/* hero */
+.hero{padding:2.6rem 0 1.4rem}
+.hero-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:2.5rem;align-items:start}
+@media (max-width:980px){.hero-grid{grid-template-columns:minmax(0,1fr);gap:1.2rem}}
+.hero h1{font-size:clamp(2.1rem,4.4vw,3.5rem);overflow-wrap:break-word;hyphens:auto;font-weight:700;letter-spacing:-.005em;margin-bottom:.9rem}
+.hero .lead{font-size:1.12rem;color:var(--ink-2);max-width:56ch}
+.verdicts{margin:1.4rem 0 0;border-top:1px solid var(--rule)}
+.verdict{display:grid;grid-template-columns:auto 1fr;gap:.2rem 1rem;padding:.85rem 0;border-bottom:1px solid var(--rule)}
+.verdict .mk{width:12px;height:12px;border-radius:50%;margin-top:.45rem}
+.verdict b{font-weight:600}
+.verdict p{grid-column:2;margin:.1rem 0 0;color:var(--ink-2);font-size:.95rem}
+.gearbox{background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:1rem 1rem .6rem}
+.gearbox svg{display:block;width:100%;height:auto}
+.gb-foot{display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;align-items:center;justify-content:space-between;font-size:.88rem;color:var(--ink-2);padding-top:.5rem;border-top:1px solid var(--rule-2);margin-top:.4rem}
+.legend-temp{display:flex;align-items:center;gap:.5rem}
+.legend-temp i{display:inline-block;width:120px;height:8px;border-radius:4px;background:linear-gradient(90deg,#9AA4AD 0%,#D2B05A 30%,#B07A3A 55%,#6E4B8C 80%,#3F5FA6 100%)}
+/* explorer */
+.explorer{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:1.6rem;margin-top:1.4rem}
+@media (max-width:980px){.explorer{grid-template-columns:minmax(0,1fr)}}
+.controls{background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:1.1rem 1.1rem .4rem;align-self:start}
+.ctl{margin-bottom:1.05rem}
+.ctl-top{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;margin-bottom:.3rem}
+.ctl label,.ctl .lbl{font-weight:500;font-size:.95rem}
+.ctl output{font-family:var(--cond);font-weight:600;font-size:1.15rem}
+.ctl .hint{font-size:.8rem;color:var(--ink-2);margin-top:.15rem}
+input[type=range]{width:100%;accent-color:var(--blue);height:28px}
+.seg{display:flex;border:1px solid var(--rule);border-radius:8px;overflow:hidden}
+.seg button{flex:1;border:0;background:transparent;color:var(--ink-2);font:inherit;font-size:.92rem;padding:.5rem .4rem;cursor:pointer;min-height:40px}
+.seg button+button{border-left:1px solid var(--rule)}
+.seg button[aria-pressed=true]{background:var(--blue);color:var(--panel);font-weight:600}
+:root[data-theme="dark"] .seg button[aria-pressed=true]{color:#10161D}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .seg button[aria-pressed=true]{color:#10161D}}
+details.adv{border-top:1px solid var(--rule-2);padding:.6rem 0 .8rem}
+details.adv summary{cursor:pointer;font-weight:500;font-size:.95rem;color:var(--ink-2)}
+.presets{display:flex;flex-wrap:wrap;gap:.4rem;margin:.2rem 0 1rem}
+.chip{border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:999px;padding:.32rem .75rem;font:inherit;font-size:.85rem;cursor:pointer}
+.chip:hover{border-color:var(--steel)}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.results{min-width:0}
+.callout{border-left:4px solid var(--blue);background:var(--blue-soft);padding:.9rem 1.1rem;border-radius:0 8px 8px 0;margin-bottom:1rem}
+.callout.warn{border-color:var(--straw);background:var(--straw-soft)}
+.callout.bad{border-color:var(--oxide);background:var(--oxide-soft)}
+.callout h3{margin:0 0 .25rem;font-size:1.35rem}
+.callout p{margin:0;color:var(--ink)}
+.kv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:8px;overflow:hidden;margin-bottom:1rem}
+.kv div{background:var(--panel);padding:.6rem .8rem}
+.kv dt{font-size:.82rem;color:var(--ink-2)}
+.kv dd{margin:0;font-family:var(--cond);font-weight:600;font-size:1.35rem}
+@media (max-width:560px){.kv{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* tables */
+.tw{overflow-x:auto;border:1px solid var(--rule);border-radius:8px;background:var(--panel);margin:.6rem 0 .4rem}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{padding:.55rem .75rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--rule-2)}
+td.zn{min-width:11rem}
+thead th{font-weight:600;color:var(--ink-2);font-size:.85rem;border-bottom:1px solid var(--rule);background:var(--paper);white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;white-space:nowrap}
+tr.hl td{background:var(--blue-soft)}
+.cap{font-family:var(--cond);font-weight:600;font-size:1.05rem;margin:1.4rem 0 .2rem}
+.note{font-size:.85rem;color:var(--ink-2);margin:.3rem 0 1rem;max-width:90ch}
+.st{display:inline-flex;align-items:center;gap:.35rem;font-weight:600;font-size:.85rem;padding:.12rem .5rem;border-radius:4px;white-space:nowrap}
+.st::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.st.ok{color:var(--ok);background:var(--ok-soft)} .st.warn{color:var(--straw);background:var(--straw-soft)} .st.bad{color:var(--oxide);background:var(--oxide-soft)} .st.info{color:var(--ink-2);background:var(--rule-2)}
+/* charts */
+.chart{background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:.9rem .9rem .5rem;margin:.6rem 0}
+.chart svg{display:block;width:100%;height:auto;touch-action:pan-y}
+.chart .ax text{font-size:12px;fill:var(--ink-2);font-family:var(--font)}
+.chart .grid line{stroke:var(--rule-2)}
+.chart-leg{display:flex;flex-wrap:wrap;gap:.3rem 1.1rem;font-size:.84rem;color:var(--ink-2);padding:.4rem .2rem 0}
+.chart-leg span{display:inline-flex;align-items:center;gap:.4rem}
+.chart-leg i{display:inline-block;width:22px;height:0;border-top:2.5px solid}
+.readout{font-size:.88rem;color:var(--ink-2);min-height:1.4em;padding:.2rem .2rem 0}
+figure{margin:0}
+figcaption{font-size:.88rem;color:var(--ink-2);margin:.2rem .2rem .6rem}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.6rem}
+@media (max-width:900px){.two{grid-template-columns:minmax(0,1fr)}}
+.modes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 2rem;margin-top:.6rem}
+@media (max-width:760px){.modes{grid-template-columns:minmax(0,1fr)}}
+.mode{border-top:1px solid var(--rule);padding:.8rem 0}
+.mode h4{margin:0 0 .25rem;font-size:1rem;font-weight:600;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.mode p{margin:0;color:var(--ink-2);font-size:.95rem}
+ol.steps,ul.list{padding-left:1.2rem;max-width:80ch}
+ol.steps li,ul.list li{margin:.35rem 0}
+/* formulas */
+details.fx{border:1px solid var(--rule);border-radius:10px;background:var(--panel);margin:1rem 0}
+details.fx>summary{cursor:pointer;padding:.9rem 1.1rem;font-weight:600;font-family:var(--cond);font-size:1.2rem}
+.fx-body{padding:0 1.1rem 1rem;border-top:1px solid var(--rule-2)}
+.eq{display:flex;align-items:center;gap:1rem;padding:.35rem 0;border-bottom:1px dashed var(--rule-2)}
+.eq-m{flex:1;overflow-x:auto;padding:.3rem 0}
+.eq math{font-size:1.08rem}
+.eqn{color:var(--steel);font-size:.85rem;white-space:nowrap}
+.fx-note{font-size:.9rem;color:var(--ink-2);max-width:80ch}
+/* glossary */
+.gl-tools{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:.8rem 0 1rem}
+.search{flex:1 1 260px;display:flex;align-items:center;gap:.5rem;border:1px solid var(--rule);background:var(--panel);border-radius:8px;padding:0 .7rem}
+.search input{flex:1;border:0;background:transparent;color:var(--ink);font:inherit;padding:.6rem 0;min-width:0}
+.search input:focus{outline:none}
+.search:focus-within{outline:2px solid var(--blue);outline-offset:1px}
+.gl-cats{display:flex;flex-wrap:wrap;gap:.35rem}
+.gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:0 2rem}
+.gl-item{display:grid;grid-template-columns:6.2rem 1fr;gap:.2rem .9rem;padding:.7rem 0;border-top:1px solid var(--rule-2)}
+.gl-sym{font-family:"Cambria Math","STIX Two Math","Times New Roman",serif;font-size:1.15rem;font-style:italic;color:var(--blue);word-break:break-word}
+.gl-sym.abbr{font-family:var(--cond);font-style:normal;font-weight:600;font-size:1.05rem}
+.gl-name{font-weight:600}
+.gl-desc{color:var(--ink-2);font-size:.92rem}
+.gl-unit{font-size:.8rem;color:var(--steel);margin-top:.15rem}
+.gl-empty{color:var(--ink-2);padding:1rem 0}
+footer{border-top:1px solid var(--rule);margin-top:3rem;padding:1.6rem 0 2.4rem;color:var(--ink-2);font-size:.88rem}
+@media print{.bar,.controls,.presets{display:none}section{break-inside:avoid-page}}
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="bar-in">
+    <div class="doc">Dişli kutusu mukavemet değerlendirmesi <span>Dişli 01 → 03 → 03 → 04</span></div>
+    <nav aria-label="Bölümler">
+      <a href="#hesap">Hesaplayıcı</a><a href="#zarf">Hız–tork</a><a href="#isil">Isıl denge</a><a href="#hasar">Hasar</a><a href="#gres">Gres</a><a href="#sistem">Sistem</a><a href="#yontem">Yöntem</a><a href="#sozluk">Sözlük</a>
+    </nav>
+    <button class="btn-ic" id="themeBtn" type="button" aria-label="Açık veya koyu tema">◐</button>
+  </div>
+</header>
+
+<main class="wrap">
+<div class="hero">
+  <div class="hero-grid">
+    <div>
+      <h1>Dişli kutusu mukavemet değerlendirmesi</h1>
+      <p class="lead">Dört düz dişliden oluşan redüktörün diş mukavemeti, ısıl dengesi ve yağlama rejimi ISO 6336'ya göre incelendi. Çalışma noktası giriş milinde 200–615 d/d, 180 N·m sürekli ve 290 N·m tepe torkudur.</p>
+      <div class="verdicts">
+        <div class="verdict"><span class="mk" style="background:var(--straw)"></span><div><b>Sementasyonlu 8620 uygun, ısıl koşulla</b></div><p>Diş mukavemeti çalışma ve tepe yükünde hedefi sağlar. Gresli çalışmada 180 N·m sürekli yük ≈ 280 d/d'ya kadar ısıl olarak uygundur, üzerinde ek soğutma gerekir.</p></div>
+        <div class="verdict"><span class="mk" style="background:var(--oxide)"></span><div><b>Sementasyonsuz 8620 uygun değil</b></div><p>180 N·m, izin verilen sürekli torkun yaklaşık 10 katıdır. Yanaklar ilk yüklemelerde ezilir.</p></div>
+      </div>
+    </div>
+    <figure class="gearbox" aria-labelledby="gbcap">
+      <svg id="gearSvg" viewBox="-62 -70 446 150" role="img" aria-label="Dört dişliden oluşan zincirin dönen şeması"></svg>
+      <div class="gb-foot">
+        <span id="gbcap">Dişliler hesaplayıcıdaki devirle orantılı döner. Renk, tahmini muhafaza sıcaklığını gösterir.</span>
+        <span class="legend-temp"><span>40 °C</span><i aria-hidden="true"></i><span>140 °C</span></span>
+        <button class="btn-ic" id="playBtn" type="button" aria-pressed="false">Durdur</button>
+      </div>
+    </figure>
+  </div>
+</div>
+
+<section id="hesap">
+  <div class="sec-head"><span class="sec-no">1</span><h2>Çalışma noktası hesaplayıcı</h2>
+  <p>Devri, torku ve malzemeyi değiştirerek emniyet katsayılarını, muhafaza sıcaklığını ve yağ filmi oranını anında görebilirsiniz. Varsayılan değerler raporun çalışma noktasıdır.</p></div>
+  <div class="explorer">
+    <form class="controls" id="ctl" onsubmit="return false">
+      <div class="presets" role="group" aria-label="Hazır durumlar">
+        <button type="button" class="chip" data-preset="615">Rapor, 615 d/d</button>
+        <button type="button" class="chip" data-preset="200">Rapor, 200 d/d</button>
+        <button type="button" class="chip" data-preset="2500">Yüksek devir, 2500 d/d</button>
+      </div>
+      <div class="ctl"><div class="lbl" id="matLbl">Malzeme</div>
+        <div class="seg" role="group" aria-labelledby="matLbl">
+          <button type="button" data-mat="carb" aria-pressed="true">Sementasyonlu</button>
+          <button type="button" data-mat="unt" aria-pressed="false">Sementasyonsuz</button>
+        </div></div>
+      <div class="ctl"><div class="ctl-top"><label for="n1">Giriş devri n₁</label><output id="n1o">615 d/d</output></div>
+        <input type="range" id="n1" min="50" max="3000" step="5" value="615"><div class="hint" id="n1h"></div></div>
+      <div class="ctl"><div class="ctl-top"><label for="tw">Çalışma torku T₁</label><output id="two">180 N·m</output></div>
+        <input type="range" id="tw" min="5" max="600" step="5" value="180"></div>
+      <div class="ctl"><div class="ctl-top"><label for="tp">Tepe torku</label><output id="tpo">290 N·m</output></div>
+        <input type="range" id="tp" min="5" max="900" step="5" value="290"><div class="hint">Kısa süreli yük. Isıl hesaba girmez.</div></div>
+      <details class="adv">
+        <summary>İleri ayarlar</summary>
+        <div class="ctl" style="margin-top:.8rem"><div class="lbl" id="vgLbl">Gres baz yağı</div>
+          <div class="seg" role="group" aria-labelledby="vgLbl">
+            <button type="button" data-vg="220" aria-pressed="false">VG 220</button><button type="button" data-vg="460" aria-pressed="true">VG 460</button><button type="button" data-vg="680" aria-pressed="false">VG 680</button>
+          </div></div>
+        <div class="ctl"><div class="lbl" id="qLbl">İmalat kalitesi (ISO 1328)</div>
+          <div class="seg" role="group" aria-labelledby="qLbl">
+            <button type="button" data-q="6" aria-pressed="false">Sınıf 6</button><button type="button" data-q="7" aria-pressed="true">Sınıf 7</button><button type="button" data-q="8" aria-pressed="false">Sınıf 8</button>
+          </div></div>
+        <div class="ctl"><div class="ctl-top"><label for="ka">İşletme faktörü K<sub>A</sub></label><output id="kao">1,00</output></div>
+          <input type="range" id="ka" min="1" max="2" step="0.05" value="1"></div>
+        <div class="ctl"><div class="ctl-top"><label for="kA">Muhafaza ısı atımı k·A</label><output id="kAo">3,15 W/K</output></div>
+          <input type="range" id="kA" min="1.5" max="15" step="0.05" value="3.15"><div class="hint">Varsayılan: 450 × 130 × 80 mm muhafaza, doğal taşınım.</div></div>
+        <div class="ctl"><div class="ctl-top"><label for="ta">Ortam sıcaklığı</label><output id="tao">25 °C</output></div>
+          <input type="range" id="ta" min="0" max="50" step="1" value="25"></div>
+      </details>
+      <div class="ctl"><button type="button" class="chip" id="resetBtn">Rapor varsayılanlarına dön</button></div>
+    </form>
+    <div class="results" aria-live="polite">
+      <div class="callout" id="verdict"><h3 id="vTitle"></h3><p id="vText"></p></div>
+      <dl class="kv" id="kv"></dl>
+      <div class="tw"><table>
+        <thead><tr><th>Kriter</th><th class="num">Değer</th><th class="num">Hedef</th><th>Durum</th></tr></thead>
+        <tbody id="resTable"></tbody>
+      </table></div>
+      <p class="note">Hesap, raporla aynı ISO 6336 modelini kullanır. Mukavemet ZL için muhafazakâr olarak ν₄₀ = 200 mm²/s ile hesaplanır, yağ filmi oranı ise seçilen baz yağla ve tahmini muhafaza sıcaklığında bulunur.</p>
+    </div>
+  </div>
+</section>
+
+<section id="zarf">
+  <div class="sec-head"><span class="sec-no">2</span><h2>Hız–tork zarfı</h2>
+  <p>Giriş devrine göre izin verilen giriş torku. Eğriler hesaplayıcıdaki kalite sınıfı ve işletme faktörüyle yeniden çizilir, ısıl sınır ise seçilen muhafaza ısı atımına göre değişir.</p></div>
+  <figure class="chart">
+    <svg id="envChart" viewBox="0 0 900 470" role="img" aria-label="Giriş devri ile izin verilen tork grafiği, logaritmik tork ekseni"></svg>
+    <div class="readout" id="envRead">İmleci grafiğin üzerinde gezdirerek değerleri okuyabilirsiniz.</div>
+    <div class="chart-leg">
+      <span><i style="border-color:var(--blue)"></i>Sementasyonlu, güvenli</span>
+      <span><i style="border-color:var(--blue);border-top-style:dashed"></i>Sementasyonlu, hasar eşiği</span>
+      <span><i style="border-color:var(--steel)"></i>Sementasyonsuz, güvenli</span>
+      <span><i style="border-color:var(--steel);border-top-style:dashed"></i>Sementasyonsuz, hasar eşiği</span>
+      <span><i style="border-color:var(--oxide);border-top-style:dotted"></i>Isıl sınır (gres, tahmini)</span>
+      <span><i style="border-color:var(--ok)"></i>Hesaplayıcıdaki çalışma ve tepe torku</span>
+    </div>
+  </figure>
+  <p class="cap">Tablo 3. Giriş devrine göre izin verilen giriş torku T₁ [N·m]</p>
+  <div class="tw"><table>
+    <thead><tr><th class="num">n₁ [d/d]</th><th class="num">v [m/s]</th><th>Yağlama bölgesi</th><th class="num">Sementasyonsuz güvenli</th><th class="num">Sementasyonsuz hasar eşiği</th><th class="num">Sementasyonlu güvenli</th><th class="num">Sementasyonlu hasar eşiği</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td class="num">200</td><td class="num">0,9</td><td class="zn">Gres uygun</td><td class="num">18</td><td class="num">28</td><td class="num">370</td><td class="num">590</td></tr>
+      <tr><td class="num">500</td><td class="num">2,4</td><td class="zn">Gres uygun</td><td class="num">17</td><td class="num">27</td><td class="num">365</td><td class="num">585</td></tr>
+      <tr class="hl"><td class="num">615</td><td class="num">2,9</td><td class="zn">Gres uygun</td><td class="num">17</td><td class="num">26</td><td class="num">360</td><td class="num">585</td></tr>
+      <tr><td class="num">1060</td><td class="num">5,0</td><td class="zn">Gres sınırı</td><td class="num">16</td><td class="num">24</td><td class="num">345</td><td class="num">570</td></tr>
+      <tr><td class="num">1500</td><td class="num">7,1</td><td class="zn">Akışkan gres ve ısıl doğrulama</td><td class="num">14</td><td class="num">23</td><td class="num">330</td><td class="num">555</td></tr>
+      <tr><td class="num">2000</td><td class="num">9,4</td><td class="zn">Akışkan gres ve ısıl doğrulama</td><td class="num">13</td><td class="num">21</td><td class="num">310</td><td class="num">535</td></tr>
+      <tr><td class="num">2120</td><td class="num">10,0</td><td class="zn">Akışkan gres sınırı</td><td class="num">13</td><td class="num">21</td><td class="num">305</td><td class="num">530</td></tr>
+      <tr><td class="num">2500</td><td class="num">11,8</td><td class="zn">Yağ yağlaması gerekli</td><td class="num">12</td><td class="num">19</td><td class="num">290</td><td class="num">515</td></tr>
+      <tr><td class="num">3000</td><td class="num">14,1</td><td class="zn">Yağ yağlaması gerekli</td><td class="num">11</td><td class="num">18</td><td class="num">265</td><td class="num">495</td></tr>
+    </tbody></table></div>
+  <p class="note">Güvenli değerler SH = 1,25 ve SF = 1,5, hasar eşiği SH = 1,0 ile hesaplanmıştır (KA = 1,0, ISO 1328 sınıf 7). Değerler yalnız diş mukavemetini yansıtır. İşaretli satırlar çalışma aralığının sınırlarıdır.</p>
+</section>
+
+<section id="isil">
+  <div class="sec-head"><span class="sec-no">3</span><h2>Isıl denge</h2>
+  <p>Gresli kutuda sistemi sınırlayan unsur ısınmadır. Kayıplar kavrama sürtünmesinden (Niemann HV, μ = 0,07) ve rulmanlardan gelir, toplam verim ≈ %97 alınmıştır.</p></div>
+  <figure class="chart">
+    <svg id="thChart" viewBox="0 0 900 420" role="img" aria-label="Giriş devrine göre muhafaza sıcaklık artışı grafiği"></svg>
+    <div class="readout" id="thRead"></div>
+    <div class="chart-leg">
+      <span><i style="border-color:var(--blue)"></i>Hesaplayıcıdaki çalışma torku</span>
+      <span><i style="border-color:var(--oxide);border-top-style:dashed"></i>Tepe torku sürekli uygulansaydı</span>
+      <span><i style="border-color:var(--steel)"></i>T₁ = 100 N·m</span>
+      <span><i style="border-color:var(--oxide)"></i>İzin verilen ΔT = 50 K</span>
+    </div>
+  </figure>
+  <div class="two">
+    <div>
+      <p class="cap">Tablo 5. 180 N·m sürekli yükte ısıl denge (k·A ≈ 3,2 W/K)</p>
+      <div class="tw"><table>
+        <thead><tr><th class="num">n₁</th><th class="num">Güç</th><th class="num">Kayıp</th><th class="num">ΔT</th><th>Durum</th></tr></thead>
+        <tbody>
+          <tr><td class="num">200 d/d</td><td class="num">3,8 kW</td><td class="num">≈ 115 W</td><td class="num">≈ 36 K</td><td><span class="st ok">Uygun</span></td></tr>
+          <tr class="hl"><td class="num">280 d/d</td><td class="num">5,3 kW</td><td class="num">≈ 160 W</td><td class="num">≈ 50 K</td><td><span class="st warn">Sınır</span></td></tr>
+          <tr><td class="num">400 d/d</td><td class="num">7,5 kW</td><td class="num">≈ 225 W</td><td class="num">≈ 72 K</td><td><span class="st bad">Ek soğutma gerekli</span></td></tr>
+          <tr><td class="num">615 d/d</td><td class="num">11,6 kW</td><td class="num">≈ 350 W</td><td class="num">≈ 110 K</td><td><span class="st bad">Ek soğutma gerekli</span></td></tr>
+        </tbody></table></div>
+    </div>
+    <div class="prose">
+      <h3>615 d/d için gereken soğutma</h3>
+      <p>180 N·m sürekli yükte 615 d/d'da ΔT ≤ 50 K kalabilmek için muhafazanın ısı atımı ≈ 7,0 W/K olmalıdır. Bu, doğal taşınımda ≈ 0,47 m², fanlı soğutmada (k ≈ 35 W/m²K) ≈ 0,2 m² yüzey alanı demektir.</p>
+      <p>Hesaplayıcıda k·A değerini 7 W/K'e çıkararak etkisini görebilirsiniz. 50 K sınırı 25 °C ortamda ≈ 75 °C muhafaza sıcaklığına karşılık gelir. Gres için hedef işletme bandı ise 60–70 °C'dir.</p>
+      <p class="muted small">Isıl değerler varsayımsal muhafaza ölçülerine dayanan tahminlerdir. Gerçek muhafaza ile yeniden hesaplanmalı ve ilk çalıştırmada ölçümle doğrulanmalıdır.</p>
+    </div>
+  </div>
+</section>
+
+<section id="hasar">
+  <div class="sec-head"><span class="sec-no">4</span><h2>Hasar koşulları</h2>
+  <p>ISO 6336 ile hesaplanabilen hasar türlerinin başladığı giriş torkları. Yorulma hasarları sürekli çalışmada, tek seferlik aşırı yük değerleri ise darbe, ani duruş veya kilitlenme gibi kısa süreli tepe yüklerinde geçerlidir.</p></div>
+  <p class="cap">Tablo 4. Hasar eşikleri, giriş torku T₁ [N·m], giriş devri 200 ve 615 d/d</p>
+  <div class="tw"><table>
+    <thead><tr><th>Hasar türü</th><th>Konum</th><th class="num">Sementasyonsuz</th><th class="num">Sementasyonlu</th><th>Açıklama</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td>Yüzey yorulması (pitting), SH = 1</td><td>Dişli 01–03 kavraması, Dişli 01 ve 03 yanakları</td><td class="num">28 / 26</td><td class="num">590 / 585</td><td>İlk görülen hasar</td></tr>
+      <tr><td>Diş dibi yorulma kırılması, SF = 1</td><td>Dişli 03 (ara dişli, değişken yönlü eğilme)</td><td class="num">234 / 212</td><td class="num">725 / 695</td><td>Sementasyonsuzda 290 N·m'nin altında</td></tr>
+      <tr><td>Tek seferlik aşırı yükte yanak ezilmesi</td><td>Dişli 01–03 kavraması</td><td class="num">≈ 110 / 95</td><td class="num">≈ 1140 / 1105</td><td>Plastik deformasyon</td></tr>
+      <tr><td>Tek seferlik aşırı yükte diş kırılması</td><td>En zayıf diş dibi (Dişli 01)</td><td class="num">≈ 860 / 830*</td><td class="num">≈ 2610 / 2560</td><td>Spline göbek ayrıca kontrol edilmeli</td></tr>
+    </tbody></table></div>
+  <p class="note">* Sementasyonsuz durumda ISO statik değeri malzemenin akma dayanımını aşar. Gerçek sınır diş dibinde plastik akma ile daha düşük olabilir. Sementasyonlu dişlilerde 290 N·m tepe torku, pitting hasar eşiğinin yaklaşık yarısı, yanak ezilmesi eşiğinin yaklaşık dörtte biridir.</p>
+  <h3>ISO 6336 kapsamı dışındaki hasar türleri</h3>
+  <div class="modes">
+    <div class="mode"><h4>Isıl aşırı yüklenme <span class="st bad">Belirleyici</span></h4><p>180 N·m sürekli yükte kayıplar 200 d/d'da ≈ 115 W, 615 d/d'da ≈ 350 W'tır. Aşırı sıcaklık gresi yaşlandırır, baz yağı ayrıştırır ve film kalınlığını düşürür. 80 °C'de λ yaklaşık yarıya iner.</p></div>
+    <div class="mode"><h4>Aşınma ve mikro-pitting <span class="st warn">İzlenmeli</span></h4><p>λ < 1 olduğundan yüzey pürüzleri temas eder. ≈ 800–1000 MPa temas basıncında gri lekelenme ve aşınma, ISO pitting sınırından önce görülebilir. Risk en düşük devirde ve yüksek sıcaklıkta en büyüktür.</p></div>
+    <div class="mode"><h4>Tutunma (scuffing) <span class="st ok">Düşük risk</span></h4><p>Kayma hızları düşük olduğu için çalışma aralığında risk küçüktür. Gresin FZG yük kademesi yine de en az 12 olmalıdır ve gres seçildikten sonra ISO/TS 6336-20/21 kontrolü yapılmalıdır.</p></div>
+    <div class="mode"><h4>Gres yetersizliği <span class="st ok">Çalışma aralığında yok</span></h4><p>v ≤ 2,9 m/s'de beklenmez. Hız ≈ 5 m/s'yi aşarsa (n₁ > 1060 d/d) gres kavramadan fırlatılır, 10 m/s'nin üzerinde gres yağlama uygun değildir. NLGI 2 gibi sert greslerde düşük hızda da kanal açılması görülebilir.</p></div>
+    <div class="mode"><h4>Spline göbek ve model notları <span class="st info">Kontrol</span></h4><p>18 dişli spline göbek kritik değildir. Dişli 04'te 354 N·m tepe çıkış torkunda yüzey basıncı ≈ 33 MPa'dır. Göbeklerdeki üç farklı diş ucu çapı ve Dişli 03'teki Ø53 × 2 mm segman kanalı teknik resimde kontrol edilmelidir.</p></div>
+  </div>
+</section>
+
+<section id="gres">
+  <div class="sec-head"><span class="sec-no">5</span><h2>Gres önerisi</h2>
+  <p>Hatve noktasında Dowson–Higginson eşitliğiyle hesaplanan film oranı tüm durumlarda 1'in altındadır. Dişliler karışık veya sınır yağlama rejiminde çalıştığı için gres seçimi doğrudan ömrü belirler.</p></div>
+  <div class="two">
+    <div>
+      <p class="cap">Tablo 6. Tahmini film oranı λ, 180 N·m, Dişli 01–03 hatve noktası</p>
+      <div class="tw"><table>
+        <thead><tr><th>Baz yağ ve sıcaklık</th><th class="num">200 d/d</th><th class="num">615 d/d</th></tr></thead>
+        <tbody>
+          <tr><td>ISO VG 220, 60 °C</td><td class="num">0,23</td><td class="num">0,51</td></tr>
+          <tr class="hl"><td>ISO VG 460, 60 °C</td><td class="num">0,36</td><td class="num">0,80</td></tr>
+          <tr><td>ISO VG 460, 80 °C</td><td class="num">0,20</td><td class="num">0,43</td></tr>
+        </tbody></table></div>
+      <p class="note">Tam beslemeli EHL kabulüyle baz yağ değerleridir. Gres ilk dönemde daha kalın film verebilir ama zamanla besleme yetersizliği filmi inceltir. VG 220'den VG 460'a geçmek filmi ≈ %55 kalınlaştırır.</p>
+    </div>
+    <div class="prose">
+      <h3>Özet</h3>
+      <p>NLGI 00–0 yarı akışkan, lityum kompleks veya kalsiyum sülfonat kompleks esaslı, baz yağı ISO VG 460–680 olan bir dişli gresi kullanılmalıdır. Gres EP ve AW katkılı olmalı (FZG ≥ 12. kademe) ve MoS₂, grafit veya hBN gibi bir katı yağlayıcı içermelidir.</p>
+      <p>Gres sıcaklığı 60–70 °C'nin altında tutulmalıdır.</p>
+    </div>
+  </div>
+  <p class="cap">Tablo 7. Önerilen gres özellikleri</p>
+  <div class="tw"><table>
+    <thead><tr><th>Özellik</th><th>Öneri</th><th>Gerekçe</th></tr></thead>
+    <tbody>
+      <tr><td>Kıvam (NLGI)</td><td>00 veya 0 (yarı akışkan)</td><td>Kavrama bölgesine geri akar, kanal açmaz. NLGI 2 kullanılmamalıdır.</td></tr>
+      <tr><td>Kıvamlaştırıcı</td><td>Lityum kompleks veya kalsiyum sülfonat kompleks</td><td>Damlama noktası yüksektir (> 250 °C) ve mekanik kararlılığı iyidir. Kalsiyum sülfonat kompleks ayrıca doğal EP ve korozyon koruması sağlar.</td></tr>
+      <tr><td>Baz yağ</td><td>ISO VG 460–680, mineral veya PAO</td><td>λ < 1 olduğundan film kalınlığı en üst düzeye çıkarılmalıdır. PAO, viskozite indeksi yüksek olduğu için sıcakta daha kalın film verir.</td></tr>
+      <tr><td>EP ve AW katkısı</td><td>FZG A/8,3/90 hasar yük kademesi ≥ 12</td><td>≈ 1000 MPa tepe temas basıncında sınır yağlama koşulları oluşur. Katkı, tutunma ve aşınmaya karşı korur.</td></tr>
+      <tr><td>Katı yağlayıcı</td><td>MoS₂, grafit veya hBN katkılı ürün</td><td>Düşük hızda (200 d/d) pürüz teması sırasında sürtünme ve aşınmayı azaltır, alıştırma dönemini de destekler.</td></tr>
+      <tr><td>Çalışma sıcaklığı</td><td>Gres sıcaklığı ≤ 60–70 °C</td><td>80 °C'de film yarıya iner. Gres ömrü de sıcaklık arttıkça hızla kısalır.</td></tr>
+      <tr><td>Doldurma</td><td>Alt dişlilerin dişleri gres içinde kalacak seviye</td><td>Fazla doldurma çalkalama kaybını ve ısınmayı artırır. Üreticinin doldurma önerisi esas alınmalıdır.</td></tr>
+      <tr><td>Değişim aralığı</td><td>İlk değişim alıştırmadan sonra (≈ 100–200 saat), sonrakiler ≈ 2000–4000 saatte veya yılda bir</td><td>İlk değişim alıştırmada oluşan aşınma partiküllerini uzaklaştırır. Muhafaza 70 °C'yi aşıyorsa aralık yarıya indirilmelidir. Değerler başlangıç içindir.</td></tr>
+      <tr><td>Uyumluluk</td><td>Farklı kıvamlaştırıcı türleri karıştırılmamalı</td><td>Kıvamlaştırıcı uyumsuzluğu gresin yumuşamasına veya sertleşmesine yol açar.</td></tr>
+    </tbody></table></div>
+</section>
+
+<section id="sistem">
+  <div class="sec-head"><span class="sec-no">6</span><h2>Sistem, kabuller ve öneriler</h2>
+  <p>Geometri STEP modellerinden çıkarıldı. Hareket Dişli 01'den iki ara dişli üzerinden Dişli 04'e iletilir ve zincir redüksiyon yapar (i = 1,222).</p></div>
+  <p class="cap">Dişli geometrisi</p>
+  <div class="tw"><table>
+    <thead><tr><th>Parça</th><th class="num">z</th><th class="num">d [mm]</th><th class="num">dₐ [mm]</th><th class="num">d<sub>f</sub> [mm]</th><th>Göbek</th><th class="num">Kütle [kg]</th></tr></thead>
+    <tbody>
+      <tr><td>Dişli 01 (giriş), 260708051</td><td class="num">36</td><td class="num">90,00</td><td class="num">95,00</td><td class="num">83,75</td><td>18 dişli spline, Ø30,5/34,7</td><td class="num">1,286</td></tr>
+      <tr><td>Dişli 03 ×2 (ara), 260708052</td><td class="num">44</td><td class="num">110,00</td><td class="num">115,00</td><td class="num">103,75</td><td>Ø52 rulman yuvası</td><td class="num">1,725</td></tr>
+      <tr><td>Dişli 04 (çıkış), 260708053</td><td class="num">44</td><td class="num">110,00</td><td class="num">115,00</td><td class="num">103,75</td><td>18 dişli spline, Ø30,5/34,7</td><td class="num">2,023</td></tr>
+    </tbody></table></div>
+  <p class="note">Tüm dişlilerde m = 2,5 mm, α = 20°, β = 0°, x = 0, b = 30 mm ve diş başlarında 2 × 45° pah vardır. Eksen mesafeleri 100, 110 ve 110 mm, kavrama oranı εα 36–44 çifti için 1,712, 44–44 çifti için 1,732'dir.</p>
+  <div class="two">
+    <div><h3>Kabuller</h3>
+      <ul class="list">
+        <li>Ara dişliler tork taşımaz ama iki yanaktan yük aldıkları için diş dibi değişken yönlü eğilir (YM = 0,7).</li>
+        <li>Yük spektrumu bilinmediğinden tepe tork için de sürekli mukavemet kontrolü yapılmıştır.</li>
+        <li>KA = 1,0, ISO 1328 sınıf 7, KHβ = 1,15. KV, Yöntem C ile hesaplanmıştır.</li>
+        <li>Sementasyonsuz 8620 için ~180 HB, ISO 6336-5 St MQ değerleri (σHlim = 370 MPa, σFlim = 151 MPa) kullanılmıştır.</li>
+        <li>Sementasyonlu 8620 için 58–62 HRC, Eht ≈ 0,4–0,5 mm ve ISO 6336-5 Eh MQ değerleri (σHlim = 1500 MPa, σFlim = 500 MPa) kullanılmıştır.</li>
+        <li>Taban radyüsü modellerde bulunmadığından ρf = 0,38·m kabul edilmiştir.</li>
+        <li>Isıl tahminde muhafaza 450 × 130 × 80 mm (A ≈ 0,21 m²), k ≈ 15 W/m²K ve izin verilen ΔT = 50 K alınmıştır.</li>
+        <li>Mil, rulman ve kama bağlantısı hesapları kapsam dışıdır.</li>
+      </ul></div>
+    <div><h3>Öneriler</h3>
+      <ol class="steps">
+        <li>Dişlilere sementasyon uygulanmalı (Eht ≈ 0,4–0,5 mm, 58–62 HRC), ardından dişler taşlanmalı veya ISO 1328 sınıf 6'da imal edilmelidir.</li>
+        <li>615 d/d'da 180 N·m sürekli çalışma öngörülüyorsa muhafazanın ısı atımı ≈ 7,0 W/K'e çıkarılmalıdır. Bu yapılamıyorsa 280 d/d üzerindeki sürekli çalışma sınırlandırılmalıdır.</li>
+        <li>Bölüm 5'teki özelliklere uygun yarı akışkan gres kullanılmalıdır.</li>
+        <li>İlk çalıştırmada muhafaza sıcaklığı ölçülmeli, alıştırma sonrasındaki ilk gres değişiminde yanaklar mikro-pitting ve aşınma açısından incelenmelidir.</li>
+        <li>Gres seçildikten sonra tutunma kontrolü yapılmalı, yük spektrumu belirlenirse ömür hesabı güncellenmelidir.</li>
+      </ol></div>
+  </div>
+</section>
+
+<section id="yontem">
+  <div class="sec-head"><span class="sec-no">7</span><h2>Yöntem ve formüller</h2>
+  <p>Hesaplar ISO 6336-1, -2, -3 ve -5'e dayanır. Diş formu faktörleri Yöntem B, dinamik faktör Yöntem C ile hesaplanmıştır. KV teğetsel kuvvete bağlı olduğundan tork kapasitesi sayısal olarak (ikiye bölme yöntemiyle) bulunur.</p></div>
+  <details class="fx"><summary>Formülleri göster</summary><div class="fx-body"><h3>A.1 Geometri ve kinematik</h3>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>i</mi></msub><mo>=</mo><mi>m</mi><mspace width="0.222em"></mspace><msub><mi>z</mi><mi>i</mi></msub><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><msub><mi>d</mi><mrow><mi>b</mi><mo>,</mo><mi>i</mi></mrow></msub><mo>=</mo><msub><mi>d</mi><mi>i</mi></msub><mspace width="0.222em"></mspace><mi>c</mi><mi>o</mi><mi>s</mi><mspace width="0.222em"></mspace><mi>α</mi><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><msub><mi>d</mi><mrow><mi>a</mi><mo>,</mo><mi>i</mi></mrow></msub><mo>=</mo><msub><mi>d</mi><mi>i</mi></msub><mo>+</mo><mn>2</mn><mi>m</mi></mrow></semantics></math></div><span class="eqn">(A.1)</span></div>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mfrac><mrow><msub><mi>d</mi><mi>i</mi></msub><mo>+</mo><msub><mi>d</mi><mi>j</mi></msub></mrow><mn>2</mn></mfrac><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><mi>v</mi><mo>=</mo><mfrac><mrow><mi>π</mi><mspace width="0.222em"></mspace><msub><mi>d</mi><mn>1</mn></msub><mspace width="0.222em"></mspace><msub><mi>n</mi><mn>1</mn></msub></mrow><mn>60000</mn></mfrac><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><msub><mi>T</mi><mn>4</mn></msub><mo>=</mo><msub><mi>T</mi><mn>1</mn></msub><mfrac><msub><mi>z</mi><mn>4</mn></msub><msub><mi>z</mi><mn>1</mn></msub></mfrac></mrow></semantics></math></div><span class="eqn">(A.2)</span></div>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ε</mi><mi>α</mi></msub><mo>=</mo><mfrac><mrow><msqrt><mrow><msubsup><mi>r</mi><mrow><mi>a</mi><mn>1</mn></mrow><mn>2</mn></msubsup><mo>−</mo><msubsup><mi>r</mi><mrow><mi>b</mi><mn>1</mn></mrow><mn>2</mn></msubsup></mrow></msqrt><mo>+</mo><msqrt><mrow><msubsup><mi>r</mi><mrow><mi>a</mi><mn>2</mn></mrow><mn>2</mn></msubsup><mo>−</mo><msubsup><mi>r</mi><mrow><mi>b</mi><mn>2</mn></mrow><mn>2</mn></msubsup></mrow></msqrt><mo>−</mo><mi>a</mi><mspace width="0.222em"></mspace><mi>s</mi><mi>i</mi><mi>n</mi><mspace width="0.222em"></mspace><mi>α</mi></mrow><mrow><mi>π</mi><mspace width="0.222em"></mspace><mi>m</mi><mspace width="0.222em"></mspace><mi>c</mi><mi>o</mi><mi>s</mi><mspace width="0.222em"></mspace><mi>α</mi></mrow></mfrac></mrow></semantics></math></div><span class="eqn">(A.3)</span></div>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mi>t</mi></msub><mo>=</mo><mfrac><mrow><mn>2000</mn><mspace width="0.222em"></mspace><msub><mi>T</mi><mn>1</mn></msub></mrow><msub><mi>d</mi><mn>1</mn></msub></mfrac><mo>=</mo><mfrac><mrow><mn>2000</mn><mspace width="0.222em"></mspace><msub><mi>T</mi><mn>4</mn></msub></mrow><msub><mi>d</mi><mn>4</mn></msub></mfrac><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mi>r</mi><mi>a</mi><mspace width="0.222em"></mspace><mi>d</mi><mi>i</mi><mi>ş</mi><mi>l</mi><mi>i</mi><mi>l</mi><mi>e</mi><mi>r</mi><mi>d</mi><mi>e</mi><mspace width="0.222em"></mspace><msub><mi>F</mi><mi>t</mi></msub><mspace width="0.222em"></mspace><mi>d</mi><mi>e</mi><mi>ğ</mi><mi>i</mi><mi>ş</mi><mi>m</mi><mi>e</mi><mi>z</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></semantics></math></div><span class="eqn">(A.4)</span></div>
+<h3>A.2 Yüzey basıncı (pitting) – ISO 6336-2</h3>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>σ</mi><mi>H</mi></msub><mo>=</mo><msub><mi>Z</mi><mrow><mi>B</mi><mo>,</mo><mi>D</mi></mrow></msub><mspace width="0.222em"></mspace><msub><mi>Z</mi><mi>H</mi></msub><mspace width="0.222em"></mspace><msub><mi>Z</mi><mi>E</mi></msub><mspace width="0.222em"></mspace><msub><mi>Z</mi><mi>ε</mi></msub><mspace width="0.222em"></mspace><msqrt><mrow><mfrac><msub><mi>F</mi><mi>t</mi></msub><mrow><msub><mi>d</mi><mn>1</mn></msub><mspace width="0.222em"></mspace><mi>b</mi></mrow></mfrac><mo>⋅</mo><mfrac><mrow><mi>u</mi><mo>+</mo><mn>1</mn></mrow><mi>u</mi></mfrac></mrow></msqrt><mspace width="0.222em"></mspace><msqrt><mrow><msub><mi>K</mi><mi>A</mi></msub><mspace width="0.222em"></mspace><msub><mi>K</mi><mi>V</mi></msub><mspace width="0.222em"></mspace><msub><mi>K</mi><mrow><mi>H</mi><mi>β</mi></mrow></msub><mspace width="0.222em"></mspace><msub><mi>K</mi><mrow><mi>H</mi><mi>α</mi></mrow></msub></mrow></msqrt></mrow></semantics></math></div><span class="eqn">(A.5)</span></div>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>σ</mi><mrow><mi>H</mi><mi>P</mi></mrow></msub><mo>=</mo><mfrac><mrow><msub><mi>σ</mi><mrow><mi>H</mi><mo>,</mo><mi>l</mi><mi>i</mi><mi>m</mi></mrow></msub><mspace width="0.222em"></mspace><msub><mi>Z</mi><mrow><mi>N</mi><mi>T</mi></mrow></msub><mspace width="0.222em"></mspace><msub><mi>Z</mi><mi>L</mi></msub><mspace width="0.222em"></mspace><msub><mi>Z</mi><mi>V</mi></msub><mspace width="0.222em"></mspace><msub><mi>Z</mi><mi>R</mi></msub><mspace width="0.222em"></mspace><msub><mi>Z</mi><mi>W</mi></msub><mspace width="0.222em"></mspace><msub><mi>Z</mi><mi>X</mi></msub></mrow><msub><mi>S</mi><mrow><mi>H</mi><mo>,</mo><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub></mfrac></mrow></semantics></math></div><span class="eqn">(A.6)</span></div>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Z</mi><mi>H</mi></msub><mo>=</mo><msqrt><mfrac><mrow><mn>2</mn><mspace width="0.222em"></mspace><mi>c</mi><mi>o</mi><mi>s</mi><mspace width="0.222em"></mspace><msub><mi>β</mi><mi>b</mi></msub><mspace width="0.222em"></mspace><mi>c</mi><mi>o</mi><mi>s</mi><mspace width="0.222em"></mspace><msub><mi>α</mi><mrow><mi>w</mi><mi>t</mi></mrow></msub></mrow><mrow><msup><mo>cos</mo><mn>2</mn></msup><msub><mi>α</mi><mi>t</mi></msub><mspace width="0.222em"></mspace><mi>s</mi><mi>i</mi><mi>n</mi><mspace width="0.222em"></mspace><msub><mi>α</mi><mrow><mi>w</mi><mi>t</mi></mrow></msub></mrow></mfrac></msqrt><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><msub><mi>Z</mi><mi>E</mi></msub><mo>=</mo><msqrt><mfrac><mi>E</mi><mrow><mn>2</mn><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>ν</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac></msqrt><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><msub><mi>Z</mi><mi>ε</mi></msub><mo>=</mo><msqrt><mfrac><mrow><mn>4</mn><mo>−</mo><msub><mi>ε</mi><mi>α</mi></msub></mrow><mn>3</mn></mfrac></msqrt></mrow></semantics></math></div><span class="eqn">(A.7)</span></div>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Z</mi><mi>L</mi></msub><mo>=</mo><msub><mi>C</mi><mrow><mi>Z</mi><mi>L</mi></mrow></msub><mo>+</mo><mfrac><mrow><mn>4</mn><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>C</mi><mrow><mi>Z</mi><mi>L</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>+</mo><mfrac><mn>134</mn><msub><mi>ν</mi><mn>40</mn></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mfrac><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><msub><mi>Z</mi><mi>V</mi></msub><mo>=</mo><msub><mi>C</mi><mrow><mi>Z</mi><mi>V</mi></mrow></msub><mo>+</mo><mfrac><mrow><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>C</mi><mrow><mi>Z</mi><mi>V</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msqrt><mrow><mn>0</mn><mo>,</mo><mn>8</mn><mo>+</mo><mfrac><mn>32</mn><mi>v</mi></mfrac></mrow></msqrt></mfrac></mrow></semantics></math></div><span class="eqn">(A.8)</span></div>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Z</mi><mi>R</mi></msub><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>3</mn><msub><mi>R</mi><mrow><mi>z</mi><mn>10</mn></mrow></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><msub><mi>C</mi><mrow><mi>Z</mi><mi>R</mi></mrow></msub></msup><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><msub><mi>R</mi><mrow><mi>z</mi><mn>10</mn></mrow></msub><mo>=</mo><msub><mi>R</mi><mi>z</mi></msub><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>10</mn><msub><mi>ρ</mi><mrow><mi>r</mi><mi>e</mi><mi>d</mi></mrow></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>1</mn><mi>/</mi><mn>3</mn></mrow></msup><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><msub><mi>ρ</mi><mrow><mi>r</mi><mi>e</mi><mi>d</mi></mrow></msub><mo>=</mo><mfrac><mrow><msub><mi>ρ</mi><mn>1</mn></msub><mspace width="0.222em"></mspace><msub><mi>ρ</mi><mn>2</mn></msub></mrow><mrow><msub><mi>ρ</mi><mn>1</mn></msub><mo>+</mo><msub><mi>ρ</mi><mn>2</mn></msub></mrow></mfrac></mrow></semantics></math></div><span class="eqn">(A.9)</span></div>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>M</mi><mn>1</mn></msub><mo>=</mo><mfrac><mrow><mi>t</mi><mi>a</mi><mi>n</mi><mspace width="0.222em"></mspace><msub><mi>α</mi><mrow><mi>w</mi><mi>t</mi></mrow></msub></mrow><msqrt><mrow><mrow><mo stretchy="true" form="prefix">[</mo><msqrt><mrow><mfrac><msubsup><mi>d</mi><mrow><mi>a</mi><mn>1</mn></mrow><mn>2</mn></msubsup><msubsup><mi>d</mi><mrow><mi>b</mi><mn>1</mn></mrow><mn>2</mn></msubsup></mfrac><mo>−</mo><mn>1</mn></mrow></msqrt><mo>−</mo><mfrac><mrow><mn>2</mn><mi>π</mi></mrow><msub><mi>z</mi><mn>1</mn></msub></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mrow><mo stretchy="true" form="prefix">[</mo><msqrt><mrow><mfrac><msubsup><mi>d</mi><mrow><mi>a</mi><mn>2</mn></mrow><mn>2</mn></msubsup><msubsup><mi>d</mi><mrow><mi>b</mi><mn>2</mn></mrow><mn>2</mn></msubsup></mfrac><mo>−</mo><mn>1</mn></mrow></msqrt><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>ε</mi><mi>α</mi></msub><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><mrow><mn>2</mn><mi>π</mi></mrow><msub><mi>z</mi><mn>2</mn></msub></mfrac><mo stretchy="true" form="postfix">]</mo></mrow></mrow></msqrt></mfrac><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><msub><mi>Z</mi><mi>B</mi></msub><mo>=</mo><mi>m</mi><mi>a</mi><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>,</mo><mspace width="0.222em"></mspace><msub><mi>M</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></semantics></math></div><span class="eqn">(A.10)</span></div>
+<h3>A.3 Diş dibi eğilmesi – ISO 6336-3</h3>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>σ</mi><mi>F</mi></msub><mo>=</mo><mfrac><msub><mi>F</mi><mi>t</mi></msub><mrow><mi>b</mi><mspace width="0.222em"></mspace><msub><mi>m</mi><mi>n</mi></msub></mrow></mfrac><mspace width="0.222em"></mspace><msub><mi>Y</mi><mi>F</mi></msub><mspace width="0.222em"></mspace><msub><mi>Y</mi><mi>S</mi></msub><mspace width="0.222em"></mspace><msub><mi>Y</mi><mi>β</mi></msub><mspace width="0.222em"></mspace><msub><mi>Y</mi><mi>B</mi></msub><mspace width="0.222em"></mspace><msub><mi>Y</mi><mrow><mi>D</mi><mi>T</mi></mrow></msub><mspace width="0.222em"></mspace><msub><mi>K</mi><mi>A</mi></msub><mspace width="0.222em"></mspace><msub><mi>K</mi><mi>V</mi></msub><mspace width="0.222em"></mspace><msub><mi>K</mi><mrow><mi>F</mi><mi>β</mi></mrow></msub><mspace width="0.222em"></mspace><msub><mi>K</mi><mrow><mi>F</mi><mi>α</mi></mrow></msub></mrow></semantics></math></div><span class="eqn">(A.11)</span></div>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>σ</mi><mrow><mi>F</mi><mi>P</mi></mrow></msub><mo>=</mo><mfrac><mrow><msub><mi>σ</mi><mrow><mi>F</mi><mo>,</mo><mi>l</mi><mi>i</mi><mi>m</mi></mrow></msub><mspace width="0.222em"></mspace><msub><mi>Y</mi><mrow><mi>S</mi><mi>T</mi></mrow></msub><mspace width="0.222em"></mspace><msub><mi>Y</mi><mrow><mi>N</mi><mi>T</mi></mrow></msub><mspace width="0.222em"></mspace><msub><mi>Y</mi><mrow><mi>δ</mi><mi>r</mi><mi>e</mi><mi>l</mi><mi>T</mi></mrow></msub><mspace width="0.222em"></mspace><msub><mi>Y</mi><mrow><mi>R</mi><mi>r</mi><mi>e</mi><mi>l</mi><mi>T</mi></mrow></msub><mspace width="0.222em"></mspace><msub><mi>Y</mi><mi>X</mi></msub><mspace width="0.222em"></mspace><msub><mi>Y</mi><mi>M</mi></msub></mrow><msub><mi>S</mi><mrow><mi>F</mi><mo>,</mo><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub></mfrac><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><msub><mi>Y</mi><mrow><mi>S</mi><mi>T</mi></mrow></msub><mo>=</mo><mn>2</mn><mo>,</mo><mn>0</mn><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><msub><mi>Y</mi><mi>M</mi></msub><mo>=</mo><mn>0</mn><mo>,</mo><mn>7</mn><mspace width="0.222em"></mspace><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mi>r</mi><mi>a</mi><mspace width="0.222em"></mspace><mi>d</mi><mi>i</mi><mi>ş</mi><mi>l</mi><mi>i</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></semantics></math></div><span class="eqn">(A.12)</span></div>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mi>F</mi></msub><mo>=</mo><mfrac><mrow><mn>6</mn><mspace width="0.222em"></mspace><mfrac><msub><mi>h</mi><mrow><mi>F</mi><mi>e</mi></mrow></msub><msub><mi>m</mi><mi>n</mi></msub></mfrac><mspace width="0.222em"></mspace><mi>c</mi><mi>o</mi><mi>s</mi><mspace width="0.222em"></mspace><msub><mi>α</mi><mrow><mi>F</mi><mi>e</mi><mi>n</mi></mrow></msub></mrow><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>s</mi><mrow><mi>F</mi><mi>n</mi></mrow></msub><msub><mi>m</mi><mi>n</mi></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mspace width="0.222em"></mspace><mi>c</mi><mi>o</mi><mi>s</mi><mspace width="0.222em"></mspace><msub><mi>α</mi><mi>n</mi></msub></mrow></mfrac></mrow></semantics></math></div><span class="eqn">(A.13)</span></div>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mi>S</mi></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>+</mo><mn>0</mn><mo>,</mo><mn>13</mn><mspace width="0.222em"></mspace><mi>L</mi><mo stretchy="true" form="postfix">)</mo></mrow><msup><msub><mi>q</mi><mi>s</mi></msub><mfrac><mn>1</mn><mrow><mn>1</mn><mo>,</mo><mn>21</mn><mo>+</mo><mfrac><mrow><mn>2</mn><mo>,</mo><mn>3</mn></mrow><mi>L</mi></mfrac></mrow></mfrac></msup><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><mi>L</mi><mo>=</mo><mfrac><msub><mi>s</mi><mrow><mi>F</mi><mi>n</mi></mrow></msub><msub><mi>h</mi><mrow><mi>F</mi><mi>e</mi></mrow></msub></mfrac><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><msub><mi>q</mi><mi>s</mi></msub><mo>=</mo><mfrac><msub><mi>s</mi><mrow><mi>F</mi><mi>n</mi></mrow></msub><mrow><mn>2</mn><mspace width="0.222em"></mspace><msub><mi>ρ</mi><mi>F</mi></msub></mrow></mfrac></mrow></semantics></math></div><span class="eqn">(A.14)</span></div>
+<p class="fx-note">Diş dibi kesit kalınlığı sFn, yük kolu hFe ve taban eğrilik yarıçapı
+ρF ISO 6336-3 Yöntem B'deki 30° teğet yapısıyla, takım profili hfP =
+1,25·m, ρfP = 0,38·m ve tek diş çifti kavramasının dış noktasında yük
+uygulanarak iteratif olarak hesaplanmıştır:</p>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mi>G</mi></mrow><msub><mi>z</mi><mi>n</mi></msub></mfrac><mi>t</mi><mi>a</mi><mi>n</mi><mspace width="0.222em"></mspace><mi>θ</mi><mo>−</mo><mi>H</mi><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><msub><mi>s</mi><mrow><mi>F</mi><mi>n</mi></mrow></msub><mo>=</mo><msub><mi>m</mi><mi>n</mi></msub><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>z</mi><mi>n</mi></msub><mspace width="0.222em"></mspace><mi>s</mi><mi>i</mi><mi>n</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>π</mi><mi>/</mi><mn>3</mn><mo>−</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><msqrt><mn>3</mn></msqrt><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>G</mi><mrow><mi>c</mi><mi>o</mi><mi>s</mi><mspace width="0.222em"></mspace><mi>θ</mi></mrow></mfrac><mo>−</mo><mfrac><msub><mi>ρ</mi><mrow><mi>f</mi><mi>P</mi></mrow></msub><msub><mi>m</mi><mi>n</mi></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow></mrow></semantics></math></div><span class="eqn">(A.15)</span></div>
+<h3>A.4 Yük faktörleri – ISO 6336-1</h3>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mi>V</mi></msub><mo>=</mo><mn>1</mn><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>K</mi><mn>1</mn></msub><mrow><msub><mi>K</mi><mi>A</mi></msub><mspace width="0.222em"></mspace><msub><mi>F</mi><mi>t</mi></msub><mi>/</mi><mi>b</mi></mrow></mfrac><mo>+</mo><msub><mi>K</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><mrow><msub><mi>z</mi><mn>1</mn></msub><mspace width="0.222em"></mspace><mi>v</mi></mrow><mn>100</mn></mfrac><msqrt><mfrac><msup><mi>u</mi><mn>2</mn></msup><mrow><mn>1</mn><mo>+</mo><msup><mi>u</mi><mn>2</mn></msup></mrow></mfrac></msqrt><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><msub><mi>K</mi><mi>A</mi></msub><msub><mi>F</mi><mi>t</mi></msub><mi>/</mi><mi>b</mi><mspace width="0.222em"></mspace><mo>≥</mo><mspace width="0.222em"></mspace><mn>100</mn><mspace width="0.222em"></mspace><mi>N</mi><mi>/</mi><mi>m</mi><mi>m</mi></mrow></semantics></math></div><span class="eqn">(A.16)</span></div>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi>F</mi><mi>β</mi></mrow></msub><mo>=</mo><msup><msub><mi>K</mi><mrow><mi>H</mi><mi>β</mi></mrow></msub><msub><mi>N</mi><mi>F</mi></msub></msup><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><msub><mi>N</mi><mi>F</mi></msub><mo>=</mo><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>b</mi><mi>/</mi><mi>h</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mrow><mn>1</mn><mo>+</mo><mi>b</mi><mi>/</mi><mi>h</mi><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>b</mi><mi>/</mi><mi>h</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow></mfrac></mrow></semantics></math></div><span class="eqn">(A.17)</span></div>
+<h3>A.5 Tork kapasitesinin belirlenmesi</h3>
+<p class="fx-note">KV teğetsel kuvvete bağlı olduğundan, her kavrama ve her dişli için
+σH = σHP ve σF = σFP koşullarını sağlayan en büyük teğetsel kuvvet
+sayısal olarak (ikiye bölme yöntemiyle) bulunmuştur. Zincirdeki en küçük
+değer giriş torkuna (Dişli 01) dönüştürülmüştür:</p>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mn>1</mn><mo>,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>d</mi><mn>1</mn></msub><mn>2000</mn></mfrac><mo>⋅</mo><msub><mo>min</mo><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>F</mi><mrow><mi>t</mi><mo>,</mo><mi>H</mi><mo>,</mo><mi>k</mi></mrow></msub><mo>,</mo><mspace width="0.222em"></mspace><msub><mi>F</mi><mrow><mi>t</mi><mo>,</mo><mi>F</mi><mo>,</mo><mi>k</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></semantics></math></div><span class="eqn">(A.18)</span></div>
+<h3>A.6 Tek seferlik aşırı yük ve ısıl sınır</h3>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>σ</mi><mrow><mi>H</mi><mi>P</mi><mo>,</mo><mi>s</mi><mi>t</mi><mi>a</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mi>σ</mi><mrow><mi>H</mi><mo>,</mo><mi>l</mi><mi>i</mi><mi>m</mi></mrow></msub><mspace width="0.222em"></mspace><msub><mi>Z</mi><mrow><mi>N</mi><mi>T</mi><mo>,</mo><mi>s</mi><mi>t</mi><mi>a</mi><mi>t</mi></mrow></msub><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><msub><mi>σ</mi><mrow><mi>F</mi><mi>P</mi><mo>,</mo><mi>s</mi><mi>t</mi><mi>a</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mi>σ</mi><mrow><mi>F</mi><mo>,</mo><mi>l</mi><mi>i</mi><mi>m</mi></mrow></msub><mspace width="0.222em"></mspace><msub><mi>Y</mi><mrow><mi>S</mi><mi>T</mi></mrow></msub><mspace width="0.222em"></mspace><msub><mi>Y</mi><mrow><mi>N</mi><mi>T</mi><mo>,</mo><mi>s</mi><mi>t</mi><mi>a</mi><mi>t</mi></mrow></msub></mrow></semantics></math></div><span class="eqn">(A.19)</span></div>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mrow><mi>t</mi><mi>h</mi></mrow></msub><mo>≈</mo><mfrac><mrow><mi>k</mi><mspace width="0.222em"></mspace><mi>A</mi><mspace width="0.222em"></mspace><mi>Δ</mi><mi>T</mi></mrow><mrow><mn>1</mn><mo>−</mo><msub><mi>η</mi><mrow><mi>t</mi><mi>o</mi><mi>p</mi></mrow></msub></mrow></mfrac><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><msub><mi>T</mi><mrow><mn>1</mn><mo>,</mo><mi>t</mi><mi>h</mi></mrow></msub><mo>=</mo><mfrac><mrow><mn>60</mn><mspace width="0.222em"></mspace><msub><mi>P</mi><mrow><mi>t</mi><mi>h</mi></mrow></msub></mrow><mrow><mn>2</mn><mi>π</mi><mspace width="0.222em"></mspace><msub><mi>n</mi><mn>1</mn></msub></mrow></mfrac></mrow></semantics></math></div><span class="eqn">(A.20)</span></div>
+<h3>A.7 Kavrama kayıpları ve sıcaklık artışı</h3>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mrow><mi>V</mi><mo>,</mo><mi>z</mi></mrow></msub><mo>=</mo><msub><mi>μ</mi><mi>m</mi></msub><mspace width="0.222em"></mspace><msub><mi>H</mi><mi>V</mi></msub><mspace width="0.222em"></mspace><mi>P</mi><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><msub><mi>H</mi><mi>V</mi></msub><mo>=</mo><mfrac><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>u</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><msub><mi>z</mi><mn>1</mn></msub><mspace width="0.222em"></mspace><mi>u</mi><mspace width="0.222em"></mspace><mi>c</mi><mi>o</mi><mi>s</mi><mspace width="0.222em"></mspace><msub><mi>β</mi><mi>b</mi></msub></mrow></mfrac><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>ε</mi><mi>α</mi></msub><mo>+</mo><msubsup><mi>ε</mi><mn>1</mn><mn>2</mn></msubsup><mo>+</mo><msubsup><mi>ε</mi><mn>2</mn><mn>2</mn></msubsup><mo stretchy="true" form="postfix">)</mo></mrow></mrow></semantics></math></div><span class="eqn">(A.21)</span></div>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ε</mi><mrow><mn>1</mn><mo>,</mo><mn>2</mn></mrow></msub><mo>=</mo><mfrac><msub><mi>z</mi><mrow><mn>1</mn><mo>,</mo><mn>2</mn></mrow></msub><mrow><mn>2</mn><mi>π</mi></mrow></mfrac><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mi>a</mi><mi>n</mi><mspace width="0.222em"></mspace><msub><mi>α</mi><mrow><mi>a</mi><mn>1</mn><mo>,</mo><mn>2</mn></mrow></msub><mo>−</mo><mi>t</mi><mi>a</mi><mi>n</mi><mspace width="0.222em"></mspace><msub><mi>α</mi><mrow><mi>w</mi><mi>t</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><mi>Δ</mi><mi>T</mi><mo>=</mo><mfrac><msub><mi>P</mi><mrow><mi>V</mi><mo>,</mo><mi>t</mi><mi>o</mi><mi>p</mi></mrow></msub><mrow><mi>k</mi><mspace width="0.222em"></mspace><mi>A</mi></mrow></mfrac></mrow></semantics></math></div><span class="eqn">(A.22)</span></div>
+<h3>A.8 Yağ filmi kalınlığı (Dowson–Higginson)</h3>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mo>min</mo></msub><mo>=</mo><mn>2</mn><mo>,</mo><mn>65</mn><mspace width="0.222em"></mspace><msup><mi>U</mi><mrow><mn>0</mn><mo>,</mo><mn>7</mn></mrow></msup><mspace width="0.222em"></mspace><msup><mi>G</mi><mrow><mn>0</mn><mo>,</mo><mn>54</mn></mrow></msup><mspace width="0.222em"></mspace><msup><mi>W</mi><mrow><mo>−</mo><mn>0</mn><mo>,</mo><mn>13</mn></mrow></msup><mspace width="0.222em"></mspace><mi>R</mi></mrow></semantics></math></div><span class="eqn">(A.23)</span></div>
+<div class="eq"><div class="eq-m"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>U</mi><mo>=</mo><mfrac><mrow><msub><mi>η</mi><mn>0</mn></msub><mspace width="0.222em"></mspace><msub><mi>u</mi><mi>r</mi></msub></mrow><mrow><mi>E</mi><mi>′</mi><mspace width="0.222em"></mspace><mi>R</mi></mrow></mfrac><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><mi>G</mi><mo>=</mo><msub><mi>α</mi><mi>p</mi></msub><mi>E</mi><mi>′</mi><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><mi>W</mi><mo>=</mo><mfrac><mi>w</mi><mrow><mi>E</mi><mi>′</mi><mspace width="0.222em"></mspace><mi>R</mi></mrow></mfrac><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><msub><mi>u</mi><mi>r</mi></msub><mo>=</mo><mi>v</mi><mspace width="0.222em"></mspace><mi>s</mi><mi>i</mi><mi>n</mi><mspace width="0.222em"></mspace><msub><mi>α</mi><mrow><mi>w</mi><mi>t</mi></mrow></msub><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><mi>λ</mi><mo>=</mo><mfrac><msub><mi>h</mi><mo>min</mo></msub><msqrt><mrow><msubsup><mi>R</mi><mrow><mi>q</mi><mn>1</mn></mrow><mn>2</mn></msubsup><mo>+</mo><msubsup><mi>R</mi><mrow><mi>q</mi><mn>2</mn></mrow><mn>2</mn></msubsup></mrow></msqrt></mfrac></mrow></semantics></math></div><span class="eqn">(A.24)</span></div>
+<p class="fx-note"></div></details>
+</section>
+
+<section id="sozluk">
+  <div class="sec-head"><span class="sec-no">8</span><h2>Kısaltmalar ve semboller sözlüğü</h2>
+  <p>Raporda geçen kısaltmalar, semboller ve ISO 6336 faktörleri. Arama kutusu sembol, ad ve açıklamada arar.</p></div>
+  <div class="gl-tools">
+    <label class="search"><span aria-hidden="true">⌕</span><input type="search" id="glq" placeholder="Ara: örneğin Z_L, viskozite, FZG" aria-label="Sözlükte ara"></label>
+    <div class="gl-cats" id="glCats" role="group" aria-label="Kategori"></div>
+  </div>
+  <div class="small muted" id="glCount"></div>
+  <div class="gl" id="glList"></div>
+</section>
+</main>
+<footer><div class="wrap">Dişli kutusu mukavemet değerlendirmesi, 6 Ekim 2026. Parçalar 260708051, 260708052 ve 260708053. Hesaplar ISO 6336 esaslıdır, ısıl ve yağ filmi değerleri tahminidir.</div></footer>
+
+<script>
+const ENG=(()=>{
+const m=2.5, an=20*Math.PI/180, b=30, inv=a=>Math.tan(a)-a;
+const geo=z=>{const d=m*z;return{z,d,db:d*Math.cos(an),da:d+2*m}};
+const G={g1:geo(36),g3:geo(44),g4:geo(44)};
+function epsA(g1,g2){const a=(g1.d+g2.d)/2;return (Math.sqrt((g1.da/2)**2-(g1.db/2)**2)+Math.sqrt((g2.da/2)**2-(g2.db/2)**2)-a*Math.sin(an))/(Math.PI*m*Math.cos(an))}
+function YFYS(z,ea){const hfP=1.25*m,rfP=0.38*m;
+ const E=Math.PI/4*m-hfP*Math.tan(an)-(1-Math.sin(an))*rfP/Math.cos(an);
+ const Gg=rfP/m-hfP/m, H=2/z*(Math.PI/2-E/m)-Math.PI/3; let th=Math.PI/6;
+ for(let i=0;i<200;i++) th=2*Gg/z*Math.tan(th)-H;
+ const sFn=m*(z*Math.sin(Math.PI/3-th)+Math.sqrt(3)*(Gg/Math.cos(th)-rfP/m));
+ const rF=m*(rfP/m+2*Gg*Gg/(Math.cos(th)*(z*Math.cos(th)**2-2*Gg)));
+ const d=m*z,db=d*Math.cos(an),da=d+2*m;
+ const den=2*Math.sqrt((Math.sqrt((da/2)**2-(db/2)**2)-Math.PI*d*Math.cos(an)/z*(ea-1))**2+(db/2)**2);
+ const aen=Math.acos(db/den), ge=(0.5*Math.PI)/z+inv(an)-inv(aen), aFen=aen-ge;
+ const hFe=0.5*m*((Math.cos(ge)-Math.sin(ge)*Math.tan(aFen))*den/m-z*Math.cos(Math.PI/3-th)-Gg/Math.cos(th)+rfP/m);
+ const YF=6*hFe/m*Math.cos(aFen)/((sFn/m)**2*Math.cos(an)); const L=sFn/hFe, qs=sFn/(2*rF);
+ return {YF,YS:(1.2+0.13*L)*qs**(1/(1.21+2.3/L))}}
+function ZBD(g1,g2,ea){const t=Math.tan(an),f=g=>Math.sqrt(g.da**2/g.db**2-1);
+ const M1=t/Math.sqrt((f(g1)-2*Math.PI/g1.z)*(f(g2)-(ea-1)*2*Math.PI/g2.z));
+ const M2=t/Math.sqrt((f(g2)-2*Math.PI/g2.z)*(f(g1)-(ea-1)*2*Math.PI/g1.z));
+ return [Math.max(1,M1),Math.max(1,M2)]}
+function ZLVR(sHlim,v,nu40,Rz,rr){
+ const CZL=sHlim<850?0.83:(sHlim>1200?0.91:0.08*(sHlim-850)/350+0.83);
+ const ZL=CZL+4*(1-CZL)/(1.2+134/nu40)**2, CZV=CZL+0.02, ZV=CZV+2*(1-CZV)/Math.sqrt(0.8+32/v);
+ const CZR=sHlim<850?0.15:(sHlim>1200?0.08:0.32-0.0002*sHlim);
+ const Rz10=Rz*Math.cbrt(10/rr); return ZL*ZV*(3/Rz10)**CZR}
+const K1={6:14.9,7:26.8,8:39.1};
+const MAT={carb:{sHlim:1500,sFlim:500,hard:true,Rz:4,Rq:0.5},unt:{sHlim:370,sFlim:0.455*180+69,hard:false,Rz:6.3,Rq:1.0}};
+// precompute mesh constants
+const MESH=[{p:G.g1,w:G.g3,ip:false,iw:true,name:'1–3'},{p:G.g3,w:G.g3,ip:true,iw:true,name:'3–3'},{p:G.g3,w:G.g4,ip:true,iw:false,name:'3–4'}].map(M=>{
+ const u=M.w.z/M.p.z, ea=epsA(M.p,M.w), Ze=Math.sqrt((4-ea)/3), zb=ZBD(M.p,M.w,ea), a=(M.p.d+M.w.d)/2;
+ const rr=a*Math.sin(an)*u/(1+u)**2; return {...M,u,ea,Ze,ZB:Math.max(...zb),rr,Yp:YFYS(M.p.z,ea),Yw:YFYS(M.w.z,ea)}});
+const NF=(b/(2.25*m))**2/(1+b/(2.25*m)+(b/(2.25*m))**2);
+// evaluate chain: returns min safety factors
+function evalChain(n1,T1,o){
+ const mat=MAT[o.mat], v=Math.PI*90*n1/60000, Ft=T1/0.045, KA=o.KA||1, Q=o.Q||7, KHb=1.15, KFb=KHb**NF, KHa=(mat.hard&&Q>=7)?1.1:1.0, nu=o.nu40fixed||200;
+ let SH=1e9,SHm='',SF={D1:1e9,D3:1e9,D4:1e9},sHmax=0;
+ for(const M of MESH){
+  const w=Math.max(KA*Ft/b,100), KV=1+(K1[Q]/w+0.0193)*M.p.z*v/100*Math.sqrt(M.u*M.u/(1+M.u*M.u));
+  const sH=M.ZB*2.495*189.8*M.Ze*Math.sqrt(Ft/(M.p.d*b)*(M.u+1)/M.u)*Math.sqrt(KA*KV*KHb*KHa);
+  const sHP=mat.sHlim*ZLVR(mat.sHlim,v,nu,mat.Rz,M.rr);
+  if(sHP/sH<SH){SH=sHP/sH;SHm=M.name;sHmax=sH}
+  const sF=Y=>Ft/(b*m)*Y.YF*Y.YS*KA*KV*KFb*KHa;
+  const fp=mat.sFlim*2*(M.ip?0.7:1)/sF(M.Yp), fw=mat.sFlim*2*(M.iw?0.7:1)/sF(M.Yw);
+  if(M.name==='1–3'){SF.D1=Math.min(SF.D1,fp);SF.D3=Math.min(SF.D3,fw)}
+  else if(M.name==='3–3'){SF.D3=Math.min(SF.D3,fp,fw)}
+  else {SF.D3=Math.min(SF.D3,fp);SF.D4=Math.min(SF.D4,fw)}
+ }
+ const SFmin=Math.min(SF.D1,SF.D3,SF.D4), SFg=Object.keys(SF).find(k=>SF[k]===SFmin);
+ return {SH,SHm,SF,SFmin,SFg,sH:sHmax,v}}
+function capacity(n1,o,SHmin,SFmin){let lo=0.1,hi=5000;
+ for(let i=0;i<60;i++){const mid=(lo+hi)/2,r=evalChain(n1,mid,o); if(r.SH>=SHmin&&r.SFmin>=SFmin)lo=mid;else hi=mid}
+ return lo}
+function walther(n40,n100,TC){const f=n=>Math.log10(Math.log10(n+0.7));const T1=313.15,T2=373.15;
+ const B=(f(n40)-f(n100))/(Math.log10(T2)-Math.log10(T1)),A=f(n40)+B*Math.log10(T1);return 10**(10**(A-B*Math.log10(TC+273.15)))-0.7}
+const VG={220:19.0,460:30.5,680:38.0};
+function lambda(n1,T1,VGc,TC,mat){const nu=walther(VGc,VG[VGc],TC),eta=nu*1e-6*870,Ep=2.1e11/(1-0.09),ap=2.2e-8,R=8.46e-3;
+ const v=Math.PI*0.09*n1/60,u=v*Math.sin(an),wl=(T1/0.045)/(0.03*Math.cos(an))*1.15;
+ const U=eta*u/(Ep*R),Gp=ap*Ep,W=wl/(Ep*R),h=2.65*U**0.7*Gp**0.54*W**-0.13*R;
+ const s=Math.SQRT2*MAT[mat].Rq*1e-6; return {lam:h/s,h:h*1e6,nu}}
+function thermal(n1,T1,kA,Tamb){const P=T1*2*Math.PI*n1/60, loss=P*0.03, dT=loss/kA; return {P,loss,dT,Th:Tamb+dT}}
+return {evalChain,capacity,lambda,thermal,MESH,MAT}})();
+
+
+</script>
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const fmt=(x,d=0)=>Number(x).toFixed(d).replace('.',',');
+const NS='http://www.w3.org/2000/svg';
+const DEF={mat:'carb',n1:615,tw:180,tp:290,vg:460,q:7,ka:1,kA:3.15,ta:25};
+const S={...DEF};
+// ---------- theme
+const root=document.documentElement;
+try{const t=localStorage.getItem('dk-theme');if(t)root.setAttribute('data-theme',t)}catch(e){}
+$('#themeBtn').addEventListener('click',()=>{
+  const dark=root.getAttribute('data-theme')?root.getAttribute('data-theme')==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+  const nt=dark?'light':'dark';root.setAttribute('data-theme',nt);try{localStorage.setItem('dk-theme',nt)}catch(e){}
+  drawCharts(true);
+});
+const css=v=>getComputedStyle(root).getPropertyValue(v).trim();
+// ---------- gears
+const GEARS=[{z:36,cx:0,name:'Dişli 01',role:'giriş'},{z:44,cx:100,name:'Dişli 03',role:'ara'},{z:44,cx:210,name:'Dişli 03',role:'ara'},{z:44,cx:320,name:'Dişli 04',role:'çıkış'}];
+function gearPath(z){const m=2.5,a=20*Math.PI/180,r=m*z/2,rb=r*Math.cos(a),ra=r+m,rf=r-1.25*m,inv=x=>Math.tan(x)-x,half=Math.PI/(2*z)+inv(a);
+  const r0=Math.max(rb,rf),N=5,pts=[],P=(rr,t)=>[rr*Math.cos(t),rr*Math.sin(t)],psi=rr=>half-inv(Math.acos(Math.min(1,rb/rr)));
+  for(let k=0;k<z;k++){const c=k*2*Math.PI/z;
+    pts.push(P(rf,c-half));
+    for(let i=0;i<=N;i++){const rr=r0+(ra-r0)*i/N;pts.push(P(rr,c-psi(rr)))}
+    for(let i=N;i>=0;i--){const rr=r0+(ra-r0)*i/N;pts.push(P(rr,c+psi(rr)))}
+    pts.push(P(rf,c+half));}
+  let d='M'+pts.map(p=>p[0].toFixed(2)+' '+p[1].toFixed(2)).join('L')+'Z';
+  const hb=z===44&&false?26:16; // bore
+  return d;}
+const svg=$('#gearSvg');const gEls=[];
+GEARS.forEach((g,i)=>{
+  const grp=document.createElementNS(NS,'g');grp.setAttribute('transform',`translate(${g.cx},0)`);
+  const rot=document.createElementNS(NS,'g');
+  const body=document.createElementNS(NS,'path');
+  const bore=(i===1||i===2)?26:17.35;
+  body.setAttribute('d',gearPath(g.z)+` M${bore} 0 A${bore} ${bore} 0 1 0 ${-bore} 0 A${bore} ${bore} 0 1 0 ${bore} 0Z`);
+  body.setAttribute('fill-rule','evenodd');body.setAttribute('class','gbody');
+  body.style.stroke='var(--ink)';body.style.strokeWidth='0.5';
+  const pc=document.createElementNS(NS,'circle');pc.setAttribute('r',g.z*1.25);pc.setAttribute('fill','none');pc.style.stroke='var(--ink)';pc.style.strokeOpacity='.35';pc.style.strokeWidth='.35';pc.setAttribute('stroke-dasharray','2 2');
+  const mk=document.createElementNS(NS,'circle');mk.setAttribute('cx',(g.z*1.25-9).toFixed(1));mk.setAttribute('r','2');mk.style.fill='var(--ink)';mk.style.opacity='.55';
+  rot.append(body,pc,mk);grp.append(rot);
+  const t1=document.createElementNS(NS,'text');t1.setAttribute('y','70');t1.setAttribute('text-anchor','middle');t1.style.cssText='font:600 9px var(--cond);fill:var(--ink)';t1.textContent=g.name+' ('+g.role+')';
+  const t2=document.createElementNS(NS,'text');t2.setAttribute('y','79');t2.setAttribute('text-anchor','middle');t2.style.cssText='font:400 7.5px var(--font);fill:var(--ink-2)';
+  grp.append(t1,t2);svg.append(grp);gEls.push({rot,body,t2,...g});
+});
+const STOPS=[[40,[154,164,173]],[70,[210,176,90]],[95,[176,122,58]],[120,[110,75,140]],[140,[63,95,166]]];
+function tint(T){if(T<=STOPS[0][0])return `rgb(${STOPS[0][1]})`;for(let i=1;i<STOPS.length;i++){if(T<=STOPS[i][0]){const[a,ca]=STOPS[i-1],[b,cb]=STOPS[i],f=(T-a)/(b-a);return `rgb(${ca.map((c,j)=>Math.round(c+(cb[j]-c)*f)).join(',')})`}}return `rgb(${STOPS[4][1]})`}
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;let playing=!reduce,th1=0,last=null;
+const playBtn=$('#playBtn');function setPlayLbl(){playBtn.textContent=playing?'Durdur':'Oynat';playBtn.setAttribute('aria-pressed',String(!playing))}setPlayLbl();
+playBtn.addEventListener('click',()=>{playing=!playing;last=null;setPlayLbl();if(playing)requestAnimationFrame(tick)});
+function place(){const z=GEARS.map(g=>g.z);let th=[th1];
+  for(let j=1;j<4;j++){const zi=z[j-1],zj=z[j];th[j]=Math.PI-th[j-1]*zi/zj-Math.PI/zj}
+  gEls.forEach((g,i)=>g.rot.setAttribute('transform',`rotate(${(th[i]*180/Math.PI).toFixed(3)})`));}
+function tick(ts){if(!playing)return;if(last!=null){const dt=Math.min(.1,(ts-last)/1000);th1+=S.n1*2*Math.PI/60*0.02*dt}last=ts;place();requestAnimationFrame(tick)}
+place();if(playing)requestAnimationFrame(tick);
+// ---------- controls
+function bindRange(id,key,out,f){const el=$('#'+id);el.addEventListener('input',()=>{S[key]=parseFloat(el.value);update()});}
+bindRange('n1','n1');bindRange('tw','tw');bindRange('tp','tp');bindRange('ka','ka');bindRange('kA','kA');bindRange('ta','ta');
+function seg(attr,key,num){$$(`[data-${attr}]`).forEach(b=>b.addEventListener('click',()=>{S[key]=num?parseFloat(b.dataset[attr]):b.dataset[attr];update(attr==='q'||attr==='mat')}))}
+seg('mat','mat');seg('vg','vg',true);seg('q','q',true);
+const PRESETS={615:{n1:615,tw:180,tp:290},200:{n1:200,tw:180,tp:290},2500:{n1:2500,tw:180,tp:290}};
+$$('[data-preset]').forEach(b=>b.addEventListener('click',()=>{Object.assign(S,PRESETS[b.dataset.preset]);update()}));
+$('#resetBtn').addEventListener('click',()=>{Object.assign(S,DEF);update(true)});
+function syncUI(){
+  for(const[id,k]of[['n1','n1'],['tw','tw'],['tp','tp'],['ka','ka'],['kA','kA'],['ta','ta']])$('#'+id).value=S[k];
+  $('#n1o').textContent=fmt(S.n1)+' d/d';$('#two').textContent=fmt(S.tw)+' N·m';$('#tpo').textContent=fmt(S.tp)+' N·m';
+  $('#kao').textContent=fmt(S.ka,2);$('#kAo').textContent=fmt(S.kA,2)+' W/K';$('#tao').textContent=fmt(S.ta)+' °C';
+  $$('[data-mat]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mat===S.mat)));
+  $$('[data-vg]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.vg===S.vg)));
+  $$('[data-q]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.q===S.q)));
+  $$('[data-preset]').forEach(b=>{const p=PRESETS[b.dataset.preset];b.setAttribute('aria-pressed',String(p.n1===S.n1&&p.tw===S.tw&&p.tp===S.tp))});
+}
+const st=(cls,t)=>`<span class="st ${cls}">${t}</span>`;
+let R={};
+function compute(){
+  const o={mat:S.mat,Q:S.q,KA:S.ka};
+  const w=ENG.evalChain(S.n1,S.tw,o),p=ENG.evalChain(S.n1,S.tp,o);
+  const th=ENG.thermal(S.n1,S.tw,S.kA,S.ta);
+  const lam=ENG.lambda(S.n1,S.tw,S.vg,th.Th,S.mat);
+  const cap=ENG.capacity(S.n1,o,1.25,1.5);
+  R={w,p,th,lam,cap,v:w.v};return R;}
+function regime(l){return l>=3?['ok','Tam film']:l>=1?['ok','Karışık rejim, iyi']:l>=0.5?['warn','Karışık rejim']:l>=0.3?['warn','Sınır–karışık rejim']:['bad','Sınır rejimi']}
+function zone(v){return v<=5?['ok','Gres uygun']:v<=10?['warn','Akışkan gres, ısıl doğrulama']:['bad','Yağ yağlaması gerekli']}
+function sfx(x,t,soft=1){return x>=t?'ok':x>=soft?'warn':'bad'}
+function render(){
+  const {w,p,th,lam,cap,v}=R;const gname={D1:'Dişli 01',D3:'Dişli 03',D4:'Dişli 04'};
+  $('#n1h').textContent=`Bölüm dairesi hızı ${fmt(v,1)} m/s. ${zone(v)[1]}.`;
+  const rows=[
+    ['Temas basıncı σ<sub>H</sub>, çalışma torku',fmt(w.sH)+' MPa','Bilgi amaçlı',st('info',`Kavrama ${w.SHm.replace('–','–')}`)],
+    ['Pitting emniyeti S<sub>H</sub>, çalışma torku',fmt(w.SH,2),'≥ 1,25',st(sfx(w.SH,1.25),w.SH>=1.25?'Sağlıyor':w.SH>=1?'Hedefin altında':'Hasar')],
+    [`Diş dibi emniyeti S<sub>F</sub>, ${gname[w.SFg]}, çalışma torku`,fmt(w.SFmin,2),'≥ 1,5',st(sfx(w.SFmin,1.5),w.SFmin>=1.5?'Sağlıyor':w.SFmin>=1?'Hedefin altında':'Hasar')],
+    ['Pitting emniyeti S<sub>H</sub>, tepe torku',fmt(p.SH,2),'≥ 1,25',st(sfx(p.SH,1.25),p.SH>=1.25?'Sağlıyor':p.SH>=1?'Hedefin altında':'Hasar')],
+    [`Diş dibi emniyeti S<sub>F</sub>, ${gname[p.SFg]}, tepe torku`,fmt(p.SFmin,2),'≥ 1,5',st(sfx(p.SFmin,1.5),p.SFmin>=1.5?'Sağlıyor':p.SFmin>=1?'Hedefin altında':'Hasar')],
+    ['Muhafaza sıcaklık artışı ΔT (tahmini)',`${fmt(th.dT)} K (≈ ${fmt(th.Th)} °C)`,'≤ 50 K',st(th.dT<=50?'ok':th.dT<=70?'warn':'bad',th.dT<=50?'Sağlıyor':'Ek soğutma gerekli')],
+    [`Yağ filmi oranı λ, VG ${S.vg}, ${fmt(th.Th)} °C`,fmt(lam.lam,2),'≥ 1 tercih edilir',st(...regime(lam.lam))],
+    ['Bölüm dairesi hızı v',fmt(v,1)+' m/s','≤ 5 m/s (gres)',st(...zone(v))],
+    ['Güvenli giriş torku (diş mukavemeti)',fmt(cap)+' N·m','≥ '+fmt(S.tw)+' N·m',st(cap>=S.tw?'ok':'bad',cap>=S.tw?'Sağlıyor':'Yetersiz')]
+  ];
+  $('#resTable').innerHTML=rows.map(r=>`<tr><td>${r[0]}</td><td class="num">${r[1]}</td><td class="num">${r[2]}</td><td>${r[3]}</td></tr>`).join('');
+  const P=th.P/1000;
+  $('#kv').innerHTML=[['İletilen güç',fmt(P,1)+' kW'],['Çıkış torku T₄',fmt(S.tw*44/36)+' N·m'],['Çıkış devri n₄',fmt(S.n1*36/44)+' d/d'],['Kayıp gücü',fmt(th.loss)+' W'],['Muhafaza sıcaklığı',fmt(th.Th)+' °C'],['Film kalınlığı h<sub>min</sub>',fmt(lam.h,2)+' µm']]
+    .map(x=>`<div><dt>${x[0]}</dt><dd>${x[1]}</dd></div>`).join('');
+  // verdict
+  const mfail=w.SH<1||w.SFmin<1||p.SH<1||p.SFmin<1, mok=w.SH>=1.25&&w.SFmin>=1.5&&p.SH>=1.25&&p.SFmin>=1.5;
+  const nmax=50*S.kA/(0.03*S.tw*2*Math.PI/60), kreq=th.loss/50;
+  let cls='',title='',txt='';
+  if(mfail){cls='bad';title='Uygun değil';
+    const why=[];if(w.SH<1||p.SH<1)why.push('yanaklarda pitting');if(w.SFmin<1||p.SFmin<1)why.push(`${gname[w.SFmin<1?w.SFg:p.SFg]} diş dibinde kırılma`);
+    txt=`Bu yükte ${why.join(' ve ')} beklenir. Bu devirde diş mukavemetine göre güvenli giriş torku ≈ ${fmt(cap)} N·m'dir.`+(S.mat==='unt'?' Sementasyon uygulanması gerekir.':'');}
+  else if(!mok){cls='warn';title='Emniyet hedefin altında';txt=`Hasar beklenmez ama emniyet katsayıları hedefin (SH ≥ 1,25, SF ≥ 1,5) altında kalır. Bu devirde güvenli giriş torku ≈ ${fmt(cap)} N·m'dir.`}
+  else if(v>10){cls='bad';title='Gres yağlama bu hızda uygun değil';txt=`Diş mukavemeti yeterli ama ${fmt(v,1)} m/s bölüm dairesi hızında gres kavramadan fırlatılır. Daldırma veya püskürtme yağ yağlaması gerekir.`}
+  else if(th.dT>50){cls='warn';title='Mekanik olarak uygun, ısıl olarak koşullu';txt=`Bu yükte tahmini sıcaklık artışı ${fmt(th.dT)} K olur. Muhafazanın ısı atımı ≈ ${fmt(kreq,1)} W/K'e çıkarılmalı (şu an ${fmt(S.kA,1)} W/K) ya da sürekli çalışma ≈ ${fmt(Math.round(nmax/5)*5)} d/d ile sınırlanmalıdır.`}
+  else if(v>5){cls='warn';title='Uygun, akışkan gres şartıyla';txt=`Diş mukavemeti ve ısıl denge sağlanır. ${fmt(v,1)} m/s hızda yalnızca akışkan gres (NLGI 00–000) kullanılmalı ve sıcaklık ölçümle doğrulanmalıdır.`}
+  else {cls='';title='Uygun';txt=`Diş mukavemeti, ısıl denge ve gres hız sınırı sağlanır.`+(lam.lam<1?` Yağ filmi oranı ${fmt(lam.lam,2)} olduğundan Bölüm 5'teki gres önerisine uyulmalıdır.`:'')}
+  $('#verdict').className='callout'+(cls?' '+cls:'');$('#vTitle').textContent=title;$('#vText').textContent=txt;
+  // gears
+  const col=tint(th.Th);gEls.forEach((g,i)=>{g.body.style.fill=col;const n=S.n1*36/g.z;g.t2.textContent=`z = ${g.z}, ${fmt(n)} d/d`});
+}
+// ---------- charts
+let envCache=null,envKey='';
+function el(tag,attrs,parent,txt){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(txt!=null)e.textContent=txt;if(parent)parent.appendChild(e);return e}
+function envData(){const key=S.q+'|'+S.ka;if(envKey===key)return envCache;envKey=key;
+  const ns=[];for(let n=50;n<=3000;n+=n<400?25:75)ns.push(n);if(ns[ns.length-1]!==3000)ns.push(3000);
+  const c=(mat,sh,sf)=>ns.map(n=>ENG.capacity(n,{mat,Q:S.q,KA:S.ka},sh,sf));
+  envCache={ns,cs:c('carb',1.25,1.5),cl:c('carb',1,1),us:c('unt',1.25,1.5),ul:c('unt',1,1)};return envCache}
+const E={W:900,H:470,l:64,r:22,t:16,b:48,x0:50,x1:3000,y0:5,y1:1000};
+const ex=n=>E.l+(n-E.x0)/(E.x1-E.x0)*(E.W-E.l-E.r), ey=T=>E.H-E.b-(Math.log10(T)-Math.log10(E.y0))/(Math.log10(E.y1)-Math.log10(E.y0))*(E.H-E.t-E.b);
+const thermT=n=>50*S.kA/(0.03*2*Math.PI*n/60);
+function drawEnv(){const s=$('#envChart');s.innerHTML='';const d=envData();
+  const ph=E.H-E.t-E.b;
+  [[E.x0,1060,'--zone-g','Gres uygun'],[1060,2120,'--zone-y','Akışkan gres'],[2120,E.x1,'--zone-r','Yağ gerekli']].forEach(([a,b,c,t])=>{el('rect',{x:ex(a),y:E.t,width:ex(b)-ex(a),height:ph,style:`fill:var(${c})`},s);el('text',{x:(ex(a)+ex(b))/2,y:E.H-E.b-8,'text-anchor':'middle',style:'font-size:12px;fill:var(--ink-2)'},s,t)});
+  el('rect',{x:ex(200),y:E.t,width:ex(615)-ex(200),height:ph,style:'fill:var(--ok);opacity:.10'},s);
+  el('text',{x:(ex(200)+ex(615))/2,y:E.t+14,'text-anchor':'middle',style:'font-size:11.5px;fill:var(--ok);font-weight:600'},s,'Rapor çalışma aralığı');
+  const g=el('g',{class:'grid'},s),ax=el('g',{class:'ax'},s);
+  [5,10,20,50,100,200,500,1000].forEach(T=>{el('line',{x1:E.l,x2:E.W-E.r,y1:ey(T),y2:ey(T)},g);el('text',{x:E.l-8,y:ey(T)+4,'text-anchor':'end'},ax,fmt(T))});
+  [500,1000,1500,2000,2500,3000].forEach(n=>{el('line',{x1:ex(n),x2:ex(n),y1:E.t,y2:E.H-E.b},g);el('text',{x:ex(n),y:E.H-E.b+18,'text-anchor':'middle'},ax,fmt(n))});
+  el('text',{x:(E.l+E.W-E.r)/2,y:E.H-6,'text-anchor':'middle'},ax,'Giriş devri n₁ [d/d]');
+  el('text',{x:16,y:(E.t+E.H-E.b)/2,'text-anchor':'middle',transform:`rotate(-90 16 ${(E.t+E.H-E.b)/2})`},ax,'Giriş torku T₁ [N·m], log ölçek');
+  const line=(arr,st)=>el('path',{d:'M'+d.ns.map((n,i)=>ex(n).toFixed(1)+' '+ey(Math.max(E.y0,arr[i])).toFixed(1)).join('L'),fill:'none',style:st},s);
+  line(d.cl,'stroke:var(--blue);stroke-width:2;stroke-dasharray:7 5');line(d.cs,'stroke:var(--blue);stroke-width:3');
+  line(d.ul,'stroke:var(--steel);stroke-width:2;stroke-dasharray:7 5');line(d.us,'stroke:var(--steel);stroke-width:3');
+  const tn=[];for(let n=60;n<=3000;n+=20)tn.push(n);
+  el('path',{d:'M'+tn.map(n=>ex(n).toFixed(1)+' '+ey(Math.min(E.y1,Math.max(E.y0,thermT(n)))).toFixed(1)).join('L'),fill:'none',style:'stroke:var(--oxide);stroke-width:2.5;stroke-dasharray:2 5;stroke-linecap:round'},s);
+  // operating markers
+  const nx=ex(Math.min(E.x1,Math.max(E.x0,S.n1)));
+  el('line',{x1:nx,x2:nx,y1:ey(Math.max(E.y0,S.tw)),y2:ey(Math.min(E.y1,S.tp)),style:'stroke:var(--ok);stroke-width:2'},s);
+  el('circle',{cx:nx,cy:ey(Math.max(E.y0,S.tw)),r:7,style:'fill:var(--ok);stroke:var(--panel);stroke-width:2'},s);
+  el('rect',{x:nx-6,y:ey(Math.min(E.y1,S.tp))-6,width:12,height:12,transform:`rotate(45 ${nx} ${ey(Math.min(E.y1,S.tp))})`,style:'fill:var(--panel);stroke:var(--ok);stroke-width:2.5'},s);
+  el('text',{x:nx+12,y:ey(Math.max(E.y0,S.tw))+4,style:'font-size:12px;fill:var(--ok);font-weight:600'},s,fmt(S.tw)+' N·m');
+  el('text',{x:nx+12,y:ey(Math.min(E.y1,S.tp))+4,style:'font-size:12px;fill:var(--ok);font-weight:600'},s,'tepe '+fmt(S.tp)+' N·m');
+  const cross=el('line',{y1:E.t,y2:E.H-E.b,style:'stroke:var(--ink);stroke-width:1;opacity:0'},s);
+  const hit=el('rect',{x:E.l,y:E.t,width:E.W-E.l-E.r,height:ph,style:'fill:transparent;cursor:crosshair'},s);
+  const move=ev=>{const pt=s.createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;const p=pt.matrixTransform(s.getScreenCTM().inverse());
+    const n=Math.round((E.x0+(p.x-E.l)/(E.W-E.l-E.r)*(E.x1-E.x0))/5)*5;if(n<E.x0||n>E.x1)return;
+    cross.setAttribute('x1',ex(n));cross.setAttribute('x2',ex(n));cross.style.opacity=.35;
+    const o={Q:S.q,KA:S.ka};const cs=ENG.capacity(n,{...o,mat:'carb'},1.25,1.5),us=ENG.capacity(n,{...o,mat:'unt'},1.25,1.5);
+    $('#envRead').textContent=`n₁ = ${fmt(n)} d/d, v = ${fmt(Math.PI*90*n/60000,1)} m/s. Güvenli tork: sementasyonlu ${fmt(cs)} N·m, sementasyonsuz ${fmt(us)} N·m. Isıl sınır ${fmt(thermT(n))} N·m.`};
+  hit.addEventListener('pointermove',move);hit.addEventListener('pointerdown',move);
+  hit.addEventListener('pointerleave',()=>{cross.style.opacity=0});
+}
+const T={W:900,H:420,l:64,r:70,t:16,b:48};
+function drawTh(){const s=$('#thChart');s.innerHTML='';
+  const xmax=Math.max(700,Math.ceil(S.n1*1.25/100)*100);
+  const dT=(Tq,n)=>Tq*2*Math.PI*n/60*0.03/S.kA;
+  const ymax=Math.min(300,Math.max(80,Math.ceil(dT(Math.max(S.tw,100),xmax)*1.08/20)*20));
+  const x=n=>T.l+n/xmax*(T.W-T.l-T.r), y=v=>T.H-T.b-v/ymax*(T.H-T.t-T.b);const ph=T.H-T.t-T.b;
+  el('rect',{x:x(200),y:T.t,width:x(615)-x(200),height:ph,style:'fill:var(--ok);opacity:.10'},s);
+  el('text',{x:(x(200)+x(615))/2,y:T.t+14,'text-anchor':'middle',style:'font-size:11.5px;fill:var(--ok);font-weight:600'},s,'Rapor çalışma aralığı');
+  const b0=Math.max(0,60-S.ta),b1=Math.max(0,70-S.ta);
+  if(b1>0&&b0<ymax)el('rect',{x:T.l,y:y(Math.min(ymax,b1)),width:T.W-T.l-T.r,height:y(b0)-y(Math.min(ymax,b1)),style:'fill:var(--straw);opacity:.16'},s);
+  const g=el('g',{class:'grid'},s),ax=el('g',{class:'ax'},s);const ys=ymax<=100?20:ymax<=200?40:50;
+  for(let v=0;v<=ymax;v+=ys){el('line',{x1:T.l,x2:T.W-T.r,y1:y(v),y2:y(v)},g);el('text',{x:T.l-8,y:y(v)+4,'text-anchor':'end'},ax,fmt(v));el('text',{x:T.W-T.r+8,y:y(v)+4},ax,fmt(v+S.ta))}
+  const xs=xmax<=1000?100:xmax<=2000?250:500;
+  for(let n=0;n<=xmax;n+=xs){el('line',{x1:x(n),x2:x(n),y1:T.t,y2:T.H-T.b},g);el('text',{x:x(n),y:T.H-T.b+18,'text-anchor':'middle'},ax,fmt(n))}
+  el('text',{x:(T.l+T.W-T.r)/2,y:T.H-6,'text-anchor':'middle'},ax,'Giriş devri n₁ [d/d]');
+  el('text',{x:16,y:(T.t+T.H-T.b)/2,'text-anchor':'middle',transform:`rotate(-90 16 ${(T.t+T.H-T.b)/2})`},ax,'Sıcaklık artışı ΔT [K]');
+  el('text',{x:T.W-14,y:(T.t+T.H-T.b)/2,'text-anchor':'middle',transform:`rotate(90 ${T.W-14} ${(T.t+T.H-T.b)/2})`},ax,`Muhafaza sıcaklığı [°C], ortam ${fmt(S.ta)} °C`);
+  if(b1>0&&b0<ymax)el('text',{x:T.W-T.r-8,y:y(Math.min(ymax,b1))+13,'text-anchor':'end',style:'font-size:11.5px;fill:var(--straw);font-weight:600'},s,'Hedef gres sıcaklığı 60–70 °C');
+  const ln=(Tq,st)=>{const n2=Math.min(xmax,xmax*ymax/Math.max(1e-6,dT(Tq,xmax)));el('line',{x1:x(0),y1:y(0),x2:x(n2),y2:y(Math.min(ymax,dT(Tq,n2))),style:st},s)};
+  ln(100,'stroke:var(--steel);stroke-width:2');ln(S.tp,'stroke:var(--oxide);stroke-width:2;stroke-dasharray:7 5');ln(S.tw,'stroke:var(--blue);stroke-width:3');
+  if(50<=ymax){el('line',{x1:T.l,x2:T.W-T.r,y1:y(50),y2:y(50),style:'stroke:var(--oxide);stroke-width:1.5'},s);el('text',{x:T.l+6,y:y(50)-6,style:'font-size:11.5px;fill:var(--oxide);font-weight:600'},s,'ΔT = 50 K')}
+  const nc=50*S.kA/(0.03*S.tw*2*Math.PI/60);
+  if(nc<=xmax&&50<=ymax){el('circle',{cx:x(nc),cy:y(50),r:5,style:'fill:var(--blue)'},s);el('text',{x:x(nc)+8,y:y(50)+18,style:'font-size:12px;fill:var(--blue);font-weight:600'},s,'≈ '+fmt(Math.round(nc/5)*5)+' d/d')}
+  const cv=dT(S.tw,S.n1);if(cv<=ymax){el('rect',{x:x(S.n1)-5,y:y(cv)-5,width:10,height:10,style:'fill:var(--blue);stroke:var(--panel);stroke-width:2'},s);el('text',{x:x(S.n1)+9,y:y(cv)-8,style:'font-size:12px;fill:var(--blue);font-weight:600'},s,fmt(cv)+' K')}
+  $('#thRead').textContent=`Hesaplayıcı: ${fmt(S.tw)} N·m ve ${fmt(S.n1)} d/d'da ΔT ≈ ${fmt(cv)} K, muhafaza ≈ ${fmt(cv+S.ta)} °C. ${fmt(S.tw)} N·m sürekli yükte ΔT = 50 K sınırına ≈ ${fmt(Math.round(nc/5)*5)} d/d'da ulaşılır (k·A = ${fmt(S.kA,2)} W/K).`;
+}
+let raf=0;function drawCharts(){cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{drawEnv();drawTh()})}
+function update(){syncUI();compute();render();drawCharts()}
+update();
+// ---------- nav highlight
+const links=$$('.bar nav a');const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id))}})},{rootMargin:'-40% 0px -55% 0px'});
+$$('section[id]').forEach(s=>io.observe(s));
+// ---------- glossary
+const K='Kısaltma',GK='Geometri ve kinematik',GE='Gerilme ve emniyet',IF='ISO 6336 faktörleri',YI='Yağlama ve ısıl';
+const sub=(a,b)=>`${a}<sub>${b}</sub>`;
+const GL=[
+{s:'ISO 6336',n:'Silindirik dişlilerin yük taşıma kapasitesi standardı',d:'Bölüm 1 yük faktörlerini, Bölüm 2 yüzey basıncını, Bölüm 3 diş dibi eğilmesini, Bölüm 5 malzeme değerlerini kapsar.',c:K},
+{s:'ISO/TS 6336-20/21',n:'Tutunma (scuffing) hesabı teknik şartnameleri',d:'Flaş sıcaklığı ve integral sıcaklık yöntemleriyle tutunma emniyetini verir.',c:K},
+{s:'ISO 1328',n:'Dişli imalat kalitesi standardı',d:'Sınıf numarası küçüldükçe imalat hassasiyeti artar. Raporda sınıf 7 kabul edilmiştir.',c:K},
+{s:'DIN 472',n:'Delikler için segman standardı',d:'Segman ve segman kanalı ölçülerini tanımlar.',c:K},
+{s:'FZG',n:'Dişli yağı yük taşıma testi',d:'Münih Teknik Üniversitesi dişli araştırma merkezinin (Forschungsstelle für Zahnräder und Getriebebau) testidir. A/8,3/90 testinde hasarın görüldüğü yük kademesi yağlayıcının tutunma dayanımını gösterir.',c:K},
+{s:'EP',n:'Aşırı basınç katkısı (extreme pressure)',d:'Sınır yağlamada metal yüzeyde tepkime filmi oluşturarak tutunmayı önler.',c:K},
+{s:'AW',n:'Aşınma önleyici katkı (anti-wear)',d:'Hafif ve orta yüklerde yüzeyde koruyucu film oluşturur.',c:K},
+{s:'EHL',n:'Elastohidrodinamik yağlama',d:'Yüksek temas basıncında yağ viskozitesinin artması ve yüzeylerin elastik şekil değiştirmesiyle oluşan ince yağ filmi rejimi.',c:K},
+{s:'NLGI',n:'Gres kıvam sınıfı',d:'ABD Ulusal Yağlama Gresi Enstitüsü sınıflandırması. 000 en akışkan, 6 en serttir. 00 ve 0 yarı akışkan kabul edilir.',c:K},
+{s:'ISO VG',n:'Yağ viskozite sınıfı',d:'40 °C\'deki kinematik viskozitenin mm²/s cinsinden orta değeridir. VG 460, ν₄₀ ≈ 460 mm²/s demektir.',c:K},
+{s:'PAO',n:'Polialfaolefin',d:'Sentetik baz yağ. Viskozite indeksi yüksek olduğu için sıcaklıkla viskozitesi daha az düşer.',c:K},
+{s:'MQ',n:'Orta malzeme kalitesi',d:'ISO 6336-5\'te malzeme ve ısıl işlem kalitesi sınıfı. ML düşük, ME yüksek kaliteyi gösterir.',c:K},
+{s:'St',n:'Normalize yapı çelikleri grubu',d:'ISO 6336-5 malzeme grubu. Sementasyonsuz 8620 için bu grubun değerleri kullanılmıştır.',c:K},
+{s:'Eh',n:'Sementasyon çelikleri grubu',d:'ISO 6336-5\'te yüzeyi karbonlanıp sertleştirilmiş çelikler.',c:K},
+{s:'HB',n:'Brinell sertliği',d:'Yumuşak ve ıslah edilmiş çeliklerde kullanılan sertlik ölçüsü.',c:K},
+{s:'HRC',n:'Rockwell C sertliği',d:'Sertleştirilmiş çeliklerde kullanılan sertlik ölçüsü. Sementasyonlu yüzey 58–62 HRC kabul edilmiştir.',c:K},
+{s:'Eht',n:'Efektif sertlik derinliği',d:'Sementasyon tabakasında belirli bir sertliğe (genellikle 550 HV) kadar olan derinlik. Önerilen değer 0,4–0,5 mm\'dir.',c:K,u:'mm'},
+{s:'STEP',n:'CAD veri değişim formatı (ISO 10303)',d:'Dişli geometrisi bu formattaki modellerden çıkarılmıştır.',c:K},
+{s:'d/d',n:'Dakikadaki devir sayısı',d:'Dönme hızı birimi, min⁻¹ ile aynıdır.',c:K},
+{s:'8620',n:'AISI 8620 çeliği',d:'Düşük karbonlu Ni-Cr-Mo alaşımlı sementasyon çeliği. Isıl işlemsiz halde yaklaşık 180 HB sertliktedir.',c:K},
+{s:'MoS₂',n:'Molibden disülfür',d:'Lamelli yapılı katı yağlayıcı. Sınır yağlamada sürtünme ve aşınmayı azaltır.',c:K,alt:'mos2'},
+{s:'hBN',n:'Hekzagonal bor nitrür',d:'Lamelli yapılı, yüksek sıcaklığa dayanıklı katı yağlayıcı.',c:K},
+{s:'Miner',n:'Palmgren–Miner kuralı',d:'Farklı yük seviyelerinin yorulma hasarlarının doğrusal olarak toplandığı birikimli hasar kuralı.',c:K},
+// geometri
+{s:'m',n:'Modül',d:'Diş büyüklüğünü tanımlar. Bölüm dairesi çapının diş sayısına oranıdır.',u:'mm, bu kutuda 2,5 mm',c:GK},
+{s:'z',n:'Diş sayısı',d:'Dişli 01\'de 36, Dişli 03 ve 04\'te 44.',c:GK},
+{s:'d',n:'Bölüm dairesi çapı',d:'d = m·z. Dişli 01 için 90 mm, diğerleri için 110 mm.',u:'mm',c:GK},
+{s:sub('d','a'),n:'Baş dairesi çapı',d:'Diş uçlarından geçen daire.',u:'mm',c:GK},
+{s:sub('d','f'),n:'Taban dairesi çapı',d:'Diş diplerinden geçen daire.',u:'mm',c:GK},
+{s:sub('d','b'),n:'Temel dairesi çapı',d:'Evolvent profilin açıldığı daire, d_b = d·cos α.',u:'mm',c:GK},
+{s:'b',n:'Diş genişliği',d:'Dişin eksen yönündeki genişliği.',u:'mm, bu kutuda 30 mm',c:GK},
+{s:'α',n:'Kavrama açısı',d:'Standart profil açısı.',u:'derece, bu kutuda 20°',c:GK,alt:'alfa'},
+{s:sub('α','wt'),n:'Çalışma kavrama açısı',d:'Profil kaydırma sıfır ve eksen mesafesi standart olduğu için α ile aynıdır.',u:'derece',c:GK,alt:'alfa wt'},
+{s:'β',n:'Helis açısı',d:'Düz dişlide sıfırdır.',u:'derece',c:GK,alt:'beta'},
+{s:'x',n:'Profil kaydırma faktörü',d:'Takımın dişliye göre kaydırılma oranı. Tüm dişlilerde sıfırdır.',c:GK},
+{s:'a',n:'Eksen mesafesi',d:'İki dişli merkezi arasındaki uzaklık. Zincirde 100, 110 ve 110 mm.',u:'mm',c:GK},
+{s:'u',n:'Dişli oranı',d:'Büyük dişlinin diş sayısının küçük dişlininkine oranı.',c:GK},
+{s:'i',n:'Çevrim oranı',d:'Giriş devrinin çıkış devrine oranı, i = z₄/z₁ = 1,222.',c:GK},
+{s:sub('ε','α'),n:'Profil kavrama oranı',d:'Aynı anda kavrayan ortalama diş çifti sayısı. 36–44 çifti için 1,712, 44–44 çifti için 1,732.',c:GK,alt:'epsilon'},
+{s:`${sub('ε','1')}, ${sub('ε','2')}`,n:'Kısmi kavrama oranları',d:'Kavrama oranının her iki dişliye düşen payı. Kayıp faktörü H_V hesabında kullanılır.',c:GK,alt:'epsilon'},
+{s:`${sub('n','1')}, ${sub('n','4')}`,n:'Giriş ve çıkış devri',d:'Dişli 01 ve Dişli 04 millerinin devri, n₄ = n₁·36/44.',u:'d/d',c:GK},
+{s:'v',n:'Bölüm dairesi hızı',d:'Dişlilerin bölüm dairesindeki çevresel hız. Gres yağlamanın uygunluğu bu hıza göre değerlendirilir.',u:'m/s',c:GK},
+{s:`${sub('T','1')}, ${sub('T','4')}`,n:'Giriş ve çıkış torku',d:'T₄ = T₁·44/36. Çalışma torku 180 N·m, tepe torku 290 N·m.',u:'N·m',c:GK},
+{s:sub('F','t'),n:'Teğetsel kuvvet',d:'Bölüm dairesinde dişe etkiyen kuvvet. Ara dişliler tork taşımadığından tüm kavramalarda eşittir.',u:'N',c:GK},
+{s:sub('s','R'),n:'Çember kalınlığı',d:'Taban dairesi ile göbek arasındaki malzeme kalınlığı. Yeterli olduğu için Y_B = 1 alınmıştır.',u:'mm',c:GK},
+{s:sub('ρ','f'),n:'Taban radyüsü',d:'Diş dibindeki geçiş yarıçapı. Modellerde bulunmadığından 0,38·m kabul edilmiştir.',u:'mm',c:GK,alt:'rho'},
+// gerilme
+{s:sub('σ','H'),n:'Temas (Hertz) basıncı',d:'Kavrayan yanaklar arasındaki en büyük temas gerilmesi.',u:'MPa',c:GE,alt:'sigma'},
+{s:sub('σ','HP'),n:'İzin verilen temas basıncı',d:'Malzeme dayanımının yağlama, hız, pürüzlülük ve emniyet faktörleriyle düzeltilmiş değeri.',u:'MPa',c:GE,alt:'sigma'},
+{s:sub('σ','H,lim'),n:'Temas yorulma dayanımı',d:'Sürekli ömürde pitting oluşmayan temas basıncı. Sementasyonsuz 370, sementasyonlu 1500 MPa.',u:'MPa',c:GE,alt:'sigma'},
+{s:sub('σ','F'),n:'Diş dibi eğilme gerilmesi',d:'Diş dibindeki kritik kesitte oluşan gerilme.',u:'MPa',c:GE,alt:'sigma'},
+{s:sub('σ','FP'),n:'İzin verilen diş dibi gerilmesi',d:'Diş dibi dayanımının ömür, çentik, boyut ve emniyet faktörleriyle düzeltilmiş değeri.',u:'MPa',c:GE,alt:'sigma'},
+{s:sub('σ','F,lim'),n:'Diş dibi yorulma dayanımı',d:'Nominal diş dibi yorulma dayanımı. Sementasyonsuz 151, sementasyonlu 500 MPa.',u:'MPa',c:GE,alt:'sigma'},
+{s:sub('S','H'),n:'Pitting emniyet katsayısı',d:'İzin verilen temas basıncının hesaplanan temas basıncına oranı. Hedef 1,25, hasar eşiği 1,0.',c:GE},
+{s:sub('S','F'),n:'Diş dibi emniyet katsayısı',d:'İzin verilen diş dibi gerilmesinin hesaplanan gerilmeye oranı. Hedef 1,5, hasar eşiği 1,0.',c:GE},
+{s:'Pitting',n:'Yüzey yorulması',d:'Tekrarlı temas basıncı altında diş yanağında çukurcukların oluşması.',c:GE},
+{s:'Mikro-pitting',n:'Gri lekelenme',d:'Pürüz ölçeğinde yorulma. İnce yağ filminde ve yüksek temas basıncında görülür.',c:GE},
+{s:'Scuffing',n:'Tutunma',d:'Yağ filmi yırtıldığında yüzeylerin yerel olarak kaynaşıp kopması.',c:GE},
+{s:'Sementasyon',n:'Yüzey karbonlama ve sertleştirme',d:'Düşük karbonlu çeliğin yüzeyine karbon verilip su verilmesi. Sert yüzey ve tok çekirdek sağlar.',c:GE},
+// ISO faktörleri
+{s:sub('K','A'),n:'İşletme faktörü',d:'Tahrik ve yük tarafındaki darbe ve dalgalanmaları hesaba katar. Raporda 1,0 alınmıştır.',c:IF},
+{s:sub('K','V'),n:'Dinamik faktör',d:'Dişli hatalarından ve hızdan kaynaklanan iç dinamik yükleri hesaba katar. Yöntem C ile hesaplanmıştır.',c:IF},
+{s:`${sub('K','1')}, ${sub('K','2')}`,n:'Dinamik faktör sabitleri',d:'Kalite sınıfına bağlı katsayılar. Sınıf 7 düz dişli için 26,8 ve 0,0193.',c:IF},
+{s:`${sub('K','Hβ')}, ${sub('K','Fβ')}`,n:'Genişlik yük dağılım faktörleri',d:'Yükün diş genişliği boyunca düzgün dağılmamasını hesaba katar. K_Hβ = 1,15, K_Fβ = 1,12.',c:IF,alt:'beta'},
+{s:`${sub('K','Hα')}, ${sub('K','Fα')}`,n:'Alın yük dağılım faktörleri',d:'Yükün aynı anda kavrayan diş çiftleri arasında paylaşımını hesaba katar.',c:IF,alt:'alfa'},
+{s:sub('N','F'),n:'Genişlik faktörü üssü',d:'K_Fβ = K_Hβ üssü N_F bağıntısındaki üs. Diş genişliği ve diş yüksekliğine bağlıdır.',c:IF},
+{s:sub('Z','H'),n:'Bölge faktörü',d:'Hatve noktasındaki yanak eğriliğini hesaba katar. x = 0 ve α = 20° için 2,495.',c:IF},
+{s:sub('Z','E'),n:'Elastisite faktörü',d:'Malzemelerin elastisite modülü ve Poisson oranına bağlıdır. Çelik çifti için 189,8 √MPa.',c:IF},
+{s:sub('Z','ε'),n:'Kavrama oranı faktörü',d:'Yükün birden fazla diş çiftine paylaşılmasını hesaba katar.',c:IF,alt:'epsilon'},
+{s:`${sub('Z','B')}, ${sub('Z','D')}`,n:'Tek çift kavrama faktörleri',d:'Küçük ve büyük dişlide tek diş çiftinin kavradığı noktaya dönüşümü sağlar.',c:IF},
+{s:sub('M','1'),n:'Z_B yardımcı büyüklüğü',d:'Tek çift kavrama noktasındaki eğrilik oranı. 1\'den küçükse Z_B = 1 alınır.',c:IF},
+{s:sub('Z','L'),n:'Yağlayıcı faktörü',d:'Yağ viskozitesinin pitting dayanımına etkisi.',c:IF},
+{s:sub('Z','V'),n:'Hız faktörü',d:'Bölüm dairesi hızının pitting dayanımına etkisi.',c:IF},
+{s:sub('Z','R'),n:'Pürüzlülük faktörü',d:'Yanak pürüzlülüğünün pitting dayanımına etkisi.',c:IF},
+{s:`${sub('C','ZL')}, ${sub('C','ZV')}, ${sub('C','ZR')}`,n:'Z_L, Z_V ve Z_R katsayıları',d:'Malzemenin temas dayanımına bağlı ara katsayılar.',c:IF},
+{s:sub('Z','NT'),n:'Pitting ömür faktörü',d:'Yük tekrar sayısına bağlı düzeltme. Sürekli ömürde 1, tek seferlik yükte sementasyonlu için 1,3, sementasyonsuz için 1,6.',c:IF},
+{s:`${sub('Z','W')}, ${sub('Z','X')}`,n:'İş sertleşmesi ve boyut faktörleri',d:'Bu kutuda her ikisi de 1 alınmıştır.',c:IF},
+{s:sub('Y','F'),n:'Form faktörü',d:'Diş formunun diş dibi gerilmesine etkisi. Yöntem B ile, tek çift kavramanın dış noktasında hesaplanmıştır.',c:IF},
+{s:sub('Y','S'),n:'Gerilme düzeltme faktörü',d:'Diş dibindeki çentik etkisini hesaba katar.',c:IF},
+{s:sub('Y','ST'),n:'Referans test dişlisi faktörü',d:'Standart değeri 2,0.',c:IF},
+{s:sub('Y','NT'),n:'Diş dibi ömür faktörü',d:'Sürekli ömürde 1, tek seferlik yükte 2,5.',c:IF},
+{s:sub('Y','M'),n:'Değişken yük faktörü',d:'Ara dişlilerde diş dibinin iki yönde eğilmesini hesaba katar. 0,7 alınmıştır.',c:IF},
+{s:`${sub('Y','β')}, ${sub('Y','B')}, ${sub('Y','DT')}`,n:'Helis, çember kalınlığı ve derin diş faktörleri',d:'Düz dişli, kalın çember ve normal diş yüksekliği nedeniyle hepsi 1\'dir.',c:IF},
+{s:`${sub('Y','δrelT')}, ${sub('Y','RrelT')}, ${sub('Y','X')}`,n:'Çentik duyarlılığı, yüzey ve boyut faktörleri',d:'Diş dibi dayanımının göreli düzeltmeleri. Yaklaşık 1 alınmıştır.',c:IF},
+{s:sub('h','Fe'),n:'Diş dibi yük kolu',d:'Yük uygulama noktasından kritik kesite olan uzaklık.',u:'mm',c:IF},
+{s:sub('s','Fn'),n:'Kritik kesit kalınlığı',d:'30° teğet yapısıyla bulunan diş dibi kesit kalınlığı.',u:'mm',c:IF},
+{s:sub('ρ','F'),n:'Kritik kesitteki eğrilik yarıçapı',d:'Diş dibi geçiş eğrisinin kritik kesitteki yarıçapı.',u:'mm',c:IF,alt:'rho'},
+{s:sub('ρ','fP'),n:'Takım baş radyüsü',d:'Kremayer takımın uç radyüsü, 0,38·m.',u:'mm',c:IF,alt:'rho'},
+{s:sub('R','z'),n:'Ortalama pürüz derinliği',d:'Frezelenmiş yüzey için 6,3 µm, taşlanmış yüzey için 4 µm alınmıştır.',u:'µm',c:IF},
+{s:sub('R','z10'),n:'Düzeltilmiş pürüz derinliği',d:'10 mm eğrilik yarıçapına göre normalize edilen R_z.',u:'µm',c:IF},
+// yağlama ve ısıl
+{s:'λ',n:'Film oranı',d:'En küçük film kalınlığının bileşik pürüzlülüğe oranı. 1\'in altında pürüzler temas eder, 3\'ün üzerinde tam film oluşur.',c:YI,alt:'lambda'},
+{s:sub('h','min'),n:'En küçük yağ filmi kalınlığı',d:'Dowson–Higginson eşitliğiyle hatve noktasında hesaplanır.',u:'µm',c:YI},
+{s:`${sub('ν','40')}, ${sub('ν','100')}`,n:'Kinematik viskozite',d:'Baz yağın 40 °C ve 100 °C\'deki viskozitesi. Ara sıcaklıklar Walther bağıntısıyla bulunur.',u:'mm²/s',c:YI,alt:'nu'},
+{s:sub('η','0'),n:'Dinamik viskozite',d:'Çalışma sıcaklığında, atmosfer basıncındaki viskozite.',u:'Pa·s',c:YI,alt:'eta'},
+{s:sub('α','p'),n:'Basınç-viskozite katsayısı',d:'Viskozitenin basınçla artış hızı. 2,2·10⁻⁸ Pa⁻¹ alınmıştır.',u:'Pa⁻¹',c:YI,alt:'alfa'},
+{s:'E′',n:'Eşdeğer elastisite modülü',d:'Çelik çifti için E/(1−ν²) ≈ 231 GPa.',u:'Pa',c:YI},
+{s:sub('ρ','red'),n:'Eşdeğer eğrilik yarıçapı',d:'Hatve noktasındaki iki yanak eğriliğinin birleşimi. EHL hesabında R olarak kullanılır.',u:'mm',c:YI,alt:'rho'},
+{s:sub('u','r'),n:'Yuvarlanma hızı',d:'Yağı temas bölgesine taşıyan hız, u_r = v·sin α.',u:'m/s',c:YI},
+{s:'w',n:'Birim genişlik yükü',d:'Temas çizgisinin birim uzunluğuna düşen normal kuvvet.',u:'N/m',c:YI},
+{s:sub('R','q'),n:'Pürüzlülüğün karekök ortalaması',d:'Taşlanmış yanak için ≈ 0,5 µm alınmıştır.',u:'µm',c:YI},
+{s:sub('μ','m'),n:'Ortalama sürtünme katsayısı',d:'Kavrama kayıplarında karışık yağlama için 0,07 alınmıştır.',c:YI,alt:'mu'},
+{s:sub('H','V'),n:'Kayıp faktörü',d:'Niemann yöntemindeki kavrama geometrisine bağlı kayıp faktörü. 36–44 çifti için 0,120, 44–44 için 0,110.',c:YI},
+{s:sub('P','V'),n:'Kayıp gücü',d:'Kavrama ve rulman sürtünmesiyle ısıya dönüşen güç.',u:'W',c:YI},
+{s:'η',n:'Verim',d:'Çıkış gücünün giriş gücüne oranı. Toplam ≈ %97 alınmıştır.',c:YI,alt:'eta'},
+{s:'k',n:'Isı taşınım katsayısı',d:'Muhafaza yüzeyinden çevreye ısı geçişi. Doğal taşınımda ≈ 15, fanla ≈ 35 W/m²K.',u:'W/m²K',c:YI},
+{s:'A',n:'Muhafaza yüzey alanı',d:'Isı atan dış yüzey. Varsayılan muhafaza için ≈ 0,21 m².',u:'m²',c:YI},
+{s:'k·A',n:'Muhafaza ısı atımı',d:'Birim sıcaklık farkı başına atılan ısı. Varsayılan ≈ 3,2 W/K.',u:'W/K',c:YI},
+{s:'ΔT',n:'Sıcaklık artışı',d:'Muhafaza sıcaklığının ortam sıcaklığından farkı. Sınır 50 K alınmıştır.',u:'K',c:YI,alt:'delta'},
+{s:sub('P','th'),n:'Isıl güç sınırı',d:'ΔT = 50 K\'de sürekli iletilebilecek güç. Varsayılan muhafaza için ≈ 5,3 kW.',u:'kW',c:YI}
+];
+
+const CATS=['Tümü','Kısaltma','Geometri ve kinematik','Gerilme ve emniyet','ISO 6336 faktörleri','Yağlama ve ısıl'];let cat='Tümü';
+const norm=t=>t.toLocaleLowerCase('tr').replace(/<[^>]+>/g,'').replace(/[_\s,.\-–]/g,'').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+GL.forEach(g=>g.key=norm(g.s+' '+g.n+' '+g.d+' '+(g.alt||'')));
+const subfy=t=>t.replace(/([A-Za-zσεαρμη])_([A-Za-z0-9βαεδ]+)/g,'$1<sub>$2</sub>');GL.forEach(g=>{g.n=subfy(g.n);g.d=subfy(g.d);g.word=g.c==='Kısaltma'||/^[A-Za-zÇĞİÖŞÜçğıöşü\-]{4,}$/.test(g.s)});
+$('#glCats').innerHTML=CATS.map(c=>`<button type="button" class="chip" aria-pressed="${c===cat}" data-c="${c}">${c}</button>`).join('');
+$$('#glCats .chip').forEach(b=>b.addEventListener('click',()=>{cat=b.dataset.c;$$('#glCats .chip').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));renderGl()}));
+$('#glq').addEventListener('input',renderGl);
+function renderGl(){const q=norm($('#glq').value||'');
+  const items=GL.filter(g=>(cat==='Tümü'||g.c===cat)&&(!q||g.key.includes(q)));
+  $('#glCount').textContent=`${items.length} terim gösteriliyor`;
+  $('#glList').innerHTML=items.length?items.map(g=>`<div class="gl-item"><div class="gl-sym${g.word?' abbr':''}">${g.s}</div><div><div class="gl-name">${g.n}</div><div class="gl-desc">${g.d}</div>${g.u?`<div class="gl-unit">${g.u}</div>`:''}</div></div>`).join(''):`<div class="gl-empty">Bu aramayla eşleşen terim yok. Farklı bir sözcük deneyin veya kategori olarak “Tümü”yü seçin.</div>`}
+renderGl();
+})();
+
+</script>
+</body>
+</html>
