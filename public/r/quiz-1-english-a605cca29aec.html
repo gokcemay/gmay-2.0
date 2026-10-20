@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="151815361 Business Management and Entrepreneurship, Quiz 1 class feedback.">
+<title>Quiz 1 Class Feedback</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap">
+<style>
+/* Layout: single column, 1040px reading measure; charts are inline SVG, no libraries. */
+:root{
+  --paper:#F7F7F5; --surface:#FFFFFF; --ink:#15161A; --ink2:#5B5F66; --ink3:#878C94;
+  --line:#E4E4DF; --accent:#2A78D6; --accent-soft:#E7F0FB; --warn:#D2541F; --warn-soft:#FBE8DD;
+  --shadow:0 1px 2px rgba(20,22,26,.05);
+  --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#131416; --surface:#1B1D20; --ink:#ECEDEE; --ink2:#A3A7AD; --ink3:#7C8189;
+  --line:#2B2E33; --accent:#589BE8; --accent-soft:#17283C; --warn:#F0824F; --warn-soft:#3A2419;
+  --shadow:0 1px 2px rgba(0,0,0,.4); color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --paper:#131416; --surface:#1B1D20; --ink:#ECEDEE; --ink2:#A3A7AD; --ink3:#7C8189;
+  --line:#2B2E33; --accent:#589BE8; --accent-soft:#17283C; --warn:#F0824F; --warn-soft:#3A2419;
+  --shadow:0 1px 2px rgba(0,0,0,.4); color-scheme:dark;}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+     font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0}
+h1,h2,h3{font-family:var(--serif);text-wrap:balance;margin:0}
+h1{font-size:clamp(1.9rem,1.3rem + 2.4vw,3rem);font-weight:700;letter-spacing:-.01em;line-height:1.1}
+h2{font-size:clamp(1.3rem,1.05rem + 1vw,1.75rem);font-weight:600;line-height:1.2}
+h3{font-size:1.05rem;font-weight:600}
+p{margin:0}
+.eyebrow{font-family:var(--sans);font-size:.74rem;font-weight:600;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--ink3)}
+.lede{font-family:var(--serif);font-size:1.12rem;color:var(--ink2);max-width:62ch}
+header.top{padding-block:40px 28px;border-bottom:1px solid var(--line)}
+.stack{display:flex;flex-direction:column;gap:12px}
+section{padding-block:38px;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+.sechead{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;max-width:70ch}
+.sechead p{color:var(--ink2);font-size:.95rem}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:22px}
+.stat{background:var(--surface);padding:14px 16px;min-width:0}
+.stat .k{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+.stat .v{font-family:var(--serif);font-size:1.75rem;font-weight:700;line-height:1.1;
+  font-variant-numeric:tabular-nums;margin-top:2px}
+
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:18px}
+.toolbar .lbl{font-size:.78rem;color:var(--ink3);font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;margin-right:2px}
+.chip{font:inherit;font-size:.86rem;font-weight:500;padding:6px 13px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink2);cursor:pointer;
+  transition:background .14s,color .14s,border-color .14s}
+.chip:hover{border-color:var(--ink3)}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.qlist{display:flex;flex-direction:column;gap:3px}
+.qrow{display:grid;grid-template-columns:30px 1fr 52px;gap:10px;align-items:center;
+  width:100%;text-align:left;font:inherit;color:inherit;background:none;border:0;
+  padding:7px 8px;border-radius:7px;cursor:pointer}
+.qrow:hover{background:var(--surface)}
+.qrow[aria-expanded="true"]{background:var(--surface);box-shadow:var(--shadow)}
+.qrow:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.qnum{font-size:.82rem;font-weight:600;color:var(--ink3);font-variant-numeric:tabular-nums;text-align:right}
+.track{display:block;height:19px;background:var(--line);border-radius:4px;overflow:hidden;min-width:0}
+.fill{display:block;height:100%;background:var(--accent);border-radius:4px;transition:width .5s cubic-bezier(.2,.7,.3,1)}
+.fill.low{background:var(--warn)}
+.qpct{font-size:.86rem;font-weight:600;font-variant-numeric:tabular-nums;text-align:right}
+.qpct.low{color:var(--warn)}
+
+.detail{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:0 9px 9px 0;padding:16px 18px;margin:2px 0 8px 40px}
+.detail.low{border-left-color:var(--warn)}
+@media (max-width:560px){.detail{margin-left:0;border-radius:9px;border-left-width:3px}}
+.detail .meta{font-size:.76rem;color:var(--ink3);letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+.detail h3{margin:4px 0 12px;font-family:var(--sans);font-size:1rem;font-weight:600}
+.opt{display:grid;grid-template-columns:22px 1fr;gap:9px;align-items:start;padding:6px 0;
+  border-top:1px solid var(--line);min-width:0}
+.opt:first-of-type{border-top:0}
+.ltr{font-size:.8rem;font-weight:600;color:var(--ink3);width:22px;height:22px;display:grid;
+  place-items:center;border:1px solid var(--line);border-radius:5px;margin-top:1px}
+.opt.correct .ltr{background:var(--accent);border-color:var(--accent);color:#fff}
+.opt .txt{display:block;font-size:.9rem;min-width:0}
+.opt.correct .txt{font-weight:600}
+.obar{display:block;height:6px;background:var(--line);border-radius:3px;margin-top:5px;overflow:hidden;max-width:360px}
+.obar i{display:block;height:100%;background:var(--ink3);border-radius:3px}
+.opt.correct .obar i{background:var(--accent)}
+.opt.heavy:not(.correct) .obar i{background:var(--warn)}
+.cnt{display:block;font-size:.78rem;color:var(--ink3);font-variant-numeric:tabular-nums}
+.empty{color:var(--ink3);font-size:.92rem;padding:18px 0}
+
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:26px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;min-width:0}
+.panel h3{font-family:var(--sans);font-size:.95rem;margin-bottom:14px}
+.cmp{display:flex;flex-direction:column;gap:11px}
+.cmprow{display:grid;grid-template-columns:1fr;gap:4px;min-width:0}
+.cmptop{display:flex;justify-content:space-between;gap:10px;font-size:.87rem}
+.cmptop b{font-variant-numeric:tabular-nums}
+.cmptop .sub{color:var(--ink3);font-size:.78rem}
+
+figure{margin:0}
+figcaption{font-size:.8rem;color:var(--ink3);margin-top:8px}
+svg{display:block;max-width:100%;height:auto}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--warn);
+  border-radius:0 0 10px 10px;padding:17px 18px;min-width:0}
+.card .tag{font-size:.73rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--warn)}
+.card h3{margin:5px 0 8px}
+.card p{font-size:.92rem;color:var(--ink2)}
+.card p + p{margin-top:8px}
+.card .where{display:inline-block;margin-top:11px;font-size:.8rem;font-weight:600;color:var(--ink);
+  background:var(--accent-soft);border-radius:5px;padding:3px 9px}
+
+ol.todo{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:9px;max-width:68ch}
+ol.todo li{padding-left:4px}
+footer{padding-block:26px 40px;color:var(--ink3);font-size:.84rem}
+.themebtn{position:fixed;right:max(14px,env(safe-area-inset-right,0px));
+  top:calc(14px + env(safe-area-inset-top,0px));z-index:20;
+  width:36px;height:36px;border-radius:999px;border:1px solid var(--line);background:var(--surface);
+  color:var(--ink2);cursor:pointer;display:grid;place-items:center;font-size:15px;box-shadow:var(--shadow)}
+.themebtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<style>img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<button class="themebtn" id="themebtn" type="button" aria-label="Light / dark theme">◐</button>
+
+<div class="wrap">
+<header class="top">
+  <div class="stack">
+    <span class="eyebrow">151815361 · Business Management and Entrepreneurship (A)</span>
+    <h1>Quiz 1<br>Class Feedback</h1>
+    <p class="lede">This page does not show who scored what. It shows where the class as a whole was strong and where it was weak. That is what a quiz is for: it makes concrete where you need to work before the midterm. No names, no student numbers; every figure here covers all 44 students together.</p>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="k">Students</div><div class="v" id="s-n">44</div></div>
+    <div class="stat"><div class="k">Average</div><div class="v" id="s-avg">78</div></div>
+    <div class="stat"><div class="k">Median</div><div class="v" id="s-med">80</div></div>
+    <div class="stat"><div class="k">Range</div><div class="v" id="s-rng">60–95</div></div>
+    <div class="stat"><div class="k">Questions</div><div class="v">20</div></div>
+  </div>
+</header>
+
+<section>
+  <div class="sechead">
+    <h2>Score distribution</h2>
+    <p>Half the class scored 80 or above. The right side is dense and the left tail is thin: nobody fell below 60.</p>
+  </div>
+  <figure>
+    <div id="hist"></div>
+    <figcaption>Each bar counts the students in a five-point band. The dashed line is the class average.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="sechead">
+    <h2>Question by question</h2>
+    <p>Tap a question to open its topic, how many students marked each of the five options, and which option was correct. Orange marks the questions that half the class or fewer answered correctly.</p>
+  </div>
+
+  <div class="toolbar" role="group" aria-label="Filter by week">
+    <span class="lbl">Week</span>
+    <button class="chip" type="button" data-w="all" aria-pressed="true">All</button>
+    <button class="chip" type="button" data-w="1" aria-pressed="false">Week 1</button>
+    <button class="chip" type="button" data-w="2" aria-pressed="false">Week 2</button>
+    <button class="chip" type="button" data-w="3" aria-pressed="false">Week 3</button>
+    <button class="chip" type="button" data-w="4" aria-pressed="false">Week 4</button>
+  </div>
+  <div class="toolbar" role="group" aria-label="Filter by question type">
+    <span class="lbl">Type</span>
+    <button class="chip" type="button" data-t="all" aria-pressed="true">All</button>
+    <button class="chip" type="button" data-t="Case" aria-pressed="false">Case</button>
+    <button class="chip" type="button" data-t="Statements" aria-pressed="false">I–IV statements</button>
+    <button class="chip" type="button" data-t="Concept" aria-pressed="false">Concept</button>
+    <button class="chip" type="button" data-only="1" aria-pressed="false" id="onlyweak">Only the weak ones</button>
+  </div>
+
+  <div class="qlist" id="qlist"></div>
+  <p class="empty" id="qempty" hidden>No question matches this filter.</p>
+</section>
+
+<section>
+  <div class="sechead">
+    <h2>The gap is not in the topics, it is in the question format</h2>
+    <p>By week the picture is even. By question type there is a gap of thirty-seven points.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>Performance by question type</h3>
+      <div class="cmp" id="cmp-type"></div>
+    </div>
+    <div class="panel">
+      <h3>Performance by week</h3>
+      <div class="cmp" id="cmp-week"></div>
+    </div>
+  </div>
+  <p class="lede" style="margin-top:22px">You know the material. What is missing is the habit of judging four statements one at a time. The most common error on those questions is always the same: marking <strong>“all four”</strong>. One false statement goes unnoticed, and the answer chosen from five options is the wrong one.</p>
+</section>
+
+<section>
+  <div class="sechead"><h2>Four things to work on</h2></div>
+  <div class="cards">
+    <article class="card">
+      <span class="tag">Question 12 · 18% correct</span>
+      <h3>The order of Maslow's hierarchy</h3>
+      <p>The weakest question on the paper. <strong>Physiological needs</strong> sit at the base of the pyramid; only 8 of 44 marked it. Eighteen said “safety”, nine said “esteem”.</p>
+      <p>The answers spread almost evenly across all five options, which means the order is not settled in memory. The base is physiological, then safety, belonging, esteem and self-actualisation.</p>
+      <span class="where">Week 1 · the Maslow slide</span>
+    </article>
+    <article class="card">
+      <span class="tag">Questions 8 and 10 · 14 students in each</span>
+      <h3>The “all four are correct” trap</h3>
+      <p>One statement in question 8 read: “Judging each idea as soon as it appears is recommended, because it saves time.” That is false; the rule in brainstorming is quantity first, judgment later. Question 10 offered “An MVP is the complete product, released to every customer at the same time.” Also false; an MVP is the smallest testable slice of value.</p>
+      <p>In both questions 14 students took the false statement as true and answered “I, II, III and IV”.</p>
+      <span class="where">Method: mark each statement true or false before you read the options</span>
+    </article>
+    <article class="card">
+      <span class="tag">Question 7 · 52% correct</span>
+      <h3>How entrepreneurship and management divide the work</h3>
+      <p>The statement “Innovation creates value, whereas management is what delivers it” is <strong>correct</strong>; it is the course's own definition. Fourteen students ruled it out as false.</p>
+      <p>The two are complementary, not competing: the entrepreneur finds and shapes the opportunity, management coordinates people and resources and produces the result. In a small firm one person often does both, but the function does not disappear.</p>
+      <span class="where">Week 2 · Entrepreneurship and Management</span>
+    </article>
+    <article class="card">
+      <span class="tag">Question 14 · 66% &nbsp;·&nbsp; Question 9 · 52%</span>
+      <h3>Management functions and classification lenses</h3>
+      <p>In question 14, eight students chose “define, measure, analyse, improve” (DMAIC) instead of POLC; that is the Six Sigma cycle. The answer is <strong>plan, organise, lead, control</strong>.</p>
+      <p>In question 9, eight students missed the false statement claiming that a digital, asset-light business and a brick-and-mortar business have identical unit economics.</p>
+      <span class="where">Weeks 2 and 4</span>
+    </article>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><h2>What to do before the midterm</h2></div>
+  <ol class="todo">
+    <li>Review the four points above from the relevant slides. About an hour of work in total.</li>
+    <li>On I–IV questions, mark each of the four statements true or false before you read the options. Most of the points lost on this quiz were lost there.</li>
+    <li>When a statement contains an absolute word such as “always”, “never” or “every”, read it twice; three of the false statements on this paper used that pattern.</li>
+    <li>The class is already strong on case questions. Carry that method, working out what is being asked and then eliminating options, over to the statement questions.</li>
+  </ol>
+</section>
+
+<footer>
+  Dr. Gökçe Mehmet Ay · Eskişehir Osmangazi University, Department of Mechanical Engineering · Produced from the optical answer sheets of 44 students.
+</footer>
+</div>
+
+<script type="application/json" id="qdata">{"n":44,"scores":[85,80,65,70,85,95,85,70,90,85,90,75,60,70,85,60,65,85,85,80,80,95,80,70,85,60,75,65,85,90,80,70,65,90,85,85,75,75,85,65,95,65,70,85],"weeks":{"1":69.1,"2":80.3,"3":87.3,"4":75.0},"types":{"Case":93.2,"Statements":55.5,"Concept":82.0},"q":[{"n":1,"w":1,"t":"Case","topic":"Sources of ideas: observation and the workaround signal","p":90.9,"c":40,"b":0,"o":[{"l":"A","x":"Nothing can be concluded without a full survey","n":0,"k":0},{"l":"B","x":"Design the complete service first","n":3,"k":0},{"l":"C","x":"No opportunity without new technology","n":0,"k":0},{"l":"D","x":"No complaint means no unmet need","n":1,"k":0},{"l":"E","x":"Workaround = strong signal","n":40,"k":1}]},{"n":2,"w":3,"t":"Case","topic":"Feasibility: willingness to pay and the go / pivot / stop gate","p":81.8,"c":36,"b":0,"o":[{"l":"A","x":"The problem is selling effort, hire salespeople","n":1,"k":0},{"l":"B","x":"Willingness to pay not validated: pivot or stop","n":36,"k":1},{"l":"C","x":"Build the full product, test the price later","n":2,"k":0},{"l":"D","x":"Technology and team available, so feasibility passed","n":1,"k":0},{"l":"E","x":"26 of 30 positive = strong demand","n":4,"k":0}]},{"n":3,"w":4,"t":"Case","topic":"Ownership forms: the cooperative","p":97.7,"c":43,"b":0,"o":[{"l":"A","x":"Limited liability company","n":0,"k":0},{"l":"B","x":"Nonprofit organisation","n":0,"k":0},{"l":"C","x":"Cooperative","n":43,"k":1},{"l":"D","x":"Joint-stock company","n":1,"k":0},{"l":"E","x":"Sole proprietorship","n":0,"k":0}]},{"n":4,"w":2,"t":"Case","topic":"Customer segments and the value proposition (Canvas)","p":97.7,"c":43,"b":0,"o":[{"l":"A","x":"Change the legal form of the company","n":1,"k":0},{"l":"B","x":"Keep the model, spend more on advertising","n":0,"k":0},{"l":"C","x":"Raise the price","n":0,"k":0},{"l":"D","x":"Pick a niche + a clear value proposition","n":43,"k":1},{"l":"E","x":"Add more features","n":0,"k":0}]},{"n":5,"w":3,"t":"Case","topic":"Cost structure, unit economics and runway","p":97.7,"c":43,"b":0,"o":[{"l":"A","x":"Most of the cost base is fixed: model unit economics and runway","n":43,"k":1},{"l":"B","x":"Runway only matters for large firms","n":0,"k":0},{"l":"C","x":"Fixed costs are the easiest to remove","n":1,"k":0},{"l":"D","x":"Flat revenue means a profitable position","n":0,"k":0},{"l":"E","x":"Cost structure does not matter","n":0,"k":0}]},{"n":6,"w":4,"t":"Statements","topic":"Ownership forms and liability (I-IV)","p":56.8,"c":25,"b":1,"o":[{"l":"A","x":"I, II, III and IV","n":6,"k":0},{"l":"B","x":"I, III and IV","n":4,"k":0},{"l":"C","x":"II and IV","n":3,"k":0},{"l":"D","x":"I, II and III","n":25,"k":1},{"l":"E","x":"I and II","n":5,"k":0}]},{"n":7,"w":2,"t":"Statements","topic":"Factors of production; entrepreneurship and management (I-IV)","p":52.3,"c":23,"b":0,"o":[{"l":"A","x":"III and IV","n":5,"k":0},{"l":"B","x":"II and III","n":6,"k":0},{"l":"C","x":"III only","n":23,"k":1},{"l":"D","x":"II only","n":8,"k":0},{"l":"E","x":"I only","n":2,"k":0}]},{"n":8,"w":1,"t":"Statements","topic":"Creativity techniques: brainstorming, SCAMPER, Design Thinking (I-IV)","p":56.8,"c":25,"b":0,"o":[{"l":"A","x":"I, II and III","n":25,"k":1},{"l":"B","x":"I, II, III and IV","n":14,"k":0},{"l":"C","x":"I, II and IV","n":3,"k":0},{"l":"D","x":"II and IV","n":0,"k":0},{"l":"E","x":"I and III","n":2,"k":0}]},{"n":9,"w":4,"t":"Statements","topic":"Classification lenses: sector, lifecycle, centralisation, digital (I-IV)","p":52.3,"c":23,"b":0,"o":[{"l":"A","x":"I, II and IV","n":3,"k":0},{"l":"B","x":"II and IV","n":23,"k":1},{"l":"C","x":"IV only","n":5,"k":0},{"l":"D","x":"II only","n":8,"k":0},{"l":"E","x":"I and III","n":5,"k":0}]},{"n":10,"w":3,"t":"Statements","topic":"Market research and validation with an MVP (I-IV)","p":59.1,"c":26,"b":0,"o":[{"l":"A","x":"I, II, III and IV","n":14,"k":0},{"l":"B","x":"III and IV","n":2,"k":0},{"l":"C","x":"II, III and IV","n":1,"k":0},{"l":"D","x":"I and II","n":1,"k":0},{"l":"E","x":"I, III and IV","n":26,"k":1}]},{"n":11,"w":1,"t":"Concept","topic":"Needs versus wants","p":97.7,"c":43,"b":0,"o":[{"l":"A","x":"No practical difference","n":0,"k":0},{"l":"B","x":"A need is essential, a want is preference-driven","n":43,"k":1},{"l":"C","x":"Wants are measurable, needs are not","n":0,"k":0},{"l":"D","x":"Needs belong to firms, wants to individuals","n":0,"k":0},{"l":"E","x":"A need is expensive, a want is cheap","n":1,"k":0}]},{"n":12,"w":1,"t":"Concept","topic":"Maslow's hierarchy of needs","p":18.2,"c":8,"b":0,"o":[{"l":"A","x":"Self-actualisation","n":3,"k":0},{"l":"B","x":"Belonging","n":6,"k":0},{"l":"C","x":"Physiological","n":8,"k":1},{"l":"D","x":"Safety","n":18,"k":0},{"l":"E","x":"Esteem","n":9,"k":0}]},{"n":13,"w":1,"t":"Concept","topic":"The entrepreneurial mindset","p":81.8,"c":36,"b":0,"o":[{"l":"A","x":"Registration, permits, compliance","n":0,"k":0},{"l":"B","x":"Product, price, promotion","n":0,"k":0},{"l":"C","x":"Mission, vision, objectives","n":4,"k":0},{"l":"D","x":"Land, labour, capital","n":4,"k":0},{"l":"E","x":"Resilience, adaptability, continuous learning","n":36,"k":1}]},{"n":14,"w":2,"t":"Concept","topic":"Management functions (POLC)","p":65.9,"c":29,"b":0,"o":[{"l":"A","x":"Plan, organise, lead, control","n":29,"k":1},{"l":"B","x":"Buy, produce, store, sell","n":0,"k":0},{"l":"C","x":"Define, measure, analyse, improve","n":8,"k":0},{"l":"D","x":"Segment, target, position, promote","n":5,"k":0},{"l":"E","x":"Observe, imitate, repeat, scale","n":2,"k":0}]},{"n":15,"w":2,"t":"Concept","topic":"Common causes of failure in new ventures","p":79.5,"c":35,"b":0,"o":[{"l":"A","x":"Setting measurable goals early","n":0,"k":0},{"l":"B","x":"Delegating to a team with complementary skills","n":4,"k":0},{"l":"C","x":"Too much attention to customers","n":3,"k":0},{"l":"D","x":"Weak research + poor cash control","n":35,"k":1},{"l":"E","x":"Too much market research","n":2,"k":0}]},{"n":16,"w":2,"t":"Concept","topic":"The Business Model Canvas","p":100.0,"c":44,"b":0,"o":[{"l":"A","x":"Fixes the model permanently","n":0,"k":0},{"l":"B","x":"Nine blocks, testable hypotheses","n":44,"k":1},{"l":"C","x":"Used only by large corporations","n":0,"k":0},{"l":"D","x":"Replaces the income statement and balance sheet","n":0,"k":0},{"l":"E","x":"A company registration form","n":0,"k":0}]},{"n":17,"w":3,"t":"Concept","topic":"Mission, vision and objectives","p":97.7,"c":43,"b":0,"o":[{"l":"A","x":"Vision = yearly task list","n":0,"k":0},{"l":"B","x":"Objectives state purpose, mission must be time-bound","n":1,"k":0},{"l":"C","x":"The two are the same","n":0,"k":0},{"l":"D","x":"Mission = the future; vision = today","n":0,"k":0},{"l":"E","x":"Mission = what and for whom; vision = the desired future","n":43,"k":1}]},{"n":18,"w":3,"t":"Concept","topic":"KPIs versus OKRs","p":100.0,"c":44,"b":0,"o":[{"l":"A","x":"KPIs monitor health, OKRs push change","n":44,"k":1},{"l":"B","x":"OKRs make other measurement unnecessary","n":0,"k":0},{"l":"C","x":"KPIs set once a year, never reviewed","n":0,"k":0},{"l":"D","x":"Both look only at the past","n":0,"k":0},{"l":"E","x":"OKRs track health, KPIs only financial","n":0,"k":0}]},{"n":19,"w":2,"t":"Concept","topic":"Deciding under uncertainty: the reversible decision","p":86.4,"c":38,"b":0,"o":[{"l":"A","x":"Decisions made with data are never reversed","n":1,"k":0},{"l":"B","x":"Guarantees no mistake","n":1,"k":0},{"l":"C","x":"Cheap learning, shorter learning cycles","n":38,"k":1},{"l":"D","x":"Removes the need to review the outcome","n":0,"k":0},{"l":"E","x":"Always cheaper","n":4,"k":0}]},{"n":20,"w":4,"t":"Concept","topic":"Firm size: SMEs and large firms","p":93.2,"c":41,"b":0,"o":[{"l":"A","x":"Size class never changes","n":0,"k":0},{"l":"B","x":"Large firms are more agile than SMEs","n":2,"k":0},{"l":"C","x":"Every country uses the same definition","n":1,"k":0},{"l":"D","x":"SMEs offer agility, large firms scale; thresholds vary by country","n":41,"k":1},{"l":"E","x":"Size does not affect processes","n":0,"k":0}]}]}</script>
+<script>
+(function(){
+  var D = JSON.parse(document.getElementById('qdata').textContent);
+  var TYPE_LABEL = {"Case":"Case question","Statements":"I–IV statement evaluation","Concept":"Concept"};
+  var TYPE_COUNT = {"Case":5,"Statements":5,"Concept":10};
+  var WEEK_LABEL = {"1":"Week 1 · Human needs","2":"Week 2 · Entrepreneurship & management",
+                    "3":"Week 3 · Establishment","4":"Week 4 · Classification"};
+  var WEEK_COUNT = {"1":5,"2":6,"3":5,"4":4};
+
+  /* ---- summary figures ---- */
+  var sc = D.scores.slice().sort(function(a,b){return a-b;});
+  var avg = sc.reduce(function(a,b){return a+b;},0)/sc.length;
+  var med = sc.length%2 ? sc[(sc.length-1)/2] : (sc[sc.length/2-1]+sc[sc.length/2])/2;
+  document.getElementById('s-n').textContent   = D.n;
+  document.getElementById('s-avg').textContent = Math.round(avg);
+  document.getElementById('s-med').textContent = Math.round(med);
+  document.getElementById('s-rng').textContent = sc[0] + '–' + sc[sc.length-1];
+
+  /* ---- score distribution (SVG) ---- */
+  (function(){
+    var lo=55, hi=100, step=5, bins=[];
+    for(var s=lo;s<hi;s+=step) bins.push({a:s,b:s+step,n:0});
+    sc.forEach(function(v){
+      var i = Math.min(bins.length-1, Math.max(0, Math.floor((v-lo)/step)));
+      if(v===lo) i=0;
+      bins[i].n++;
+    });
+    var W=760,H=230, mL=34,mR=14,mT=14,mB=42;
+    var pw=W-mL-mR, ph=H-mT-mB;
+    var maxN=Math.max.apply(null,bins.map(function(d){return d.n;}));
+    var yTicks=[0, Math.ceil(maxN/2), maxN];
+    var x=function(v){return mL + (v-lo)/(hi-lo)*pw;};
+    var y=function(v){return mT + ph - v/maxN*ph;};
+    var p=[];
+    p.push('<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Score distribution histogram">');
+    yTicks.forEach(function(t){
+      p.push('<line x1="'+mL+'" x2="'+(W-mR)+'" y1="'+y(t)+'" y2="'+y(t)+'" stroke="var(--line)" stroke-width="1"/>');
+      p.push('<text x="'+(mL-7)+'" y="'+(y(t)+4)+'" text-anchor="end" font-size="11" fill="var(--ink3)" font-family="var(--sans)">'+t+'</text>');
+    });
+    bins.forEach(function(d){
+      if(!d.n) return;
+      var bx=x(d.a)+1.5, bw=x(d.b)-x(d.a)-3;
+      p.push('<rect x="'+bx+'" y="'+y(d.n)+'" width="'+bw+'" height="'+(y(0)-y(d.n))+'" rx="3" fill="var(--accent)"><title>'+d.a+'–'+d.b+' points: '+d.n+' students</title></rect>');
+      p.push('<text x="'+(bx+bw/2)+'" y="'+(y(d.n)-6)+'" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink2)" font-family="var(--sans)">'+d.n+'</text>');
+    });
+    for(var t2=lo;t2<=hi;t2+=step)
+      p.push('<text x="'+x(t2)+'" y="'+(mT+ph+18)+'" text-anchor="middle" font-size="11" fill="var(--ink3)" font-family="var(--sans)">'+t2+'</text>');
+    p.push('<line x1="'+x(avg)+'" x2="'+x(avg)+'" y1="'+mT+'" y2="'+(mT+ph)+'" stroke="var(--ink2)" stroke-width="1.2" stroke-dasharray="4 3"/>');
+    p.push('<text x="'+(x(avg)+6)+'" y="'+(mT+12)+'" font-size="11" fill="var(--ink2)" font-family="var(--sans)">average '+Math.round(avg)+'</text>');
+    p.push('<text x="'+(mL+pw/2)+'" y="'+(H-6)+'" text-anchor="middle" font-size="11" fill="var(--ink3)" font-family="var(--sans)">Score (out of 100)</text>');
+    p.push('</svg>');
+    document.getElementById('hist').innerHTML = p.join('');
+  })();
+
+  /* ---- comparison bars ---- */
+  function cmp(el, rows){
+    el.innerHTML = rows.map(function(r){
+      var low = r.v < 60;
+      return '<div class="cmprow">'
+        + '<div class="cmptop"><span>'+r.label+' <span class="sub">('+r.sub+')</span></span><b>'+Math.round(r.v)+'%</b></div>'
+        + '<div class="track"><div class="fill'+(low?' low':'')+'" style="width:'+r.v+'%"></div></div>'
+        + '</div>';
+    }).join('');
+  }
+  cmp(document.getElementById('cmp-type'), ["Case","Concept","Statements"].map(function(k){
+    return {label:TYPE_LABEL[k], sub:TYPE_COUNT[k]+' questions', v:D.types[k]};
+  }));
+  cmp(document.getElementById('cmp-week'), ["1","2","3","4"].map(function(k){
+    return {label:WEEK_LABEL[k], sub:WEEK_COUNT[k]+' questions', v:D.weeks[k]};
+  }));
+
+  /* ---- question list ---- */
+  var state = {w:'all', t:'all', only:false, open:null};
+  var list = document.getElementById('qlist');
+  var empty = document.getElementById('qempty');
+
+  function detailHTML(q){
+    var max = Math.max.apply(null, q.o.map(function(o){return o.n;}));
+    var opts = q.o.map(function(o){
+      var heavy = (!o.k && o.n === max && o.n > 0);
+      var w = max ? (o.n/max*100) : 0;
+      return '<div class="opt'+(o.k?' correct':'')+(heavy?' heavy':'')+'">'
+        + '<span class="ltr">'+o.l+'</span>'
+        + '<span class="txt">'+o.x
+        + '<span class="obar"><i style="width:'+w+'%"></i></span>'
+        + '<span class="cnt">'+o.n+' students'+(o.k?' · correct answer':'')+'</span>'
+        + '</span></div>';
+    }).join('');
+    return '<div class="detail'+(q.p<60?' low':'')+'" id="det-'+q.n+'">'
+      + '<div class="meta">'+'Week '+q.w+' · '+TYPE_LABEL[q.t]+' · '+q.c+'/'+D.n+' correct'+(q.b?' · '+q.b+' blank':'')+'</div>'
+      + '<h3>'+q.topic+'</h3>' + opts + '</div>';
+  }
+
+  function render(){
+    var shown = D.q.filter(function(q){
+      if(state.w !== 'all' && String(q.w) !== state.w) return false;
+      if(state.t !== 'all' && q.t !== state.t) return false;
+      if(state.only && q.p >= 60) return false;
+      return true;
+    });
+    empty.hidden = shown.length > 0;
+    list.innerHTML = shown.map(function(q){
+      var low = q.p < 60, op = state.open === q.n;
+      return '<button class="qrow" type="button" data-q="'+q.n+'" aria-expanded="'+op+'" aria-controls="det-'+q.n+'">'
+        + '<span class="qnum">'+q.n+'</span>'
+        + '<span class="track"><span class="fill'+(low?' low':'')+'" style="width:'+q.p+'%"></span></span>'
+        + '<span class="qpct'+(low?' low':'')+'">'+Math.round(q.p)+'%</span>'
+        + '</button>'
+        + (op ? detailHTML(q) : '');
+    }).join('');
+  }
+
+  list.addEventListener('click', function(e){
+    var b = e.target.closest('.qrow'); if(!b) return;
+    var n = parseInt(b.dataset.q,10);
+    state.open = (state.open === n) ? null : n;
+    render();
+    var again = list.querySelector('.qrow[data-q="'+n+'"]');
+    if(again) again.focus();
+  });
+
+  document.querySelectorAll('.toolbar .chip').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if(btn.dataset.only){
+        state.only = !state.only;
+        btn.setAttribute('aria-pressed', String(state.only));
+      } else {
+        var key = btn.dataset.w ? 'w' : 't';
+        var val = btn.dataset.w || btn.dataset.t;
+        state[key] = val;
+        btn.parentNode.querySelectorAll('.chip').forEach(function(o){
+          if(o.dataset.only) return;
+          o.setAttribute('aria-pressed', String(o === btn));
+        });
+      }
+      state.open = null;
+      render();
+    });
+  });
+  render();
+
+  /* ---- theme button ---- */
+  var root = document.documentElement, tb = document.getElementById('themebtn');
+  try { var saved = localStorage.getItem('bme-theme'); if(saved) root.setAttribute('data-theme', saved); } catch(e){}
+  tb.addEventListener('click', function(){
+    var dark = root.getAttribute('data-theme') === 'dark'
+      || (!root.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches);
+    var next = dark ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('bme-theme', next); } catch(e){}
+  });
+})();
+</script>
+
+</body>
+</html>

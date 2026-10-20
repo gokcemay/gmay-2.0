@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Serve unlisted quiz reviews and language selectors as standalone HTML under public/r, outside the application layout, so uploaded scripts and content remain independent and receive no application analytics.
