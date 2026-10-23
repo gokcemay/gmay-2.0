@@ -708,5 +708,7 @@ export const english: Record<string, string> = {
   "Kodu tek bir Python dosyası olarak ver; çalıştırınca ne göreceğimi kısaca açıkla": "Provide the code as one Python file; briefly explain what I will see when I run it",
   "Kod kuralları:": "Code rules:",
   "Ek notlar:": "Additional notes:",
-  "Kodu yazmadan önce şartnamede çelişki veya eksik kritik bir ölçü görürsen önce bunu bana sor.": "Before writing code, ask me about any contradiction or missing critical dimension in the specification."
+  "Kodu yazmadan önce şartnamede çelişki veya eksik kritik bir ölçü görürsen önce bunu bana sor.": "Before writing code, ask me about any contradiction or missing critical dimension in the specification.",
+  "Döner hareket şeması: dönme merkezi, iz yarıçapı r ve temas noktası": "Rotary motion diagram: rotation center, track radius r, and contact point",
+  "İleri-geri hareket şeması: iki terslenme noktası arasındaki strok uzunluğu L": "Reciprocating motion diagram: stroke length L between the two reversal points"
 };

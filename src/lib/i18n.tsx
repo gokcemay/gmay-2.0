@@ -28,7 +28,7 @@ export function localizeHead<T extends HeadData>(head: T, language: Language, pa
     if (Array.isArray(value)) return value.map(translateStructured);
     if (value && typeof value === 'object') {
       return Object.fromEntries(Object.entries(value).map(([key, entry]) => [key,
-        key === 'inLanguage' && entry === 'tr-TR' ? (language === 'en' ? 'en' : 'tr-TR') : translateStructured(entry),
+        key === 'inLanguage' && entry === 'tr-TR' ? (language === 'en' ? 'en' : 'tr-TR') : key === 'url' && entry === url ? localizedUrl : translateStructured(entry),
       ]));
     }
     return value;
