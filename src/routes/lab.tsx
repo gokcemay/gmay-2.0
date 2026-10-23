@@ -30,6 +30,7 @@ type ToolHref =
   | "/lab/hertz-contact-calculator"
   | "/lab/wear-rate-calculator"
   | "/lab/sliding-distance-calculator"
+  | "/lab/cadquery-prompt"
   | "/araclar/teknik-rapor-stili";
 
 type Tool = {
@@ -58,6 +59,12 @@ const groups: Group[] = [
         href: "/lab/engineering-prompt-builder",
         purpose:
           "Mühendislik görevleri için yapılandırılmış ve tekrar kullanılabilir yapay zekâ promptları oluşturun.",
+      },
+      {
+        name: "CadQuery Prompt Üreteci",
+        href: "/lab/cadquery-prompt",
+        purpose:
+          "Parça fikrinizi parametrik CAD modelleme için yapılandırılmış bir Claude promptuna dönüştürün.",
       },
       {
         name: "Teknik Rapor Stili",
