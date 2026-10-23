@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Serve unlisted quiz reviews and language selectors as standalone HTML under public/r, outside the application layout, so uploaded scripts and content remain independent and receive no application analytics.
+- Keep the CadQuery tool in the existing TanStack route system with an isolated layout and no analytics; keep prompt generation in a pure module so behavior can be tested without the UI.
