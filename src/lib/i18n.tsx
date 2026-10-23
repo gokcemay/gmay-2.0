@@ -43,10 +43,12 @@ export function localizeHead<T extends HeadData>(head: T, language: Language, pa
     })),
     links: [
       ...(head.links?.filter(link => link['rel'] !== 'canonical') ?? []),
-      { rel: 'canonical', href: localizedUrl },
-      { rel: 'alternate', hrefLang: 'en', href: url },
-      { rel: 'alternate', hrefLang: 'tr', href: `${url}?lang=tr` },
-      { rel: 'alternate', hrefLang: 'x-default', href: url },
+      ...(head.links?.some(link => link['rel'] === 'canonical') ? [
+        { rel: 'canonical', href: localizedUrl },
+        { rel: 'alternate', hrefLang: 'en', href: url },
+        { rel: 'alternate', hrefLang: 'tr', href: `${url}?lang=tr` },
+        { rel: 'alternate', hrefLang: 'x-default', href: url },
+      ] : []),
     ],
     scripts: head.scripts?.map(script => {
       if (script['type'] !== 'application/ld+json' || typeof script['children'] !== 'string') return script;
