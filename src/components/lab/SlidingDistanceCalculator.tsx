@@ -1,3 +1,5 @@
+import { localizeSummary } from '@/lib/translate';
+import { useT, useLanguage } from '@/lib/i18n';
 import { useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { buttonStyles } from "@/components/site/CTA";
@@ -55,10 +57,11 @@ function NumberField({
   error?: string | undefined;
   hint?: string;
 }) {
+  const tx = useT();
   return (
     <div>
       <label htmlFor={id} className={labelClass}>
-        {label}
+        {tx(label)}
       </label>
       <div className="mt-2 grid grid-cols-[minmax(0,1fr)_auto] gap-2">
         <input
@@ -73,18 +76,18 @@ function NumberField({
           className={selectClass}
           value={unit}
           onChange={(e) => onUnit(e.target.value)}
-          aria-label={`${label} birimi`}
+          aria-label={tx(`${label} birimi`)}
           disabled={units.length < 2}
         >
-          {units.map((u) => (
+          {tx(units.map((u) => (
             <option key={u} value={u}>
-              {u}
+              {tx(u)}
             </option>
-          ))}
+          )))}
         </select>
       </div>
-      {hint && <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{hint}</p>}
-      {error && <p className="mt-2 text-xs text-destructive">{error}</p>}
+      {tx(hint && <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{tx(hint)}</p>)}
+      {tx(error && <p className="mt-2 text-xs text-destructive">{tx(error)}</p>)}
     </div>
   );
 }
@@ -104,30 +107,32 @@ function ResultRow({
   emphasis?: boolean;
   description: string;
 }) {
+  const tx = useT();
   return (
     <div className={`border border-border p-4 ${emphasis ? "bg-muted/50" : "bg-card"}`}>
       <p className="font-mono text-[0.65rem] tracking-[0.2em] text-muted-foreground uppercase">
-        {label}
+        {tx(label)}
       </p>
       <p
         className={`mt-2 font-display font-semibold break-words text-foreground ${
           emphasis ? "text-2xl" : "text-lg"
         }`}
       >
-        {value} <span className="font-mono text-sm font-normal">{unit}</span>
+        {tx(value)} <span className="font-mono text-sm font-normal">{tx(unit)}</span>
       </p>
-      <p className="mt-1 font-mono text-xs text-muted-foreground">{symbol}</p>
-      <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{description}</p>
+      <p className="mt-1 font-mono text-xs text-muted-foreground">{tx(symbol)}</p>
+      <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{tx(description)}</p>
     </div>
   );
 }
 
 function RotaryDiagram() {
+  const tx = useT();
   return (
     <svg
       viewBox="0 0 220 130"
       role="img"
-      aria-label="Döner hareket şeması: dönme merkezi, iz yarıçapı r ve temas noktası"
+      aria-label={tx("Döner hareket şeması: dönme merkezi, iz yarıçapı r ve temas noktası")}
       className="h-auto w-full max-w-[260px] text-muted-foreground"
     >
       <circle cx="90" cy="65" r="48" fill="none" stroke="currentColor" strokeWidth="1" />
@@ -143,24 +148,22 @@ function RotaryDiagram() {
       />
       <circle cx="138" cy="65" r="4" fill="none" stroke="currentColor" strokeWidth="1.4" />
       <text x="108" y="59" fontSize="11" fill="currentColor" fontFamily="monospace">
-        r
-      </text>
+        {tx("r")}</text>
       <text x="60" y="122" fontSize="9" fill="currentColor" fontFamily="monospace">
-        dönme merkezi
-      </text>
+        {tx("dönme merkezi")}</text>
       <text x="150" y="69" fontSize="9" fill="currentColor" fontFamily="monospace">
-        temas
-      </text>
+        {tx("temas")}</text>
     </svg>
   );
 }
 
 function ReciprocatingDiagram() {
+  const tx = useT();
   return (
     <svg
       viewBox="0 0 220 90"
       role="img"
-      aria-label="İleri-geri hareket şeması: iki terslenme noktası arasındaki strok uzunluğu L"
+      aria-label={tx("İleri-geri hareket şeması: iki terslenme noktası arasındaki strok uzunluğu L")}
       className="h-auto w-full max-w-[260px] text-muted-foreground"
     >
       <line x1="40" y1="45" x2="180" y2="45" stroke="currentColor" strokeWidth="1" />
@@ -168,14 +171,11 @@ function ReciprocatingDiagram() {
       <line x1="180" y1="32" x2="180" y2="58" stroke="currentColor" strokeWidth="1.4" />
       <circle cx="110" cy="45" r="4" fill="none" stroke="currentColor" strokeWidth="1.4" />
       <text x="103" y="30" fontSize="11" fill="currentColor" fontFamily="monospace">
-        L
-      </text>
+        {tx("L")}</text>
       <text x="16" y="74" fontSize="9" fill="currentColor" fontFamily="monospace">
-        terslenme
-      </text>
+        {tx("terslenme")}</text>
       <text x="156" y="74" fontSize="9" fill="currentColor" fontFamily="monospace">
-        terslenme
-      </text>
+        {tx("terslenme")}</text>
     </svg>
   );
 }
@@ -221,6 +221,8 @@ function buildSummary(form: SlidingFormState, r: SlidingResults): string {
 }
 
 export function SlidingDistanceCalculator() {
+  const tx = useT();
+  const language = useLanguage();
   const [form, setForm] = useState<SlidingFormState>(defaultRotaryForm);
   const [copied, setCopied] = useState(false);
 
@@ -239,7 +241,7 @@ export function SlidingDistanceCalculator() {
   const copy = async () => {
     if (!results) return;
     try {
-      await navigator.clipboard.writeText(buildSummary(form, results));
+      await navigator.clipboard.writeText(localizeSummary(buildSummary(form, results), language));
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -254,13 +256,13 @@ export function SlidingDistanceCalculator() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-      <section className="border border-border bg-card p-5 md:p-6" aria-label="Girdiler">
-        <h2 className="font-display text-lg font-semibold text-foreground">Girdiler</h2>
+      <section className="border border-border bg-card p-5 md:p-6" aria-label={tx("Girdiler")}>
+        <h2 className="font-display text-lg font-semibold text-foreground">{tx("Girdiler")}</h2>
 
         <fieldset className="mt-5">
-          <legend className={labelClass}>Hareket tipi</legend>
+          <legend className={labelClass}>{tx("Hareket tipi")}</legend>
           <div className="mt-2 grid grid-cols-1 border border-border sm:grid-cols-2">
-            {(
+            {tx((
               [
                 ["rotary", "Döner"],
                 ["reciprocating", "İleri-Geri"],
@@ -277,83 +279,83 @@ export function SlidingDistanceCalculator() {
                     : "bg-background text-muted-foreground hover:text-foreground"
                 }`}
               >
-                {label}
+                {tx(label)}
               </button>
-            ))}
+            )))}
           </div>
         </fieldset>
 
         <div className="mt-5 border border-border p-4">
-          {isRotary ? <RotaryDiagram /> : <ReciprocatingDiagram />}
+          {tx(isRotary ? <RotaryDiagram /> : <ReciprocatingDiagram />)}
           <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-            {isRotary
+            {tx(isRotary
               ? "Numune, r yarıçaplı dairesel bir iz üzerinde hareket eder. Bir tam devirde kat edilen mesafe 2πr'dir."
-              : "Strok uzunluğu L, iki terslenme noktası arasındaki tek yönlü mesafedir. Bir tam çevrim ileri gidiş + geri dönüş olduğundan toplam 2L yol alınır."}
+              : "Strok uzunluğu L, iki terslenme noktası arasındaki tek yönlü mesafedir. Bir tam çevrim ileri gidiş + geri dönüş olduğundan toplam 2L yol alınır.")}
           </p>
         </div>
 
         <div className="mt-6 grid gap-5">
-          {isRotary ? (
+          {tx(isRotary ? (
             <>
               <NumberField
                 id="sd-radius"
-                label="İz yarıçapı, r"
+                label={tx("İz yarıçapı, r")}
                 value={form.radius}
-                unit={form.radiusUnit}
+                unit={tx(form.radiusUnit)}
                 units={lengthUnits}
                 onValue={(v) => set("radius", v)}
                 onUnit={(u) => set("radiusUnit", u as LengthUnit)}
-                error={errors.radius}
-                hint="İz yarıçapı, dönme merkezinden temas noktasına olan mesafedir."
+                error={tx(errors.radius)}
+                hint={tx("İz yarıçapı, dönme merkezinden temas noktasına olan mesafedir.")}
               />
               <NumberField
                 id="sd-rpm"
-                label="Dönme hızı, n"
+                label={tx("Dönme hızı, n")}
                 value={form.rpm}
                 unit="rpm"
                 units={rpmUnits}
                 onValue={(v) => set("rpm", v)}
                 onUnit={() => undefined}
-                error={errors.rpm}
-                hint="Dakikadaki devir sayısı (rpm). Açısal hız (rad/s) ile karıştırılmamalıdır."
+                error={tx(errors.rpm)}
+                hint={tx("Dakikadaki devir sayısı (rpm). Açısal hız (rad/s) ile karıştırılmamalıdır.")}
               />
             </>
           ) : (
             <>
               <NumberField
                 id="sd-stroke"
-                label="Strok uzunluğu, L"
+                label={tx("Strok uzunluğu, L")}
                 value={form.stroke}
-                unit={form.strokeUnit}
+                unit={tx(form.strokeUnit)}
                 units={lengthUnits}
                 onValue={(v) => set("stroke", v)}
                 onUnit={(u) => set("strokeUnit", u as LengthUnit)}
-                error={errors.stroke}
-                hint="Strok uzunluğu, iki terslenme noktası arasındaki mesafedir. Bir tam çevrimde toplam 2L yol alınır."
+                error={tx(errors.stroke)}
+                hint={tx("Strok uzunluğu, iki terslenme noktası arasındaki mesafedir. Bir tam çevrimde toplam 2L yol alınır.")}
               />
               <NumberField
                 id="sd-frequency"
-                label="Çevrim frekansı, f"
+                label={tx("Çevrim frekansı, f")}
                 value={form.frequency}
-                unit={form.frequencyUnit}
+                unit={tx(form.frequencyUnit)}
                 units={frequencyUnits}
                 onValue={(v) => set("frequency", v)}
                 onUnit={(u) => set("frequencyUnit", u as FrequencyUnit)}
-                error={errors.frequency}
-                hint="Bu araçta frekans, saniyedeki tam ileri-gidiş ve geri-dönüş çevrimi sayısını ifade eder."
+                error={tx(errors.frequency)}
+                hint={tx("Bu araçta frekans, saniyedeki tam ileri-gidiş ve geri-dönüş çevrimi sayısını ifade eder.")}
               />
             </>
-          )}
+          ))}
 
           <NumberField
             id="sd-duration"
-            label="Deney süresi, t"
+            label={tx("Deney süresi, t")}
             value={form.duration}
-            unit={form.durationUnit}
+            unit={tx(form.durationUnit)}
             units={timeUnits}
             onValue={(v) => set("duration", v)}
             onUnit={(u) => set("durationUnit", u as TimeUnit)}
-            error={errors.duration}
+            error={tx(errors.duration)}
           />
         </div>
 
@@ -363,74 +365,70 @@ export function SlidingDistanceCalculator() {
             className={buttonStyles.secondary}
             onClick={() => setForm(defaultsForMotionMode(form.mode))}
           >
-            Varsayılanlara Dön
-          </button>
+            {tx("Varsayılanlara Dön")}</button>
           <button type="button" className={buttonStyles.primary} onClick={copy} disabled={!results}>
-            {copied ? "Kopyalandı" : "Sonuçları Kopyala"}
+            {tx(copied ? "Kopyalandı" : "Sonuçları Kopyala")}
           </button>
         </div>
 
         <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
-          Hesaplamalar tarayıcınızda gerçekleştirilir. Girdiğiniz deney parametreleri bu araç
-          tarafından kaydedilmez.
-        </p>
+          {tx("Hesaplamalar tarayıcınızda gerçekleştirilir. Girdiğiniz deney parametreleri bu araç tarafından kaydedilmez.")}</p>
       </section>
 
-      <section aria-label="Sonuçlar" className="grid content-start gap-4">
-        <h2 className="font-display text-lg font-semibold text-foreground">Sonuçlar</h2>
+      <section aria-label={tx("Sonuçlar")} className="grid content-start gap-4">
+        <h2 className="font-display text-lg font-semibold text-foreground">{tx("Sonuçlar")}</h2>
 
-        {results && dist && per && speed ? (
+        {tx(results && dist && per && speed ? (
           <>
             <ResultRow
-              label={isRotary ? "Toplam devir sayısı" : "Toplam çevrim sayısı"}
+              label={tx(isRotary ? "Toplam devir sayısı" : "Toplam çevrim sayısı")}
               symbol={isRotary ? "N = n · t / 60" : "N = f · t"}
               value={formatCount(results.N)}
-              unit={isRotary ? "devir" : "çevrim"}
+              unit={tx(isRotary ? "devir" : "çevrim")}
               description={
-                isRotary
+                tx(isRotary
                   ? "Deney süresince gerçekleşen toplam disk dönüşü sayısıdır."
-                  : "Deney sırasında tamamlanan ileri-gidiş ve geri-dönüş hareketlerinin toplam sayısıdır."
+                  : "Deney sırasında tamamlanan ileri-gidiş ve geri-dönüş hareketlerinin toplam sayısıdır.")
               }
             />
             <ResultRow
-              label={isRotary ? "Tur başına kayma mesafesi" : "Çevrim başına kayma mesafesi"}
+              label={tx(isRotary ? "Tur başına kayma mesafesi" : "Çevrim başına kayma mesafesi")}
               symbol={isRotary ? "C = 2πr" : "s_cycle = 2L"}
               value={per.value}
-              unit={per.unit}
+              unit={tx(per.unit)}
               description={
-                isRotary
+                tx(isRotary
                   ? "Temas noktasının bir tam dönüşte kat ettiği dairesel yol uzunluğudur."
-                  : "Bir tam ileri-gidiş ve geri-dönüş çevriminde kat edilen toplam 2L mesafesidir."
+                  : "Bir tam ileri-gidiş ve geri-dönüş çevriminde kat edilen toplam 2L mesafesidir.")
               }
             />
             <ResultRow
-              label="Toplam kayma mesafesi"
+              label={tx("Toplam kayma mesafesi")}
               symbol={isRotary ? "s = 2πrN" : "s = 2Lft"}
               value={dist.value}
-              unit={dist.unit}
+              unit={tx(dist.unit)}
               emphasis
               description={
-                isRotary
+                tx(isRotary
                   ? "Temas çiftinin deney boyunca birbirine göre kat ettiği toplam yol uzunluğudur."
-                  : "Tüm deney boyunca temas çiftinin birbirine göre kat ettiği toplam yol uzunluğudur."
+                  : "Tüm deney boyunca temas çiftinin birbirine göre kat ettiği toplam yol uzunluğudur.")
               }
             />
             <ResultRow
-              label={isRotary ? "Doğrusal kayma hızı" : "Ortalama kayma hızı"}
+              label={tx(isRotary ? "Doğrusal kayma hızı" : "Ortalama kayma hızı")}
               symbol={isRotary ? "v = 2πrn / 60" : "v_avg = 2Lf"}
               value={speed.value}
-              unit={speed.unit}
+              unit={tx(speed.unit)}
               description={
-                isRotary
+                tx(isRotary
                   ? "Belirtilen iz yarıçapı ve dönme hızında temas noktasının çevresel hızıdır."
-                  : "Toplam kayma mesafesinin toplam deney süresine bölünmesiyle elde edilen yol-ortalama hızdır."
+                  : "Toplam kayma mesafesinin toplam deney süresine bölünmesiyle elde edilen yol-ortalama hızdır.")
               }
             />
 
             <div className="border border-border bg-card p-4">
               <p className="text-sm leading-relaxed text-muted-foreground">
-                Hesaplanan toplam kayma mesafesini özgül aşınma oranı hesabında kullanabilirsiniz.
-              </p>
+                {tx("Hesaplanan toplam kayma mesafesini özgül aşınma oranı hesabında kullanabilirsiniz.")}</p>
               <Link
                 to="/lab/wear-rate-calculator"
                 search={{
@@ -440,16 +438,13 @@ export function SlidingDistanceCalculator() {
                 }}
                 className={`${buttonStyles.secondary} mt-4`}
               >
-                Wear Rate Calculator'da Kullan
-              </Link>
+                {tx("Wear Rate Calculator'da Kullan")}</Link>
             </div>
           </>
         ) : (
           <div className="border border-dashed border-border p-5 text-sm leading-relaxed text-muted-foreground">
-            Sonuçların görüntülenmesi için tüm girdilerin sıfırdan büyük geçerli sayılar olması
-            gerekir.
-          </div>
-        )}
+            {tx("Sonuçların görüntülenmesi için tüm girdilerin sıfırdan büyük geçerli sayılar olması gerekir.")}</div>
+        ))}
       </section>
     </div>
   );

@@ -1,3 +1,5 @@
+import { localizeSummary } from '@/lib/translate';
+import { useT, useLanguage } from '@/lib/i18n';
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { buttonStyles } from "@/components/site/CTA";
@@ -44,8 +46,9 @@ const selectClass =
   "border border-border bg-background px-2 py-2 font-mono text-xs text-foreground focus:border-accent focus:outline-none";
 
 function FieldError({ message }: { message?: string | undefined }) {
+  const tx = useT();
   if (!message) return null;
-  return <p className="mt-2 text-xs text-destructive">{message}</p>;
+  return <p className="mt-2 text-xs text-destructive">{tx(message)}</p>;
 }
 
 function NumberField({
@@ -69,10 +72,11 @@ function NumberField({
   error?: string | undefined;
   hint?: string;
 }) {
+  const tx = useT();
   return (
     <div>
       <label htmlFor={id} className={labelClass}>
-        {label}
+        {tx(label)}
       </label>
       <div className="mt-2 grid grid-cols-[minmax(0,1fr)_auto] gap-2">
         <input
@@ -87,17 +91,17 @@ function NumberField({
           className={selectClass}
           value={unit}
           onChange={(e) => onUnit(e.target.value)}
-          aria-label={`${label} birimi`}
+          aria-label={tx(`${label} birimi`)}
         >
-          {units.map((u) => (
+          {tx(units.map((u) => (
             <option key={u} value={u}>
-              {u}
+              {tx(u)}
             </option>
-          ))}
+          )))}
         </select>
       </div>
-      {hint && <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{hint}</p>}
-      <FieldError message={error} />
+      {tx(hint && <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{tx(hint)}</p>)}
+      <FieldError message={tx(error)} />
     </div>
   );
 }
@@ -117,20 +121,21 @@ function ResultRow({
   secondary?: string;
   emphasis?: boolean;
 }) {
+  const tx = useT();
   return (
     <div className={`border border-border p-4 ${emphasis ? "bg-muted/50" : "bg-card"}`}>
       <p className="font-mono text-[0.65rem] tracking-[0.2em] text-muted-foreground uppercase">
-        {label}
+        {tx(label)}
       </p>
       <p
         className={`mt-2 font-display font-semibold break-words text-foreground ${
           emphasis ? "text-2xl" : "text-lg"
         }`}
       >
-        {value} <span className="font-mono text-sm font-normal">{unit}</span>
+        {tx(value)} <span className="font-mono text-sm font-normal">{tx(unit)}</span>
       </p>
-      <p className="mt-1 font-mono text-xs text-muted-foreground">{symbol}</p>
-      {secondary && <p className="mt-1 text-xs text-muted-foreground">{secondary}</p>}
+      <p className="mt-1 font-mono text-xs text-muted-foreground">{tx(symbol)}</p>
+      {tx(secondary && <p className="mt-1 text-xs text-muted-foreground">{tx(secondary)}</p>)}
     </div>
   );
 }
@@ -169,6 +174,8 @@ function buildSummary(form: WearFormState, si: WearSIInputs, r: WearResults): st
 }
 
 export function WearRateCalculator({ transfer }: { transfer?: SlidingTransfer | null }) {
+  const tx = useT();
+  const language = useLanguage();
   const transferredValue = transfer ? formatTransferredDistance(transfer.distanceMeters) : null;
   const [form, setForm] = useState<WearFormState>(() =>
     transferredValue
@@ -214,7 +221,7 @@ export function WearRateCalculator({ transfer }: { transfer?: SlidingTransfer | 
   const copy = async () => {
     if (!si || !results) return;
     try {
-      await navigator.clipboard.writeText(buildSummary(form, si, results));
+      await navigator.clipboard.writeText(localizeSummary(buildSummary(form, si, results), language));
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -227,13 +234,13 @@ export function WearRateCalculator({ transfer }: { transfer?: SlidingTransfer | 
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-      <section className="border border-border bg-card p-5 md:p-6" aria-label="Girdiler">
-        <h2 className="font-display text-lg font-semibold text-foreground">Girdiler</h2>
+      <section className="border border-border bg-card p-5 md:p-6" aria-label={tx("Girdiler")}>
+        <h2 className="font-display text-lg font-semibold text-foreground">{tx("Girdiler")}</h2>
 
         <fieldset className="mt-5">
-          <legend className={labelClass}>Hesaplama yöntemi</legend>
+          <legend className={labelClass}>{tx("Hesaplama yöntemi")}</legend>
           <div className="mt-2 grid grid-cols-1 border border-border sm:grid-cols-2">
-            {(
+            {tx((
               [
                 ["volume", "Aşınma hacmi biliniyor"],
                 ["mass", "Kütle kaybı biliniyor"],
@@ -250,103 +257,97 @@ export function WearRateCalculator({ transfer }: { transfer?: SlidingTransfer | 
                     : "bg-background text-muted-foreground hover:text-foreground"
                 }`}
               >
-                {label}
+                {tx(label)}
               </button>
-            ))}
+            )))}
           </div>
         </fieldset>
 
         <div className="mt-6 grid gap-5">
-          {!isMass ? (
+          {tx(!isMass ? (
             <NumberField
               id="wear-volume"
-              label="Aşınma hacmi, V"
+              label={tx("Aşınma hacmi, V")}
               value={form.volume}
-              unit={form.volumeUnit}
+              unit={tx(form.volumeUnit)}
               units={volumeUnits}
               onValue={(v) => set("volume", v)}
               onUnit={(u) => set("volumeUnit", u as VolumeUnit)}
-              error={errors.volume}
+              error={tx(errors.volume)}
             />
           ) : (
             <>
               <NumberField
                 id="wear-mass"
-                label="Kütle kaybı, Δm"
+                label={tx("Kütle kaybı, Δm")}
                 value={form.mass}
-                unit={form.massUnit}
+                unit={tx(form.massUnit)}
                 units={massUnits}
                 onValue={(v) => set("mass", v)}
                 onUnit={(u) => set("massUnit", u as MassUnit)}
-                error={errors.mass}
+                error={tx(errors.mass)}
               />
               <NumberField
                 id="wear-density"
-                label="Yoğunluk, ρ"
+                label={tx("Yoğunluk, ρ")}
                 value={form.density}
-                unit={form.densityUnit}
+                unit={tx(form.densityUnit)}
                 units={densityUnits}
                 onValue={(v) => set("density", v)}
                 onUnit={(u) => set("densityUnit", u as DensityUnit)}
-                error={errors.density}
-                hint="Yoğunluk; alaşım, porozite, bileşim ve malzeme durumuna göre değişebilir. Deney numunesine uygun değeri kullanın."
+                error={tx(errors.density)}
+                hint={tx("Yoğunluk; alaşım, porozite, bileşim ve malzeme durumuna göre değişebilir. Deney numunesine uygun değeri kullanın.")}
               />
             </>
-          )}
+          ))}
 
           <NumberField
             id="wear-force"
-            label="Normal yük, F"
+            label={tx("Normal yük, F")}
             value={form.force}
-            unit={form.forceUnit}
+            unit={tx(form.forceUnit)}
             units={wearForceUnits}
             onValue={(v) => set("force", v)}
             onUnit={(u) => set("forceUnit", u as WearForceUnit)}
-            error={errors.force}
+            error={tx(errors.force)}
           />
 
           <NumberField
             id="wear-distance"
-            label="Kayma mesafesi, s"
+            label={tx("Kayma mesafesi, s")}
             value={form.distance}
-            unit={form.distanceUnit}
+            unit={tx(form.distanceUnit)}
             units={distanceUnits}
             onValue={(v) => set("distance", v)}
             onUnit={(u) => set("distanceUnit", u as DistanceUnit)}
-            error={errors.distance}
+            error={tx(errors.distance)}
           />
 
-          {transferApplied && (
+          {tx(transferApplied && (
             <div className="border-l-2 border-accent bg-muted/50 px-4 py-3">
               <p className="text-xs leading-relaxed text-muted-foreground">
-                Kayma mesafesi Sliding Distance Calculator'dan aktarıldı.
-              </p>
+                {tx("Kayma mesafesi Sliding Distance Calculator'dan aktarıldı.")}</p>
               <div className="mt-2 flex flex-wrap items-center gap-4">
                 <button
                   type="button"
                   onClick={clearTransferred}
                   className="text-xs text-foreground underline underline-offset-4"
                 >
-                  Aktarılan değeri temizle
-                </button>
+                  {tx("Aktarılan değeri temizle")}</button>
                 <Link
                   to="/lab/sliding-distance-calculator"
                   className="text-xs text-muted-foreground underline underline-offset-4"
                 >
-                  Kayma mesafesini yeniden hesapla
-                </Link>
+                  {tx("Kayma mesafesini yeniden hesapla")}</Link>
               </div>
             </div>
-          )}
+          ))}
         </div>
 
-        {isMass && (
+        {tx(isMass && (
           <p className="mt-6 border-l-2 border-accent bg-muted/50 px-4 py-3 text-xs leading-relaxed text-muted-foreground">
-            Kütle değişimi yalnızca aşınmış malzeme miktarını temsil etmeyebilir. Transfer tabakası,
-            oksidasyon, yüzeye yapışan aşınma artıkları, temizleme yöntemi ve terazi çözünürlüğü
-            sonucu etkileyebilir.
-          </p>
-        )}
+            {tx("Kütle değişimi yalnızca aşınmış malzeme miktarını temsil etmeyebilir. Transfer tabakası, oksidasyon, yüzeye yapışan aşınma artıkları, temizleme yöntemi ve terazi çözünürlüğü sonucu etkileyebilir.")}</p>
+        ))}
 
         <div className="mt-6 flex flex-wrap gap-3">
           <button
@@ -354,51 +355,48 @@ export function WearRateCalculator({ transfer }: { transfer?: SlidingTransfer | 
             className={buttonStyles.secondary}
             onClick={() => setForm(defaultsForMode(form.mode))}
           >
-            Varsayılanlara Dön
-          </button>
+            {tx("Varsayılanlara Dön")}</button>
           <button
             type="button"
             className={buttonStyles.primary}
             onClick={copy}
             disabled={!results}
           >
-            {copied ? "Kopyalandı" : "Sonuçları Kopyala"}
+            {tx(copied ? "Kopyalandı" : "Sonuçları Kopyala")}
           </button>
         </div>
 
         <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
-          Hesaplamalar tarayıcınızda gerçekleştirilir. Girdiğiniz deney verileri bu araç tarafından
-          kaydedilmez.
-        </p>
+          {tx("Hesaplamalar tarayıcınızda gerçekleştirilir. Girdiğiniz deney verileri bu araç tarafından kaydedilmez.")}</p>
       </section>
 
-      <section aria-label="Sonuçlar" className="grid content-start gap-4">
-        <h2 className="font-display text-lg font-semibold text-foreground">Sonuçlar</h2>
+      <section aria-label={tx("Sonuçlar")} className="grid content-start gap-4">
+        <h2 className="font-display text-lg font-semibold text-foreground">{tx("Sonuçlar")}</h2>
 
-        {results && vol ? (
+        {tx(results && vol ? (
           <>
             <ResultRow
-              label={isMass ? "Hesaplanan aşınma hacmi" : "Aşınma hacmi"}
+              label={tx(isMass ? "Hesaplanan aşınma hacmi" : "Aşınma hacmi")}
               symbol="V"
               value={formatSci(vol.value)}
-              unit={vol.unit}
+              unit={tx(vol.unit)}
             />
             {isMass && (
               <ResultRow
-                label="Kütlesel aşınma / kayma mesafesi"
+                label={tx("Kütlesel aşınma / kayma mesafesi")}
                 symbol="q_m = Δm / s"
                 value={formatSci(toMgPerM(results.qm ?? 0))}
                 unit="mg/m"
               />
             )}
             <ResultRow
-              label="Hacimsel aşınma / kayma mesafesi"
+              label={tx("Hacimsel aşınma / kayma mesafesi")}
               symbol="q_v = V / s"
               value={formatSci(toMm3PerM(results.qv))}
               unit="mm³/m"
             />
             <ResultRow
-              label="Özgül aşınma oranı"
+              label={tx("Özgül aşınma oranı")}
               symbol="k_s = V / (F × s)"
               value={formatSci(toMm3PerNm(results.ks))}
               unit="mm³/(N·m)"
@@ -408,10 +406,8 @@ export function WearRateCalculator({ transfer }: { transfer?: SlidingTransfer | 
           </>
         ) : (
           <div className="border border-dashed border-border p-5 text-sm leading-relaxed text-muted-foreground">
-            Sonuçların görüntülenmesi için tüm girdilerin sıfırdan büyük geçerli sayılar olması
-            gerekir.
-          </div>
-        )}
+            {tx("Sonuçların görüntülenmesi için tüm girdilerin sıfırdan büyük geçerli sayılar olması gerekir.")}</div>
+        ))}
       </section>
     </div>
   );

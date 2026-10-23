@@ -1,4 +1,6 @@
+import { useT, localizeHead } from '@/lib/i18n';
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { Section, SectionHeader } from "@/components/site/Section";
 import { GridPanel, InfoCard } from "@/components/site/Cards";
@@ -8,7 +10,7 @@ import { book, profileLinks } from "@/lib/profiles";
 import bookCover from "@/assets/makine-muhendisleri-icin-100-prompt-kapak.jpg";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
+  head: ({ match }) => (localizeHead({
     meta: [
       { title: "Gökçe Mehmet Ay — Engineering × AI × Research" },
       {
@@ -27,7 +29,7 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "/" }],
-  }),
+  }, match.context.language ?? 'en', "/")),
   loader: ({ context }) => context.queryClient.ensureQueryData(substackPostsQueryOptions),
   component: Index,
 });
@@ -84,7 +86,8 @@ const services = [
 
 
 function Index() {
-  const data = Route.useLoaderData();
+  const tx = useT();
+  const { data } = useSuspenseQuery(substackPostsQueryOptions);
 
   return (
     <>
@@ -92,24 +95,17 @@ function Index() {
         <div className="pointer-events-none absolute inset-0 bg-grid opacity-[0.55]" />
         <div className="relative mx-auto max-w-6xl px-6 py-16 md:px-10 md:py-24">
           <p className="font-mono text-xs tracking-[0.3em] text-accent uppercase">
-            Engineering × AI × Research
-          </p>
+            {tx("Engineering × AI × Research")}</p>
           <h1 className="mt-6 max-w-3xl font-display text-5xl leading-[1.05] font-semibold tracking-tight text-foreground md:text-7xl">
-            Gökçe Mehmet Ay — Mühendislik, Yapay Zekâ ve Araştırma
-          </h1>
+            {tx("Gökçe Mehmet Ay — Mühendislik, Yapay Zekâ ve Araştırma")}</h1>
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            Mühendislik pratiğini, akademik araştırmayı ve üretken yapay zekâyı bir araya
-            getiriyorum. Mühendisler ve araştırmacılar için araçlar geliştiriyor, eğitimler veriyor
-            ve teknoloji üzerine yazıyorum.
-          </p>
+            {tx("Mühendislik pratiğini, akademik araştırmayı ve üretken yapay zekâyı bir araya getiriyorum. Mühendisler ve araştırmacılar için araçlar geliştiriyor, eğitimler veriyor ve teknoloji üzerine yazıyorum.")}</p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link to="/lab" className={buttonStyles.primary}>
-              Engineering Lab'i Keşfet
-            </Link>
+              {tx("Engineering Lab'i Keşfet")}</Link>
             <Link to="/egitim" className={buttonStyles.secondary}>
-              Eğitim &amp; Danışmanlık
-            </Link>
+              {tx("Eğitim & Danışmanlık")}</Link>
           </div>
 
           <p className="mt-6 text-sm text-muted-foreground">
@@ -119,7 +115,7 @@ function Index() {
               rel="noopener noreferrer"
               className="underline underline-offset-4 hover:text-foreground"
             >
-              {"“Mühendisliğin Yapay Zeka Mentoru”nu Oku"}
+              {tx("“Mühendisliğin Yapay Zeka Mentoru”nu Oku")}
             </a>
           </p>
         </div>
@@ -127,21 +123,20 @@ function Index() {
 
       <Section>
         <SectionHeader
-          eyebrow="Engineering Lab"
-          title="GMA Engineering Lab"
-          description="Mühendislik hesaplamaları, test planlama ve yapay zekâ iş akışları için kullanılabilir durumdaki araçlar."
+          eyebrow={tx("Engineering Lab")}
+          title={tx("GMA Engineering Lab")}
+          description={tx("Mühendislik hesaplamaları, test planlama ve yapay zekâ iş akışları için kullanılabilir durumdaki araçlar.")}
           action={
             <Link to="/lab" className={buttonStyles.secondary}>
-              Tüm Araçları Gör
-            </Link>
+              {tx("Tüm Araçları Gör")}</Link>
           }
         />
 
         <div className="mt-8 grid gap-px border border-border bg-border sm:grid-cols-2">
-          {labTools.map((t) => (
+          {tx(labTools.map((t) => (
             <article key={t.title} className="flex flex-col bg-card p-5 md:p-6">
               <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
-                {t.label}
+                {tx(t.label)}
               </p>
               <h3 className="mt-3 font-display text-base leading-snug font-semibold text-foreground">
                 <Link
@@ -149,24 +144,23 @@ function Index() {
                   search={{ distance: undefined, distanceUnit: undefined, source: undefined }}
                   className="hover:underline hover:underline-offset-4"
                 >
-                  {t.title}
+                  {tx(t.title)}
                 </Link>
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{t.body}</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tx(t.body)}</p>
             </article>
-          ))}
+          )))}
         </div>
       </Section>
 
       <Section>
         <SectionHeader
-          eyebrow="Yazılar"
-          title="Son yazılar"
-          description="Mühendislik, yapay zekâ, akademik araştırma ve teknoloji üzerine notlar, rehberler ve uygulama örnekleri."
+          eyebrow={tx("Yazılar")}
+          title={tx("Son yazılar")}
+          description={tx("Mühendislik, yapay zekâ, akademik araştırma ve teknoloji üzerine notlar, rehberler ve uygulama örnekleri.")}
           action={
             <Link to="/articles" className={buttonStyles.secondary}>
-              Tüm yazılar
-            </Link>
+              {tx("Tüm yazılar")}</Link>
           }
         />
         <div className="mt-8">
@@ -182,62 +176,57 @@ function Index() {
 
       <Section>
         <SectionHeader
-          eyebrow="Araştırma"
-          title="Araştırma ve mühendislik"
-          description="Triboloji, yüzey mühendisliği, kaplamalar ve mühendislikte yapay zekâ başta olmak üzere çalışma alanları."
+          eyebrow={tx("Araştırma")}
+          title={tx("Araştırma ve mühendislik")}
+          description={tx("Triboloji, yüzey mühendisliği, kaplamalar ve mühendislikte yapay zekâ başta olmak üzere çalışma alanları.")}
           action={
             <Link to="/research" className={buttonStyles.secondary}>
-              Araştırmaları Gör
-            </Link>
+              {tx("Araştırmaları Gör")}</Link>
           }
         />
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
-          {researchThemes.map((t, i) => (
+          {tx(researchThemes.map((t, i) => (
             <article
               key={t.title}
               className={`flex flex-col border border-border bg-card p-6 md:p-7 ${
                 i < 3 ? "lg:col-span-2" : "lg:col-span-3"
               }`}
             >
-              <h3 className="font-display text-lg font-semibold text-foreground">{t.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{t.body}</p>
+              <h3 className="font-display text-lg font-semibold text-foreground">{tx(t.title)}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{tx(t.body)}</p>
             </article>
-          ))}
+          )))}
         </div>
       </Section>
 
 
       <Section>
-        <SectionHeader eyebrow="Kitaplar" title="Öne çıkan kitap" />
+        <SectionHeader eyebrow={tx("Kitaplar")} title={tx("Öne çıkan kitap")} />
         <div className="mt-8 grid gap-px border border-border bg-border md:grid-cols-[minmax(0,1fr)_2fr]">
           <div className="flex items-center justify-center bg-muted p-6">
             <img
               src={bookCover}
-              alt={book.coverAlt}
+              alt={tx(book.coverAlt)}
               loading="lazy"
               className="max-h-[420px] w-full max-w-[280px] object-contain"
             />
           </div>
           <div className="bg-card p-8 md:p-12">
             <h3 className="font-display text-2xl font-semibold text-foreground md:text-3xl">
-              {book.shortTitle}
+              {tx(book.shortTitle)}
             </h3>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              Mühendislerin üretken yapay zekâyı teknik iş akışlarında daha sistematik kullanmasına
-              yardımcı olmak üzere hazırlanmış bir kaynak.
-            </p>
+              {tx("Mühendislerin üretken yapay zekâyı teknik iş akışlarında daha sistematik kullanmasına yardımcı olmak üzere hazırlanmış bir kaynak.")}</p>
             <a
               href={book.url}
               target="_blank"
               rel="noopener noreferrer"
               className={`${buttonStyles.secondary} mt-6`}
             >
-              Kitabı İncele
-            </a>
+              {tx("Kitabı İncele")}</a>
             <div className="mt-4">
               <Link to="/kitaplar" className={buttonStyles.ghost}>
-                Diğer kitaplar
-              </Link>
+                {tx("Diğer kitaplar")}</Link>
             </div>
           </div>
         </div>
@@ -246,30 +235,28 @@ function Index() {
 
       <Section>
         <SectionHeader
-          eyebrow="Eğitim & Danışmanlık"
-          title="Eğitim &amp; Danışmanlık"
-          description="Mühendisler, teknik ekipler ve kurumlar için yapay zekâ, mühendislik ve Ar-Ge odaklı eğitim ve danışmanlık."
+          eyebrow={tx("Eğitim & Danışmanlık")}
+          title={tx("Eğitim & Danışmanlık")}
+          description={tx("Mühendisler, teknik ekipler ve kurumlar için yapay zekâ, mühendislik ve Ar-Ge odaklı eğitim ve danışmanlık.")}
         />
         <GridPanel columns={3} className="mt-8">
-          {services.map((s) => (
-            <InfoCard key={s.title} title={s.title} body={s.body} />
-          ))}
+          {tx(services.map((s) => (
+            <InfoCard key={s.title} title={tx(s.title)} body={s.body} />
+          )))}
         </GridPanel>
         <div className="mt-6">
           <Link to="/egitim" className={buttonStyles.primary}>
-            Eğitim &amp; Danışmanlık
-          </Link>
+            {tx("Eğitim & Danışmanlık")}</Link>
         </div>
       </Section>
 
       <Section>
         <CTABlock
-          title="Mühendis, araştırmacı, eğitmen ve yazar."
-          description="Mühendislik, akademik araştırma, yapay zekâ ve yazarlığı aynı merakın farklı yönleri olarak ele alıyorum."
+          title={tx("Mühendis, araştırmacı, eğitmen ve yazar.")}
+          description={tx("Mühendislik, akademik araştırma, yapay zekâ ve yazarlığı aynı merakın farklı yönleri olarak ele alıyorum.")}
         >
           <Link to="/about" className={buttonStyles.secondary}>
-            Hakkımda
-          </Link>
+            {tx("Hakkımda")}</Link>
         </CTABlock>
       </Section>
 

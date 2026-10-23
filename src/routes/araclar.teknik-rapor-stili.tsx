@@ -1,3 +1,4 @@
+import { useT, localizeHead } from '@/lib/i18n';
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
@@ -10,7 +11,7 @@ const SKILL_URL =
   "https://github.com/gokcemay/teknik-rapor-stili/raw/main/dist/teknik-rapor-stili.skill";
 
 export const Route = createFileRoute("/araclar/teknik-rapor-stili")({
-  head: () => ({
+  head: ({ match }) => (localizeHead({
     meta: [
       { title: "Teknik Rapor Stili — Claude Skill | GMA Engineering Lab" },
       { name: "description", content: description },
@@ -39,7 +40,7 @@ export const Route = createFileRoute("/araclar/teknik-rapor-stili")({
         }),
       },
     ],
-  }),
+  }, match.context.language ?? 'en', "/araclar/teknik-rapor-stili")),
   component: TeknikRaporStiliPage,
 });
 
@@ -82,6 +83,7 @@ const claudeCodeCommands = `claude plugin marketplace add gokcemay/teknik-rapor-
 claude plugin install teknik-rapor-stili@gokcemay-plugins`;
 
 function CodeBlock({ code }: { code: string }) {
+  const tx = useT();
   const [copied, setCopied] = useState(false);
 
   const copy = async () => {
@@ -97,28 +99,29 @@ function CodeBlock({ code }: { code: string }) {
   return (
     <div className="relative border border-border bg-muted/50">
       <pre className="overflow-x-auto px-4 py-4 pr-28 font-mono text-xs leading-relaxed text-foreground">
-        <code>{code}</code>
+        <code>{tx(code)}</code>
       </pre>
       <button
         type="button"
         onClick={copy}
         className="absolute top-2.5 right-2.5 border border-border bg-card px-2.5 py-1 font-mono text-[0.65rem] tracking-[0.15em] text-muted-foreground uppercase hover:text-foreground"
       >
-        {copied ? "Kopyalandı" : "Kopyala"}
+        {tx(copied ? "Kopyalandı" : "Kopyala")}
       </button>
     </div>
   );
 }
 
 function TeknikRaporStiliPage() {
+  const tx = useT();
   const [tab, setTab] = useState<"code" | "app">("code");
 
   return (
     <>
       <PageHeader
-        eyebrow="Engineering Lab"
-        title="Teknik Rapor Stili"
-        description="Teknik rapor yazımı için Türkçe ve İngilizce Claude skill'i — Google developer documentation style guide'dan rapor türüne uyarlanmış."
+        eyebrow={tx("Engineering Lab")}
+        title={tx("Teknik Rapor Stili")}
+        description={tx("Teknik rapor yazımı için Türkçe ve İngilizce Claude skill'i — Google developer documentation style guide'dan rapor türüne uyarlanmış.")}
       />
 
       <Section>
@@ -129,57 +132,54 @@ function TeknikRaporStiliPage() {
             rel="noreferrer noopener"
             className="inline-flex items-center justify-center border border-foreground bg-foreground px-5 py-3 text-sm font-medium text-background"
           >
-            GitHub'da incele
-          </a>
+            {tx("GitHub'da incele")}</a>
           <a
             href={SKILL_URL}
             target="_blank"
             rel="noreferrer noopener"
             className="inline-flex items-center justify-center border border-border px-5 py-3 text-sm font-medium text-foreground hover:border-foreground"
           >
-            Skill dosyasını indir
-          </a>
+            {tx("Skill dosyasını indir")}</a>
         </div>
       </Section>
 
       <Section id="ne-ise-yarar">
         <SectionHeader
-          eyebrow="01"
-          title="Ne işe yarar"
-          description="Skill üç çalışma biçimini destekler; hepsinde aynı stil kuralları geçerlidir."
+          eyebrow={tx("01")}
+          title={tx("Ne işe yarar")}
+          description={tx("Skill üç çalışma biçimini destekler; hepsinde aynı stil kuralları geçerlidir.")}
         />
         <div className="mt-8 grid gap-4 md:grid-cols-3">
-          {useCases.map((u) => (
+          {tx(useCases.map((u) => (
             <article key={u.title} className="border border-border bg-card p-5 md:p-6">
               <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
-                {u.label}
+                {tx(u.label)}
               </p>
-              <h3 className="mt-3 font-display text-lg font-semibold text-foreground">{u.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{u.body}</p>
+              <h3 className="mt-3 font-display text-lg font-semibold text-foreground">{tx(u.title)}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tx(u.body)}</p>
             </article>
-          ))}
+          )))}
         </div>
 
         <div className="mt-8 max-w-3xl">
           <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
-            Kapsanan doküman türleri
-          </p>
+            {tx("Kapsanan doküman türleri")}</p>
           <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-            {docTypes.map((d) => (
+            {tx(docTypes.map((d) => (
               <li key={d} className="flex gap-3 text-sm leading-relaxed text-muted-foreground">
                 <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 bg-accent" />
-                {d}
+                {tx(d)}
               </li>
-            ))}
+            )))}
           </ul>
         </div>
       </Section>
 
       <Section id="kurulum">
-        <SectionHeader eyebrow="02" title="Kurulum" />
+        <SectionHeader eyebrow={tx("02")} title={tx("Kurulum")} />
         <div className="mt-8 max-w-3xl">
-          <div role="tablist" aria-label="Kurulum yöntemi" className="flex flex-wrap gap-px bg-border">
-            {(
+          <div role="tablist" aria-label={tx("Kurulum yöntemi")} className="flex flex-wrap gap-px bg-border">
+            {tx((
               [
                 { id: "code", label: "Claude Code" },
                 { id: "app", label: "Claude uygulaması" },
@@ -197,17 +197,16 @@ function TeknikRaporStiliPage() {
                     : "bg-card px-4 py-2.5 font-mono text-xs tracking-[0.15em] text-muted-foreground uppercase hover:text-foreground"
                 }
               >
-                {t.label}
+                {tx(t.label)}
               </button>
-            ))}
+            )))}
           </div>
 
           <div className="mt-5">
-            {tab === "code" ? (
+            {tx(tab === "code" ? (
               <div>
                 <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
-                  Terminalde aşağıdaki iki komutu sırayla çalıştırın.
-                </p>
+                  {tx("Terminalde aşağıdaki iki komutu sırayla çalıştırın.")}</p>
                 <CodeBlock code={claudeCodeCommands} />
               </div>
             ) : (
@@ -217,81 +216,69 @@ function TeknikRaporStiliPage() {
                     <span className="font-mono text-xs text-accent">01</span>
                     <span>
                       <code className="font-mono text-xs text-foreground">
-                        teknik-rapor-stili.skill
-                      </code>{" "}
-                      dosyasını indirin.
-                    </span>
+                        {tx("teknik-rapor-stili.skill")}</code>{tx(" ")}
+                      {tx("dosyasını indirin.")}</span>
                   </li>
                   <li className="flex gap-3">
                     <span className="font-mono text-xs text-accent">02</span>
-                    <span>Claude uygulamasında yeni bir sohbet açın ve dosyayı sohbete yükleyin.</span>
+                    <span>{tx("Claude uygulamasında yeni bir sohbet açın ve dosyayı sohbete yükleyin.")}</span>
                   </li>
                   <li className="flex gap-3">
                     <span className="font-mono text-xs text-accent">03</span>
                     <span>
-                      Görünen <strong className="text-foreground">Save skill</strong> düğmesine basın;
-                      skill hesabınıza eklenir.
-                    </span>
+                      {tx("Görünen")}<strong className="text-foreground">{tx("Save skill")}</strong> {tx("düğmesine basın; skill hesabınıza eklenir.")}</span>
                   </li>
                 </ol>
                 <div className="mt-4">
                   <CodeBlock code={SKILL_URL} />
                 </div>
               </div>
-            )}
+            ))}
           </div>
         </div>
       </Section>
 
       <Section id="kisayollar">
         <SectionHeader
-          eyebrow="03"
-          title="Kısayollar"
-          description="Sohbette doğrudan yazabileceğiniz komutlar."
+          eyebrow={tx("03")}
+          title={tx("Kısayollar")}
+          description={tx("Sohbette doğrudan yazabileceğiniz komutlar.")}
         />
         <div className="mt-8 max-w-3xl overflow-x-auto border border-border">
           <table className="w-full min-w-[32rem] border-collapse text-left">
             <thead>
               <tr className="border-b border-border bg-muted/50">
                 <th className="px-4 py-3 font-mono text-xs tracking-[0.15em] text-muted-foreground uppercase">
-                  Komut
-                </th>
+                  {tx("Komut")}</th>
                 <th className="px-4 py-3 font-mono text-xs tracking-[0.15em] text-muted-foreground uppercase">
-                  Açıklama
-                </th>
+                  {tx("Açıklama")}</th>
               </tr>
             </thead>
             <tbody>
-              {shortcuts.map((s) => (
+              {tx(shortcuts.map((s) => (
                 <tr key={s.cmd} className="border-b border-border last:border-b-0 bg-card">
                   <td className="px-4 py-3 font-mono text-sm whitespace-nowrap text-foreground">
-                    {s.cmd}
+                    {tx(s.cmd)}
                   </td>
                   <td className="px-4 py-3 text-sm leading-relaxed text-muted-foreground">
-                    {s.desc}
+                    {tx(s.desc)}
                   </td>
                 </tr>
-              ))}
+              )))}
             </tbody>
           </table>
         </div>
       </Section>
 
       <Section id="neyi-cozer">
-        <SectionHeader eyebrow="04" title="Neyi çözer" />
+        <SectionHeader eyebrow={tx("04")} title={tx("Neyi çözer")} />
         <p className="mt-6 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
-          Teknik raporlarda en sık tekrarlayan tutarsızlıkları giderir: Türkçe metinde ondalık ayırıcı
-          olarak virgül, İngilizce metinde nokta kullanımı; başlıklarda cümle düzeni; kesme işaretinin
-          doğru kullanımı; ölçüm sonuçlarının deney koşulları ve belirsizlik değeriyle birlikte
-          verilmesi. Böylece rapor dili kişiden kişiye değil, tanımlı bir kural setine göre şekillenir.
-        </p>
+          {tx("Teknik raporlarda en sık tekrarlayan tutarsızlıkları giderir: Türkçe metinde ondalık ayırıcı olarak virgül, İngilizce metinde nokta kullanımı; başlıklarda cümle düzeni; kesme işaretinin doğru kullanımı; ölçüm sonuçlarının deney koşulları ve belirsizlik değeriyle birlikte verilmesi. Böylece rapor dili kişiden kişiye değil, tanımlı bir kural setine göre şekillenir.")}</p>
       </Section>
 
       <Section>
         <p className="max-w-3xl border-l-2 border-accent bg-muted/50 px-5 py-4 text-sm leading-relaxed text-muted-foreground">
-          CC BY 4.0 lisanslı. İçerik, Creative Commons Attribution 4.0 lisanslı Google developer
-          documentation style guide'dan türetilmiş uyarlamalar içerir.
-        </p>
+          {tx("CC BY 4.0 lisanslı. İçerik, Creative Commons Attribution 4.0 lisanslı Google developer documentation style guide'dan türetilmiş uyarlamalar içerir.")}</p>
       </Section>
     </>
   );

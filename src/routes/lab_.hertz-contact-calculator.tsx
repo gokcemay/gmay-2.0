@@ -1,9 +1,10 @@
+import { useT, localizeHead } from '@/lib/i18n';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader, Section } from "@/components/site/Section";
 import { HertzContactCalculator } from "@/components/lab/HertzContactCalculator";
 
 export const Route = createFileRoute("/lab_/hertz-contact-calculator")({
-  head: () => ({
+  head: ({ match }) => (localizeHead({
     meta: [
       { title: "Hertz Contact Calculator | GMA Engineering Lab" },
       {
@@ -40,7 +41,7 @@ export const Route = createFileRoute("/lab_/hertz-contact-calculator")({
         }),
       },
     ],
-  }),
+  }, match.context.language ?? 'en', "/lab/hertz-contact-calculator")),
   component: HertzPage,
 });
 
@@ -113,24 +114,23 @@ const relatedTools = [
 ];
 
 function HertzPage() {
+  const tx = useT();
   return (
     <>
       <PageHeader
-        eyebrow="Mechanical Engineering"
-        title="Hertz Contact Calculator"
-        description="Küre-düzlem elastik temasında temas alanı, maksimum temas basıncı ve elastik yaklaşmayı hesaplayın."
+        eyebrow={tx("Mechanical Engineering")}
+        title={tx("Hertz Contact Calculator")}
+        description={tx("Küre-düzlem elastik temasında temas alanı, maksimum temas basıncı ve elastik yaklaşmayı hesaplayın.")}
       />
 
       <Section>
         <div className="flex flex-wrap items-center gap-3">
           <span className="inline-flex items-center gap-2 border border-border px-2.5 py-1 font-mono text-[0.65rem] tracking-[0.18em] text-muted-foreground uppercase">
             <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
-            Sphere-on-Flat
-          </span>
+            {tx("Sphere-on-Flat")}</span>
         </div>
         <p className="mt-4 max-w-3xl border-l-2 border-accent bg-muted/50 px-5 py-4 text-sm leading-relaxed text-muted-foreground">
-          Bu sürüm, sürtünmesiz normal yük altında klasik Hertz elastik temas çözümünü kullanır.
-        </p>
+          {tx("Bu sürüm, sürtünmesiz normal yük altında klasik Hertz elastik temas çözümünü kullanır.")}</p>
 
         <div className="mt-8">
           <HertzContactCalculator />
@@ -140,93 +140,82 @@ function HertzPage() {
       <Section>
         <details className="border border-border bg-card p-5 md:p-6">
           <summary className="cursor-pointer font-display text-lg font-semibold text-foreground">
-            Kullanılan Denklemler
-          </summary>
+            {tx("Kullanılan Denklemler")}</summary>
           <dl className="mt-5 grid gap-4 sm:grid-cols-2">
-            {equations.map((eq) => (
+            {tx(equations.map((eq) => (
               <div key={eq.label} className="border border-border p-4">
                 <dt className="font-mono text-[0.65rem] tracking-[0.2em] text-muted-foreground uppercase">
-                  {eq.label}
+                  {tx(eq.label)}
                 </dt>
                 <dd className="mt-2 overflow-x-auto font-mono text-sm break-words text-foreground">
-                  {eq.formula}
+                  {tx(eq.formula)}
                 </dd>
               </div>
-            ))}
+            )))}
           </dl>
           <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-            r, temas merkezinden ölçülen radyal uzaklıktır (r ≥ 0). x ise temas çapı boyunca alınan
-            kesitte işaretli konumdur (−a ≤ x ≤ +a). Grafikte x koordinatı kullanılır.
-          </p>
+            {tx("r, temas merkezinden ölçülen radyal uzaklıktır (r ≥ 0). x ise temas çapı boyunca alınan kesitte işaretli konumdur (−a ≤ x ≤ +a). Grafikte x koordinatı kullanılır.")}</p>
         </details>
       </Section>
 
       <Section>
         <h2 className="font-display text-xl font-semibold text-foreground">
-          Hertz Modelinin Varsayımları
-        </h2>
+          {tx("Hertz Modelinin Varsayımları")}</h2>
         <ul className="mt-5 grid max-w-4xl gap-2 sm:grid-cols-2">
-          {assumptions.map((item) => (
+          {tx(assumptions.map((item) => (
             <li
               key={item}
               className="border-l border-border pl-4 text-sm leading-relaxed text-muted-foreground"
             >
-              {item}
+              {tx(item)}
             </li>
-          ))}
+          )))}
         </ul>
 
         <p className="mt-8 max-w-3xl border-l-2 border-accent bg-muted/50 px-5 py-4 text-sm leading-relaxed text-muted-foreground">
-          Yüksek Hertz basıncı tek başına yüzeyin akacağı veya hasar göreceği anlamına gelmez.
-          Plastikleşme ve yorulma değerlendirmesi; malzeme dayanımı, yüzey altı gerilme alanı ve
-          yükleme koşulları dikkate alınarak ayrıca yapılmalıdır.
-        </p>
+          {tx("Yüksek Hertz basıncı tek başına yüzeyin akacağı veya hasar göreceği anlamına gelmez. Plastikleşme ve yorulma değerlendirmesi; malzeme dayanımı, yüzey altı gerilme alanı ve yükleme koşulları dikkate alınarak ayrıca yapılmalıdır.")}</p>
       </Section>
 
       <Section>
         <h2 className="font-display text-xl font-semibold text-foreground">
-          Sonuçlar nasıl yorumlanır?
-        </h2>
+          {tx("Sonuçlar nasıl yorumlanır?")}</h2>
         <dl className="mt-5 grid max-w-4xl gap-4 sm:grid-cols-2">
-          {interpretations.map((item) => (
+          {tx(interpretations.map((item) => (
             <div key={item.title} className="border border-border p-4">
-              <dt className="font-display text-base font-semibold text-foreground">{item.title}</dt>
-              <dd className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</dd>
+              <dt className="font-display text-base font-semibold text-foreground">{tx(item.title)}</dt>
+              <dd className="mt-2 text-sm leading-relaxed text-muted-foreground">{tx(item.text)}</dd>
             </div>
-          ))}
+          )))}
         </dl>
       </Section>
 
       <Section>
-        <h2 className="font-display text-xl font-semibold text-foreground">İlgili Araçlar</h2>
+        <h2 className="font-display text-xl font-semibold text-foreground">{tx("İlgili Araçlar")}</h2>
         <div className="mt-5 grid max-w-4xl gap-4 lg:grid-cols-2">
-          {relatedTools.map((tool) => (
+          {tx(relatedTools.map((tool) => (
             <article key={tool.name} className="border border-border bg-card p-5">
               <p className="font-mono text-[0.65rem] tracking-[0.18em] text-muted-foreground uppercase">
-                {tool.status}
+                {tx(tool.status)}
               </p>
               <h3 className="mt-2 font-display text-lg font-semibold text-foreground">
                 {tool.href ? (
                   <Link to={tool.href} className="hover:underline hover:underline-offset-4">
-                    {tool.name}
+                    {tx(tool.name)}
                   </Link>
                 ) : (
                   tool.name
                 )}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tool.purpose}</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tx(tool.purpose)}</p>
             </article>
-          ))}
+          )))}
         </div>
 
         <p className="mt-8 max-w-3xl text-xs leading-relaxed text-muted-foreground">
-          Bu hesaplayıcı ön mühendislik değerlendirmesi amacıyla hazırlanmıştır. Kritik tasarım ve
-          güvenlik kararlarında sonuçlar bağımsız yöntemlerle doğrulanmalıdır.
-        </p>
+          {tx("Bu hesaplayıcı ön mühendislik değerlendirmesi amacıyla hazırlanmıştır. Kritik tasarım ve güvenlik kararlarında sonuçlar bağımsız yöntemlerle doğrulanmalıdır.")}</p>
 
         <Link to="/lab" className="mt-6 inline-block text-sm text-foreground underline underline-offset-4">
-          Engineering Lab'e dön
-        </Link>
+          {tx("Engineering Lab'e dön")}</Link>
       </Section>
     </>
   );

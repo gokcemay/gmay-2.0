@@ -1,10 +1,11 @@
+import { useT, localizeHead } from '@/lib/i18n';
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
 import { GridPanel, InfoCard, PlaceholderNote } from "@/components/site/Cards";
 import { emails, professionalProfiles } from "@/lib/profiles";
 
 export const Route = createFileRoute("/iletisim")({
-  head: () => ({
+  head: ({ match }) => (localizeHead({
     meta: [
       { title: "İletişim — Eğitim, Danışmanlık, İş Birliği | gmay.me" },
       {
@@ -19,7 +20,7 @@ export const Route = createFileRoute("/iletisim")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "/iletisim" }],
-  }),
+  }, match.context.language ?? 'en', "/iletisim")),
   component: ContactPage,
 });
 
@@ -31,81 +32,78 @@ const topics = [
 ];
 
 function ContactPage() {
+  const tx = useT();
   return (
     <>
       <PageHeader
-        eyebrow="İletişim"
-        title="İletişim"
-        description="Eğitim, danışmanlık, araştırma iş birliği ve etkinlik talepleri için iletişime geçebilirsiniz."
+        eyebrow={tx("İletişim")}
+        title={tx("İletişim")}
+        description={tx("Eğitim, danışmanlık, araştırma iş birliği ve etkinlik talepleri için iletişime geçebilirsiniz.")}
       />
 
       <Section>
-        <SectionHeader eyebrow="01" title="İletişim konuları" />
+        <SectionHeader eyebrow={tx("01")} title={tx("İletişim konuları")} />
         <GridPanel columns={4} className="mt-8">
-          {topics.map((t) => (
-            <InfoCard key={t.title} title={t.title} body={t.body} />
-          ))}
+          {tx(topics.map((t) => (
+            <InfoCard key={t.title} title={tx(t.title)} body={t.body} />
+          )))}
         </GridPanel>
       </Section>
 
       <Section>
         <SectionHeader
-          eyebrow="02"
-          title="E-posta"
-          description="Doğrudan e-posta ile iletişime geçebilirsiniz."
+          eyebrow={tx("02")}
+          title={tx("E-posta")}
+          description={tx("Doğrudan e-posta ile iletişime geçebilirsiniz.")}
         />
         <div className="mt-8 grid gap-px border border-border bg-border sm:grid-cols-2">
           <div className="bg-card p-6 md:p-8">
             <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
-              Akademik / Kurumsal
-            </p>
+              {tx("Akademik / Kurumsal")}</p>
             <a
               href={`mailto:${emails.academic}`}
               className="mt-3 inline-block font-display text-lg font-semibold text-foreground underline underline-offset-4"
             >
-              {emails.academic}
+              {tx(emails.academic)}
             </a>
           </div>
           <div className="bg-card p-6 md:p-8">
             <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
-              Genel iletişim
-            </p>
+              {tx("Genel iletişim")}</p>
             <a
               href={`mailto:${emails.general}`}
               className="mt-3 inline-block font-display text-lg font-semibold text-foreground underline underline-offset-4"
             >
-              {emails.general}
+              {tx(emails.general)}
             </a>
           </div>
         </div>
       </Section>
 
       <Section>
-        <SectionHeader eyebrow="03" title="Profesyonel profiller" />
+        <SectionHeader eyebrow={tx("03")} title={tx("Profesyonel profiller")} />
         <ul className="mt-8 flex flex-wrap gap-3">
-          {professionalProfiles.map((p) => (
+          {tx(professionalProfiles.map((p) => (
             <li key={p.label}>
               <a
                 href={p.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`${p.label} profili (yeni sekmede açılır)`}
+                aria-label={tx(`${p.label} profili (yeni sekmede açılır)`)}
                 className="inline-flex border border-border bg-card px-4 py-2 text-sm text-foreground transition-colors hover:bg-muted"
               >
-                {p.label}
+                {tx(p.label)}
               </a>
             </li>
-          ))}
+          )))}
         </ul>
       </Section>
 
       <Section>
-        <SectionHeader eyebrow="04" title="İletişim formu" />
+        <SectionHeader eyebrow={tx("04")} title={tx("İletişim formu")} />
         <div className="mt-8 max-w-2xl">
           <PlaceholderNote>
-            Web sitesi üzerinden mesaj gönderme özelliği henüz aktif değildir. Lütfen yukarıdaki
-            e-posta adreslerini kullanın.
-          </PlaceholderNote>
+            {tx("Web sitesi üzerinden mesaj gönderme özelliği henüz aktif değildir. Lütfen yukarıdaki e-posta adreslerini kullanın.")}</PlaceholderNote>
         </div>
       </Section>
     </>

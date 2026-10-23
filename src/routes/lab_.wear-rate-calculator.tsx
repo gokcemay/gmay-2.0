@@ -1,3 +1,4 @@
+import { useT, localizeHead } from '@/lib/i18n';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader, Section } from "@/components/site/Section";
 import { WearRateCalculator } from "@/components/lab/WearRateCalculator";
@@ -11,7 +12,7 @@ export const Route = createFileRoute("/lab_/wear-rate-calculator")({
     distanceUnit: typeof search["distanceUnit"] === "string" ? search["distanceUnit"] : undefined,
     source: typeof search["source"] === "string" ? search["source"] : undefined,
   }),
-  head: () => ({
+  head: ({ match }) => (localizeHead({
     meta: [
       { title: "Wear Rate Calculator | GMA Engineering Lab" },
       {
@@ -48,7 +49,7 @@ export const Route = createFileRoute("/lab_/wear-rate-calculator")({
         }),
       },
     ],
-  }),
+  }, match.context.language ?? 'en', "/lab/wear-rate-calculator")),
   component: WearRatePage,
 });
 
@@ -118,22 +119,20 @@ const relatedTools: {
 ];
 
 function WearRatePage() {
+  const tx = useT();
   const search = Route.useSearch();
   const transfer = parseSlidingTransfer(search);
   return (
     <>
       <PageHeader
-        eyebrow="Tribology"
-        title="Wear Rate Calculator"
-        description="Aşınma hacmi veya kütle kaybından hacimsel ve özgül aşınma oranlarını hesaplayın."
+        eyebrow={tx("Tribology")}
+        title={tx("Wear Rate Calculator")}
+        description={tx("Aşınma hacmi veya kütle kaybından hacimsel ve özgül aşınma oranlarını hesaplayın.")}
       />
 
       <Section>
         <p className="max-w-3xl border-l-2 border-accent bg-muted/50 px-5 py-4 text-sm leading-relaxed text-muted-foreground">
-          Bu araç deneysel aşınma miktarını normal yük ve kayma mesafesine göre normalize eder.
-          Literatürde sembol ve adlandırmalar değişebildiğinden, bu araç sonuçları kullanılan
-          denklem ve birimlerle birlikte gösterir.
-        </p>
+          {tx("Bu araç deneysel aşınma miktarını normal yük ve kayma mesafesine göre normalize eder. Literatürde sembol ve adlandırmalar değişebildiğinden, bu araç sonuçları kullanılan denklem ve birimlerle birlikte gösterir.")}</p>
 
         <div className="mt-8">
           <WearRateCalculator transfer={transfer} />
@@ -143,93 +142,80 @@ function WearRatePage() {
       <Section>
         <details className="border border-border bg-card p-5 md:p-6">
           <summary className="cursor-pointer font-display text-lg font-semibold text-foreground">
-            Kullanılan Denklemler
-          </summary>
+            {tx("Kullanılan Denklemler")}</summary>
           <dl className="mt-5 grid gap-4 sm:grid-cols-2">
-            {equations.map((eq) => (
+            {tx(equations.map((eq) => (
               <div key={eq.label} className="border border-border p-4">
                 <dt className="font-mono text-[0.65rem] tracking-[0.2em] text-muted-foreground uppercase">
-                  {eq.label}
+                  {tx(eq.label)}
                 </dt>
                 <dd className="mt-2 overflow-x-auto font-mono text-sm break-words text-foreground">
-                  {eq.formula}
+                  {tx(eq.formula)}
                 </dd>
                 <p className="mt-2 font-mono text-[0.65rem] tracking-[0.15em] text-muted-foreground uppercase">
-                  {eq.mode}
+                  {tx(eq.mode)}
                 </p>
               </div>
-            ))}
+            )))}
           </dl>
 
           <h3 className="mt-6 font-display text-base font-semibold text-foreground">
-            Değişkenler ve birimler
-          </h3>
+            {tx("Değişkenler ve birimler")}</h3>
           <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-            {variables.map((v) => (
+            {tx(variables.map((v) => (
               <li key={v} className="border-l border-border pl-4 font-mono text-xs text-muted-foreground">
-                {v}
+                {tx(v)}
               </li>
-            ))}
+            )))}
           </ul>
           <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-            Girdi birimleri hesaplamadan önce SI birimlerine (m³, kg, kg/m³, N, m) dönüştürülür;
-            sonuçlar mm³, mm³/m, mm³/(N·m) ve mg/m olarak sunulur. k_s bu araçta boyutsuz Archard
-            aşınma katsayısı değildir.
-          </p>
+            {tx("Girdi birimleri hesaplamadan önce SI birimlerine (m³, kg, kg/m³, N, m) dönüştürülür; sonuçlar mm³, mm³/m, mm³/(N·m) ve mg/m olarak sunulur. k_s bu araçta boyutsuz Archard aşınma katsayısı değildir.")}</p>
         </details>
       </Section>
 
       <Section>
         <h2 className="font-display text-xl font-semibold text-foreground">
-          Sonuçlar nasıl yorumlanır?
-        </h2>
+          {tx("Sonuçlar nasıl yorumlanır?")}</h2>
         <dl className="mt-5 grid max-w-4xl gap-4 sm:grid-cols-2">
-          {interpretations.map((item) => (
+          {tx(interpretations.map((item) => (
             <div key={item.title} className="border border-border p-4">
-              <dt className="font-display text-base font-semibold text-foreground">{item.title}</dt>
-              <dd className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</dd>
+              <dt className="font-display text-base font-semibold text-foreground">{tx(item.title)}</dt>
+              <dd className="mt-2 text-sm leading-relaxed text-muted-foreground">{tx(item.text)}</dd>
             </div>
-          ))}
+          )))}
         </dl>
 
         <p className="mt-8 max-w-3xl border-l-2 border-accent bg-muted/50 px-5 py-4 text-sm leading-relaxed text-muted-foreground">
-          Özgül aşınma oranlarının doğrudan karşılaştırılması için karşı cisim, yüzey pürüzlülüğü,
-          yük, hız, kayma mesafesi, sıcaklık, nem, yağlama ve test geometrisi gibi tribolojik
-          koşulların dikkate alınması gerekir.
-        </p>
+          {tx("Özgül aşınma oranlarının doğrudan karşılaştırılması için karşı cisim, yüzey pürüzlülüğü, yük, hız, kayma mesafesi, sıcaklık, nem, yağlama ve test geometrisi gibi tribolojik koşulların dikkate alınması gerekir.")}</p>
       </Section>
 
       <Section>
-        <h2 className="font-display text-xl font-semibold text-foreground">İlgili Araçlar</h2>
+        <h2 className="font-display text-xl font-semibold text-foreground">{tx("İlgili Araçlar")}</h2>
         <div className="mt-5 grid max-w-4xl gap-4 lg:grid-cols-2">
-          {relatedTools.map((tool) => (
+          {tx(relatedTools.map((tool) => (
             <article key={tool.name} className="border border-border bg-card p-5">
               <p className="font-mono text-[0.65rem] tracking-[0.18em] text-muted-foreground uppercase">
-                {tool.status}
+                {tx(tool.status)}
               </p>
               <h3 className="mt-2 font-display text-lg font-semibold text-foreground">
                 {tool.href ? (
                   <Link to={tool.href} className="hover:underline hover:underline-offset-4">
-                    {tool.name}
+                    {tx(tool.name)}
                   </Link>
                 ) : (
                   tool.name
                 )}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tool.purpose}</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tx(tool.purpose)}</p>
             </article>
-          ))}
+          )))}
         </div>
 
         <p className="mt-8 max-w-3xl text-xs leading-relaxed text-muted-foreground">
-          Bu hesaplayıcı deneysel verilerin ön değerlendirmesi ve raporlanmasına yardımcı olmak
-          amacıyla hazırlanmıştır. Sonuçlar test yöntemi, numune hazırlığı ve tribolojik sistem
-          dikkate alınarak değerlendirilmelidir.
-        </p>
+          {tx("Bu hesaplayıcı deneysel verilerin ön değerlendirmesi ve raporlanmasına yardımcı olmak amacıyla hazırlanmıştır. Sonuçlar test yöntemi, numune hazırlığı ve tribolojik sistem dikkate alınarak değerlendirilmelidir.")}</p>
 
         <Link to="/lab" className="mt-6 inline-block text-sm text-foreground underline underline-offset-4">
-          Engineering Lab'e dön
-        </Link>
+          {tx("Engineering Lab'e dön")}</Link>
       </Section>
     </>
   );

@@ -1,10 +1,11 @@
+import { useT, localizeHead } from '@/lib/i18n';
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
 import { GridPanel, InfoCard } from "@/components/site/Cards";
 import { ContactCTA } from "@/components/site/CTA";
 
 export const Route = createFileRoute("/egitim")({
-  head: () => ({
+  head: ({ match }) => (localizeHead({
     meta: [
       { title: "Eğitim ve Danışmanlık — Mühendisler için Yapay Zeka | gmay.me" },
       {
@@ -22,7 +23,7 @@ export const Route = createFileRoute("/egitim")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "/egitim" }],
-  }),
+  }, match.context.language ?? 'en', "/egitim")),
   component: TrainingPage,
 });
 
@@ -106,24 +107,25 @@ const sections = [
 ];
 
 function TrainingPage() {
+  const tx = useT();
   return (
     <>
       <PageHeader
-        eyebrow="Eğitim & Danışmanlık"
-        title="Eğitim ve Danışmanlık"
-        description="Mühendislik ekipleri, kurumlar ve araştırma grupları için uygulamalı eğitim ve danışmanlık programları."
+        eyebrow={tx("Eğitim & Danışmanlık")}
+        title={tx("Eğitim ve Danışmanlık")}
+        description={tx("Mühendislik ekipleri, kurumlar ve araştırma grupları için uygulamalı eğitim ve danışmanlık programları.")}
       />
 
-      {sections.map((s) => (
+      {tx(sections.map((s) => (
         <Section key={s.title}>
-          <SectionHeader eyebrow={s.eyebrow} title={s.title} description={s.description} />
+          <SectionHeader eyebrow={tx(s.eyebrow)} title={tx(s.title)} description={tx(s.description)} />
           <GridPanel columns={3} className="mt-8">
             {s.items.map((i, idx) => (
-              <InfoCard key={`${s.eyebrow}-${idx}`} title={i.title} body={i.body} />
+              <InfoCard key={`${s.eyebrow}-${idx}`} title={tx(i.title)} body={i.body} />
             ))}
           </GridPanel>
         </Section>
-      ))}
+      )))}
 
       <Section>
         <ContactCTA />
