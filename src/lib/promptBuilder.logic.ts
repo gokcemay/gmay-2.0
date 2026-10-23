@@ -5,6 +5,8 @@ import {
   taskInstructions,
 } from "./promptBuilder.data";
 import type { PromptFormState, ReadinessLevel } from "./promptBuilder.types";
+import { translate } from './translate';
+import type { Language } from './language';
 
 export type ValidationErrors = Partial<Record<"field" | "task" | "outputFormat" | "context", string>>;
 
@@ -35,7 +37,7 @@ function bullets(lines: string[]): string {
   return lines.map((l) => `- ${l}`).join("\n");
 }
 
-export function buildPrompt(form: PromptFormState): string {
+export function buildPrompt(form: PromptFormState, language: Language = 'tr'): string {
   const context = form.context.trim();
   const constraints = form.constraints.trim();
 
@@ -46,6 +48,19 @@ export function buildPrompt(form: PromptFormState): string {
     "Kullandığın teknik terimleri doğru bağlamda kullan.",
     detailInstruction[form.detail] ?? "",
   ].filter(Boolean);
+
+  if (language === 'en') {
+    const t = (value: string) => translate(value, language);
+    return [
+      `Act as a ${t(form.field)} expert.`,
+      `Your task:\n${t(form.task)}`,
+      `Problem / context:\n${context}`,
+      ...(constraints ? [`Constraints and special requirements:\n${constraints}`] : []),
+      `During analysis:\n${bullets(analysis.map(t))}`,
+      `Prepare your response in this format:\n${t(form.outputFormat)}`,
+      `In the final section:\n${bullets(['summarize the key results', 'state critical uncertainties', 'identify additional data needs where necessary'])}`,
+    ].join('\n\n');
+  }
 
   const parts: string[] = [
     `Bir ${form.field} uzmanı gibi hareket et.`,

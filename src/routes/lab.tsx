@@ -1,8 +1,9 @@
+import { useT, localizeHead } from '@/lib/i18n';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
 
 export const Route = createFileRoute("/lab")({
-  head: () => ({
+  head: ({ match }) => (localizeHead({
     meta: [
       { title: "GMA Engineering Lab — Mühendislik araçları | gmay.me" },
       {
@@ -21,7 +22,7 @@ export const Route = createFileRoute("/lab")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "/lab" }],
-  }),
+  }, match.context.language ?? 'en', "/lab")),
   component: LabPage,
 });
 
@@ -111,6 +112,7 @@ const groups: Group[] = [
 ];
 
 function ToolCard({ tool, group }: { tool: Tool; group: string }) {
+  const tx = useT();
   const linkProps = {
     to: tool.href,
     search: { distance: undefined, distanceUnit: undefined, source: undefined },
@@ -120,110 +122,95 @@ function ToolCard({ tool, group }: { tool: Tool; group: string }) {
     <article className="flex flex-col border border-border bg-card p-5 md:p-6">
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
         <p className="min-w-0 truncate font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
-          {group}
+          {tx(group)}
         </p>
         <span className="inline-flex shrink-0 items-center gap-2 border border-border px-2.5 py-1 font-mono text-[0.65rem] tracking-[0.18em] text-muted-foreground uppercase">
           <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
-          Kullanılabilir
-        </span>
+          {tx("Kullanılabilir")}</span>
       </div>
       <h3 className="mt-3 font-display text-lg leading-snug font-semibold text-foreground">
         <Link {...linkProps} className="hover:underline hover:underline-offset-4">
-          {tool.name}
+          {tx(tool.name)}
         </Link>
       </h3>
-      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tool.purpose}</p>
+      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tx(tool.purpose)}</p>
       <Link
         {...linkProps}
         className="mt-4 self-start text-sm font-medium text-foreground underline underline-offset-4"
       >
-        Aracı Aç
-      </Link>
+        {tx("Aracı Aç")}</Link>
     </article>
   );
 }
 
 function LabPage() {
+  const tx = useT();
   return (
     <>
       <PageHeader
-        eyebrow="Engineering Lab"
-        title="GMA Engineering Lab"
-        description="Ücretsiz mühendislik hesaplama, test planlama ve yapay zekâ araçları."
+        eyebrow={tx("Engineering Lab")}
+        title={tx("GMA Engineering Lab")}
+        description={tx("Ücretsiz mühendislik hesaplama, test planlama ve yapay zekâ araçları.")}
       />
 
       <Section>
         <p className="max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
-          Mühendisler ve araştırmacılar için geliştirilen, hesaplama yöntemlerini ve varsayımlarını
-          açık biçimde gösteren pratik araçlar.
-        </p>
+          {tx("Mühendisler ve araştırmacılar için geliştirilen, hesaplama yöntemlerini ve varsayımlarını açık biçimde gösteren pratik araçlar.")}</p>
       </Section>
 
-      {groups.map((g) => (
+      {tx(groups.map((g) => (
         <Section key={g.id} id={g.id}>
-          <SectionHeader eyebrow={g.eyebrow} title={g.title} description={g.description} />
+          <SectionHeader eyebrow={tx(g.eyebrow)} title={tx(g.title)} description={tx(g.description)} />
           <div className="mt-8 grid max-w-4xl gap-4 lg:grid-cols-2">
             {g.tools.map((t) => (
               <ToolCard key={t.name} tool={t} group={g.title} />
             ))}
           </div>
         </Section>
-      ))}
+      )))}
 
       <Section id="birlikte-kullanin">
         <SectionHeader
-          eyebrow="04"
-          title="Birlikte kullanın"
-          description="Araçlar tek başına kullanılabilir; bazı durumlarda birlikte kullanıldığında deney planlama ve değerlendirme akışını tamamlar."
+          eyebrow={tx("04")}
+          title={tx("Birlikte kullanın")}
+          description={tx("Araçlar tek başına kullanılabilir; bazı durumlarda birlikte kullanıldığında deney planlama ve değerlendirme akışını tamamlar.")}
         />
         <div className="mt-8 grid max-w-4xl gap-4 lg:grid-cols-2">
           <article className="border border-border bg-card p-5 md:p-6">
             <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
-              İş akışı
-            </p>
+              {tx("İş akışı")}</p>
             <h3 className="mt-3 font-display text-base leading-snug font-semibold text-foreground">
-              Sliding Distance Calculator → Wear Rate Calculator
-            </h3>
+              {tx("Sliding Distance Calculator → Wear Rate Calculator")}</h3>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              Triboloji deneyinizin toplam kayma mesafesini hesaplayın ve sonucu doğrudan Wear Rate
-              Calculator'a aktarın.
-            </p>
+              {tx("Triboloji deneyinizin toplam kayma mesafesini hesaplayın ve sonucu doğrudan Wear Rate Calculator'a aktarın.")}</p>
             <div className="mt-4 flex flex-wrap gap-4">
               <Link
                 to="/lab/sliding-distance-calculator"
                 className="text-sm font-medium text-foreground underline underline-offset-4"
               >
-                Sliding Distance Calculator
-              </Link>
+                {tx("Sliding Distance Calculator")}</Link>
               <Link
                 to="/lab/wear-rate-calculator"
                 search={{ distance: undefined, distanceUnit: undefined, source: undefined }}
                 className="text-sm font-medium text-foreground underline underline-offset-4"
               >
-                Wear Rate Calculator
-              </Link>
+                {tx("Wear Rate Calculator")}</Link>
             </div>
           </article>
 
           <article className="border border-border bg-card p-5 md:p-6">
             <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
-              İlgili değerlendirme
-            </p>
+              {tx("İlgili değerlendirme")}</p>
             <h3 className="mt-3 font-display text-base leading-snug font-semibold text-foreground">
-              Hertz Contact Calculator → Temas koşullarını değerlendirin
-            </h3>
+              {tx("Hertz Contact Calculator → Temas koşullarını değerlendirin")}</h3>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              Deney öncesinde temas yarıçapı ve maksimum temas basıncını hesaplayarak yük
-              seçiminizin temas koşullarını gözden geçirin. Bu araçlar arasında otomatik veri
-              aktarımı bulunmaz.
-            </p>
+              {tx("Deney öncesinde temas yarıçapı ve maksimum temas basıncını hesaplayarak yük seçiminizin temas koşullarını gözden geçirin. Bu araçlar arasında otomatik veri aktarımı bulunmaz.")}</p>
             <div className="mt-4">
               <Link
                 to="/lab/hertz-contact-calculator"
                 className="text-sm font-medium text-foreground underline underline-offset-4"
               >
-                Hertz Contact Calculator
-              </Link>
+                {tx("Hertz Contact Calculator")}</Link>
             </div>
           </article>
         </div>
@@ -231,9 +218,7 @@ function LabPage() {
 
       <Section>
         <p className="max-w-3xl border-l-2 border-accent bg-muted/50 px-5 py-4 text-sm leading-relaxed text-muted-foreground">
-          Hesaplama araçlarında kullanılan denklemler, varsayımlar ve birimler açık biçimde sunulur.
-          Kritik mühendislik kararlarında sonuçlar bağımsız yöntemlerle doğrulanmalıdır.
-        </p>
+          {tx("Hesaplama araçlarında kullanılan denklemler, varsayımlar ve birimler açık biçimde sunulur. Kritik mühendislik kararlarında sonuçlar bağımsız yöntemlerle doğrulanmalıdır.")}</p>
       </Section>
     </>
   );

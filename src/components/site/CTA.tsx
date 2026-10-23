@@ -1,3 +1,4 @@
+import { useT } from '@/lib/i18n';
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
@@ -20,30 +21,31 @@ export function CTABlock({
   description?: string;
   children?: ReactNode;
 }) {
+  const tx = useT();
   return (
     <div className="border border-border bg-card p-7 md:p-10">
       <h2 className="max-w-2xl font-display text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
-        {title}
+        {tx(title)}
       </h2>
-      {description && (
+      {tx(description && (
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
-          {description}
+          {tx(description)}
         </p>
-      )}
-      {children && <div className="mt-6 flex flex-wrap gap-3">{children}</div>}
+      ))}
+      {tx(children && <div className="mt-6 flex flex-wrap gap-3">{tx(children)}</div>)}
     </div>
   );
 }
 
 export function ContactCTA() {
+  const tx = useT();
   return (
     <CTABlock
-      title="İş birliği, eğitim veya danışmanlık için iletişime geçin."
-      description="Eğitim, kurumsal atölye, Ar-Ge danışmanlığı ve araştırma iş birlikleri için yazabilirsiniz."
+      title={tx("İş birliği, eğitim veya danışmanlık için iletişime geçin.")}
+      description={tx("Eğitim, kurumsal atölye, Ar-Ge danışmanlığı ve araştırma iş birlikleri için yazabilirsiniz.")}
     >
       <Link to="/iletisim" className={buttonStyles.primary}>
-        İletişim
-      </Link>
+        {tx("İletişim")}</Link>
     </CTABlock>
   );
 }

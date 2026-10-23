@@ -1,10 +1,11 @@
+import { useT, localizeHead } from '@/lib/i18n';
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
 import { GridPanel, InfoCard } from "@/components/site/Cards";
 import { academicProfiles } from "@/lib/profiles";
 
 export const Route = createFileRoute("/research")({
-  head: () => ({
+  head: ({ match }) => (localizeHead({
     meta: [
       { title: "Araştırma — Triboloji ve Yüzey Mühendisliği | gmay.me" },
       {
@@ -22,7 +23,7 @@ export const Route = createFileRoute("/research")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "/research" }],
-  }),
+  }, match.context.language ?? 'en', "/research")),
   component: ResearchPage,
 });
 
@@ -65,56 +66,56 @@ const methods = [
 ];
 
 function ResearchPage() {
+  const tx = useT();
   return (
     <>
       <PageHeader
-        eyebrow="Araştırma"
-        title="Araştırma"
-        description="Triboloji ve yüzey mühendisliği başta olmak üzere akademik ve uygulamalı araştırma alanları."
+        eyebrow={tx("Araştırma")}
+        title={tx("Araştırma")}
+        description={tx("Triboloji ve yüzey mühendisliği başta olmak üzere akademik ve uygulamalı araştırma alanları.")}
       />
 
       <Section>
-        <SectionHeader eyebrow="01" title="Araştırma alanları" />
+        <SectionHeader eyebrow={tx("01")} title={tx("Araştırma alanları")} />
         <GridPanel columns={3} className="mt-8">
-          {areas.map((a) => (
-            <InfoCard key={a.title} title={a.title} body={a.body} />
-          ))}
+          {tx(areas.map((a) => (
+            <InfoCard key={a.title} title={tx(a.title)} body={a.body} />
+          )))}
         </GridPanel>
       </Section>
 
       <Section>
         <SectionHeader
-          eyebrow="02"
-          title="Triboloji ve yüzey mühendisliği"
-          description="Sürtünme, aşınma, yağlama ve yüzey performansı üzerine çalışmalarda izlenen yaklaşım."
+          eyebrow={tx("02")}
+          title={tx("Triboloji ve yüzey mühendisliği")}
+          description={tx("Sürtünme, aşınma, yağlama ve yüzey performansı üzerine çalışmalarda izlenen yaklaşım.")}
         />
         <GridPanel columns={3} className="mt-8">
-          {methods.map((m) => (
-            <InfoCard key={m.title} title={m.title} body={m.body} />
-          ))}
+          {tx(methods.map((m) => (
+            <InfoCard key={m.title} title={tx(m.title)} body={m.body} />
+          )))}
         </GridPanel>
       </Section>
 
       <Section>
         <SectionHeader
-          eyebrow="03"
-          title="Yayınlar"
-          description="Yayın listesinin güncel ve doğrulanabilir hâli akademik profillerde tutulmaktadır."
+          eyebrow={tx("03")}
+          title={tx("Yayınlar")}
+          description={tx("Yayın listesinin güncel ve doğrulanabilir hâli akademik profillerde tutulmaktadır.")}
         />
         <ul className="mt-8 flex flex-wrap gap-3">
-          {academicProfiles.map((p) => (
+          {tx(academicProfiles.map((p) => (
             <li key={p.label}>
               <a
                 href={p.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`${p.label} üzerinde yayın listesi (yeni sekmede açılır)`}
+                aria-label={tx(`${p.label} üzerinde yayın listesi (yeni sekmede açılır)`)}
                 className="inline-flex border border-border bg-card px-4 py-2 text-sm text-foreground transition-colors hover:bg-muted"
               >
-                {p.label} üzerinde yayınlar
-              </a>
+                {tx(p.label)} {tx("üzerinde yayınlar")}</a>
             </li>
-          ))}
+          )))}
         </ul>
       </Section>
     </>

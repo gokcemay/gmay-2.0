@@ -1,3 +1,4 @@
+import { useT, localizeHead } from '@/lib/i18n';
 import { createFileRoute } from "@tanstack/react-router";
 
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
@@ -6,7 +7,7 @@ import { buttonStyles, CTABlock } from "@/components/site/CTA";
 import { profileLinks } from "@/lib/profiles";
 
 export const Route = createFileRoute("/articles")({
-  head: () => ({
+  head: ({ match }) => (localizeHead({
     meta: [
       { title: "Yazılar — Mühendislik, Yapay Zeka, Araştırma | gmay.me" },
       {
@@ -41,24 +42,25 @@ export const Route = createFileRoute("/articles")({
         }),
       },
     ],
-  }),
+  }, match.context.language ?? 'en', "/articles")),
   loader: ({ context }) => context.queryClient.ensureQueryData(substackPostsQueryOptions),
   component: ArticlesPage,
 });
 
 function ArticlesPage() {
+  const tx = useT();
   const data = Route.useLoaderData();
 
   return (
     <>
       <PageHeader
-        eyebrow="Yazılar"
-        title="Yazılar"
-        description="Mühendisliğin Yapay Zeka Mentoru'nda yayımlanan mühendislik, yapay zekâ, araştırma ve teknoloji yazıları."
+        eyebrow={tx("Yazılar")}
+        title={tx("Yazılar")}
+        description={tx("Mühendisliğin Yapay Zeka Mentoru'nda yayımlanan mühendislik, yapay zekâ, araştırma ve teknoloji yazıları.")}
       />
 
       <Section>
-        <SectionHeader eyebrow="Arşiv" title="Son yazılar" />
+        <SectionHeader eyebrow={tx("Arşiv")} title={tx("Son yazılar")} />
 
         <div className="mt-8">
           <ArticleList
@@ -73,8 +75,8 @@ function ArticlesPage() {
 
       <Section>
         <CTABlock
-          title="Mühendisliğin Yapay Zeka Mentoru"
-          description="Yeni yazıları e-posta ile almak için Substack üzerinden abone olabilirsiniz."
+          title={tx("Mühendisliğin Yapay Zeka Mentoru")}
+          description={tx("Yeni yazıları e-posta ile almak için Substack üzerinden abone olabilirsiniz.")}
         >
           <a
             href={profileLinks.substack}
@@ -82,8 +84,7 @@ function ArticlesPage() {
             rel="noopener noreferrer"
             className={buttonStyles.primary}
           >
-            Substack'e Abone Ol
-          </a>
+            {tx("Substack'e Abone Ol")}</a>
         </CTABlock>
       </Section>
     </>

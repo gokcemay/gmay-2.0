@@ -1,3 +1,5 @@
+import { localizeSummary } from '@/lib/translate';
+import { useT, useLanguage } from '@/lib/i18n';
 import { useMemo, useState } from "react";
 import { buttonStyles } from "@/components/site/CTA";
 import {
@@ -32,8 +34,9 @@ const selectClass =
   "border border-border bg-background px-2 py-2 font-mono text-xs text-foreground focus:border-accent focus:outline-none";
 
 function FieldError({ message }: { message?: string | undefined }) {
+  const tx = useT();
   if (!message) return null;
-  return <p className="mt-2 text-xs text-destructive">{message}</p>;
+  return <p className="mt-2 text-xs text-destructive">{tx(message)}</p>;
 }
 
 function ResultRow({
@@ -49,24 +52,26 @@ function ResultRow({
   unit: string;
   emphasis?: boolean;
 }) {
+  const tx = useT();
   return (
     <div className={`border border-border p-4 ${emphasis ? "bg-muted/50" : "bg-card"}`}>
       <p className="font-mono text-[0.65rem] tracking-[0.2em] text-muted-foreground uppercase">
-        {label}
+        {tx(label)}
       </p>
       <p
         className={`mt-2 font-display font-semibold text-foreground ${
           emphasis ? "text-2xl" : "text-lg"
         }`}
       >
-        {value} <span className="font-mono text-sm font-normal">{unit}</span>
+        {tx(value)} <span className="font-mono text-sm font-normal">{tx(unit)}</span>
       </p>
-      <p className="mt-1 font-mono text-xs text-muted-foreground">{symbol}</p>
+      <p className="mt-1 font-mono text-xs text-muted-foreground">{tx(symbol)}</p>
     </div>
   );
 }
 
 function PressureChart({ p0, a }: { p0: number; a: number }) {
+  const tx = useT();
   const width = 640;
   const height = 260;
   const padL = 56;
@@ -96,16 +101,14 @@ function PressureChart({ p0, a }: { p0: number; a: number }) {
   return (
     <figure className="border border-border bg-card p-4 md:p-6">
       <figcaption className="font-display text-lg font-semibold text-foreground">
-        Hertz Temas Basıncı Dağılımı
-      </figcaption>
+        {tx("Hertz Temas Basıncı Dağılımı")}</figcaption>
       <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-        p(x) = p₀ · √(1 − (x/a)²), −a ≤ x ≤ +a
-      </p>
+        {tx("p(x) = p₀ · √(1 − (x/a)²), −a ≤ x ≤ +a")}</p>
       <svg
         viewBox={`0 0 ${width} ${height}`}
         className="mt-4 w-full"
         role="img"
-        aria-label={`Hertz temas basıncı dağılımı: merkezde ${pressure.value} ${pressure.unit}, x = ±${radius.value} ${radius.unit} konumunda sıfır.`}
+        aria-label={tx(`Hertz temas basıncı dağılımı: merkezde ${pressure.value} ${pressure.unit}, x = ±${radius.value} ${radius.unit} konumunda sıfır.`)}
       >
         <line
           x1={padL}
@@ -127,13 +130,13 @@ function PressureChart({ p0, a }: { p0: number; a: number }) {
         <line x1={padL} y1={padT} x2={padL} y2={padT + plotH} className="stroke-border" strokeWidth={1} />
         <polyline points={points} fill="none" className="stroke-accent" strokeWidth={2} />
         <text x={padL - 8} y={padT + 6} textAnchor="end" className="fill-muted-foreground" fontSize="12">
-          {pTop}
+          {tx(pTop)}
         </text>
         <text x={padL - 8} y={padT + plotH} textAnchor="end" className="fill-muted-foreground" fontSize="12">
           0
         </text>
         <text x={padL} y={padT + plotH + 20} textAnchor="middle" className="fill-muted-foreground" fontSize="12">
-          −{aDisp}
+          −{tx(aDisp)}
         </text>
         <text
           x={padL + plotW / 2}
@@ -151,7 +154,7 @@ function PressureChart({ p0, a }: { p0: number; a: number }) {
           className="fill-muted-foreground"
           fontSize="12"
         >
-          +{aDisp}
+          +{tx(aDisp)}
         </text>
         <text
           x={padL + plotW / 2}
@@ -160,7 +163,7 @@ function PressureChart({ p0, a }: { p0: number; a: number }) {
           className="fill-muted-foreground"
           fontSize="12"
         >
-          Temas merkezinden konum, x [{radius.unit}]
+          {tx("Temas merkezinden konum, x [")}{tx(radius.unit)}]
         </text>
         <text
           x={14}
@@ -170,11 +173,11 @@ function PressureChart({ p0, a }: { p0: number; a: number }) {
           className="fill-muted-foreground"
           fontSize="12"
         >
-          p(x) [{pressure.unit}]
+          {tx("p(x) [")}{tx(pressure.unit)}]
         </text>
       </svg>
       <p className="mt-2 font-mono text-xs text-muted-foreground">
-        p(0) = {pressure.value} {pressure.unit} · p(±a) = 0 {pressure.unit}
+        {tx("p(0) =")}{tx(pressure.value)} {tx(pressure.unit)} {tx("· p(±a) = 0")}{tx(pressure.unit)}
       </p>
     </figure>
   );
@@ -211,6 +214,8 @@ function buildSummary(form: HertzFormState, si: HertzSIInputs, r: HertzResults):
 }
 
 export function HertzContactCalculator() {
+  const tx = useT();
+  const language = useLanguage();
   const [form, setForm] = useState<HertzFormState>(defaultHertzForm);
   const [copied, setCopied] = useState(false);
 
@@ -223,7 +228,7 @@ export function HertzContactCalculator() {
   const handleCopy = async () => {
     if (!results || !si) return;
     try {
-      await navigator.clipboard.writeText(buildSummary(form, si, results));
+      await navigator.clipboard.writeText(localizeSummary(buildSummary(form, si, results), language));
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -244,16 +249,14 @@ export function HertzContactCalculator() {
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start">
         {/* Inputs */}
         <form className="flex flex-col gap-6" noValidate onSubmit={(e) => e.preventDefault()}>
-          <h2 className="font-display text-xl font-semibold text-foreground">Girdiler</h2>
+          <h2 className="font-display text-xl font-semibold text-foreground">{tx("Girdiler")}</h2>
           <fieldset className="border border-border p-5 md:p-6">
             <legend className="px-2 font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
-              Yük ve Geometri
-            </legend>
+              {tx("Yük ve Geometri")}</legend>
 
             <div className="mt-2">
               <label htmlFor="force" className={labelClass}>
-                Normal yük, F *
-              </label>
+                {tx("Normal yük, F *")}</label>
               <div className="mt-2 flex gap-2">
                 <input
                   id="force"
@@ -263,25 +266,24 @@ export function HertzContactCalculator() {
                   onChange={(e) => update("force", e.target.value)}
                 />
                 <select
-                  aria-label="Yük birimi"
+                  aria-label={tx("Yük birimi")}
                   className={selectClass}
                   value={form.forceUnit}
                   onChange={(e) => update("forceUnit", e.target.value as ForceUnit)}
                 >
-                  {forceUnits.map((u) => (
+                  {tx(forceUnits.map((u) => (
                     <option key={u} value={u}>
-                      {u}
+                      {tx(u)}
                     </option>
-                  ))}
+                  )))}
                 </select>
               </div>
-              <FieldError message={errors.force} />
+              <FieldError message={tx(errors.force)} />
             </div>
 
             <div className="mt-5">
               <label htmlFor="diameter" className={labelClass}>
-                Küre çapı, D *
-              </label>
+                {tx("Küre çapı, D *")}</label>
               <div className="mt-2 flex gap-2">
                 <input
                   id="diameter"
@@ -291,37 +293,33 @@ export function HertzContactCalculator() {
                   onChange={(e) => update("diameter", e.target.value)}
                 />
                 <select
-                  aria-label="Çap birimi"
+                  aria-label={tx("Çap birimi")}
                   className={selectClass}
                   value={form.diameterUnit}
                   onChange={(e) => update("diameterUnit", e.target.value as LengthUnit)}
                 >
-                  {lengthUnits.map((u) => (
+                  {tx(lengthUnits.map((u) => (
                     <option key={u} value={u}>
-                      {u}
+                      {tx(u)}
                     </option>
-                  ))}
+                  )))}
                 </select>
               </div>
               <p className="mt-2 text-xs text-muted-foreground">
-                Küre yarıçapı R = D / 2 olarak hesaplanır.
-              </p>
-              <FieldError message={errors.diameter} />
+                {tx("Küre yarıçapı R = D / 2 olarak hesaplanır.")}</p>
+              <FieldError message={tx(errors.diameter)} />
             </div>
           </fieldset>
 
           <fieldset className="border border-border p-5 md:p-6">
             <legend className="px-2 font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
-              Malzeme Özellikleri
-            </legend>
+              {tx("Malzeme Özellikleri")}</legend>
 
             <h3 className="mt-2 font-display text-base font-semibold text-foreground">
-              Malzeme 1 — Küre
-            </h3>
+              {tx("Malzeme 1 — Küre")}</h3>
             <div className="mt-4">
               <label htmlFor="e1" className={labelClass}>
-                Elastisite modülü, E₁ *
-              </label>
+                {tx("Elastisite modülü, E₁ *")}</label>
               <div className="mt-2 flex gap-2">
                 <input
                   id="e1"
@@ -331,24 +329,23 @@ export function HertzContactCalculator() {
                   onChange={(e) => update("e1", e.target.value)}
                 />
                 <select
-                  aria-label="E1 birimi"
+                  aria-label={tx("E1 birimi")}
                   className={selectClass}
                   value={form.e1Unit}
                   onChange={(e) => update("e1Unit", e.target.value as ModulusUnit)}
                 >
-                  {modulusUnits.map((u) => (
+                  {tx(modulusUnits.map((u) => (
                     <option key={u} value={u}>
-                      {u}
+                      {tx(u)}
                     </option>
-                  ))}
+                  )))}
                 </select>
               </div>
-              <FieldError message={errors.e1} />
+              <FieldError message={tx(errors.e1)} />
             </div>
             <div className="mt-5">
               <label htmlFor="nu1" className={labelClass}>
-                Poisson oranı, ν₁ *
-              </label>
+                {tx("Poisson oranı, ν₁ *")}</label>
               <input
                 id="nu1"
                 inputMode="decimal"
@@ -356,16 +353,14 @@ export function HertzContactCalculator() {
                 value={form.nu1}
                 onChange={(e) => update("nu1", e.target.value)}
               />
-              <FieldError message={errors.nu1} />
+              <FieldError message={tx(errors.nu1)} />
             </div>
 
             <h3 className="mt-8 font-display text-base font-semibold text-foreground">
-              Malzeme 2 — Düzlem
-            </h3>
+              {tx("Malzeme 2 — Düzlem")}</h3>
             <div className="mt-4">
               <label htmlFor="e2" className={labelClass}>
-                Elastisite modülü, E₂ *
-              </label>
+                {tx("Elastisite modülü, E₂ *")}</label>
               <div className="mt-2 flex gap-2">
                 <input
                   id="e2"
@@ -375,24 +370,23 @@ export function HertzContactCalculator() {
                   onChange={(e) => update("e2", e.target.value)}
                 />
                 <select
-                  aria-label="E2 birimi"
+                  aria-label={tx("E2 birimi")}
                   className={selectClass}
                   value={form.e2Unit}
                   onChange={(e) => update("e2Unit", e.target.value as ModulusUnit)}
                 >
-                  {modulusUnits.map((u) => (
+                  {tx(modulusUnits.map((u) => (
                     <option key={u} value={u}>
-                      {u}
+                      {tx(u)}
                     </option>
-                  ))}
+                  )))}
                 </select>
               </div>
-              <FieldError message={errors.e2} />
+              <FieldError message={tx(errors.e2)} />
             </div>
             <div className="mt-5">
               <label htmlFor="nu2" className={labelClass}>
-                Poisson oranı, ν₂ *
-              </label>
+                {tx("Poisson oranı, ν₂ *")}</label>
               <input
                 id="nu2"
                 inputMode="decimal"
@@ -400,7 +394,7 @@ export function HertzContactCalculator() {
                 value={form.nu2}
                 onChange={(e) => update("nu2", e.target.value)}
               />
-              <FieldError message={errors.nu2} />
+              <FieldError message={tx(errors.nu2)} />
             </div>
           </fieldset>
 
@@ -413,74 +407,70 @@ export function HertzContactCalculator() {
                 setCopied(false);
               }}
             >
-              Varsayılanlara Dön
-            </button>
+              {tx("Varsayılanlara Dön")}</button>
             <button
               type="button"
               className={buttonStyles.primary}
               onClick={handleCopy}
               disabled={!results}
             >
-              Sonuçları Kopyala
-            </button>
+              {tx("Sonuçları Kopyala")}</button>
             <span
               aria-live="polite"
               className="font-mono text-xs tracking-[0.15em] text-accent uppercase"
             >
-              {copied ? "Kopyalandı" : ""}
+              {tx(copied ? "Kopyalandı" : "")}
             </span>
           </div>
 
           <p className="text-xs leading-relaxed text-muted-foreground">
-            Hesaplamalar tarayıcınızda gerçekleştirilir. Girdiğiniz mühendislik verileri bu araç
-            tarafından kaydedilmez.
-          </p>
+            {tx("Hesaplamalar tarayıcınızda gerçekleştirilir. Girdiğiniz mühendislik verileri bu araç tarafından kaydedilmez.")}</p>
         </form>
 
         {/* Results */}
         <section aria-live="polite" className="flex flex-col gap-4">
-          <h2 className="font-display text-xl font-semibold text-foreground">Sonuçlar</h2>
-          {results && eStar && aVal && dVal && areaVal && p0Val && pmVal && deltaVal ? (
+          <h2 className="font-display text-xl font-semibold text-foreground">{tx("Sonuçlar")}</h2>
+          {tx(results && eStar && aVal && dVal && areaVal && p0Val && pmVal && deltaVal ? (
             <>
               <div className="grid gap-3 sm:grid-cols-2">
                 <ResultRow
                   emphasis
-                  label="Maksimum Hertz basıncı"
+                  label={tx("Maksimum Hertz basıncı")}
                   symbol="p₀ = 3F / (2πa²)"
                   value={p0Val.value}
-                  unit={p0Val.unit}
+                  unit={tx(p0Val.unit)}
                 />
                 <ResultRow
                   emphasis
-                  label="Temas yarıçapı"
+                  label={tx("Temas yarıçapı")}
                   symbol="a = [(3FR)/(4E*)]^(1/3)"
                   value={aVal.value}
-                  unit={aVal.unit}
+                  unit={tx(aVal.unit)}
                 />
                 <ResultRow
-                  label="Efektif elastisite modülü"
+                  label={tx("Efektif elastisite modülü")}
                   symbol="E*"
                   value={eStar.value}
-                  unit={eStar.unit}
+                  unit={tx(eStar.unit)}
                 />
-                <ResultRow label="Temas çapı" symbol="2a" value={dVal.value} unit={dVal.unit} />
+                <ResultRow label={tx("Temas çapı")} symbol="2a" value={dVal.value} unit={tx(dVal.unit)} />
                 <ResultRow
-                  label="Temas alanı"
+                  label={tx("Temas alanı")}
                   symbol="A = πa²"
                   value={areaVal.value}
-                  unit={areaVal.unit}
+                  unit={tx(areaVal.unit)}
                 />
                 <ResultRow
-                  label="Ortalama temas basıncı"
+                  label={tx("Ortalama temas basıncı")}
                   symbol="p_mean = F / (πa²)"
                   value={pmVal.value}
-                  unit={pmVal.unit}
+                  unit={tx(pmVal.unit)}
                 />
                 <ResultRow
-                  label="Elastik yaklaşma"
+                  label={tx("Elastik yaklaşma")}
                   symbol="δ = a² / R"
                   value={deltaVal.value}
-                  unit={deltaVal.unit}
+                  unit={tx(deltaVal.unit)}
                 />
               </div>
               <PressureChart p0={results.p0} a={results.a} />
@@ -488,11 +478,9 @@ export function HertzContactCalculator() {
           ) : (
             <div className="border border-dashed border-border p-5">
               <p className="text-sm leading-relaxed text-muted-foreground">
-                Sonuçların hesaplanabilmesi için girdileri geçerli değerlerle doldurun. Geçersiz
-                girdiler için hata mesajları form alanlarının altında gösterilir.
-              </p>
+                {tx("Sonuçların hesaplanabilmesi için girdileri geçerli değerlerle doldurun. Geçersiz girdiler için hata mesajları form alanlarının altında gösterilir.")}</p>
             </div>
-          )}
+          ))}
         </section>
       </div>
     </div>
