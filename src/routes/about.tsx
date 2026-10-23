@@ -42,6 +42,7 @@ const inlineLink = "text-foreground underline underline-offset-4 hover:text-acce
 
 function AboutPage() {
   const tx = useT();
+  const language = useLanguage();
   return (
     <>
       <PageHeader

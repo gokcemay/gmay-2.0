@@ -5,7 +5,14 @@ export function translate<T>(value: T, language: Language): T {
   if (typeof value !== 'string' || language === 'tr') return value;
   const key = value.replace(/\s+/g, ' ').trim();
   const result = english[key];
-  if (result === undefined) return value;
+  if (result === undefined) {
+    const dynamic = value
+      .replace(/^(\d+)\. ölçüyü sil$/, 'Delete dimension $1')
+      .replace(/^(\d+)\. bağlantıyı sil$/, 'Delete connection $1')
+      .replace(/^(.*) profili \(yeni sekmede açılır\)$/, '$1 profile (opens in a new tab)')
+      .replace(/^Hertz temas basıncı dağılımı: merkezde (.*), x = (.*) konumunda sıfır\.$/, 'Hertz contact pressure distribution: $1 at the center, zero at x = $2.');
+    return dynamic as T;
+  }
   const leading = value.match(/^\s*/)?.[0] ?? '';
   const trailing = value.match(/\s*$/)?.[0] ?? '';
   return (leading + result + trailing) as T;
