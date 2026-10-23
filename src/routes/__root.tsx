@@ -180,7 +180,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="tr">
       <head>
         <HeadContent />
       </head>
@@ -196,19 +196,22 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const location = useLocation();
   const analyticsInitialized = useRef(false);
+  const standalone = location.pathname.replace(/\/$/, '') === '/araclar/cadquery-prompt';
 
   useEffect(() => {
+    if (standalone) return;
     initAnalytics();
     analyticsInitialized.current = true;
-  }, []);
+  }, [standalone]);
 
   useEffect(() => {
-    if (!analyticsInitialized.current) return;
+    if (standalone || !analyticsInitialized.current) return;
     trackPageView(location.pathname);
-  }, [location.pathname]);
+  }, [location.pathname, standalone]);
 
   return (
     <QueryClientProvider client={queryClient}>
+      {standalone ? <Outlet /> : (
       <div className="flex min-h-screen flex-col bg-background">
         <SiteHeader />
         <main className="flex-1">
@@ -217,6 +220,7 @@ function RootComponent() {
         </main>
         <SiteFooter />
       </div>
+      )}
     </QueryClientProvider>
   );
 }
