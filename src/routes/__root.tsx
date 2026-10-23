@@ -196,7 +196,7 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const location = useLocation();
   const analyticsInitialized = useRef(false);
-  const standalone = location.pathname.replace(/\/$/, '') === '/araclar/cadquery-prompt';
+  const standalone = location.pathname.replace(/\/$/, '') === '/lab/cadquery-prompt';
 
   useEffect(() => {
     if (standalone) return;
