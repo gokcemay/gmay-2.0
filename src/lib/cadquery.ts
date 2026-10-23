@@ -27,7 +27,7 @@ export function emptyForm(): CadForm {
   return { name: '', type: 'Braket', purpose: '', material: '', method: 'Belirtilmedi', dimensions: [], holes: [], radius: '', origin: '', direction: '', formats: ['STEP', 'STL'], filename: '', viewer: 'OCP CAD Viewer (VS Code)', environment: 'Claude sohbet arayüzü', rules: [...rules], notes: '' };
 }
 export function exampleForm(): CadForm {
-  return { ...emptyForm(), name: 'L braket', purpose: 'Bir sensör kutusunu yatay tablaya dik bağlayacak.', material: 'Alüminyum 6061-T6', method: 'CNC freze (5 mm plakadan)', dimensions: [['Yatay kol', '60'], ['Dikey kol', '50'], ['Genişlik', '40'], ['Kalınlık', '5']].map(([name, value]) => ({ name, value, unit: 'mm', unknown: false, note: '' })), holes: [{ type: 'Geçme deliği', size: 'M6 (Ø6,6)', count: '4', position: 'her kolda 2 adet, aralık 25 mm, delik ekseni kol ucundan 15 mm içeride' }], radius: 'İç köşe R4', origin: 'Dış köşede', direction: "Yatay kol +X, dikey kol +Z boyunca, genişlik Y=0'a simetrik.", filename: 'l_braket' };
+  return { ...emptyForm(), name: 'L braket', purpose: 'Bir sensör kutusunu yatay tablaya dik bağlayacak.', material: 'Alüminyum 6061-T6', method: 'CNC freze (5 mm plakadan)', dimensions: ([['Yatay kol', '60'], ['Dikey kol', '50'], ['Genişlik', '40'], ['Kalınlık', '5']] as [string, string][]).map(([name, value]) => ({ name, value, unit: 'mm', unknown: false, note: '' })), holes: [{ type: 'Geçme deliği', size: 'M6 (Ø6,6)', count: '4', position: 'her kolda 2 adet, aralık 25 mm, delik ekseni kol ucundan 15 mm içeride' }], radius: 'İç köşe R4', origin: 'Dış köşede', direction: "Yatay kol +X, dikey kol +Z boyunca, genişlik Y=0'a simetrik.", filename: 'l_braket' };
 }
 export function validForm(form: CadForm): boolean {
   return Boolean(form.name.trim() && form.purpose.trim()) && form.dimensions.every(d => d.unknown || !d.value || Number.isFinite(Number(d.value))) && form.holes.every(h => !h.count || (Number.isInteger(Number(h.count)) && Number(h.count) > 0));
@@ -41,10 +41,10 @@ export function restoreForm(value: string): CadForm | null {
     for (const key of Object.keys(base) as (keyof CadForm)[]) {
       if (typeof base[key] === 'string' && typeof record[key] !== 'string') return null;
     }
-    if (!Array.isArray(record.dimensions) || !record.dimensions.every(d => d && typeof d.name === 'string' && typeof d.value === 'string' && ['mm', '°'].includes(d.unit) && typeof d.unknown === 'boolean' && typeof d.note === 'string')) return null;
-    if (!Array.isArray(record.holes) || !record.holes.every(h => h && ['type', 'size', 'count', 'position'].every(k => typeof h[k] === 'string'))) return null;
-    if (!Array.isArray(record.formats) || !record.formats.every(f => ['STEP', 'STL', 'DXF', 'SVG'].includes(f))) return null;
-    if (!Array.isArray(record.rules) || !record.rules.every(r => rules.includes(r))) return null;
+    if (!Array.isArray(record['dimensions']) || !record['dimensions'].every(d => d && typeof d.name === 'string' && typeof d.value === 'string' && ['mm', '°'].includes(d.unit) && typeof d.unknown === 'boolean' && typeof d.note === 'string')) return null;
+    if (!Array.isArray(record['holes']) || !record['holes'].every(h => h && ['type', 'size', 'count', 'position'].every(k => typeof h[k] === 'string'))) return null;
+    if (!Array.isArray(record['formats']) || !record['formats'].every(f => ['STEP', 'STL', 'DXF', 'SVG'].includes(f))) return null;
+    if (!Array.isArray(record['rules']) || !record['rules'].every(r => rules.includes(r))) return null;
     return parsed as CadForm;
   } catch { return null; }
 }
