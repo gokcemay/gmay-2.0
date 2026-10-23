@@ -22,7 +22,7 @@ import { Route as ResearchRouteImport } from './routes/research'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as AraclarTeknikRaporStiliRouteImport } from './routes/araclar.teknik-rapor-stili'
-import { Route as LabCadqueryPromptRouteImport } from './routes/lab.cadquery-prompt'
+import { Route as LabCadqueryPromptRouteImport } from './routes/lab_.cadquery-prompt'
 import { Route as LabEngineeringPromptBuilderRouteImport } from './routes/lab_.engineering-prompt-builder'
 import { Route as LabHertzContactCalculatorRouteImport } from './routes/lab_.hertz-contact-calculator'
 import { Route as LabSlidingDistanceCalculatorRouteImport } from './routes/lab_.sliding-distance-calculator'
@@ -97,9 +97,9 @@ const AraclarTeknikRaporStiliRoute = AraclarTeknikRaporStiliRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const LabCadqueryPromptRoute = LabCadqueryPromptRouteImport.update({
-  id: '/cadquery-prompt',
-  path: '/cadquery-prompt',
-  getParentRoute: () => LabRoute,
+  id: '/lab_/cadquery-prompt',
+  path: '/lab/cadquery-prompt',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LabEngineeringPromptBuilderRoute =
   LabEngineeringPromptBuilderRouteImport.update({
@@ -139,7 +139,7 @@ export interface FileRoutesByFullPath {
   '/egitim': typeof EgitimRoute
   '/iletisim': typeof IletisimRoute
   '/kitaplar': typeof KitaplarRoute
-  '/lab': typeof LabRouteWithChildren
+  '/lab': typeof LabRoute
   '/mcp': typeof McpRoute
   '/research': typeof ResearchRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -160,7 +160,7 @@ export interface FileRoutesByTo {
   '/egitim': typeof EgitimRoute
   '/iletisim': typeof IletisimRoute
   '/kitaplar': typeof KitaplarRoute
-  '/lab': typeof LabRouteWithChildren
+  '/lab': typeof LabRoute
   '/mcp': typeof McpRoute
   '/research': typeof ResearchRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -182,13 +182,13 @@ export interface FileRoutesById {
   '/egitim': typeof EgitimRoute
   '/iletisim': typeof IletisimRoute
   '/kitaplar': typeof KitaplarRoute
-  '/lab': typeof LabRouteWithChildren
+  '/lab': typeof LabRoute
   '/mcp': typeof McpRoute
   '/research': typeof ResearchRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/araclar/teknik-rapor-stili': typeof AraclarTeknikRaporStiliRoute
-  '/lab/cadquery-prompt': typeof LabCadqueryPromptRoute
+  '/lab_/cadquery-prompt': typeof LabCadqueryPromptRoute
   '/lab_/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
   '/lab_/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
   '/lab_/sliding-distance-calculator': typeof LabSlidingDistanceCalculatorRoute
@@ -253,7 +253,7 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/araclar/teknik-rapor-stili'
-    | '/lab/cadquery-prompt'
+    | '/lab_/cadquery-prompt'
     | '/lab_/engineering-prompt-builder'
     | '/lab_/hertz-contact-calculator'
     | '/lab_/sliding-distance-calculator'
@@ -269,12 +269,13 @@ export interface RootRouteChildren {
   EgitimRoute: typeof EgitimRoute
   IletisimRoute: typeof IletisimRoute
   KitaplarRoute: typeof KitaplarRoute
-  LabRoute: typeof LabRouteWithChildren
+  LabRoute: typeof LabRoute
   McpRoute: typeof McpRoute
   ResearchRoute: typeof ResearchRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   AraclarTeknikRaporStiliRoute: typeof AraclarTeknikRaporStiliRoute
+  LabCadqueryPromptRoute: typeof LabCadqueryPromptRoute
   LabEngineeringPromptBuilderRoute: typeof LabEngineeringPromptBuilderRoute
   LabHertzContactCalculatorRoute: typeof LabHertzContactCalculatorRoute
   LabSlidingDistanceCalculatorRoute: typeof LabSlidingDistanceCalculatorRoute
@@ -375,12 +376,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AraclarTeknikRaporStiliRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/lab/cadquery-prompt': {
-      id: '/lab/cadquery-prompt'
-      path: '/cadquery-prompt'
+    '/lab_/cadquery-prompt': {
+      id: '/lab_/cadquery-prompt'
+      path: '/lab/cadquery-prompt'
       fullPath: '/lab/cadquery-prompt'
       preLoaderRoute: typeof LabCadqueryPromptRouteImport
-      parentRoute: typeof LabRoute
+      parentRoute: typeof rootRouteImport
     }
     '/lab_/engineering-prompt-builder': {
       id: '/lab_/engineering-prompt-builder'
@@ -420,16 +421,6 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface LabRouteChildren {
-  LabCadqueryPromptRoute: typeof LabCadqueryPromptRoute
-}
-
-const LabRouteChildren: LabRouteChildren = {
-  LabCadqueryPromptRoute: LabCadqueryPromptRoute,
-}
-
-const LabRouteWithChildren = LabRoute._addFileChildren(LabRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ShortCodeRoute: ShortCodeRoute,
@@ -438,13 +429,14 @@ const rootRouteChildren: RootRouteChildren = {
   EgitimRoute: EgitimRoute,
   IletisimRoute: IletisimRoute,
   KitaplarRoute: KitaplarRoute,
-  LabRoute: LabRouteWithChildren,
+  LabRoute: LabRoute,
   McpRoute: McpRoute,
   ResearchRoute: ResearchRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   AraclarTeknikRaporStiliRoute: AraclarTeknikRaporStiliRoute,
+  LabCadqueryPromptRoute: LabCadqueryPromptRoute,
   LabEngineeringPromptBuilderRoute: LabEngineeringPromptBuilderRoute,
   LabHertzContactCalculatorRoute: LabHertzContactCalculatorRoute,
   LabSlidingDistanceCalculatorRoute: LabSlidingDistanceCalculatorRoute,
