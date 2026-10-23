@@ -1,4 +1,4 @@
-import { useT, localizeHead } from '@/lib/i18n';
+import { useT, useLanguage, localizeHead } from '@/lib/i18n';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
 import { CTABlock, buttonStyles } from "@/components/site/CTA";
@@ -60,9 +60,11 @@ function AboutPage() {
         <SectionHeader eyebrow={tx("02")} title={tx("Yapay Zekâ & Mühendislik")} />
         <p className={`mt-6 ${prose}`}>
           {tx("Üretken yapay zekânın mühendislik, araştırma ve eğitim süreçlerinde nasıl daha sistematik ve güvenilir kullanılabileceği üzerine çalışıyorum.")}{tx(" ")}
+          {language === 'en' && 'I develop '}
           <Link to="/lab" className={inlineLink}>
             {tx("Mühendisler için araçlar")}</Link>{tx(" ")}
           {tx("geliştiriyor,")}{tx(" ")}
+          {language === 'en' && 'deliver '}
           <Link to="/egitim" className={inlineLink}>
             {tx("uygulamalı eğitimler")}</Link>{tx(" ")}
           {tx("veriyor ve mühendislikte yapay zekâ üzerine")}{tx(" ")}

@@ -2,11 +2,11 @@ import { useT, useLanguage } from '@/lib/i18n';
 import { queryOptions } from "@tanstack/react-query";
 import { getSubstackPosts } from "@/lib/articles.functions";
 import { profileLinks } from "@/lib/profiles";
-import type { SubstackPost } from "@/lib/articles.types";
+import type { SubstackPost, SubstackFeedResult } from "@/lib/articles.types";
 
 export const substackPostsQueryOptions = queryOptions({
   queryKey: ["substack-posts"],
-  queryFn: () => getSubstackPosts(),
+  queryFn: async (): Promise<SubstackFeedResult> => getSubstackPosts(),
   staleTime: 30 * 60 * 1000,
   gcTime: 60 * 60 * 1000,
 });

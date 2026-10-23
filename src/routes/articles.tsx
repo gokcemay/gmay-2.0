@@ -1,5 +1,6 @@
 import { useT, localizeHead } from '@/lib/i18n';
 import { createFileRoute } from "@tanstack/react-router";
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
 import { ArticleList, substackPostsQueryOptions } from "@/components/site/Articles";
@@ -49,7 +50,7 @@ export const Route = createFileRoute("/articles")({
 
 function ArticlesPage() {
   const tx = useT();
-  const data = Route.useLoaderData();
+  const { data } = useSuspenseQuery(substackPostsQueryOptions);
 
   return (
     <>

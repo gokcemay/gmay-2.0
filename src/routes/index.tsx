@@ -1,5 +1,6 @@
 import { useT, localizeHead } from '@/lib/i18n';
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { Section, SectionHeader } from "@/components/site/Section";
 import { GridPanel, InfoCard } from "@/components/site/Cards";
@@ -86,7 +87,7 @@ const services = [
 
 function Index() {
   const tx = useT();
-  const data = Route.useLoaderData();
+  const { data } = useSuspenseQuery(substackPostsQueryOptions);
 
   return (
     <>
