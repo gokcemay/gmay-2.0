@@ -144,16 +144,13 @@ function ToolCard({ tool, group }: { tool: Tool; group: string }) {
           {tx("Kullanılabilir")}</span>
       </div>
       <h3 className="mt-3 font-display text-lg leading-snug font-semibold text-foreground">
-        <Link {...linkProps} className="hover:underline hover:underline-offset-4">
+        <ToolLink className="hover:underline hover:underline-offset-4">
           {tx(tool.name)}
-        </Link>
+        </ToolLink>
       </h3>
       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tx(tool.purpose)}</p>
-      <Link
-        {...linkProps}
-        className="mt-4 self-start text-sm font-medium text-foreground underline underline-offset-4"
-      >
-        {tx("Aracı Aç")}</Link>
+      <ToolLink className="mt-4 self-start text-sm font-medium text-foreground underline underline-offset-4">
+        {tx("Aracı Aç")}</ToolLink>
     </article>
   );
 }
