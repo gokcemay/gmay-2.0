@@ -1,0 +1,25 @@
+import cadquery as cq
+
+# Dikdörtgen pencereli, bir köşesi pahlı düz saç. Plaka YZ düzleminde, kalınlık X yönünde.
+# Çizimde yalnızca kalınlık (3) ölçülü; diğerleri oranlardan türetildi (TAHMİN, 5 mm katı).
+T = 3.0          # kalınlık mm (çizimde ölçülü)
+L = 60.0         # plaka uzunluğu (Y) mm  TAHMİN (en büyük boyut sabitlendi)
+H_BACK = 40.0    # arka (Y=L) yükseklik mm  TAHMİN
+H_FRONT = 25.0   # ön (Y=0) yükseklik mm  TAHMİN
+TOP_FLAT = 40.0  # üst düz kenar uzunluğu (arkadan) mm  TAHMİN; pah Y boyunca L-TOP_FLAT=20
+WIN_Y0 = 20.0    # pencere Y başlangıcı mm  TAHMİN
+WIN_Y1 = 45.0    # pencere Y bitişi (genişlik 25) mm  TAHMİN
+WIN_Z0 = 10.0    # pencere alt Z mm  TAHMİN
+WIN_Z1 = 25.0    # pencere üst Z (yükseklik 15) mm  TAHMİN
+
+# Profil (Y, Z): ön alt, arka alt, arka üst, pah başlangıcı, ön üst
+plate = (cq.Workplane("YZ")
+         .polyline([(0, 0), (L, 0), (L, H_BACK), (L - TOP_FLAT, H_BACK), (0, H_FRONT)])
+         .close().extrude(T))
+# Pencere: plakayı tamamen delen dikdörtgen kesim
+win = (cq.Workplane("YZ")
+       .polyline([(WIN_Y0, WIN_Z0), (WIN_Y1, WIN_Z0), (WIN_Y1, WIN_Z1), (WIN_Y0, WIN_Z1)])
+       .close().extrude(T))
+result = plate.cut(win)
+# Gizli yüz: arka/alt/yan yüzler düz kabul edildi.
+# BEKLENEN SINIR KUTUSU: 3 x 60 x 40 mm

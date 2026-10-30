@@ -1,0 +1,9 @@
+import cadquery as cq
+G=60.0; D=40.0; H=40.0   # genişlik, derinlik, yükseklik
+YAN=10.0; TABAN=10.0; ARKA=10.0
+gov=cq.Workplane("XY").box(G,D,H,centered=False)
+# YZ düzleminde üçgen kesit: (y=0,z=10) -> (y=0,z=40) -> (y=D-ARKA,z=40); eğik rampa yüzü, x boyunca ekstrüde
+EG=D-ARKA  # 30
+kes=(cq.Workplane("YZ").polyline([(-1,TABAN-1),(-1,H+1),(EG+1,H+1)]).close().extrude(G-2*YAN).translate((YAN,0,0)))
+result=gov.cut(kes)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

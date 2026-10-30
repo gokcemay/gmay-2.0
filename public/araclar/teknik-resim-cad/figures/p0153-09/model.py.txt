@@ -1,0 +1,20 @@
+import cadquery as cq
+# TAHMİN (ölçüsüz çizim): en büyük boyut yükseklik = 70 mm, diğerleri orantıdan
+H = 70.0   # Z toplam yükseklik (C'nin düşey kolu) TAHMİN
+W = 45.0   # X kol uzunluğu (C ağzının açıldığı yön, sağa) TAHMİN
+D = 15.0   # Y derinlik (ekstrüzyon kalınlığı) TAHMİN
+TS = 12.0  # X gövde (sırt) kalınlığı TAHMİN
+TA = 18.0  # Z üst kol kalınlığı TAHMİN
+TB = 10.0  # Z alt kol kalınlığı TAHMİN
+LIP_H = 10.0  # Z kol uçlarındaki içe dönük çıkıntı yüksekliği TAHMİN
+LIP_L = 12.0  # X çıkıntı uzunluğu TAHMİN
+# Gizli yüzler: arka taraf düz, C profili Y boyunca sabit kabul edildi.
+# 1) C profili: dış kutu - iç boşluk
+outer = cq.Workplane("XY").box(W, D, H, centered=False)
+slot = cq.Workplane("XY").box(W - TS, D, H - TA - TB, centered=False).translate((TS, 0, TB))
+body = outer.cut(slot)
+# 2) Üst kol ucunda aşağı sarkan, alt kol ucunda yukarı çıkan çıkıntılar
+lip_top = cq.Workplane("XY").box(LIP_L, D, LIP_H, centered=False).translate((W - LIP_L, 0, H - TA - LIP_H))
+lip_bot = cq.Workplane("XY").box(LIP_L, D, LIP_H, centered=False).translate((W - LIP_L, 0, TB))
+result = body.union(lip_top).union(lip_bot)
+# BEKLENEN SINIR KUTUSU: 45 x 15 x 70 mm

@@ -1,0 +1,9 @@
+import cadquery as cq
+# C/E profili, ön yüzde (XZ), derinlik Y. Tüm ölçüler TAHMİN (ölçüsüz çizim; yükseklik 60 mm'ye sabitlendi)
+H=60.0   # mm yükseklik TAHMİN
+W=30.0   # mm genişlik TAHMİN
+D=10.0   # mm kalınlık (derinlik) TAHMİN
+pts=[(0,0),(W,0),(W,15),(21,15),(21,10),(13,10),(13,25),(8,25),(8,45),(17,45),(17,50),(W,50),(W,H),(0,H)]  # TAHMİN
+# Arka yüz düz kabul edildi
+result=cq.Workplane("XZ").polyline(pts).close().extrude(-D)
+# BEKLENEN SINIR KUTUSU: 30 x 10 x 60 mm

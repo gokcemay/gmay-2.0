@@ -1,0 +1,13 @@
+import cadquery as cq
+G=60.0  # genişlik X
+D=40.0  # derinlik Y
+H=40.0  # yükseklik Z
+YAN=10.0 # yan duvar
+TABAN=10.0 # taban kalınlığı
+CD=30.0 # boşluk derinliği (önden); arka duvar 10 (ölçüden)
+gov=cq.Workplane("XY").box(G,D,H,centered=False)
+# ön ve üst açık boşluk: x 10..50, y 0..30, z 10..40
+boş=cq.Workplane("XY").box(G-2*YAN,CD,H-TABAN+1,centered=False).translate((YAN,-0.0,TABAN))
+boş=boş.translate((0,-1,0)).union(cq.Workplane("XY").box(1,1,1)).cut(cq.Workplane("XY").box(1,1,1)) if False else cq.Workplane("XY").box(G-2*YAN,CD+1,H-TABAN+1,centered=False).translate((YAN,-1,TABAN))
+result=gov.cut(boş)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

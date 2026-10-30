@@ -1,0 +1,17 @@
+import cadquery as cq
+
+# Parça kompozisyonu: 4 ayrı prizma, bilerek ayrı katılar olarak yan yana (ölçüler çizimde var, hepsi mm)
+# Eksen: X = sağa-yukarı (parça 1'in 45'i), Y = sola-yukarı (derinlik), Z = yükseklik
+# Parça 1: 45 (X) x 10 (Y) x 84.5 (Z) levha
+P1 = cq.Workplane("XY").box(45, 10, 84.5, centered=False)
+# Parça 2: 11 (X) x 20 (Y) x 28 (Z) prizma
+P2 = cq.Workplane("XY").box(11, 20, 28, centered=False).translate((60, 0, 0))
+# Parça 3: YZ düzleminde dik üçgen (taban 20 Y, yükseklik 28 Z, dik kenar Y max'ta), kalınlık 11 (X)
+P3 = (cq.Workplane("YZ").polyline([(20, 0), (0, 0), (20, 28)]).close().extrude(11)
+      .translate((85, 0, 0)))
+# Parça 4: 23 (X) x 9 (Y) x 12 (Z) prizma
+P4 = cq.Workplane("XY").box(23, 9, 12, centered=False).translate((110, 0, 0))
+
+solids = [p.val() for p in (P1, P2, P3, P4)]
+result = cq.Workplane("XY").newObject([cq.Compound.makeCompound(solids)])
+# BEKLENEN SINIR KUTUSU: 133 x 20 x 84.5 mm
