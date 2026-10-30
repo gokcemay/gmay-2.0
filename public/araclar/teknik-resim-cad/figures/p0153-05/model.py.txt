@@ -1,0 +1,14 @@
+import cadquery as cq
+# Olcusuz cizim: oranlardan TAHMIN (hepsi TAHMIN, mm)
+GEN=50      # TAHMIN: toplam genislik X
+YUK=80      # TAHMIN: toplam yukseklik Z
+DER=20      # TAHMIN: derinlik Y (kitap notu: 20)
+# Govde: C'nin dis dikdortgeni, on yuz Y=0, arka Y=DER
+govde=cq.Workplane("XY").box(GEN,DER,YUK,centered=False)
+# Sag tarafa acik basamakli kanal profili (XZ duzleminde), TAHMIN koordinatlar
+E=1  # kesimin sag yuzden tasmasi (guvenli kesim)
+kanal_pts=[(GEN+E,65),(30,65),(30,60),(15,60),(15,30),(20,30),(20,15),(40,15),(40,20),(GEN+E,20)]
+# XZ duzleminin normali -Y; negatif extrude +Y yonune gider
+kanal=cq.Workplane("XZ").polyline(kanal_pts).close().extrude(-DER)
+result=govde.cut(kanal)
+# BEKLENEN SINIR KUTUSU: 50 x 20 x 80 mm

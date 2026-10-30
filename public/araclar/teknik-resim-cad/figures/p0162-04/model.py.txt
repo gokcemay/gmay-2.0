@@ -1,0 +1,15 @@
+import cadquery as cq
+# Kabinet çizimi: ön yüz gerçek şekil (X-Z düzlemi), derinlik arkaya (+Y) ekstrüde.
+# Ölçüsüz: en büyük boyut yükseklik = 70 mm, ötekiler ön yüz oranından. Hepsi TAHMİN.
+W = 45.0    # X toplam genişlik TAHMİN
+H = 70.0    # Z toplam yükseklik TAHMİN
+D = 15.0    # Y derinlik (arkaya) TAHMİN
+# Gizli yüzler: arka taraf düz, profil derinlik boyunca sabit kabul edildi.
+# 1) Dış blok
+outer = cq.Workplane("XY").box(W, D, H, centered=False)
+# 2) Sağa açık basamaklı C boşluğu: (x, z) noktaları TAHMİN
+pts = [(12, 9), (33, 9), (33, 16), (45, 16), (45, 64), (26, 64), (26, 50), (12, 50)]
+# XZ düzleminin normali -Y'dir; extrude(-D) arkaya (+Y) doğru uzatır
+cut = cq.Workplane("XZ").polyline(pts).close().extrude(-D)
+result = outer.cut(cut)
+# BEKLENEN SINIR KUTUSU: 45 x 15 x 70 mm
