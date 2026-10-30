@@ -22,6 +22,7 @@ import { Route as ResearchRouteImport } from './routes/research'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as AraclarTeknikRaporStiliRouteImport } from './routes/araclar.teknik-rapor-stili'
+import { Route as AraclarTeknikResimCadRouteImport } from './routes/araclar.teknik-resim-cad'
 import { Route as LabCadqueryPromptRouteImport } from './routes/lab_.cadquery-prompt'
 import { Route as LabEngineeringPromptBuilderRouteImport } from './routes/lab_.engineering-prompt-builder'
 import { Route as LabHertzContactCalculatorRouteImport } from './routes/lab_.hertz-contact-calculator'
@@ -96,6 +97,11 @@ const AraclarTeknikRaporStiliRoute = AraclarTeknikRaporStiliRouteImport.update({
   path: '/araclar/teknik-rapor-stili',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AraclarTeknikResimCadRoute = AraclarTeknikResimCadRouteImport.update({
+  id: '/araclar/teknik-resim-cad',
+  path: '/araclar/teknik-resim-cad',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LabCadqueryPromptRoute = LabCadqueryPromptRouteImport.update({
   id: '/lab_/cadquery-prompt',
   path: '/lab/cadquery-prompt',
@@ -145,6 +151,7 @@ export interface FileRoutesByFullPath {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/araclar/teknik-rapor-stili': typeof AraclarTeknikRaporStiliRoute
+  '/araclar/teknik-resim-cad': typeof AraclarTeknikResimCadRoute
   '/lab/cadquery-prompt': typeof LabCadqueryPromptRoute
   '/lab/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
   '/lab/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
@@ -166,6 +173,7 @@ export interface FileRoutesByTo {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/araclar/teknik-rapor-stili': typeof AraclarTeknikRaporStiliRoute
+  '/araclar/teknik-resim-cad': typeof AraclarTeknikResimCadRoute
   '/lab/cadquery-prompt': typeof LabCadqueryPromptRoute
   '/lab/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
   '/lab/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
@@ -188,6 +196,7 @@ export interface FileRoutesById {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/araclar/teknik-rapor-stili': typeof AraclarTeknikRaporStiliRoute
+  '/araclar/teknik-resim-cad': typeof AraclarTeknikResimCadRoute
   '/lab_/cadquery-prompt': typeof LabCadqueryPromptRoute
   '/lab_/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
   '/lab_/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
@@ -211,6 +220,7 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/araclar/teknik-rapor-stili'
+    | '/araclar/teknik-resim-cad'
     | '/lab/cadquery-prompt'
     | '/lab/engineering-prompt-builder'
     | '/lab/hertz-contact-calculator'
@@ -232,6 +242,7 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/araclar/teknik-rapor-stili'
+    | '/araclar/teknik-resim-cad'
     | '/lab/cadquery-prompt'
     | '/lab/engineering-prompt-builder'
     | '/lab/hertz-contact-calculator'
@@ -253,6 +264,7 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/araclar/teknik-rapor-stili'
+    | '/araclar/teknik-resim-cad'
     | '/lab_/cadquery-prompt'
     | '/lab_/engineering-prompt-builder'
     | '/lab_/hertz-contact-calculator'
@@ -275,6 +287,7 @@ export interface RootRouteChildren {
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   AraclarTeknikRaporStiliRoute: typeof AraclarTeknikRaporStiliRoute
+  AraclarTeknikResimCadRoute: typeof AraclarTeknikResimCadRoute
   LabCadqueryPromptRoute: typeof LabCadqueryPromptRoute
   LabEngineeringPromptBuilderRoute: typeof LabEngineeringPromptBuilderRoute
   LabHertzContactCalculatorRoute: typeof LabHertzContactCalculatorRoute
@@ -376,6 +389,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AraclarTeknikRaporStiliRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/araclar/teknik-resim-cad': {
+      id: '/araclar/teknik-resim-cad'
+      path: '/araclar/teknik-resim-cad'
+      fullPath: '/araclar/teknik-resim-cad'
+      preLoaderRoute: typeof AraclarTeknikResimCadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lab_/cadquery-prompt': {
       id: '/lab_/cadquery-prompt'
       path: '/lab/cadquery-prompt'
@@ -436,6 +456,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   AraclarTeknikRaporStiliRoute: AraclarTeknikRaporStiliRoute,
+  AraclarTeknikResimCadRoute: AraclarTeknikResimCadRoute,
   LabCadqueryPromptRoute: LabCadqueryPromptRoute,
   LabEngineeringPromptBuilderRoute: LabEngineeringPromptBuilderRoute,
   LabHertzContactCalculatorRoute: LabHertzContactCalculatorRoute,
