@@ -161,6 +161,8 @@ export const english: Record<string, string> = {
   "CadQuery Prompt Üreteci": "CadQuery Prompt Generator",
   "Parça fikrinizi parametrik CAD modelleme için yapılandırılmış bir Claude promptuna dönüştürün.": "Turn your part idea into a structured Claude prompt for parametric CAD modeling.",
   "Teknik Rapor Stili": "Technical Report Style",
+  "Teknik Resimden CAD'e": "From Technical Drawing to CAD",
+  "Teknik resim kitabındaki üç boyutlu çizimler için galeri, CAD promptu ve model dosyaları.": "A gallery of 3D drawings from the technical drawing book, with CAD prompts and model files.",
   "Teknik rapor yazımı için Türkçe ve İngilizce Claude skill'i: yazma, düzenleme ve stil denetimi.": "A Turkish and English Claude skill for technical report writing, editing, and style checking.",
   "Temas mekaniği, sürtünme ve aşınma hesaplamaları için araçlar.": "Tools for contact mechanics, friction, and wear calculations.",
   "Küre-düzlem elastik temasında temas alanı, Hertz basıncı ve elastik yaklaşmayı hesaplayın.": "Calculate contact area, Hertz pressure, and elastic approach for elastic sphere-on-flat contact.",

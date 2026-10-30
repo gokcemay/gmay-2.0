@@ -1,3 +1,4 @@
+import type React from "react";
 import { useT, localizeHead } from '@/lib/i18n';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
@@ -32,7 +33,8 @@ type ToolHref =
   | "/lab/wear-rate-calculator"
   | "/lab/sliding-distance-calculator"
   | "/lab/cadquery-prompt"
-  | "/araclar/teknik-rapor-stili";
+  | "/araclar/teknik-rapor-stili"
+  | "/araclar/teknik-resim-cad/index.html";
 
 type Tool = {
   name: string;
@@ -72,6 +74,12 @@ const groups: Group[] = [
         href: "/araclar/teknik-rapor-stili",
         purpose:
           "Teknik rapor yazımı için Türkçe ve İngilizce Claude skill'i: yazma, düzenleme ve stil denetimi.",
+      },
+      {
+        name: "Teknik Resimden CAD'e",
+        href: "/araclar/teknik-resim-cad/index.html",
+        purpose:
+          "Teknik resim kitabındaki üç boyutlu çizimler için galeri, CAD promptu ve model dosyaları.",
       },
     ],
   },
@@ -113,10 +121,18 @@ const groups: Group[] = [
 
 function ToolCard({ tool, group }: { tool: Tool; group: string }) {
   const tx = useT();
+  const isStatic = tool.href.endsWith(".html");
   const linkProps = {
-    to: tool.href,
+    to: tool.href as Exclude<ToolHref, "/araclar/teknik-resim-cad/index.html">,
     search: { distance: undefined, distanceUnit: undefined, source: undefined },
   } as const;
+  const ToolLink = ({ className, children }: { className: string; children: React.ReactNode }) =>
+    isStatic ? (
+      <a href={tool.href} className={className}>{children}</a>
+    ) : (
+      <Link {...linkProps} className={className}>{children}</Link>
+    );
+
 
   return (
     <article className="flex flex-col border border-border bg-card p-5 md:p-6">
@@ -129,16 +145,13 @@ function ToolCard({ tool, group }: { tool: Tool; group: string }) {
           {tx("Kullanılabilir")}</span>
       </div>
       <h3 className="mt-3 font-display text-lg leading-snug font-semibold text-foreground">
-        <Link {...linkProps} className="hover:underline hover:underline-offset-4">
+        <ToolLink className="hover:underline hover:underline-offset-4">
           {tx(tool.name)}
-        </Link>
+        </ToolLink>
       </h3>
       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tx(tool.purpose)}</p>
-      <Link
-        {...linkProps}
-        className="mt-4 self-start text-sm font-medium text-foreground underline underline-offset-4"
-      >
-        {tx("Aracı Aç")}</Link>
+      <ToolLink className="mt-4 self-start text-sm font-medium text-foreground underline underline-offset-4">
+        {tx("Aracı Aç")}</ToolLink>
     </article>
   );
 }
