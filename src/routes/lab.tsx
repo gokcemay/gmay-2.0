@@ -120,10 +120,18 @@ const groups: Group[] = [
 
 function ToolCard({ tool, group }: { tool: Tool; group: string }) {
   const tx = useT();
+  const isStatic = tool.href.endsWith(".html");
   const linkProps = {
-    to: tool.href,
+    to: tool.href as Exclude<ToolHref, "/araclar/teknik-resim-cad/index.html">,
     search: { distance: undefined, distanceUnit: undefined, source: undefined },
   } as const;
+  const ToolLink = ({ className, children }: { className: string; children: React.ReactNode }) =>
+    isStatic ? (
+      <a href={tool.href} className={className}>{children}</a>
+    ) : (
+      <Link {...linkProps} className={className}>{children}</Link>
+    );
+
 
   return (
     <article className="flex flex-col border border-border bg-card p-5 md:p-6">
