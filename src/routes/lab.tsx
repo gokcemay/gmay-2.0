@@ -32,7 +32,8 @@ type ToolHref =
   | "/lab/wear-rate-calculator"
   | "/lab/sliding-distance-calculator"
   | "/lab/cadquery-prompt"
-  | "/araclar/teknik-rapor-stili";
+  | "/araclar/teknik-rapor-stili"
+  | "/araclar/teknik-resim-cad/index.html";
 
 type Tool = {
   name: string;
@@ -72,6 +73,12 @@ const groups: Group[] = [
         href: "/araclar/teknik-rapor-stili",
         purpose:
           "Teknik rapor yazımı için Türkçe ve İngilizce Claude skill'i: yazma, düzenleme ve stil denetimi.",
+      },
+      {
+        name: "Teknik Resimden CAD'e",
+        href: "/araclar/teknik-resim-cad/index.html",
+        purpose:
+          "Teknik resim kitabındaki üç boyutlu çizimler için galeri, CAD promptu ve model dosyaları.",
       },
     ],
   },
