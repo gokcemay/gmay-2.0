@@ -18,7 +18,7 @@ export function ReaderVote({id,counts,english}:{id:string;counts:Counts;english:
     const before=selected;const snapshot=queryClient.getQueryData(galleryQuery.queryKey);setBusy(true);setError('');setSelected(next);
     if(!noteOnly)queryClient.setQueryData(galleryQuery.queryKey,(data:typeof snapshot)=>data?{...data,counts:{...data.counts,[id]:adjustCounts(data.counts[id]??{correct:0,incorrect:0},before,next)}}:data);
     try{
-      const {error:failure}=await supabase.rpc('cast_vote',{figure_id:id,voter_id:voter,vote:next,note:next===-1?note:null});
+      const {error:failure}=await supabase.rpc('cast_vote',{figure_id:id,voter_id:voter,vote:next,...(next===-1?{note}:{})});
       if(failure)throw failure;
       try{localStorage.setItem(`gmay-cad-vote:${id}`,String(next));}catch{}
       await queryClient.invalidateQueries({queryKey:galleryQuery.queryKey});

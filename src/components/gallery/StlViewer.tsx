@@ -5,7 +5,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { Button } from '@/components/ui/button';
 import { RotateCcw } from 'lucide-react';
 
-export default function StlViewer({url, fallback, english}:{url:string;fallback?:string;english:boolean}) {
+export default function StlViewer({url, fallback, english}:{url:string;fallback?:string|undefined;english:boolean}) {
   const host=useRef<HTMLDivElement>(null);
   const reset=useRef<()=>void>(()=>{});
   const [failed,setFailed]=useState(false);
@@ -26,8 +26,10 @@ export default function StlViewer({url, fallback, english}:{url:string;fallback?
       container.replaceChildren(renderer.domElement);
       const scene=new THREE.Scene();const camera=new THREE.PerspectiveCamera(35,1,0.01,10000);camera.up.set(0,0,1);
       const span=Math.max(size.x,size.y,size.z,1);const distance=span*2.7;camera.far=distance*20;
-      const css=getComputedStyle(container);const material=new THREE.MeshStandardMaterial({color:new THREE.Color(css.getPropertyValue('--primary').trim()),roughness:.65,metalness:.05,side:THREE.DoubleSide});
-      const edgeGeometry=new THREE.EdgesGeometry(geometry,25);const edgeMaterial=new THREE.LineBasicMaterial({color:new THREE.Color(css.getPropertyValue('--foreground').trim())});
+      const probe=document.createElement('span');container.appendChild(probe);probe.style.color='var(--primary)';
+      const material=new THREE.MeshStandardMaterial({color:new THREE.Color(getComputedStyle(probe).color),roughness:.65,metalness:.05,side:THREE.DoubleSide});
+      probe.style.color='var(--foreground)';
+      const edgeGeometry=new THREE.EdgesGeometry(geometry,25);const edgeMaterial=new THREE.LineBasicMaterial({color:new THREE.Color(getComputedStyle(probe).color)});probe.remove();
       scene.add(new THREE.Mesh(geometry,material),new THREE.LineSegments(edgeGeometry,edgeMaterial));
       scene.add(new THREE.HemisphereLight(0xffffff,0x777777,2));const light=new THREE.DirectionalLight(0xffffff,3);light.position.set(-1,-2,3);scene.add(light);
       const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=false;
