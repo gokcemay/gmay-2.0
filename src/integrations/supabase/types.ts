@@ -14,13 +14,78 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      model_vote_limits: {
+        Row: {
+          events: string[]
+          voter_id: string
+        }
+        Insert: {
+          events?: string[]
+          voter_id: string
+        }
+        Update: {
+          events?: string[]
+          voter_id?: string
+        }
+        Relationships: []
+      }
+      model_votes: {
+        Row: {
+          created_at: string
+          figure_id: string
+          note: string | null
+          updated_at: string
+          vote: number
+          voter_id: string
+        }
+        Insert: {
+          created_at?: string
+          figure_id: string
+          note?: string | null
+          updated_at?: string
+          vote: number
+          voter_id: string
+        }
+        Update: {
+          created_at?: string
+          figure_id?: string
+          note?: string | null
+          updated_at?: string
+          vote?: number
+          voter_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      model_vote_export: {
+        Row: {
+          correct: number | null
+          figure_id: string | null
+          incorrect: number | null
+          notes: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      cast_vote: {
+        Args: {
+          figure_id: string
+          note?: string
+          vote: number
+          voter_id: string
+        }
+        Returns: undefined
+      }
+      vote_counts: {
+        Args: never
+        Returns: {
+          correct: number
+          figure_id: string
+          incorrect: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
