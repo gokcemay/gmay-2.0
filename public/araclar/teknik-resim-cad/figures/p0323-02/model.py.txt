@@ -1,0 +1,52 @@
+import cadquery as cq, math
+# Ölçüler (mm). Eksenler: X = A (hub eksenine dik yatay), Y = hub ekseni (ön yüz Y=0), Z = yukarı
+D_HUB = 30.0     # Ø30 göbek
+L_HUB = 30.0     # göbek boyu (30)
+W_BLK = 20.0     # blok genişliği X (20)
+L_BLK = 15.0     # blok kalınlığı Y (15)
+H_TOT = 55.0     # toplam yükseklik (55)
+R_F = 10.0       # R10 geçiş yuvarlatması
+D_BORE = 15.0    # Ø15 delik
+KEY_W = 5.0      # kama kanalı genişliği 5
+KEY_TOP = 24.5   # TAHMİN: kama kanalı üst z (ölçü "17" okunaksız)
+WIN_W = 10.0     # pencere genişliği (10)
+WIN_H = 30.0     # pencere yüksekliği (30)
+WIN_TOP = 5.0    # pencere üstten 5
+HOLE_D = 5.0     # Ø5 üst delik
+CX = D_HUB/2; R = D_HUB/2
+# Göbek: Y ekseni boyunca silindir (Y=0 ön yüz)
+hub = cq.Workplane("XZ").center(CX, R).circle(R).extrude(-L_HUB)
+# Blok: arka uçta (Y = L_HUB-L_BLK .. L_HUB), X ortalı
+y0 = L_HUB - L_BLK
+blk = cq.Workplane("XY").box(W_BLK, L_BLK, H_TOT-R, centered=False).translate((CX-W_BLK/2, y0, R))
+body = hub.union(blk)
+# R10 geçişleri: blok yüzü ile göbek arası (iki yanda) -- dolgu çokgeni eksi R10 dairesi
+# Merkez (xf,zf): blok yüzünden R10 dışarıda, göbeğe dıştan teğet
+xb = CX - W_BLK/2           # sol blok yüzü
+cxf = xb - R_F
+dx = CX - cxf
+dz = math.sqrt((R+R_F)**2 - dx**2)
+zf = R + dz
+for s in (1, -1):
+    def X(x): return CX + s*(x-CX)
+    t_c = (CX + s*(-(R/(R+R_F))*(CX-cxf)), R + (R/(R+R_F))*dz)  # göbek üzerindeki teğet nokta
+    t_c = (X(CX - R/(R+R_F)*dx), R + R/(R+R_F)*dz)
+    pts = [(CX, R), (CX, zf), (X(xb), zf), t_c]
+    fill = cq.Workplane("XZ").polyline(pts).close().extrude(-L_BLK).translate((0, y0, 0))
+    circ = cq.Workplane("XZ").center(X(cxf), zf).circle(R_F).extrude(-L_BLK).translate((0, y0, 0))
+    body = body.union(fill.cut(circ))
+# Pencere: X ortalı, Z (H_TOT-WIN_TOP-WIN_H .. H_TOT-WIN_TOP), blok kalınlığı boyunca
+zt = H_TOT - WIN_TOP
+win = cq.Workplane("XY").box(WIN_W, L_BLK+2, WIN_H, centered=False).translate((CX-WIN_W/2, y0-1, zt-WIN_H))
+body = body.cut(win)
+# Ø5 üst delik: pencereye kadar
+hole = cq.Workplane("XY").center(CX, y0 + L_BLK/2).circle(HOLE_D/2).extrude(10).translate((0, 0, H_TOT-6))
+body = body.cut(hole)
+# Ø15 delik + kama kanalı
+bore = cq.Workplane("XZ").center(CX, R).circle(D_BORE/2).extrude(-L_HUB)
+key = cq.Workplane("XY").box(KEY_W, L_HUB, KEY_TOP-R, centered=False).translate((CX-KEY_W/2, 0, R))
+body = body.cut(bore).cut(key)
+# A-A kesiti: hub eksenini ve Ø5 delik merkezini içeren X=CX düzlemi; izleyiciye bakan (X<=CX) yarı kalır (TAHMİN)
+keep = cq.Workplane("XY").box(CX+1, L_HUB+2, H_TOT+2, centered=False).translate((-1, -1, -1))
+result = body.intersect(keep)
+# BEKLENEN SINIR KUTUSU: 15 x 30 x 55 mm

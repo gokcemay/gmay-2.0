@@ -1,0 +1,9 @@
+import cadquery as cq
+W,D,H=60.0,40.0,40.0
+govde=cq.Workplane("XY").box(W,D,H,centered=False)
+# üst kanal: x20..40, önden rampa; yan profil (y,z): (0,20)->(30,40) (arka 10 dolu)
+rampa=cq.Workplane("YZ").polyline([(-1,20-20/30),(30,40),(30,41),(-1,41)]).close().extrude(20).translate((20,0,0))
+# sol ön alt çentik: TAHMİN x0..10, y10..30, z0..10
+centik=cq.Workplane("XY").box(11,20,10,centered=False).translate((-1,10,-0))
+result=govde.cut(rampa).cut(centik)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

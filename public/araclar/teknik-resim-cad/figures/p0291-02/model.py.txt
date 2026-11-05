@@ -1,0 +1,33 @@
+import cadquery as cq, math
+# Olcusuz: hepsi TAHMIN (mm). Plaka uzun ekseni X, Z yukari.
+L1=0.0; L2=130.0; LM=68.0   # TAHMIN: sol delik, sag delik, kovan merkezleri X
+R_END=12.0     # TAHMIN uc yuvarlak yaricapi
+R_MID=24.0     # TAHMIN kovan tabani (plaka) yaricapi
+T=14.0         # TAHMIN plaka kalinligi
+HOLE_D=12.0    # TAHMIN uc delik capi (gecici)
+BOSS_D=44.0    # TAHMIN kovan dis capi
+BOSS_H=40.0    # TAHMIN kovan toplam yuksekligi
+BORE_D=28.0    # TAHMIN ic delik capi (gecici)
+CB_D=34.0; CB_H=5.0  # TAHMIN ust basamak
+def hull2(c1, r1, c2, r2, t):
+    (x1,y1),(x2,y2)=c1,c2
+    d=math.hypot(x2-x1,y2-y1); a=math.atan2(y2-y1,x2-x1); b=math.acos((r1-r2)/d)
+    p=[]
+    for s in (1,-1):
+        p.append((x1+r1*math.cos(a+s*b), y1+r1*math.sin(a+s*b)))
+        p.append((x2+r2*math.cos(a+s*b), y2+r2*math.sin(a+s*b)))
+    w=cq.Workplane("XY").polyline([p[0],p[1],p[3],p[2]]).close().extrude(t)
+    return w.union(cq.Workplane("XY").center(*c1).circle(r1).extrude(t)).union(cq.Workplane("XY").center(*c2).circle(r2).extrude(t))
+# 1) Plaka: iki uc + orta daire arasi teget govde
+plaka = hull2((L1,0),R_END,(LM,0),R_MID,T).union(hull2((LM,0),R_MID,(L2,0),R_END,T))
+# 2) Kovan
+kovan = cq.Workplane("XY").center(LM,0).circle(BOSS_D/2).extrude(BOSS_H)
+g = plaka.union(kovan)
+# 3) Kovan ici: ic delik (tam gecisli) + ust basamak
+g = g.cut(cq.Workplane("XY").center(LM,0).circle(BORE_D/2).extrude(BOSS_H))
+g = g.cut(cq.Workplane("XY").workplane(offset=BOSS_H-CB_H).center(LM,0).circle(CB_D/2).extrude(CB_H))
+# 4) Iki uc deligi (gecisli, gizli kenarlar ucta gorunuyor; kor/gecisli belirsiz -> gecisli)
+for cx in (L1,L2):
+    g = g.cut(cq.Workplane("XY").center(cx,0).circle(HOLE_D/2).extrude(T))
+result = g
+# BEKLENEN SINIR KUTUSU: 154 x 56 x 42 mm

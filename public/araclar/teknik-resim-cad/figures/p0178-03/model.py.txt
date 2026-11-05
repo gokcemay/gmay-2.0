@@ -1,0 +1,22 @@
+import cadquery as cq
+# Olcusuz kabinet: TAHMIN olculer (mm). Genislik 340 px = 60 mm (5.67 px/mm). Kabinet: gercek derinlik cizilenin 2 kati.
+GEN=60      # TAHMIN plaka genisligi X
+YUK=115     # TAHMIN plaka yuksekligi Z
+R=30        # ust yuvarlak yaricapi
+KAL=10      # TAHMIN plaka kalinligi Y (0..10)
+DELIK_D=25  # TAHMIN delik capi
+BLOK_X=14; BLOK_Z=37; DER=29   # TAHMIN sol blok: x 0..14, z 0..37, y KAL..DER
+# Plaka: arka yuz Y=0, ust ucu yuvarlak (profil XZ, +Y yonune ekstrude)
+plaka=(cq.Workplane("XZ").moveTo(0,0).lineTo(GEN,0).lineTo(GEN,YUK-R)
+       .threePointArc((GEN/2,YUK),(0,YUK-R)).close().extrude(-KAL))
+delik=cq.Workplane("XZ").center(GEN/2,YUK-R).circle(DELIK_D/2).extrude(-KAL-2).translate((0,-1,0))
+plaka=plaka.cut(delik)
+# Sol blok (plakanin on yuzunden one cikar)
+blok=cq.Workplane("XY").box(BLOK_X,DER-KAL,BLOK_Z,centered=False).translate((0,KAL,0))
+# Baglanti blogu: x 14..45, y KAL..17, z 5..21 (TAHMIN)
+bag=cq.Workplane("XY").box(31+1,7,16,centered=False).translate((BLOK_X-1,KAL,5))
+# Egik kaburga: YZ profili (ust plaka yuzunde, alt on duzlemde), X: 45..60
+pts=[(KAL-1,BLOK_Z),(KAL+5,BLOK_Z),(DER,0),(DER-6,0)]
+kab=cq.Workplane("YZ").polyline(pts).close().extrude(15).translate((45,0,0))
+result=plaka.union(blok).union(bag).union(kab).mirror("XZ")  # bloklar gozlemciye (-Y) dogru cikar
+# BEKLENEN SINIR KUTUSU: 60 x 29 x 115 (Y: -29..0) mm

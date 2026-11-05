@@ -1,0 +1,22 @@
+import cadquery as cq
+# Sekil 5.66: kesilmis (iki yari ayri cizilmis) parcanin BUTUN hali modellenir. Olcusuz: hepsi TAHMIN (mm).
+# Eksenler: uzun eksen Y, genislik X, yukseklik Z. Orijin: sol-on-alt kose.
+UZ=100.0   # TAHMIN: taban uzunlugu Y (en buyuk boyut)
+GEN=36.0   # TAHMIN: taban genisligi X
+KAL=10.0   # TAHMIN: taban kalinligi Z
+CX=GEN/2   # eksen X konumu
+# (Y konumu, dis yaricap, delik yaricapi, boss yuksekligi) -- TAHMIN
+BOSS=[(15.0,10.0,5.0,20.0),(50.0,17.0,10.0,28.0),(85.0,10.0,5.0,20.0)]
+# 1) Taban: uclari yuvarlatilmis plaka (stadyum), orijin kosesi (0,0)
+taban=cq.Workplane("XY").box(GEN,UZ,KAL,centered=False).edges("|Z").fillet(14.0)
+# 2) Boss silindirleri
+gov=taban
+for (y,ro,ri,h) in BOSS:
+    gov=gov.union(cq.Workplane("XY").center(CX,y).circle(ro).extrude(h))
+# 3) Delikler: tum yukseklik boyunca (tabana kadar, taban dahil)
+for (y,ro,ri,h) in BOSS:
+    gov=gov.cut(cq.Workplane("XY").center(CX,y).circle(ri).extrude(h))
+# 4) Buyuk bossta ust basamak (kovan): TAHMIN
+gov=gov.cut(cq.Workplane("XY").workplane(offset=22.0).center(CX,50.0).circle(13.5).extrude(6.0))
+result=gov
+# BEKLENEN SINIR KUTUSU: 40 x 100 x 30 mm

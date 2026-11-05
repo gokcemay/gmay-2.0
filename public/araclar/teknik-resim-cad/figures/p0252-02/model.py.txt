@@ -1,0 +1,13 @@
+import cadquery as cq
+# Olcusuz: TAHMIN (mm)
+DIS_R=30; IC_R=20; H=70   # TAHMIN boru
+YAN_R=15; YAN_L=30        # TAHMIN yatay silindir (-X yonune)
+boru=cq.Workplane("XY").circle(DIS_R).circle(IC_R).extrude(H)
+yan=cq.Workplane("YZ").workplane(offset=-DIS_R-YAN_L).center(0,30).circle(YAN_R).extrude(YAN_L+DIS_R-IC_R+2)
+# yatay silindir tam dolu, borunun ic bosluguna girmesin diye ic silindir kesilir
+yan=yan.cut(cq.Workplane("XY").circle(IC_R).extrude(H))
+# TAHMIN: on-sag duvarda dikdortgen pencere (Y- yonunden kesim)
+pen=cq.Workplane("XY").box(40,2*DIS_R,28,centered=(False,False,False)).translate((-8,-DIS_R-5,18))
+pen=pen.intersect(cq.Workplane("XY").box(100,100,100,centered=(True,False,False)).translate((0,-DIS_R-5,0)))
+result=boru.union(yan).cut(pen.translate((0,0,0)).intersect(cq.Workplane("XY").box(100,DIS_R+5,100,centered=(True,False,False)).translate((0,-DIS_R-5,0))))
+# BEKLENEN SINIR KUTUSU: 90 x 60 x 70 mm

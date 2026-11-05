@@ -1,0 +1,26 @@
+import cadquery as cq
+# Ring Ø30 (eksen Y), kol 20x15 yukari, pencere 10x30, ust Ø5 delik, kama yuvasi 5 mm.
+RD=30      # halka dis capi
+RB=15      # delik capi
+HALKA_L=20 # TAHMIN: halka boyu Y (5 mm on cikinti + kol 15)
+KOL_W=20   # kol genisligi X
+KOL_T=15   # kol kalinligi Y
+UST=55     # eksenden kol ucuna yukseklik
+PEN_W=10; PEN_H=30; PEN_ALT=15+5  # pencere alt kenari eksenden (UST-5-30=20) 
+KAMA_W=5; KAMA_ÜST=17-15/2*0  # kama ust: delik alt kenarindan 17
+# halka: eksen Y, merkez (0, 0, 0)
+halka=cq.Workplane("XZ").circle(RD/2).extrude(-HALKA_L)
+kol=cq.Workplane("XY").box(KOL_W,KOL_T,UST,centered=False).translate((-15,5,0))
+govde=halka.union(kol)
+# merkezi delik
+govde=govde.cut(cq.Workplane("XZ").circle(RB/2).extrude(-HALKA_L))
+# kama yuvasi: delik ustunde, alt kenardan 17 -> ust = -7.5+17 = 9.5
+kama=cq.Workplane("XY").box(KAMA_W,HALKA_L,3,centered=(True,False,False)).translate((0,0,6.5))
+govde=govde.cut(kama)
+# pencere: X -10..0, Z UST-5-30..UST-5, Y boyunca
+pen=cq.Workplane("XY").box(PEN_W,KOL_T,PEN_H,centered=False).translate((-10,5,UST-5-PEN_H))
+govde=govde.cut(pen)
+# ust Ø5 dikey delik, kenardan 7.5
+govde=govde.cut(cq.Workplane("XY").workplane(offset=UST-5).center(-5,12.5).circle(2.5).extrude(10))
+result=govde
+# BEKLENEN SINIR KUTUSU: 30 x 30 x 70 mm

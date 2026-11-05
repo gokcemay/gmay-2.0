@@ -1,0 +1,34 @@
+import cadquery as cq
+# Olculu cizim. Izometrik -1,-1,1: X yukari-saga (75), Y yukari-sola (65), Z yukari (140). Levha buyuk yuzu -Y yonune bakar.
+GX=75.0     # taban/levha X
+GY=65.0     # taban Y
+TAB=25.0    # taban kalinligi
+LT=25.0     # levha kalinligi (Y)
+H=140.0     # toplam yukseklik
+RIDGE_H=15.0 # ust cikinti yuksekligi
+RIDGE_W=30.0 # ust cikinti taban genisligi (X)
+RIDGE_X=37.5 # TAHMIN: cikinti merkezi X
+HOLE_D=50.0  # levha deligi capi (Y ekseni)
+HOLE_X=45.0  # TAHMIN: delik merkezi X
+HOLE_Z=75.0  # TAHMIN: delik merkezi Z
+SLOT_W=20.0; SLOT_L=55.0  # oblong cep
+SLOT_X=40.0; SLOT_Y=20.0  # TAHMIN: cep merkezi
+# 1) Taban; on iki dusey kose R20
+taban=cq.Workplane("XY").box(GX,GY,TAB,centered=False)
+taban=taban.edges("|Z").edges("<Y").fillet(20.0)
+# oblong cep (derinlik 10, TAHMIN) X yonunde uzun
+cep=cq.Workplane("XY").center(SLOT_X,SLOT_Y).slot2D(SLOT_L,SLOT_W,0).extrude(10).translate((0,0,TAB-10))
+taban=taban.cut(cep)
+# 2) Levha: Y=40..65, Z 0..125, ust sol kose R10
+PL_H=H-RIDGE_H
+levha=cq.Workplane("XZ").rect(GX,PL_H,centered=False).extrude(-LT).translate((0,GY-LT,0))
+levha=levha.edges("|Y").edges("<X").edges(">Z").fillet(10.0)
+levha=levha.edges("|Y").edges(">X").edges(">Z").chamfer(5.0)  # 5x45 pah
+# 3) Ust V cikinti (yamuk, XZ profili)
+rp=[(RIDGE_X-RIDGE_W/2,PL_H-1),(RIDGE_X+RIDGE_W/2,PL_H-1),(RIDGE_X+RIDGE_W/2-8,H),(RIDGE_X-RIDGE_W/2+8,H)]
+cik=cq.Workplane("XZ").polyline(rp).close().extrude(-LT).translate((0,GY-LT,0))
+body=taban.union(levha).union(cik)
+# 4) Delik Ø50 Y ekseninde
+body=body.cut(cq.Workplane("XZ").center(HOLE_X,HOLE_Z).circle(HOLE_D/2).extrude(-GY-2).translate((0,-1,0)))
+result=body
+# BEKLENEN SINIR KUTUSU: 75 x 65 x 140 mm

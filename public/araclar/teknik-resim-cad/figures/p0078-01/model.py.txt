@@ -1,0 +1,12 @@
+import cadquery as cq
+# Kitap 2.1.28: 80x40x20 blok, iki yanda 45 derece kirlangic girinti (TAHMIN), ustte oblong yuva.
+L=80.0; B=40.0; H=20.0
+ALT=12.0     # alt kisim yuksekligi
+G=4.0        # TAHMIN: girinti derinligi (4 olcusu)
+prof=[(0,0),(B,0),(B,ALT),(B-G,ALT),(B,ALT+G),(B,H),(0,H),(0,ALT+G),(G,ALT),(0,ALT)]  # (y,z)
+# YZ duzleminin normali +X
+blok=cq.Workplane("YZ").polyline(prof).close().extrude(L)
+# oblong yuva: merkez x=40,y=20 TAHMIN; uzunluk 40, genislik 15
+yuva=cq.Workplane("XY").center(40,20).slot2D(40,15,0).extrude(H)
+result=blok.cut(yuva)
+# BEKLENEN SINIR KUTUSU: 80 x 40 x 20 mm

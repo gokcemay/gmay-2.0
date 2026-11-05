@@ -1,0 +1,35 @@
+import cadquery as cq
+# Eksenler: X = 55 mm uzunluk (cizimde asagi-saga), Y = 32 mm genislik (yukari-saga), Z yukari. Bakis 1,-1,1
+PL_X=55.0; PL_Y=32.0; PL_T=5.0     # taban plaka
+LEG_X0=27.0; LEG_W=28.0            # catal bacak genisligi (X), 28
+LEG_T=5.0                          # bacak kalinligi (Y) 5
+HOLE_Z=-12.0                       # bacak delik merkezi plaka altindan 12
+HOLE_D=11.0
+CYL_D=20.0; CYL_BORE=12.0; CYL_L=32.5   # silindir
+CYL_X0=PL_X-CYL_L                  # 22.5
+CYL_Y=22.0                         # TAHMIN
+CYL_Z=PL_T+9.0                   # TAHMIN: silindir alt kenari plaka ustune yakin
+RIB_T=5.0; RIB_L=15.0              # TAHMIN rib
+BORE9=9.0; CB17=17.0               # plaka deligi, havsa
+HX=10.0; HY=16.0                   # TAHMIN delik konumu
+plate=cq.Workplane("XY").box(PL_X,PL_Y,PL_T,centered=False)
+# bacaklar: XZ profili, ucu yuvarlak, Y yonunde ekstrude
+def leg(y0):
+    cx=LEG_X0+LEG_W/2
+    w=(cq.Workplane("XZ").workplane(offset=-y0).center(cx,HOLE_Z).circle(LEG_W/2).extrude(-LEG_T))
+    top=cq.Workplane("XY").box(LEG_W,LEG_T,-HOLE_Z+0.0,centered=False).translate((LEG_X0,y0,HOLE_Z))
+    h=(cq.Workplane("XZ").workplane(offset=-y0).center(cx,HOLE_Z).circle(HOLE_D/2).extrude(-LEG_T))
+    return w.union(top).cut(h)
+legs=leg(0).union(leg(PL_Y-LEG_T))
+# silindir (eksen X)
+cyl=cq.Workplane("YZ").workplane(offset=CYL_X0).center(CYL_Y,CYL_Z).circle(CYL_D/2).extrude(CYL_L)
+# rib: plakadan silindire
+rib=cq.Workplane("XY").box(RIB_L,RIB_T,CYL_Z-PL_T+1,centered=False).translate((CYL_X0+4,CYL_Y-RIB_T/2,PL_T-0.5))
+body=plate.union(legs).union(rib).union(cyl)
+bore=cq.Workplane("YZ").workplane(offset=CYL_X0-1).center(CYL_Y,CYL_Z).circle(CYL_BORE/2).extrude(CYL_L+2)
+body=body.cut(bore)
+# plaka deligi + havsa (TAHMIN: havsa 1 mm)
+hole=cq.Workplane("XY").workplane(offset=-1).center(HX,HY).circle(BORE9/2).extrude(PL_T+2)
+cb=cq.Workplane("XY").workplane(offset=PL_T-1).center(HX,HY).circle(CB17/2).extrude(2)
+result=body.cut(hole).cut(cb)
+# BEKLENEN SINIR KUTUSU: 55 x 32 x ~(5+26+..) mm

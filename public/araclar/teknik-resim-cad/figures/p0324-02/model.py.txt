@@ -1,0 +1,30 @@
+import cadquery as cq
+# Mafsalli kulakli flansli burc. Eksen: silindir ekseni X; kulaklar +Z (catal) ve -Y (alt kulak)
+CY_D=40      # silindir dis capi (Ø40)
+BORE_D=25    # delik capi (Ø25)
+CY_L=25      # silindir boyu X (25)
+ZC=30        # eksen yuksekligi (30)
+LUG_T=10     # TAHMIN: catal kulak kalinligi X
+LUG_GAP=5    # kulaklar arasi bosluk (5)
+LUG_W=20     # TAHMIN: kulak genisligi (R10)
+LUG_TOP=65   # kulak ust (eksen + 35)
+PIN_D=10     # kulak pim deligi Ø10
+ALT_D=6      # TAHMIN: alt kulak deligi Ø6
+# Silindir (eksen X, merkez Y=0,Z=ZC)
+sil=cq.Workplane("YZ").center(0,ZC).circle(CY_D/2).extrude(CY_L)
+# Catal kulaklari: YZ profili, ustte R10 yuvarlak
+def kulak(x0):
+    prof=(cq.Workplane("YZ").workplane(offset=x0).center(0,(ZC+LUG_TOP-LUG_W/2)/2).rect(LUG_W,LUG_TOP-LUG_W/2-ZC).extrude(LUG_T))
+    ust=cq.Workplane("YZ").workplane(offset=x0).center(0,LUG_TOP-LUG_W/2).circle(LUG_W/2).extrude(LUG_T)
+    return prof.union(ust)
+k1=kulak(0); k2=kulak(LUG_T+LUG_GAP)
+# Alt kulak: -Y yonune uzanan plaka, X=LUG_T+LUG_GAP..CY_L, TAHMIN
+alt=(cq.Workplane("YZ").workplane(offset=LUG_T+LUG_GAP).center(-17.5,ZC-8).rect(35,20).extrude(CY_L-LUG_T-LUG_GAP)
+     .union(cq.Workplane("YZ").workplane(offset=LUG_T+LUG_GAP).center(-35,ZC-8).circle(10).extrude(CY_L-LUG_T-LUG_GAP)))
+res=sil.union(k1).union(k2).union(alt)
+# Delikler (boydan boya)
+res=res.cut(cq.Workplane("YZ").workplane(offset=-1).center(0,ZC).circle(BORE_D/2).extrude(CY_L+2))
+res=res.cut(cq.Workplane("YZ").workplane(offset=-1).center(0,LUG_TOP-LUG_W/2).circle(PIN_D/2).extrude(CY_L+2))
+res=res.cut(cq.Workplane("YZ").workplane(offset=-1).center(-35,ZC-8).circle(ALT_D/2).extrude(CY_L+2))
+result=res
+# BEKLENEN SINIR KUTUSU: 25 x ~53 x 65 mm

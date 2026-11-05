@@ -1,0 +1,13 @@
+import cadquery as cq
+GEN=60      # toplam genislik X (mm)
+DER=40      # toplam derinlik Y (mm)
+PLAKA_Y=15  # on plaka yuksekligi (mm)
+PLAKA_DER=20  # on plaka derinligi (arka blok bunun arkasinda, 40-20)
+BLOK_DER=20 # arka blok derinligi (ust sag "20" olcusu)
+# On plaka: 60 x 20 x 15, y=0..20
+plaka=cq.Workplane("XY").box(GEN,PLAKA_DER,PLAKA_Y,centered=False)
+# Arka blok profili (x,z): sol/sag 10x10 pahli, ortada 20 genis 15 derin U kanal; y=20..40
+pts=[(0,0),(60,0),(60,30),(50,40),(40,40),(40,25),(20,25),(20,40),(10,40),(0,30)]
+blok=cq.Workplane("XZ",origin=(0,PLAKA_DER,0)).polyline(pts).close().extrude(-BLOK_DER)
+result=plaka.union(blok)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

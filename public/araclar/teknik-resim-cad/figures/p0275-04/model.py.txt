@@ -1,0 +1,11 @@
+import cadquery as cq
+# Olcusuz: TAHMIN (mm). Cizimde iki kesilmis parca var; ustteki (cizgili kesit yuzlu, gecerli) parca modellendi.
+# Alttaki parca capraz ile iptal edildigi icin modele dahil edilmedi.
+X=70; Y=25; Z=50          # TAHMIN: arka yarim parca
+govde=cq.Workplane("XY").box(X,Y,Z,centered=False)
+# Derin kanal: on (kesit) yuzden arkaya kadar degil, tum kalinlik boyunca; tabana 5 mm kala biter
+derin=cq.Workplane("XY").box(18,Y+2,Z,centered=False).translate((10,-1,5))
+# Sig basamak: sag tarafta ustten 25 mm; kesit yuzunden acik, arka duvar 5 mm kalir
+sig=cq.Workplane("XY").box(22,Y-5+1,26,centered=False).translate((28,-1,Z-25))
+result=govde.cut(derin).cut(sig)
+# BEKLENEN SINIR KUTUSU: 70 x 25 x 50 mm

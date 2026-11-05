@@ -1,0 +1,31 @@
+import cadquery as cq
+# TAHMIN: olcusuz cizim, hepsi mm
+PL_T=10   # TAHMIN: dikey plaka kalinligi (X)
+PL_W=60   # TAHMIN: plaka genisligi (Y)
+PL_H=50   # TAHMIN: plaka yuksekligi (Z)
+FLOOR=8   # TAHMIN: taban kalinligi
+L=85     # TAHMIN: halka ekseni X konumu
+R=28      # TAHMIN: halka dis yaricapi
+RI=19     # TAHMIN: halka ic yaricapi
+RH=30     # TAHMIN: halka yuksekligi
+WEB=10    # TAHMIN: orta kaburga kalinligi
+HOLE_D=8  # TAHMIN: plaka delik capi
+plate=cq.Workplane("XY").box(PL_T,PL_W,PL_H,centered=False)
+# taban: plakadan halkaya daralan yamuk (XY)
+floor=cq.Workplane("XY").polyline([(0,0),(0,PL_W),(L,PL_W/2+R),(L,PL_W/2-R)]).close().extrude(FLOOR)
+# kaburga: XZ profili, plaka ustunden halka ustune egimli
+web=(cq.Workplane("XZ").polyline([(0,0),(0,PL_H),(L,RH),(L,0)]).close().extrude(-WEB)
+     .translate((0,PL_W/2-WEB/2,0)))
+ring=cq.Workplane("XY").center(L,PL_W/2).circle(R).extrude(RH)
+body=plate.union(floor).union(web).union(ring)
+body=body.cut(cq.Workplane("XY").center(L,PL_W/2).circle(RI).extrude(RH))
+# plaka delikleri (X dogrultusunda)
+for y in (15,45):
+    body=body.cut(cq.Workplane("YZ").center(y,35).circle(HOLE_D/2).extrude(PL_T))
+# kesme duzlemi Y=PL_W/2 (simetri): iki yarim, Y yonunde ayrik gosterim
+GAP=30  # TAHMIN: yarimlar arasi bosluk
+half1=body.intersect(cq.Workplane("XY").box(L+R+5,PL_W/2,PL_H+5,centered=False))
+half2=(body.intersect(cq.Workplane("XY").box(L+R+5,PL_W/2,PL_H+5,centered=False).translate((0,PL_W/2,0)))
+       .translate((0,GAP,0)))
+result=half1.union(half2)
+# BEKLENEN SINIR KUTUSU: 118 x 90 x 50 mm

@@ -1,0 +1,29 @@
+import cadquery as cq
+# X = 35 (cizimde asagi-saga), Y = 75 (yukari-saga), Z yukari. Orijin sol-on-alt.
+GX, GY, TH = 35.0, 75.0, 10.0      # taban 35 x 75 x 10
+DUVAR_Y0 = 50.0                    # duvar Y baslangici (Y 50..75): kalinlik 25 = Ø25 (TAHMIN: on kenar cizimden okundu)
+R_UST = 12.5                       # ust yuvarlak R12.5 (Ø25)
+ZC = 20.0                          # yuvarlak merkezi yuksekligi (20 olcusu) -> ust Z = 32.5
+YC = DUVAR_Y0 + R_UST              # 62.5
+HOLE_D, CB_D, CB_L = 12.0, 16.0, 5.0   # Ø12 delik boydan boya (30 uzunluk), +X ucunda Ø16 havsa 5 derin
+SLOT_X0, SLOT_W = 10.0, 12.5       # kanal: soldan 10, genislik 12.5 (10 + 12.5 + 12.5 = 35); "15" olcusu belirsiz
+SLOT_STRAIGHT = 20.0               # duz kisim uzunlugu (20)
+# 1) taban plakasi
+g = cq.Workplane("XY").box(GX, GY, TH, centered=False)
+# 2) duvar: YZ profili: Y 50..75 dikdortgen, ust yari daire R12.5 (merkez Z=20)
+duvar = (cq.Workplane("YZ").moveTo(DUVAR_Y0, TH).lineTo(GY, TH).lineTo(GY, ZC)
+         .threePointArc((YC, ZC + R_UST), (DUVAR_Y0, ZC)).close().extrude(GX))
+g = g.union(duvar)
+# 3) on U kanal (tabandan boydan boya): duz kisim + yarim daire uc
+rs = SLOT_W / 2
+cx = SLOT_X0 + rs
+kanal = (cq.Workplane("XY").center(cx, 0).rect(SLOT_W, SLOT_STRAIGHT*2, centered=True)
+         .extrude(TH).translate((0, 0, 0)))
+kanal = cq.Workplane("XY").moveTo(SLOT_X0, -1).lineTo(SLOT_X0, SLOT_STRAIGHT) \
+    .threePointArc((cx, SLOT_STRAIGHT + rs), (SLOT_X0 + SLOT_W, SLOT_STRAIGHT)).lineTo(SLOT_X0 + SLOT_W, -1).close().extrude(TH)
+g = g.cut(kanal)
+# 4) duvar deligi Ø12 (X boyunca) + Ø16 havsa +X ucunda 5 mm
+g = g.cut(cq.Workplane("YZ").center(YC, ZC).circle(HOLE_D/2).extrude(GX))
+g = g.cut(cq.Workplane("YZ").workplane(offset=GX-CB_L).center(YC, ZC).circle(CB_D/2).extrude(CB_L))
+result = g
+# BEKLENEN SINIR KUTUSU: 35 x 75 x 32.5 mm

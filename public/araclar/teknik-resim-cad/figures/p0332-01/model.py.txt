@@ -1,0 +1,21 @@
+import cadquery as cq
+# Sac parca, kalinlik 2 (olculu); diger olculer TAHMIN (mm). Plaka XZ duzleminde, kalinlik +Y.
+W = 100.0   # TAHMIN: genislik X
+T = 2.0     # kalinlik (cizimde 2)
+H = 78.0    # TAHMIN: yukseklik Z (ust kenar)
+ZSOL = 40.0 # TAHMIN: sol dikey kenar ust ucu
+ZSAG = 35.0 # TAHMIN: sag dikey kenar ust ucu
+XUC1, XUC2 = 26.0, 40.0  # TAHMIN: sol ust kose, kanal sol duvari
+XK2, XUC3 = 63.0, 75.0   # TAHMIN: kanal sag duvari, sag ust kose
+ZKANAL = 50.0 # TAHMIN: kanal tabani
+D = 14.0    # TAHMIN: delik capi
+ZD = 22.0   # TAHMIN: delik merkez yuksekligi
+XD1, XD2 = 20.0, 80.0  # TAHMIN: delik merkezleri
+pts = [(0,0),(0,ZSOL),(XUC1,H),(XUC2,H),(XUC2,ZKANAL),(XK2,ZKANAL),(XK2,H),(XUC3,H),(W,ZSAG),(W,0)]
+plaka = cq.Workplane("XZ").polyline(pts).close().extrude(-T)   # XZ normali -Y; negatif -> +Y
+# Yuvarlatmalar: alt-sol R18, alt-sag R10 (Y'ye paralel kenarlar)
+plaka = plaka.edges("|Y").edges(cq.selectors.NearestToPointSelector((0,T/2,0))).fillet(22)
+plaka = plaka.edges("|Y").edges(cq.selectors.NearestToPointSelector((W,T/2,0))).fillet(10)
+delik = cq.Workplane("XZ").pushPoints([(XD1,ZD),(XD2,ZD)]).circle(D/2).extrude(-T)
+result = plaka.cut(delik)
+# BEKLENEN SINIR KUTUSU: 100 x 2 x 78 mm

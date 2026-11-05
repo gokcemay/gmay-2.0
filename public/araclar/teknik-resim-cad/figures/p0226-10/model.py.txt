@@ -1,0 +1,23 @@
+import cadquery as cq
+# L-profilli taban + arkada yarım daire başlıklı dikme, ölçüsüz: hepsi TAHMİN
+L = 90.0   # X uzunluk TAHMİN
+D = 36.0   # Y derinlik TAHMİN
+T = 8.0    # taban kalınlığı TAHMİN
+P = 12.0   # arka plaka kalınlığı (Y) TAHMİN
+HW = 24.0  # sol duvar yüksekliği TAHMİN
+R = 18.0   # TAHMİN
+ZC = 30.0  # delik/daire merkezi yüksekliği TAHMİN
+base = cq.Workplane("XY").box(L, D, T, centered=False)
+# arka plaka profili XZ'de: sol alçak duvar + sağda yarım daire başlık
+pts = [(0,0),(L,0),(L,ZC),(L-2*R,ZC),(L-2*R,HW),(0,HW)]
+plate = cq.Workplane("XZ").polyline(pts).close().extrude(-P).translate((0, D-P, 0))
+head = cq.Workplane("XZ").center(L-R, ZC).circle(R).extrude(-P).translate((0, D-P, 0))
+body = base.union(plate).union(head)
+# büyük delik (Y ekseninde, dikmeden geçer)
+hole = cq.Workplane("XZ").center(L-R, ZC).circle(9).extrude(-D-2).translate((0,-1,0))
+body = body.cut(hole)
+# tabanda iki dikey delik (gizli çizgiler tabanı deliyor)
+for hx, hy in [(20, 14), (40, 14)]:
+    body = body.cut(cq.Workplane("XY").center(hx, hy).circle(4).extrude(T+2).translate((0,0,-1)))
+result = body
+# BEKLENEN SINIR KUTUSU: 90 x 36 x 48 mm

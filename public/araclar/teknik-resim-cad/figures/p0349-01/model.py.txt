@@ -1,0 +1,30 @@
+import cadquery as cq
+# Catalli baslik: Z yukari, X genislik, Y derinlik. Orijin: silindir alt ucu ekseninde (x,y merkez)
+PL=25.0      # taban plaka X ve Y (olcu 25)
+PT=5.0       # plaka kalinligi (olcu 5)
+CD=20.0      # alt silindir capi (Ø20)
+TOP=48.0     # toplam yukseklik (olcu 48)
+FH=26.0      # catal plaka ustu yukseklik (olcu 26)
+CH=TOP-FH-PT # silindir yuksekligi = 17
+FW=25.0      # catal genisligi X (25)
+LUG=5.0      # kulak kalinligi
+GAP=10.0     # kulaklar arasi bosluk
+SLOT_FLOOR=10.0  # plaka ustunden yuva tabani (olcu 10)
+HOLE=12.0    # Ø12 delik
+NOTCH_W=8.0  # silindir alt kanal genisligi (8) - TAHMIN yukseklik/derinlik
+NOTCH_H=10.0 # TAHMIN
+NOTCH_D=4.0  # TAHMIN
+cyl=cq.Workplane("XY").circle(CD/2).extrude(CH)
+plate=cq.Workplane("XY").workplane(offset=CH).rect(PL,PL).extrude(PT)
+zb=CH+PT
+FD=2*LUG+GAP
+# catal: X-Z profili (ustu yuvarlak), Y boyunca FD
+prof=(cq.Workplane("XZ").workplane(offset=-FD/2)  # XZ normali -Y; offset -FD/2 -> y=+FD/2
+      .moveTo(-FW/2,zb).lineTo(FW/2,zb).lineTo(FW/2,zb+FH-FW/2)
+      .threePointArc((0,zb+FH),(-FW/2,zb+FH-FW/2)).close().extrude(FD))
+slot=cq.Workplane("XY").box(FW+2,GAP,FH,centered=(True,True,False)).translate((0,0,zb+SLOT_FLOOR))
+hole=cq.Workplane("XZ").workplane(offset=-FD/2-1).center(0,zb+FH-FW/2).circle(HOLE/2).extrude(FD+2)
+notch=cq.Workplane("XY").box(NOTCH_W,NOTCH_D+1,NOTCH_H,centered=(True,False,False)).translate((0,-CD/2-1+0,0))
+notch=cq.Workplane("XY").box(NOTCH_W,NOTCH_D+1,NOTCH_H,centered=(True,False,False)).translate((0,-CD/2-1,0))
+result=cyl.union(plate).union(prof).cut(slot).cut(hole).cut(notch)
+# BEKLENEN SINIR KUTUSU: 25 x 25 x 48 mm

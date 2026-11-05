@@ -1,0 +1,19 @@
+import cadquery as cq
+# Olcusuz izometrik (kitap 3.3.9): TAHMIN olculer (mm); X sag-yukari, -Y on yuz, Z yukari
+L=80.0     # TAHMIN: toplam uzunluk X
+D=26.0     # TAHMIN: toplam derinlik Y
+H=42.0     # TAHMIN: sag uc yuksekligi
+HS=21.5    # TAHMIN: sol alcak blok yuksekligi
+WS=21.0    # TAHMIN: sol alcak blok uzunlugu
+HF=11.0    # TAHMIN: on basamak (taban) yuksekligi
+XT=69.0    # TAHMIN: on tarafta yuksek ucun baslangici
+XE=55.0    # TAHMIN: arka egik yuzun yukari ulastigi X
+YA=13.0    # TAHMIN: on/arka bolum siniri (Y)
+# On bolum (Y 0..YA): sol alcak blok + taban + sag yuksek uc (XZ profili)
+on=[(0,0),(L,0),(L,H),(XT,H),(XT,HF),(WS,HF),(WS,HS),(0,HS)]
+govde_on=cq.Workplane("XZ").polyline(on).close().extrude(-YA)
+# Arka bolum (Y YA..D): egik ust yuzlu profil (sol blok ustunden sag uc ustune yukselir)
+arka=[(0,0),(L,0),(L,H),(XE,H),(WS,HS),(0,HS)]
+govde_arka=cq.Workplane("XZ").workplane(offset=-YA).polyline(arka).close().extrude(-(D-YA))
+result=govde_on.union(govde_arka)
+# BEKLENEN SINIR KUTUSU: 80 x 26 x 42 mm

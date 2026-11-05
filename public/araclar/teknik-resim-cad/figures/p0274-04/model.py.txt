@@ -1,0 +1,16 @@
+import cadquery as cq
+# Olcusuz: on duvar (Y<10) cizimde iptal edilmis, yalnizca arka parca
+X=60   # TAHMIN: uzunluk (yuvanin gittigi yon)
+Y=40   # TAHMIN: genislik
+Z=50   # TAHMIN: yukseklik
+ARKA=7     # TAHMIN: arka (sol) duvar kalinligi
+YUVA=24    # TAHMIN: yuva genisligi (Y)
+TABAN_Z=8  # TAHMIN: yuva ucundaki taban kalinligi
+RAMPA_X=40 # TAHMIN: rampanin ust yuzeye ulastigi X
+Y0=10
+govde=cq.Workplane("XY").box(X,Y-Y0,Z,centered=False).translate((0,Y0,0))
+# yuva: XZ profili (ust acik, rampa ile yukselen taban), Y boyunca ekstrude. XZ normali -Y -> negatif extrude +Y
+y_bas=Y-ARKA-YUVA
+prof=[(-1,TABAN_Z),(RAMPA_X,Z),(RAMPA_X,Z+1),(-1,Z+1)]
+yuva=cq.Workplane("XZ").workplane(offset=-y_bas).polyline(prof).close().extrude(-YUVA)
+result=govde.cut(yuva)

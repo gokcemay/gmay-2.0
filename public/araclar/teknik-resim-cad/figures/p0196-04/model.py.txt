@@ -1,0 +1,29 @@
+import cadquery as cq
+# Olcusuz izometrik: TAHMIN olcular (mm)
+R1=24.0   # TAHMIN: buyuk uc yaricapi (silindir tarafi)
+R2=14.0   # TAHMIN: kucuk uc yaricapi (kulak)
+L=50.0    # TAHMIN: iki uc merkezi arasi (X)
+T=9.0     # TAHMIN: plaka kalinligi
+RS=19.0   # TAHMIN: silindir dis yaricapi
+HS=24.0   # TAHMIN: silindir yuksekligi (plaka ustunden)
+RB=14.0   # TAHMIN: ust delik yaricapi
+RB2=10.0   # TAHMIN: kademeli alt delik yaricapi
+HB=12.0   # TAHMIN: ust delik derinligi
+RH=8.0    # TAHMIN: kulak deligi yaricapi
+# Plaka: iki daire + teget cizgiler (hull)
+c1=cq.Workplane("XY").circle(R1).extrude(T)
+c2=cq.Workplane("XY").center(0,-L).circle(R2).extrude(T)
+import math
+a=math.asin((R1-R2)/L)
+p1=(R1*math.sin(a),R1*math.cos(a)); p2=(L+R2*math.sin(a),R2*math.cos(a))
+hull=cq.Workplane("XY").polyline([(p1[1],-p1[0]),(p2[1],-p2[0]),(-p2[1],-p2[0]),(-p1[1],-p1[0])]).close().extrude(T)
+plaka=c1.union(c2).union(hull)
+silindir=cq.Workplane("XY").workplane(offset=T).circle(RS).extrude(HS)
+g=plaka.union(silindir)
+# Kademeli delik: ustte genis, altta dar (gecen)
+g=g.cut(cq.Workplane("XY").workplane(offset=T+HS-HB).circle(RB).extrude(HB+1))
+g=g.cut(cq.Workplane("XY").circle(RB2).extrude(T+HS))
+# Kulak deligi
+g=g.cut(cq.Workplane("XY").center(0,-L).circle(RH).extrude(T))
+result=g
+# BEKLENEN SINIR KUTUSU: ~ 118 x 44 x 36 mm

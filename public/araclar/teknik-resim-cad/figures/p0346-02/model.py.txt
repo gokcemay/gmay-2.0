@@ -1,0 +1,16 @@
+import cadquery as cq
+# Olcusuz cizim: hepsi TAHMIN (mm). X sag-yukari, Y sol-yukari, Z yukari
+GX=60; GY=50; T=10        # plaka
+HR=4; HI=8                # kose delik yaricapi, kose delik kenar payi
+plaka=cq.Workplane("XY").box(GX,GY,T,centered=False).edges("|Z").fillet(8)
+delikler=cq.Workplane("XY").pushPoints([(HI,HI),(GX-HI,HI),(HI,GY-HI),(GX-HI,GY-HI)]).circle(HR).extrude(T)
+plaka=plaka.cut(delikler)
+# Govde (silindir) sol-arka kosede
+BR=11; BH=28; BCX=14; BCY=36
+boss=cq.Workplane("XY").center(BCX,BCY).circle(BR).extrude(BH)
+# Egik kaburga: x=BCX-3..BCX+3 hizasinda YZ profili, boss'tan on kenara dogru alcalir
+kab=cq.Workplane("YZ").polyline([(BCY,T),(BCY,BH-4),(1,T)]).close().extrude(6).translate((BCX-BR+1,0,0))
+result=plaka.union(boss).union(kab)
+# Ust delik + alcak havsa
+result=result.cut(cq.Workplane("XY").center(BCX,BCY).circle(5).extrude(BH).translate((0,0,0)))
+result=result.cut(cq.Workplane("XY").center(BCX,BCY).circle(8).extrude(3).translate((0,0,BH-3)))

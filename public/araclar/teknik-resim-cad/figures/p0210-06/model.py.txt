@@ -1,0 +1,20 @@
+import cadquery as cq, math
+# Olcusuz: TAHMIN (mm). Cizimde ev profilli duvar taban blogunun arka kosegen kenarinda duruyor gibi okundu (TAHMIN).
+GEN=46      # TAHMIN: X
+DER=80      # TAHMIN: Y (sol-yan en uzun kenar)
+YUK=60      # TAHMIN: taban yuksekligi
+# Taban plani: arka kenar kosegen (0,DER)-(GEN,DER-GEN)
+taban=cq.Workplane("XY").polyline([(0,0),(GEN,0),(GEN,DER-GEN),(0,DER)]).close().extrude(YUK)
+# Yarik: Y yonunde, on yuze acik
+YARIK_X0,YARIK_X1=12,26
+YARIK_BOY=40
+yarik=cq.Workplane("XY").box(YARIK_X1-YARIK_X0,YARIK_BOY+1,23,centered=False).translate((YARIK_X0,-1,YUK-22))
+taban=taban.cut(yarik)
+# Kosegen duvar: yerelde (u,z) besgen, kalinlik T; sonra -45 derece donup kosegen kenara oturur
+T=6
+W=GEN*math.sqrt(2)
+pts=[(0,0),(W,0),(W,22),(W/2,40),(0,22)]
+duvar=(cq.Workplane("XZ").polyline(pts).close().extrude(T)   # XZ normali -Y: +T yerel -Y'ye gider
+       .rotate((0,0,0),(0,0,1),-45).translate((0,DER,YUK)))
+result=taban.union(duvar)
+# BEKLENEN SINIR KUTUSU: ~46 x 80 x 100 mm

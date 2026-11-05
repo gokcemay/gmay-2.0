@@ -1,0 +1,17 @@
+import cadquery as cq
+# Kabinet, olcusuz: TAHMIN. Profil YZ duzleminde (sol yan yuz), X boyunca ekstrude. Egik yuz one (-Y) bakar.
+H = 100.0   # TAHMIN: yukseklik Z
+L = 40.0    # TAHMIN: derinlik Y (cizilen uzunluk yarisi kabul edilip tahmin)
+W = 52.0    # TAHMIN: genislik X
+TOP = 12.0  # TAHMIN: ust bar kalinligi (Y)
+BASE = 12.0 # TAHMIN: taban plaka kalinligi
+RIB = 9.0   # TAHMIN: yan kaburga kalinligi (X)
+# Govde: arka duvar Y=L, egik yuz one dogru alcalir
+prof = [(0,0),(L,0),(L,H),(L-TOP,H),(0,BASE)]
+body = cq.Workplane("YZ").polyline(prof).close().extrude(W)
+# Cep: kaburgalar arasi, arka duvar kademeli (y = L - x_onceki)
+E = 60.0
+cep = [(L-E,BASE),(L-10,BASE),(L-10,32),(L-20,32),(L-20,58),(L-8,58),(L-8,H-18),(L-E,H-18)]
+cut = cq.Workplane("YZ").workplane(offset=RIB).polyline(cep).close().extrude(W-2*RIB)
+result = body.cut(cut)
+# BEKLENEN SINIR KUTUSU: 52 x 40 x 100 mm

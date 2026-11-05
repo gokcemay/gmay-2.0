@@ -1,0 +1,29 @@
+import cadquery as cq
+# Ölçülü izometrik: plaka + silindirik başlık + iki üçgen nervür + 3 delik. Eksenler: ön köşe=orijin, X sağ-yukarı, Y sol-yukarı.
+R_KOSE = 9.0      # köşe yuvarlatma R9
+DELIK_D = 7.0     # Ø7 üç delik
+L_ARA = 38.0      # delik merkezleri arası 38
+PLAKA_T = 7.0     # plaka kalınlığı 7
+TOPLAM_H = 17.0   # 7 + 10 (15 ölçüsünün neyi gösterdiği belirsiz; TAHMİN)
+BOSS_D = 18.0; BOSS_IC = 12.0
+L33 = 33.0     # ön delik - sağ delik aralığı (X yönü)
+W = L33 + 2*R_KOSE   # 51
+D = L_ARA + 2*R_KOSE   # 56
+plaka = cq.Workplane("XY").box(W, D, PLAKA_T, centered=False).edges("|Z").fillet(R_KOSE)
+BX, BY = R_KOSE+L33, R_KOSE+L_ARA   # başlık merkezi: dikdörtgenin arka-sol köşesi (R9 = Ø18/2, plaka köşesiyle çakışık)
+boss = cq.Workplane("XY").center(BX, BY).circle(BOSS_D/2).extrude(TOPLAM_H)
+# nervür 1: başlıktan ön köşeye çapraz (dikey üçgen), nervür 2: başlıktan +X kenarına
+def nervur(p0, p1, t=5.0):
+    import math
+    L = math.hypot(p1[0]-p0[0], p1[1]-p0[1]); a = math.degrees(math.atan2(p1[1]-p0[1], p1[0]-p0[0]))
+    prof = cq.Workplane("XZ").polyline([(0, PLAKA_T-0.1), (L, PLAKA_T-0.1), (0, TOPLAM_H-1)]).close().extrude(t/2, both=True)
+    return prof.rotate((0,0,0),(0,0,1),a).translate((p0[0], p0[1], 0))
+r1 = nervur((BX, BY), (R_KOSE+3, R_KOSE+3))
+r2 = nervur((BX, BY), (BX, BY-25))  # TAHMİN: 25 mm uzunluk
+govde = plaka.union(boss).union(r1).union(r2)
+# delikler: ön, sağ, sol köşe
+for (x, y) in [(R_KOSE, R_KOSE), (R_KOSE+L33, R_KOSE), (R_KOSE, R_KOSE+L_ARA)]:
+    govde = govde.cut(cq.Workplane("XY").center(x, y).circle(DELIK_D/2).extrude(PLAKA_T+1))
+govde = govde.cut(cq.Workplane("XY").center(BX, BY).circle(BOSS_IC/2).extrude(TOPLAM_H))
+result = govde
+# BEKLENEN SINIR KUTUSU: 51 x 56 x 17 mm

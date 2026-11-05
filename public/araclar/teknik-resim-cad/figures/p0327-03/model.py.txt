@@ -1,0 +1,20 @@
+import cadquery as cq
+# Olcusuz izometrik; hepsi TAHMIN (mm). Kesme duzlemi (A) cizim yardimcisidir, modele dahil degil.
+PL_X, PL_Y, PL_Z = 70.0, 50.0, 10.0   # taban plaka TAHMIN
+R_KOSE = 10.0                         # plaka kose yuvarlatma TAHMIN
+D_DELIK = 8.0                         # plaka delikleri TAHMIN
+# 1) Taban plaka, koseler yuvarlatilmis
+plaka = cq.Workplane("XY").box(PL_X, PL_Y, PL_Z, centered=False).edges("|Z").fillet(R_KOSE)
+# 2) Sol bobin: silindir govde (d=26, h=30) ve ic delik (d=14)
+bobin = cq.Workplane("XY").workplane(offset=PL_Z).center(20, 30).circle(13).extrude(20)
+# 3) Arka dikme: d=14, h=30 (TAHMIN), icinde d=6 delik
+dikme = cq.Workplane("XY").workplane(offset=PL_Z).center(45, 38).circle(7).extrude(20)
+# 4) Egik yuzlu kama: bobinden sag-on koseye inen ucgen prizma (XZ profili, Y boyunca)
+kama = cq.Workplane("XZ").polyline([(20, PL_Z), (20, PL_Z+20), (62, PL_Z)]).close().extrude(-14).translate((0, 6, 0))
+result = plaka.union(bobin).union(dikme).union(kama)
+# 5) Delikler: 3 kose deligi + bobin deligi + dikme deligi
+for (x, y) in [(10, 40), (10, 10), (60, 10)]:
+    result = result.cut(cq.Workplane("XY").center(x, y).circle(D_DELIK/2).extrude(PL_Z+1))
+result = result.cut(cq.Workplane("XY").workplane(offset=PL_Z+5).center(20, 30).circle(7).extrude(20))
+result = result.cut(cq.Workplane("XY").workplane(offset=PL_Z).center(45, 38).circle(3).extrude(21))
+# BEKLENEN SINIR KUTUSU: 70 x 50 x 30 mm

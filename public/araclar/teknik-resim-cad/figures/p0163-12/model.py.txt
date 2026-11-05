@@ -1,0 +1,10 @@
+import cadquery as cq
+# Izometrik, olcusuz: oranlardan TAHMIN. Profil on yuzde (XZ), kalinlik arkaya (+Y).
+H=80.0   # TAHMIN: yukseklik Z
+W=50.0   # TAHMIN: genislik X
+T=15.0   # TAHMIN: kalinlik Y (cizimde ~16)
+# Profil (x,z), hepsi TAHMIN; arka yuz duz kabul edildi (kesitin derinlik boyunca sabit oldugu varsayimi)
+pts=[(0,0),(W,0),(W,22.5),(42,22.5),(42,12.5),(20,12.5),(20,35),(15,35),(15,57.5),(30,57.5),(30,67.5),(W,67.5),(W,H),(0,H)]
+# XZ duzleminin normali -Y; extrude(-T) arkaya (+Y)
+result=cq.Workplane("XZ").polyline(pts).close().extrude(-T)
+# BEKLENEN SINIR KUTUSU: 50 x 15 x 80 mm

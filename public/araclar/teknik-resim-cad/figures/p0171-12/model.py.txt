@@ -1,0 +1,15 @@
+import cadquery as cq
+# Olcusuz kabinet: TAHMIN (mm), 5 px = 1 mm olcegiyle
+FW=70; FD=32; FH=45      # TAHMIN catal genislik/derinlik/yukseklik
+PRONG=15                 # TAHMIN diş kalinligi
+SLOT_H=30                # TAHMIN yuva derinligi (yukaridan)
+SW=38; SD=12; SH=65      # TAHMIN sap genislik/derinlik/yukseklik
+SX=5                     # TAHMIN sap soldan kaymasi
+fork=cq.Workplane("XY").box(FW,FD,FH,centered=False).translate((0,0,SH))
+slot=cq.Workplane("XY").box(FW-2*PRONG,FD+2,SLOT_H+1,centered=False).translate((PRONG,-1,SH+FH-SLOT_H))
+fork=fork.cut(slot)
+stem=cq.Workplane("XY").box(SW,SD,SH+1,centered=False).translate((SX,0,0))
+body=fork.union(stem)
+hole=cq.Workplane("XY").box(15,SD+2,37,centered=False).translate((SX+11,-1,16))
+result=body.cut(hole)
+# BEKLENEN SINIR KUTUSU: 70 x 32 x 110 mm

@@ -1,0 +1,20 @@
+import cadquery as cq
+# Izometrik, ölçülü. X=uzunluk(60), Y=derinlik(40), Z=yükseklik(40)
+L=60.0      # X uzunluk
+D=40.0      # Y taban derinliği (L profilin yatay kolu)
+H=40.0      # Z toplam yükseklik
+T_BASE=15.0 # taban kalınlığı (Z)
+T_UP=15.0   # dikey kolun kalınlığı (Y)
+R_NOTCH=15.0; NOTCH_CX=30.0   # ön kenarda yarım daire girinti, merkez x=30 (15+30+15=60), TAHMİN merkez
+SLOT_L=40.0; SLOT_W=10.0; SLOT_CX=30.0; SLOT_CZ=25.0  # oblong yuva; merkez Z=25 (üstten 15) TAHMİN
+# 1) L profil (Y,Z), X boyunca ekstrüzyon; dikey kol arka uçta (Y=25..40)
+pts=[(0,0),(D,0),(D,H),(D-T_UP,H),(D-T_UP,T_BASE),(0,T_BASE)]
+body=cq.Workplane("YZ").polyline(pts).close().extrude(L)
+# 2) Ön kenarda (Y=0) yarım daire girinti, tabanı boydan boya keser
+notch=cq.Workplane("XY").center(NOTCH_CX,0).circle(R_NOTCH).extrude(T_BASE)
+body=body.cut(notch)
+# 3) Dikey kolda oblong yuva (Y yönünde delici), uzun ekseni X
+slot=(cq.Workplane("XZ",origin=(0,D-T_UP-1,0)).center(SLOT_CX,SLOT_CZ)
+      .slot2D(SLOT_L,SLOT_W,0).extrude(-(T_UP+2)))
+result=body.cut(slot)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

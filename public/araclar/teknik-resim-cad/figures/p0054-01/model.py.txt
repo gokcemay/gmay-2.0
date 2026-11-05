@@ -1,0 +1,9 @@
+import cadquery as cq
+# Alt blok 60x40x20, alt yuva x15..45 yukseklik 10 boydan boya. Ust blok 60 genis, y20..40, z20..40 (TAHMIN)
+alt=cq.Workplane("XY").box(60,40,20,centered=False)
+yuva=cq.Workplane("XY").box(30,40,10,centered=False).translate((15,0,0))
+ust=cq.Workplane("XY").box(60,20,20,centered=False).translate((0,20,20))
+dar=cq.Workplane("XY").box(10,20,15,centered=False).translate((25,20,25))   # 10 genis, 15 derin
+genis=cq.Workplane("XY").box(30,10,5,centered=False).translate((15,20,35))  # 30 genis, TAHMIN 10x5
+result=alt.cut(yuva).union(ust).cut(dar).cut(genis)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

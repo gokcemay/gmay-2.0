@@ -1,0 +1,17 @@
+import cadquery as cq
+# p0060-01: yuvarlak uclu taban + arkada dik blok, Ø20 delik
+UZ=60.0      # toplam X uzunluk (20 uc yaricap + 20 + 20 blok), olcu dolayli
+DER=40.0     # Y derinlik (blok 40)
+TABAN_H=20.0 # taban yuksekligi
+TOP_H=40.0   # toplam yukseklik
+R=20.0       # uc yaricap (TAHMIN: ölçü 20 = merkezden uca)
+DELIK_D=20.0 # delik capi
+BLOK_X=20.0  # blok kalinligi X (TAHMIN: ust 20 olcusu)
+govde=cq.Workplane("XY").box(UZ-R,DER,TABAN_H,centered=False).translate((R,0,0))
+uc=cq.Workplane("XY").center(R,DER/2).circle(R).extrude(TABAN_H)
+taban=govde.union(uc)
+blok=cq.Workplane("XY").box(BLOK_X,DER,TOP_H,centered=False).translate((UZ-BLOK_X,0,0))
+result=taban.union(blok)
+delik=cq.Workplane("XY").center(R,DER/2).circle(DELIK_D/2).extrude(TABAN_H)
+result=result.cut(delik)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

@@ -1,0 +1,11 @@
+import cadquery as cq
+# Kabinet L blok: taban 60x40x20, arkada sag kolon x45..60 z20..40 (okunan 60,40,20,15,40)
+D=40
+taban=cq.Workplane("XY").box(60,D,20,centered=False)
+kolon=cq.Workplane("XY").box(15,D,20,centered=False).translate((45,0,20))
+# on altta sagdan acik kesik: x20..60, z0..10 (okunan 20,10); derinligi 20 TAHMIN
+kesik=cq.Workplane("XY").box(40,20,10,centered=False).translate((20,0,0))
+# ustte cep: 35 uzun, 10 genis (y10..20 TAHMIN), 5 derin; soldan acik
+cep=cq.Workplane("XY").box(35,10,5,centered=False).translate((0,10,15))
+result=taban.union(kolon).cut(kesik).cut(cep)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

@@ -1,0 +1,10 @@
+import cadquery as cq
+# Olcusuz: hepsi TAHMIN (mm)
+FR=42; FH=10; R=32; H=80; YR=10; YZ_=35; SG=26; SD=24
+gov=cq.Workplane("XY").circle(FR).extrude(FH).union(cq.Workplane("XY").circle(R).extrude(H))
+# ust kanal: X boyunca, Y'de ortada, SG genis, SD derin
+kanal=cq.Workplane("XY").box(2*FR+2,SG,SD+1,centered=(True,True,False)).translate((0,0,H-SD))
+# yan delik: -X yonunden eksene kadar
+delik=cq.Workplane("YZ").workplane(offset=-R-1).center(0,YZ_).circle(YR).extrude(R+1)
+result=gov.cut(kanal).cut(delik)
+# BEKLENEN SINIR KUTUSU: 84 x 84 x 80 mm

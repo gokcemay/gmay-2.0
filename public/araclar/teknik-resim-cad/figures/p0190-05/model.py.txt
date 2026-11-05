@@ -1,0 +1,22 @@
+import cadquery as cq
+# Olcusuz: TAHMIN (mm)
+R_DIS=25      # TAHMIN: yarim halka dis yaricapi = plaka genisligi/2
+R_IC=17       # TAHMIN: halka ic yaricap
+PLAKA_L=85   # TAHMIN: plaka uzunlugu X
+PLAKA_T=15    # TAHMIN: plaka kalinligi
+HALKA_H=35    # TAHMIN: halka toplam yuksekligi
+DELIK_D=24    # TAHMIN
+DELIK_X=PLAKA_L-R_DIS
+# Plaka: dikdortgen + sag ucta yarim daire
+plaka=(cq.Workplane("XY").center(0,R_DIS).rect(2*DELIK_X,2*R_DIS,centered=True).extrude(PLAKA_T)
+       .translate((0,0,0)))
+plaka=cq.Workplane("XY").box(DELIK_X,2*R_DIS,PLAKA_T,centered=False)
+plaka=plaka.union(cq.Workplane("XY").center(DELIK_X,R_DIS).circle(R_DIS).extrude(PLAKA_T))
+# Yarim halka duvar (x>=0), merkez x=0
+halka=(cq.Workplane("XY").center(0,R_DIS).circle(R_DIS).circle(R_IC).extrude(HALKA_H))
+yarim=cq.Workplane("XY").box(R_DIS,2*R_DIS,HALKA_H,centered=False)
+halka=halka.intersect(yarim)
+result=plaka.union(halka)
+# Delik
+result=result.cut(cq.Workplane("XY").center(DELIK_X,R_DIS).circle(DELIK_D/2).extrude(PLAKA_T))
+# BEKLENEN SINIR KUTUSU: 85 x 50 x 35 mm

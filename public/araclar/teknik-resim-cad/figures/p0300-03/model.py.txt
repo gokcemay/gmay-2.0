@@ -1,0 +1,14 @@
+import cadquery as cq
+# TAHMIN olculer, mm
+R=40.0; H=35.0; RB=17.0; ST=12.0; RC=6.0
+gov=cq.Workplane("XY").circle(R).extrude(H)
+gov=gov.cut(cq.Workplane("XY").circle(RB).extrude(H))
+RC2=27.0; DC=12.0  # TAHMIN ust kademe
+gov=gov.cut(cq.Workplane('XY').circle(RC2).extrude(DC).translate((0,0,H-DC)))
+# On yarim alcak basamak
+gov=gov.cut(cq.Workplane("XY").box(2*R+2,R+1,ST,centered=(True,False,False)).translate((0,-R-1,H-ST)))
+# Enine delik: -Y yonunde, orta yukseklikte, dis yuzeyden bora
+d=cq.Workplane("XZ").center(0,H/2-4).circle(RC).extrude(R+1)  # XZ normali -Y: +extrude -Y'ye
+gov=gov.cut(d)
+result=gov
+# BEKLENEN SINIR KUTUSU: 80 x 80 x 35 mm

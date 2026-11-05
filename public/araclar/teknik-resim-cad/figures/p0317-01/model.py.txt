@@ -1,0 +1,27 @@
+import cadquery as cq
+# TAHMIN olcular (mm), olcusuz cizim. Iki ayri parca (kesme duzlemi onunde/arkasinda kalanlar)
+# --- Buyuk parca (arkada) ---
+BL=90.0; BD=50.0; BH=50.0       # X, Y, Z TAHMIN
+WALL_B=12.0                      # arka cidar kalinligi TAHMIN
+FLOOR=12.0                       # taban kalinligi TAHMIN
+SIDE=15.0                        # yan cidar TAHMIN
+GAP_X0=32.0; GAP_X1=62.0         # on cidardaki pencere (X araligi) TAHMIN
+BORE_D=14.0; RING_D=28.0         # arka cidardaki delik / halka TAHMIN
+big=cq.Workplane("XY").box(BL,BD,BH,centered=False)
+# ustten ve one acik cep
+pocket=cq.Workplane("XY").box(BL-2*SIDE,BD-WALL_B+1,BH-FLOOR+1,centered=False).translate((SIDE,-1,FLOOR))
+big=big.cut(pocket)
+# on cidar penceresi (tum yukseklikte, tabana kadar)
+big=big.cut(cq.Workplane("XY").box(GAP_X1-GAP_X0,BD,BH,centered=False).translate((GAP_X0,-1,FLOOR)).translate((0,0,0)))
+# arka cidarda Y yonunde delik (pencere ekseninde)
+cx=(GAP_X0+GAP_X1)/2; cz=FLOOR+(BH-FLOOR)/2
+big=big.cut(cq.Workplane("XZ").center(cx,cz).circle(BORE_D/2).extrude(-BD))
+# yan cidarlarda X yonunde delik
+big=big.cut(cq.Workplane("YZ").center(BD-WALL_B-12,cz).circle(5).extrude(BL))
+# --- Kucuk parca (onde-solda): L profilli blok ---
+sm=cq.Workplane("XY").box(40,40,36,centered=False)
+sm=sm.cut(cq.Workplane("XY").box(22,22,40,centered=False).translate((18,-1,-2)))
+sm=sm.cut(cq.Workplane("YZ").center(30,18).circle(6).extrude(40))
+sm=sm.translate((-60,-45,-12))
+result=big.union(sm)  # ayrik iki katÄ±: ikisi birlesmez
+# BEKLENEN SINIR KUTUSU: ~150 x 95 x 62 mm

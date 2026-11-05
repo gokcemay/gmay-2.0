@@ -1,0 +1,12 @@
+import cadquery as cq
+# Iki silindir arakesiti; olcusuz -> TAHMIN
+R_BUYUK = 28.0   # TAHMIN: yatay silindir yaricapi (mm)
+L_BUYUK = 60.0   # TAHMIN: yatay silindir boyu, Y ekseni boyunca
+R_KUCUK = 17.0   # TAHMIN: dikey silindir yaricapi
+H_KUCUK = 75.0   # TAHMIN: dikey silindir tepe yuksekligi (eksen yatay silindir eksenini keser)
+# Yatay silindir: ekseni Y boyunca, orijinde ortali (Z=R)
+buyuk = cq.Workplane("XZ").center(0, R_BUYUK).circle(R_BUYUK).extrude(-L_BUYUK)
+# Dikey silindir: Z ekseni boyunca, yatay silindirin ortasinda
+kucuk = cq.Workplane("XY").workplane(offset=R_BUYUK).center(0, L_BUYUK/2).circle(R_KUCUK).extrude(H_KUCUK-R_BUYUK)
+result = buyuk.union(kucuk)
+# BEKLENEN SINIR KUTUSU: 50 x 90 x 55 mm

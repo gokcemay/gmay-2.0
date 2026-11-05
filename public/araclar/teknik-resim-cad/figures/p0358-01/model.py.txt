@@ -1,0 +1,30 @@
+import cadquery as cq, math
+# Eksenler: X = genislik 35 (silindir ekseni boyunca), Y = uzunluk 49, Z = yukseklik. Hepsi olcu veya TAHMIN (yorumlu).
+PL_X=35; PL_Y=49; PL_T=9      # taban plakasi, kalinlik 9
+CY_D=30; CY_B=17; CY_L=40     # silindir Ø30, delik Ø17, boy 40
+CY_Z=32                       # silindir ekseni yuksekligi 32
+CY_YC=34                      # TAHMIN: silindir merkezi Y
+RIB_T=8                       # nervur kalinligi 8
+plaka=cq.Workplane("XY").box(PL_X,PL_Y,PL_T,centered=False)
+# on kenar basamak/kertik (12, 9, 4 olculeri) TAHMIN: x=0..12 kenarda 4 mm, 12..21'de 4 mm derin kertik
+# (y=0 kenarindan 4 mm derinlik, z yuksekligi 4 -> TAHMIN)
+# alt kertik (olculer 12, 9, 4; konum/yon TAHMIN): y 12..21, z 0..4, tum X boyunca
+plaka=plaka.cut(cq.Workplane("XY").box(PL_X,9,4,centered=False).translate((0,12,0)))
+# silindir (eksen X), x=-5..35
+sil=cq.Workplane("YZ").workplane(offset=-5).center(CY_YC,CY_Z).circle(CY_D/2).extrude(CY_L)
+# arka destek duvari silindirin altinda: y 41..49, z 9..32
+duvar=cq.Workplane("XY").box(PL_X,8,CY_Z-PL_T,centered=False).translate((0,PL_Y-8,PL_T))
+# nervur: x 27..35, YZ ucgen y=0,z=9 -> y=CY_YC,z=CY_Z+CY_D/2 -> y=PL_Y
+pts=[(0,PL_T),(PL_Y,PL_T),(PL_Y,CY_Z),(CY_YC,CY_Z+CY_D/2*0.9)]
+nerv=cq.Workplane("YZ").workplane(offset=PL_X-RIB_T).polyline(pts).close().extrude(RIB_T)
+govde=plaka.union(duvar).union(nerv).union(sil)
+# silindir deligi Ø17
+govde=govde.cut(cq.Workplane("YZ").workplane(offset=-5).center(CY_YC,CY_Z).circle(CY_B/2).extrude(CY_L))
+# ust Ø5 dikey delik + Ø14 havsa 1.5 TAHMIN
+govde=govde.cut(cq.Workplane("XY").workplane(offset=CY_Z).center(15,CY_YC).circle(2.5).extrude(20))
+# plaka delikleri Ø7 + Ø14 havsa (TAHMIN konum)
+for (hx,hy) in [(17.5,8),(17.5,34)]:
+    govde=govde.cut(cq.Workplane("XY").center(hx,hy).circle(3.5).extrude(PL_T))
+    govde=govde.cut(cq.Workplane("XY").workplane(offset=PL_T-3).center(hx,hy).circle(7).extrude(3))
+result=govde
+# BEKLENEN SINIR KUTUSU: 40 x 49 x 47 mm

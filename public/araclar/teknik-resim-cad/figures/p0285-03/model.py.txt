@@ -1,0 +1,23 @@
+import cadquery as cq
+# Olcusuz cizim: tum olculer TAHMIN (mm). Bakis -1,-1,1: +X sag-yukari, +Y sol-yukari
+UZ=165     # TAHMIN: plaka uzunlugu X
+GE=84      # TAHMIN: plaka genisligi Y
+T=20       # TAHMIN: taban kalinligi
+DT=18      # TAHMIN: duvar kalinligi (X)
+DH=46      # TAHMIN: duvar toplam yuksekligi
+CX,CY=84,44   # TAHMIN: silindir merkezi
+CR,CRI,CH=34,26,42  # TAHMIN: halka dis/ic yaricap, toplam yukseklik
+SW=30      # TAHMIN: yarik genisligi (Y)
+SD=14     # TAHMIN: yarik derinligi
+BR,BH=5,6  # TAHMIN
+taban=cq.Workplane("XY").box(UZ,GE,T,centered=False)
+duvar=cq.Workplane("XY").box(DT,GE,DH,centered=False)
+halka=cq.Workplane("XY").center(CX,CY).circle(CR).extrude(CH)
+bos=cq.Workplane("XY").workplane(offset=T).pushPoints([(UZ-14,GE-14),(UZ-14,16)]).circle(BR).extrude(BH)
+govde=taban.union(duvar).union(halka).union(bos)
+# Yarik: duvardan silindir merkezine kadar, tabanda sig kanal
+yarik=cq.Workplane("XY").workplane(offset=T-SD).center((DT+CX)/2,CY).rect(CX-DT,SW).extrude(SD+1)
+govde=govde.cut(yarik)
+# Silindirik bosluk
+result=govde.cut(cq.Workplane("XY").workplane(offset=T).center(CX,CY).circle(CRI).extrude(CH))
+# BEKLENEN SINIR KUTUSU: 165 x 84 x 46 mm

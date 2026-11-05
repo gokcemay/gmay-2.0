@@ -1,0 +1,27 @@
+import cadquery as cq
+# Olcusuz cizim: tum olculer TAHMIN (mm). X genislik, Y derinlik (on yuz Y=0), Z yukseklik
+GEN = 60   # TAHMIN genislik X
+DER = 40   # TAHMIN derinlik Y
+YUK = 45   # TAHMIN yukseklik Z
+YAN = 8    # TAHMIN sol duvar kalinligi (X)
+ARKA = 12  # TAHMIN arka duvar kalinligi (Y)
+TABAN_Z = 16  # TAHMIN on cep tabani yuksekligi
+# Ana blok
+govde = cq.Workplane("XY").box(GEN, DER, YUK, centered=False)
+# Ustten on cep: sol duvar ve arka duvar disinda kalan on bolge TABAN_Z'ye kadar alinir
+cep = cq.Workplane("XY").box(GEN - YAN - 8, DER - ARKA, YUK - TABAN_Z, centered=False).translate((YAN, 0, TABAN_Z))
+govde = govde.cut(cep)
+# Alt kanal: X boyunca, on dudak (y 0..8) ve arka kalir
+kanal = cq.Workplane("XY").box(GEN, 20, 10, centered=False).translate((0, 8, 0))
+govde = govde.cut(kanal)
+# Merkezde silindirik/prizmatik dikme (ust yuzunde dairesel delik), tabandan yukselir
+dikme = cq.Workplane("XY").box(20, 20, 36 - TABAN_Z, centered=False).translate((16, 4, TABAN_Z))
+govde = govde.union(dikme)
+# Dikey delik: dikme ustunden alt kanala kadar (cap 10)
+delik_v = cq.Workplane("XY").circle(5).extrude(40).translate((26, 14, 0))
+govde = govde.cut(delik_v)
+# Yatay delik: arka duvardan Y boyunca (cap 12), sag tarafta
+delik_h = cq.Workplane("XZ").center(40, 34).circle(6).extrude(-DER)
+govde = govde.cut(delik_h)
+result = govde
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 45 mm

@@ -1,0 +1,18 @@
+import cadquery as cq
+# Olcusuz: TAHMIN (mm). X uzun (sag), Y derinlik, Z yukseklik
+X_UZ = 90; Y_DER = 35; Z_TABAN = 15   # TAHMIN
+LX0, LX1 = 26, 58                     # TAHMIN: kulak X araligi
+ZM = 28; R_DIS = 16; R_DEL = 8        # TAHMIN: yatak ekseni yuksekligi, dis/ic yaricap
+taban = cq.Workplane("XY").box(X_UZ, Y_DER, Z_TABAN, centered=False)
+# on sag kose basamagi (kucuk girinti), TAHMIN
+girinti = cq.Workplane("XY").box(15, 8, 6, centered=False).translate((X_UZ-35, 0, Z_TABAN-6))
+# kulak: alt dikdortgen + ust yarim daire, Y boyunca extrude (XZ duzlemi)
+kx = (LX0+LX1)/2
+kulak = (cq.Workplane("XZ").moveTo(LX0, 0).lineTo(LX1, 0).lineTo(LX1, ZM).threePointArc((kx, ZM+R_DIS), (LX0, ZM)).close().extrude(-Y_DER))
+# yatak deligi (Y ekseni)
+yatak = cq.Workplane("XZ").center(kx, ZM).circle(R_DEL).extrude(-Y_DER)
+# dikey delikler
+d1 = cq.Workplane("XY").center(9, 14).circle(5).extrude(Z_TABAN)
+d2 = cq.Workplane("XY").center(70, 12).circle(5).extrude(Z_TABAN)
+result = taban.cut(girinti).union(kulak).cut(yatak).cut(d1).cut(d2)
+# BEKLENEN SINIR KUTUSU: 90 x 35 x 45 mm

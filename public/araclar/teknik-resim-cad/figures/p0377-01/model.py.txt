@@ -1,0 +1,34 @@
+import cadquery as cq
+# Olcusuz cizim: oranlardan TAHMIN (hepsi TAHMIN, mm). Izometrik -1,-1,1: X yukari-saga, Y yukari-sola, Z yukari.
+GEN=120.0   # TAHMIN: taban X uzunlugu
+DER=55.0    # TAHMIN: derinlik Y
+TAB_H=25.0  # TAHMIN: taban kalinligi
+TOP_H=105.0 # TAHMIN: toplam yukseklik
+LUG=30.0    # TAHMIN: sol kulak (delikli taban uzantisi) X boyu
+KOL_T=20.0  # TAHMIN: kol kalinligi (X)
+ARA=30.0    # TAHMIN: iki kol arasi bosluk (X)
+CAP=22.0    # TAHMIN: kol deligi capi (X ekseni)
+DELIK_Z=75.0 # TAHMIN: kol delik merkezi yuksekligi
+PAH=18.0    # TAHMIN: kol on-ust kose pahi
+# 1) Taban
+taban=cq.Workplane("XY").box(GEN,DER,TAB_H,centered=False)
+# sol-on dusey kose pahi (cizimdeki egik yuz)
+pah=cq.Workplane("XY").polyline([(-1,-1),(14,-1),(-1,14)]).close().extrude(TAB_H+2).translate((0,0,-1))
+taban=taban.cut(pah)
+# on kenarda basamak (cizimde ~sag yarida on yuz 5 mm geride)
+taban=taban.cut(cq.Workplane("XY").box(GEN-85+1,5,TAB_H+2,centered=False).translate((85,-0.01,-1)))
+# kulakta Z ekseninde delik
+taban=taban.cut(cq.Workplane("XY").circle(6).extrude(TAB_H+2).translate((14,DER/2,-1)))
+# 2) Iki kol: YZ profili (on ust kose pahli), X yonunde ekstrude
+prof=[(0,TAB_H-1),(DER,TAB_H-1),(DER,TOP_H),(PAH,TOP_H),(0,TOP_H-PAH)]
+def kol(x0):
+    return cq.Workplane("YZ").polyline(prof).close().extrude(KOL_T).translate((x0,0,0))
+x1=LUG; x2=LUG+KOL_T+ARA
+k1=kol(x1); k2=kol(x2)
+# kollarin arasinda dip: arka tarafta 10 mm'lik baglanti
+dip=cq.Workplane("XY").box(ARA+0.02,10,TAB_H,centered=False).translate((x1+KOL_T-0.01,DER-10,0))
+body=taban.union(k1).union(k2).union(dip)
+# kol delikleri
+delik=cq.Workplane("YZ").center(DER/2+6,DELIK_Z).circle(CAP/2).extrude(GEN)
+result=body.cut(delik)
+# BEKLENEN SINIR KUTUSU: 120 x 55 x 105 mm

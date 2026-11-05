@@ -1,0 +1,12 @@
+import cadquery as cq
+# Olcusuz cizim: hepsi TAHMIN (mm). L blok: dikey kolon + yatay kol, kesit kare 20x20
+W=20    # TAHMIN: X genisligi
+KOL=20  # TAHMIN: kolon Y kalinligi
+H=60    # TAHMIN: toplam yukseklik Z
+UZ=60   # TAHMIN: toplam Y uzunlugu
+T=20    # TAHMIN: yatay kol kalinligi Z
+# YZ profili (y,z): kolon arkada (buyuk y), kol one (kucuk y) dogru
+pts=[(0,0),(UZ,0),(UZ,H),(UZ-KOL,H),(UZ-KOL,T),(0,T)]
+# YZ duzleminin normali +X; X boyunca W ekstrude
+result=cq.Workplane("YZ").polyline(pts).close().extrude(W)
+# BEKLENEN SINIR KUTUSU: 20 x 60 x 60 mm

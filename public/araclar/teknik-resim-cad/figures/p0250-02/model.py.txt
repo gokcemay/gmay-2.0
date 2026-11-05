@@ -1,0 +1,26 @@
+import cadquery as cq
+# Olcusuz cizim: tum olculer TAHMIN (mm)
+PL_X=100   # TAHMIN: plaka uzun kenar (X)
+PL_Y=50    # TAHMIN: plaka kisa kenar (Y)
+PL_Z=22    # TAHMIN: plaka kalinligi
+CY_D=45    # TAHMIN: silindir capi
+CY_H=30    # TAHMIN: silindir yuksekligi
+SL_W=14    # TAHMIN: oblong delik genisligi
+SL_L=32    # TAHMIN: oblong delik uzunlugu
+plaka=cq.Workplane("XY").box(PL_X,PL_Y,PL_Z,centered=False)
+# Orta silindir
+sil=cq.Workplane("XY").workplane(offset=PL_Z).center(PL_X/2,PL_Y/2).circle(CY_D/2).extrude(CY_H)
+# Silindir ust yuzunde V kesit (kama) kesim, capraz yonde, TAHMIN
+kama=(cq.Workplane("XZ").polyline([(-5,PL_Z+CY_H+1),(PL_X/2,PL_Z+CY_H+1),(PL_X/2,PL_Z+CY_H-18)]).close()
+      .extrude(-PL_Y-10).translate((0,-5,0)))
+sil=sil.cut(kama)
+res=plaka.union(sil)
+# Iki ucta oblong (kanal) delik, X ekseni boyunca uzun
+for cx in (PL_X*0.14,PL_X*0.86):
+    slot=cq.Workplane("XY").center(cx,PL_Y/2).slot2D(SL_L,SL_W,90).extrude(PL_Z)
+    res=res.cut(slot)
+# Sol uc yuzde alt kenarda dikdortgen girinti
+girinti=cq.Workplane("XY").box(12,PL_Y*0.3,PL_Z*0.45,centered=False).translate((0,PL_Y*0.35,0))
+res=res.cut(girinti)
+result=res
+# BEKLENEN SINIR KUTUSU: 100 x 50 x 50 mm

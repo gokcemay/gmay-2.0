@@ -1,0 +1,12 @@
+import cadquery as cq
+# Eğik kesilmiş dik silindir. Ölçüsüz: hepsi TAHMİN
+R = 25.0      # TAHMİN yarıçap
+H_MIN = 36.0  # TAHMİN kısa kenar (ön, a-b-c-d) yüksekliği
+H_MAX = 54.0  # TAHMİN uzun kenar (sağ-arka) yüksekliği
+cyl = cq.Workplane("XY").circle(R).extrude(H_MAX + 10)
+# Kesen eğik düzlemin üstünde kalan hacim: XZ'de yamuk profil (Y boyunca geniş)
+# düzlem: x=-R'de z=H_MIN, x=+R'de z=H_MAX (m solda kısa, e sağda uzun)
+cutter = (cq.Workplane("XZ").polyline([(-R-5, H_MIN-5*(H_MAX-H_MIN)/(2*R)), (R+5, H_MAX+5*(H_MAX-H_MIN)/(2*R)), (R+5, H_MAX+50), (-R-5, H_MAX+50)])
+          .close().extrude(R+5, both=True))
+result = cyl.cut(cutter)
+# BEKLENEN SINIR KUTUSU: 50 x 50 x 54 mm

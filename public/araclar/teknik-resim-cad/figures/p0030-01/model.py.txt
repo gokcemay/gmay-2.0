@@ -1,0 +1,15 @@
+import cadquery as cq
+W=60.0   # X genişlik
+D=40.0   # Y derinlik (ölçülü, gerçek değer)
+H=40.0   # Z yükseklik
+HF=10.0  # ön dikey yüz / kanal tabanı yüksekliği
+DT=10.0  # üst düz yüzün derinliği
+KX0=20.0 # kanal başlangıcı X (20+20+20 = 60)
+KX1=40.0 # kanal bitişi X
+# Yan profil (y,z): ön dikey yüz, eğik yüz, üst düz yüz, arka dik yüz
+pts=[(0,0),(D,0),(D,H),(D-DT,H),(0,HF)]
+blok=cq.Workplane("YZ").polyline(pts).close().extrude(W)
+# Orta kanal: tüm derinlik boyunca, z=HF üstü (kanal tabanı ön yüz yüksekliğiyle aynı, 10)
+kanal=cq.Workplane("XY").box(KX1-KX0, D+2, H, centered=False).translate((KX0,-1,HF))
+result=blok.cut(kanal)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

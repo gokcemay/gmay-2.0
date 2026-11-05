@@ -1,0 +1,23 @@
+import cadquery as cq, math
+# Iki silindirik baslikli kol (biyel). Eksen Y (derinlik), merkezler X dogrultusunda 60 mm.
+D_MERKEZ = 60.0   # mm iki merkez arasi
+R1, RH1, T1 = 15.0, 11.0, 20.0   # buyuk baslik: Ø30 dis, Ø22 delik, kalinlik 20
+R2, RH2, T2 = 10.0, 6.0, 15.0    # kucuk baslik: Ø20 dis, Ø12 delik, kalinlik 15
+T_KOL = 10.0                     # kol kalinligi 10
+ZC = 15.0                        # merkez yuksekligi
+# Arka yuzler Y=T1 hizali kabul edildi (TAHMIN); ayrica kol arka yuze yaslanir
+# Kol: iki daire arasi dis teget profil (XZ), Y yonunde T_KOL
+c = (R1 - R2) / D_MERKEZ
+s = math.sqrt(1 - c*c)
+pts = [(R1*c, ZC+R1*s), (D_MERKEZ+R2*c, ZC+R2*s), (D_MERKEZ+R2*c, ZC-R2*s), (R1*c, ZC-R1*s)]
+def cyl(x, r, t, y0):
+    return cq.Workplane("XZ").workplane(offset=-y0).center(x, ZC).circle(r).extrude(-t)
+# XZ normali -Y: offset=-y0 -> Y=y0; extrude(-t) +Y yonune
+kol = cq.Workplane("XZ").workplane(offset=-(T1-T_KOL)).polyline(pts).close().extrude(-T_KOL)
+b1 = cyl(0, R1, T1, 0)
+b2 = cyl(D_MERKEZ, R2, T2, T1-T2)
+govde = kol.union(b1).union(b2)
+h1 = cyl(0, RH1, T1+2, -1)
+h2 = cyl(D_MERKEZ, RH2, T1+2, -1)
+result = govde.cut(h1).cut(h2)
+# BEKLENEN SINIR KUTUSU: 85 x 20 x 30 mm

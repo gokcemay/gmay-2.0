@@ -1,0 +1,31 @@
+import cadquery as cq
+# Cizim 2.1.40, izometrik (bakis -1,-1,1): flans plaka YZ duzleminde, bosluk -X (sol-on), catal +X (sag-arka)
+PL_T=3           # plaka kalinligi X
+PL_W=40; PL_H=40 # plaka Y x Z (TAHMIN: Y=40, kare gorunum)
+BOS_D1=24; BOS_L1=4   # boyun Ø24, uzunluk 4 (TAHMIN: "4" olcusu)
+BOS_D2=28; BOS_L=13   # yaka Ø28; boss toplam uzunluk 13
+BOS_DELIK_D=12; BOS_DELIK_DER=15  # Ø12 derinlik 15
+BAS_D=18; BAS_DER=3               # Ø18 derinlik 3
+CATAL_L=25          # catal uzunlugu (plaka arka yuzunden)
+CATAL_ICI=28; CATAL_DIS=38   # ic aralik 28, dis 38 -> kulak kalinligi 5
+KULAK_R=12; KULAK_DELIK=10; DELIK_X=13  # delik merkezi plakadan 13 (25=13+12)
+cy,cz=0,0   # plaka merkezi Y=0,Z=0
+plaka=cq.Workplane("YZ").rect(PL_W,PL_H).extrude(PL_T)
+boyun=cq.Workplane("YZ").workplane(offset=-BOS_L1).circle(BOS_D1/2).extrude(BOS_L1+0.01)
+yaka=cq.Workplane("YZ").workplane(offset=-BOS_L).circle(BOS_D2/2).extrude(BOS_L-BOS_L1)
+g=plaka.union(boyun).union(yaka)
+# kulaklar: profil XZ'de (plaka arka yuzunden X=PL_T), Y'de 5 mm kalin
+t=(CATAL_DIS-CATAL_ICI)/2
+xc=PL_T+DELIK_X
+for s in (1,-1):
+    y0=s*CATAL_ICI/2 if s>0 else -CATAL_DIS/2
+    k=(cq.Workplane("XZ").workplane(offset=-y0).moveTo(PL_T-0.01,-KULAK_R).lineTo(xc,-KULAK_R)
+       .threePointArc((xc+KULAK_R,0),(xc,KULAK_R)).lineTo(PL_T-0.01,KULAK_R).close().extrude(-t))
+    g=g.union(k)
+# kulak delikleri Y boyunca
+g=g.cut(cq.Workplane("XZ").workplane(offset=-CATAL_DIS/2-1).center(xc,0).circle(KULAK_DELIK/2).extrude(-CATAL_DIS-2))
+# boss delikleri: bosluk ucundan (X=-BOS_L) +X'e
+g=g.cut(cq.Workplane("YZ").workplane(offset=-BOS_L-1).circle(BAS_D/2).extrude(BAS_DER+1))
+g=g.cut(cq.Workplane("YZ").workplane(offset=-BOS_L-1).circle(BOS_DELIK_D/2).extrude(BOS_DELIK_DER+1))
+result=g
+# BEKLENEN SINIR KUTUSU: 41 x 38 x 40 mm

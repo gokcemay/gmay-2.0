@@ -1,0 +1,8 @@
+import cadquery as cq
+# Olcusuz kademeli mil, eksen X. Hepsi TAHMIN (mm). (x_baslangic, uzunluk, cap)
+KADEMELER = [(0,15,40),(15,25,56),(40,5,46),(45,12,34),(57,28,24)]  # TAHMIN
+result=None
+for x0,L,d in KADEMELER:
+    c=cq.Workplane("YZ").workplane(offset=x0).circle(d/2).extrude(L)
+    result=c if result is None else result.union(c)
+# BEKLENEN SINIR KUTUSU: 85 x 56 x 56 mm

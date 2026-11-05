@@ -1,0 +1,35 @@
+import cadquery as cq, math
+# 4 parcali gonye (90 derece), miter kesimli duz silindirler. Hepsi TAHMIN (mm)
+R = 25.0    # TAHMIN boru yaricapi
+RB = 40.0   # TAHMIN: eksen yay yaricapi
+LE = 8.0   # TAHMIN: uc parcalarin ek duz uzunlugu
+def P(f): return (-RB+RB*math.cos(math.radians(f)), RB*math.sin(math.radians(f)))
+def D(f): return (-math.sin(math.radians(f)), math.cos(math.radians(f)))
+def inter(f1,f2):
+    p1,d1,p2,d2=P(f1),D(f1),P(f2),D(f2)
+    det=d1[0]*(-d2[1])-d1[1]*(-d2[0])
+    t=((p2[0]-p1[0])*(-d2[1])-(p2[1]-p1[1])*(-d2[0]))/det
+    return (p1[0]+t*d1[0], p1[1]+t*d1[1])
+J=[inter(0,30),inter(30,60),inter(60,90)]
+angs=[0,30,60,90]
+def dirv(f): d=D(f); return cq.Vector(d[0],0,d[1])
+def pt(p): return cq.Vector(p[0],0,p[1])
+# parca baslangic/bitis noktalari (eksen uzerinde)
+st=[pt(J[0])-dirv(0)*(LE+RB*0.27), pt(J[0]), pt(J[1]), pt(J[2])]
+en=[pt(J[0]), pt(J[1]), pt(J[2]), pt(J[2])+dirv(90)*(LE+RB*0.27)]
+def half(origin, normal):
+    # normal yonundeki yarim uzayi doldur
+    return cq.Workplane(cq.Plane(origin=origin.toTuple(), xDir=(0,1,0), normal=normal.toTuple())).rect(1000,1000).extrude(500)
+parts=[]
+for i in range(4):
+    d=dirv(angs[i]); a=st[i]; b=en[i]
+    L=(b-a).dot(d)
+    p0=60 if i>0 else 0; p1=60 if i<3 else 0   # sadece miterli uclarda tasma payi
+    cyl=cq.Workplane(cq.Plane(origin=(a-d*p0).toTuple(), xDir=(0,1,0), normal=d.toTuple())).circle(R).extrude(L+p0+p1)
+    if i>0:
+        m=(dirv(angs[i-1])+d).normalized(); cyl=cyl.cut(half(a,m*-1))
+    if i<3:
+        m=(d+dirv(angs[i+1])).normalized(); cyl=cyl.cut(half(b,m))
+    parts.append(cyl)
+result=parts[0]
+for p in parts[1:]: result=result.union(p)

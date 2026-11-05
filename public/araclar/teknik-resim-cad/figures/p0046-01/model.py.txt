@@ -1,0 +1,10 @@
+import cadquery as cq
+# Arka duvar y=30..40, tam yukseklik
+duvar=cq.Workplane("XY").box(60,10,40,centered=False).translate((0,30,0))
+# Ust kol z=30..40: x=30..60, y=0..30 (arka serit duvarda)
+ust=cq.Workplane("XY").box(30,30,10,centered=False).translate((30,0,30))
+# Alt kol z=0..10: x=0..60,y=10..40 + x=10..60,y=0..10 (on-sol kose 10x10 kesik)
+alt1=cq.Workplane("XY").box(60,30,10,centered=False).translate((0,10,0))
+alt2=cq.Workplane("XY").box(50,10,10,centered=False).translate((10,0,0))
+result=duvar.union(ust).union(alt1).union(alt2)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

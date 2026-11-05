@@ -1,0 +1,24 @@
+import cadquery as cq
+# Olcusuz cizim: tum olculer TAHMIN (mm). Iki bolum ayni parcanin kesit/arka yarisi; parca tek katı olarak modellendi.
+L=120      # TAHMIN: kol uzunlugu X
+W=30       # TAHMIN: kol derinligi Y
+H=12       # TAHMIN: kol kalinligi Z
+HUB_R=22   # TAHMIN: govde (hub) dis yaricapi
+HUB_H=40   # TAHMIN: hub yuksekligi
+BORE_R=11  # TAHMIN: hub deligi
+# Kol plakasi
+kol=cq.Workplane("XY").box(L,W,H,centered=False)
+# Hub: silindir + sol-ust kose dolgusu
+hub=cq.Workplane("XY").center(HUB_R,W/2).circle(HUB_R).extrude(HUB_H)
+hub=hub.union(cq.Workplane("XY").box(HUB_R,W,HUB_H,centered=False).translate((HUB_R,0,0)).intersect(
+    cq.Workplane("XY").box(HUB_R,W,HUB_H,centered=False).translate((HUB_R,0,0))))
+govde=kol.union(hub)
+# Orta kaldirim blok (on tarafta, cizimdeki dikdortgen plaka)
+govde=govde.union(cq.Workplane("XY").box(25,8,28,centered=False).translate((50,0,0)))
+# Hub deligi + arkaya acik yarik
+govde=govde.cut(cq.Workplane("XY").center(HUB_R,W/2).circle(BORE_R).extrude(HUB_H))
+govde=govde.cut(cq.Workplane("XY").box(BORE_R*2,W,HUB_H,centered=False).translate((HUB_R-BORE_R,W/2,0)))
+# Uc kenardaki yarim delik centigi
+govde=govde.cut(cq.Workplane("XY").center(L-6,W/2).circle(5).extrude(H))
+result=govde
+# BEKLENEN SINIR KUTUSU: 120 x 44 x 40 mm

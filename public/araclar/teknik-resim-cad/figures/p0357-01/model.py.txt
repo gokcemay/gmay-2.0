@@ -1,0 +1,20 @@
+import cadquery as cq
+# p0357-01: konik govdeli dort ayakli flansli yatak; yari kesit
+PL=75.0  # TAHMIN plaka X (38 olcusu delik araligi sanildi)
+PW=94.0  # plaka Y (verilen 94)
+T=7.0    # plaka kalinligi (verilen 7)
+HT=36.0  # toplam yukseklik (verilen 36)
+plate=cq.Workplane("XY").box(PL,PW,T,centered=(True,True,False)).edges("|Z").fillet(10)  # R10
+cone=cq.Workplane("XY").workplane(offset=T-0.01).circle(35).workplane(offset=HT-T).circle(29).loft()  # Ø70 -> Ø58
+body=plate.union(cone)
+# ana delik Ø50 ustten 22 derinlik, alt Ø15 delik
+body=body.cut(cq.Workplane("XY").workplane(offset=HT-27).circle(25).extrude(30))
+body=body.cut(cq.Workplane("XY").circle(7.5).extrude(HT))
+# dort Ø14 delik (kose, 38 aralik TAHMIN)
+for sx in (-1,1):
+    for sy in (-1,1):
+        body=body.cut(cq.Workplane("XY").center(sx*(PL/2-12),sy*(PW/2-12)).circle(7).extrude(HT))
+# yari kesit: bir ceyrek (x>0,y<0) govdeden alinir (plaka haric)
+q=cq.Workplane("XY").box(50,50,HT,centered=False).translate((-50,-50,T))
+result=body.cut(q)
+# BEKLENEN SINIR KUTUSU: 94 x 94 x 36 mm

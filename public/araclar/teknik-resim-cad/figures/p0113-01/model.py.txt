@@ -1,0 +1,29 @@
+import cadquery as cq
+# Izometrik (-1,-1,1): X=75 saga-yukari, Y=65 sola-yukari, Z yukseklik. Orijin on-sol-alt kose.
+BX, BY, BZ = 75.0, 65.0, 26.0     # taban X, Y, yukseklik
+PT = 15.0                          # TAHMIN: dik levha kalinligi (Y)
+PH = 140.0                         # levha yuksekligi
+SLOT_X0, SLOT_X1, SLOT_D = 30.0, 50.0, 30.0   # ustte yarik: genislik 20, derinlik 30 (x konumu TAHMIN)
+CX, CZ = 40.0, 75.0                # halka ekseni (X, Z); eksen Y dogrultusunda
+RO, RI, RL = 25.0, 15.0, 20.0      # D50, D30, halka boyu 20
+NECK_X0, NECK_X1 = 25.0, 55.0      # TAHMIN: halka alti boyun genisligi (30)
+NOTCH_X0, NOTCH_X1, NOTCH_Y = 15.0, 55.0, 15.0  # on kanal: 40 genis, 15 derin (x konumu TAHMIN)
+CH = 6.0                           # 6x45 pah (dikey kenarlar)
+# Taban + on dikey kose pahlari
+base = cq.Workplane("XY").box(BX, BY, BZ, centered=False)
+for px in (0, BX):
+    base = base.edges("|Z").edges(cq.selectors.BoxSelector((px-1,-1,-1),(px+1,1,BZ+1))).chamfer(CH)
+# On kanal
+base = base.cut(cq.Workplane("XY").box(NOTCH_X1-NOTCH_X0, NOTCH_Y+1, BZ+2, centered=False).translate((NOTCH_X0,-1,-1)))
+# Dik levha, ustte yarikli
+plate = cq.Workplane("XY").box(BX, PT, PH, centered=False).translate((0, BY-PT, 0))
+slot = cq.Workplane("XY").box(SLOT_X1-SLOT_X0, PT+2, SLOT_D+1, centered=False).translate((SLOT_X0, BY-PT-1, PH-SLOT_D))
+plate = plate.cut(slot)
+# Boyun (halka altindaki blok)
+neck = cq.Workplane("XY").box(NECK_X1-NECK_X0, RL, CZ-BZ, centered=False).translate((NECK_X0, BY-PT-RL, BZ))
+# Halka: eksen Y; XZ duzlemi normali -Y -> levha onunden (y=50) one dogru
+ring = cq.Workplane("XZ", origin=(CX, BY-PT, CZ)).circle(RO).extrude(RL)
+body = base.union(plate).union(neck).union(ring)
+hole = cq.Workplane("XZ", origin=(CX, BY, CZ)).circle(RI).extrude(RL+PT)
+result = body.cut(hole)
+# BEKLENEN SINIR KUTUSU: 75 x 65 x 140 mm

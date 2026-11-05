@@ -1,0 +1,17 @@
+import cadquery as cq
+# Olcusuz izometrik: hepsi TAHMIN (mm)
+R=40.0   # TAHMIN dis yaricap
+H=40.0   # TAHMIN yukseklik
+RB=17.0  # TAHMIN orta delik yaricapi (kor delik, gizli cizgilerden)
+ST=15.0  # TAHMIN basamak derinligi
+gov=cq.Workplane("XY").circle(R).extrude(H)
+gov=gov.cut(cq.Workplane("XY").circle(RB).extrude(H))
+# On yarim (y<0) ust yuzeyi ST kadar alcak; arka yarim tam yukseklikte kalir
+alcak=cq.Workplane("XY").box(2*R+2,R+1,ST,centered=(True,False,False)).translate((0,-R-1,H-ST))
+gov=gov.cut(alcak)
+RC2=27.0; DC=12.0  # TAHMIN ust kademe yaricapi/derinligi
+gov=gov.cut(cq.Workplane('XY').circle(RC2).extrude(DC).translate((0,0,H-DC)))
+# Sol tarafta alcak bolgeden gecen dar kanal TAHMIN
+kanal=cq.Workplane("XY").box(8,R,ST,centered=(True,False,False)).translate((-R+4,0,H-ST))
+result=gov.cut(kanal)
+# BEKLENEN SINIR KUTUSU: 80 x 80 x 40 mm

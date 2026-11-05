@@ -1,0 +1,14 @@
+import cadquery as cq
+# L tabanli egik kesik prizma; olcusuz -> TAHMIN
+GX=60.0   # TAHMIN toplam X
+GY=40.0   # TAHMIN toplam Y
+BX=30.0   # TAHMIN: A-B uzunlugu (sol bacak genisligi)
+CY=20.0   # TAHMIN: on girinti derinligi (B-C)
+H0=70.0   # TAHMIN: x=0 yuksekligi
+H1=38.0   # TAHMIN: x=GX yuksekligi
+# L taban: A(0,0) B(BX,0) C(BX,CY) D(GX,CY) E(GX,GY) F(0,GY)
+taban = cq.Workplane("XY").polyline([(0,0),(BX,0),(BX,CY),(GX,CY),(GX,GY),(0,GY)]).close().extrude(100)
+# Egik tepe: XZ yamuk profil, Y boyunca
+profil = cq.Workplane("XZ").polyline([(0,0),(GX,0),(GX,H1),(0,H0)]).close().extrude(-GY)
+result = taban.intersect(profil)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 70 mm

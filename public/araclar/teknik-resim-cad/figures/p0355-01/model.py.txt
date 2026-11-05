@@ -1,0 +1,31 @@
+import cadquery as cq
+# Nervurlu L dirsek. X genislik 50, Y derinlik 70, Z yukseklik 50.
+BW = 50.0; BL = 70.0; BH = 10.0     # taban
+WT = 10.0; WH = 50.0                # dik duvar (Y=60..70), yukseklik 50
+RC = 10.0                           # ust kose yaricapi
+HOLE_BASE = 8.0; HOLE_WALL = 7.0
+RIB_T = 10.0
+# 1) taban
+base = cq.Workplane("XY").box(BW, BL, BH, centered=False)
+# 2) dik duvar: (x,z) profil, ust koseler R10 (yay merkezleri delik merkezi (10,40),(40,40))
+wall = (cq.Workplane("XZ").moveTo(0, 0).lineTo(BW, 0).lineTo(BW, WH-RC)
+        .threePointArc((BW-RC+RC*0.7071, WH-RC+RC*0.7071), (BW-RC, WH))
+        .lineTo(RC, WH).threePointArc((RC-RC*0.7071, WH-RC+RC*0.7071), (0, WH-RC)).close()
+        .extrude(-WT).translate((0, BL-WT, 0)))
+body = base.union(wall)
+# 3) nervur (YZ ucgeni), X=20..30 TAHMIN ortada
+rib = (cq.Workplane("YZ").polyline([(20, BH), (BL-WT, BH), (BL-WT, 40)]).close()
+       .extrude(RIB_T).translate((20-RIB_T/2, 0, 0)))   # TAHMIN: X=15..25, ust z=40
+body = body.union(rib)
+# 4) alt kanal: boydan boya, 15 genis, 4 yuksek, X=17.5..32.5
+chan = cq.Workplane("XY").box(15, BL+2, 4, centered=False).translate((17.5, -1, -0.0))
+body = body.cut(chan.translate((0, 0, -0.01)))
+# 5) taban delikleri O8 (Y=15,45 ; X=10,40)
+for x in (10, 40):
+    for y in (15, 45):
+        body = body.cut(cq.Workplane("XY").center(x, y).circle(HOLE_BASE/2).extrude(BH+2).translate((0, 0, -1)))
+# 6) duvar delikleri O7, z=40
+for x in (10, 40):
+    body = body.cut(cq.Workplane("XZ").center(x, WH-RC).circle(HOLE_WALL/2).extrude(-(WT+2)).translate((0, BL-WT-1, 0)))
+result = body
+# BEKLENEN SINIR KUTUSU: 50 x 70 x 50 mm

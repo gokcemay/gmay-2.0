@@ -1,0 +1,12 @@
+import cadquery as cq
+GEN=60; DER=40
+# Govde profili (x,z): sol yukseklik 25, x=30'a dek egim, sonra 40 (olculer: 25,40,30,60)
+pts=[(0,0),(60,0),(60,40),(30,40),(0,25)]
+govde=cq.Workplane("XZ").polyline(pts).close().extrude(-DER)
+# Ust kanal y=10..30 (20 genis), tabani egimli yuzeyin 10 altinda
+kan=[(-1,14.5),(30,30),(61,30),(61,45),(-1,45)]
+kanal=cq.Workplane("XZ",origin=(0,10,0)).polyline(kan).close().extrude(-20)
+# Alt oluk z=5..15, y=10..30, soldan 30 derin (TAHMIN derinlik)
+oluk=cq.Workplane("XY").box(31,20,10,centered=False).translate((-1,10,5))
+result=govde.cut(kanal).cut(oluk)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

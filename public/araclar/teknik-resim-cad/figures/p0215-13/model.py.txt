@@ -1,0 +1,27 @@
+import cadquery as cq, math
+# Olcusuz: ust yuz koseleri cizimden (piksel) okunup izometrik ters donusumle plana cevrildi. TAHMIN.
+K=4.0   # px/mm TAHMIN olcek
+def plan(pts, hpx):
+    # piksel (sx, sy_asagi) -> plan (x,y); hpx: yuzun zeminden yuksekligi (piksel)
+    out=[]
+    for sx,sy in pts:
+        su=-(sy+hpx)          # zemin duzlemine indir (yukari pozitif)
+        a=sx/K*math.sqrt(2)/1.0*0.5**0   # x-y = sqrt2 * sx/K ... asagida duzeltildi
+        d=math.sqrt(2)*sx/K               # x-y
+        s=math.sqrt(6)*su/K/1.0*(1/ math.sqrt(3)*math.sqrt(3))  # x+y
+        out.append(((s+d)/2,(s-d)/2))
+    return out
+# izometrik olcek duzeltmesi: px=K*(x-y)/sqrt2 -> x-y=sqrt2*px/K ; px_up=K*(x+y)/sqrt6 -> x+y=sqrt6*px/K
+HS=43   # alt plaka kalinligi (px)
+HB=60   # ust blok yuksekligi (px)
+alt_px=[(22,205),(55,182),(250,105),(318,148),(190,225),(55,222)]
+ust_px=[(55,112),(215,22),(248,40),(248,90),(183,125)]
+alt=plan(alt_px,HS)
+ust=plan(ust_px,HS+HB)
+mnx=min(p[0] for p in alt+ust); mny=min(p[1] for p in alt+ust)
+alt=[(x-mnx,y-mny) for x,y in alt]; ust=[(x-mnx,y-mny) for x,y in ust]
+T1=HS/(K*math.sqrt(2/3)*1.0)   # mm
+T2=HB/(K*math.sqrt(2/3)*1.0)
+plaka=cq.Workplane("XY").polyline(alt).close().extrude(T1)
+blok=cq.Workplane("XY").workplane(offset=T1).polyline(ust).close().extrude(T2)
+result=plaka.union(blok)

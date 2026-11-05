@@ -1,0 +1,14 @@
+import cadquery as cq
+# Kitap 2.1.24: L blok; dik kolun sol 15 mm'lik kismina X ekseni dogrultusunda R25 silindirik oyuk acilir.
+L=60.0; D=40.0; H=40.0; TABAN=15.0
+UP_X=30.0      # dik kol x=30..60 (30 olcusu)
+OYUK_UZ=15.0   # oyuk x yonunde 15 mm (15 olcusu, ust duz yuzey sagda 15)
+R=25.0
+govde=cq.Workplane("XZ").polyline([(0,0),(L,0),(L,H),(UP_X,H),(UP_X,TABAN),(0,TABAN)]).close().extrude(-D)
+# oyuk ekseni X, merkez (y=0, z=40), R25: ust y=25'te baslar, on yuzde z=15'e iner. x=30..45
+oyuk=cq.Workplane("YZ").workplane(offset=UP_X).center(0,H).circle(R).extrude(OYUK_UZ)
+govde=govde.cut(oyuk)
+# Ø20 delik, taban uzerinde; merkez (15,20) TAHMIN (piksel okumasi)
+delik=cq.Workplane("XY").center(15,20).circle(10).extrude(TABAN)
+result=govde.cut(delik)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

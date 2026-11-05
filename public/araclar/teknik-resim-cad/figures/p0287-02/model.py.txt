@@ -1,0 +1,25 @@
+import cadquery as cq, math
+# TAHMIN: olcusuz cizim, tum olculer mm
+Y_BIG = 60.0   # TAHMIN: buyuk bosluk ekseni y
+Y_SMALL = 0.0  # TAHMIN: kucuk bosluk ekseni y
+R_PB = 25.0    # TAHMIN: buyuk uc plaka yaricapi
+R_PS = 17.0    # TAHMIN: kucuk uc plaka yaricapi
+T = 10.0       # TAHMIN: plaka kalinligi
+R_B = 25.0; H_B = 35.0; R_BH = 17.0   # buyuk silindirik baslik: yaricap, yukseklik(z=0'dan), delik
+R_S = 14.0; H_S = 25.0; R_SH = 9.0    # kucuk baslik
+# Plaka: iki daire + dis teget yamuk (x=0 ekseninde)
+d = Y_BIG - Y_SMALL
+a = math.asin((R_PB - R_PS) / d)
+# dis teget noktalari (sag ve sol)
+def tp(sign):
+    return ((sign*R_PB*math.cos(a), Y_BIG + R_PB*math.sin(a)), (sign*R_PS*math.cos(a), Y_SMALL + R_PS*math.sin(a)))
+(r1, r2), (l1, l2) = tp(1), tp(-1)
+plate = cq.Workplane("XY").polyline([r2, r1, l1, l2]).close().extrude(T)
+plate = plate.union(cq.Workplane("XY").center(0, Y_BIG).circle(R_PB).extrude(T))
+plate = plate.union(cq.Workplane("XY").center(0, Y_SMALL).circle(R_PS).extrude(T))
+big = cq.Workplane("XY").center(0, Y_BIG).circle(R_B).extrude(H_B)
+small = cq.Workplane("XY").center(0, Y_SMALL).circle(R_S).extrude(H_S)
+body = plate.union(big).union(small)
+body = body.cut(cq.Workplane("XY").center(0, Y_BIG).circle(R_BH).extrude(H_B))
+body = body.cut(cq.Workplane("XY").center(0, Y_SMALL).circle(R_SH).extrude(H_S))
+result = body

@@ -1,0 +1,11 @@
+import cadquery as cq
+W,D,H=60.0,40.0,40.0   # X genişlik, Y derinlik, Z yükseklik
+BX=30.0                # B noktası: ön üst kenarda x=30
+box=cq.Workplane("XY").box(W,D,H,centered=False)
+# Kesilen köşe dörtyüzlüsü: D(0,0,40) A(0,40,40) B(30,0,40) C(0,0,0)
+Dp=cq.Vector(0,0,H);A=cq.Vector(0,D,H);B=cq.Vector(BX,0,H);C=cq.Vector(0,0,0)
+def tri(p,q,r): return cq.Face.makeFromWires(cq.Wire.makePolygon([p,q,r,p]))
+sh=cq.Shell.makeShell([tri(Dp,A,B),tri(Dp,B,C),tri(Dp,C,A),tri(A,C,B)])
+tet=cq.Workplane("XY").add(cq.Solid.makeSolid(sh))
+result=box.cut(tet)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

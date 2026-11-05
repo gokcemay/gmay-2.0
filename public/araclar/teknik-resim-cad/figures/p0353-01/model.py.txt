@@ -1,0 +1,21 @@
+import cadquery as cq, math
+# Cizim: kirik gosterilmis tek parca; 90 derece yay kol + iki R10 kulakli plaka. Ust kisim eksen/yaylar TAHMIN yorumu.
+RI=40   # R40 ic yay yaricapi
+KAL=10  # kol kalinligi (radyal) ve genislik Y = 10 (olcu 10)
+RO=RI+KAL
+PL=10   # plaka kalinligi
+CC=20   # kulak merkezleri arasi 20; toplam 40 (R10 uclu) - TAHMIN yorumu
+D=9     # delik capi
+# yay kol XZ duzleminde, Y'de simetrik 10 genislik
+c=math.cos(math.radians(45))
+kol=(cq.Workplane("XZ").moveTo(RI,0).lineTo(RO,0).threePointArc((RO*c,RO*c),(0,RO)).lineTo(0,RI)
+     .threePointArc((RI*c,RI*c),(RI,0)).close().extrude(KAL/2,both=True))
+# alt plaka z=-PL..0, X boyunca stadyum, kol alt ucunun altinda ortali (TAHMIN)
+ax=(RI+RO)/2
+alt=(cq.Workplane("XY").workplane(offset=-PL).center(ax,0).slot2D(CC+20,20,0).extrude(PL))
+alt=alt.cut(cq.Workplane("XY").workplane(offset=-PL).pushPoints([(ax-CC/2,0),(ax+CC/2,0)]).circle(D/2).extrude(PL))
+# ust plaka z=RI..RO, kol ust ucunda x=0 ortali
+ust=(cq.Workplane("XY").workplane(offset=RI).slot2D(CC+20,20,0).extrude(KAL))
+ust=ust.cut(cq.Workplane("XY").workplane(offset=RI).pushPoints([(-CC/2,0),(CC/2,0)]).circle(D/2).extrude(KAL))
+result=kol.union(alt).union(ust)
+# BEKLENEN SINIR KUTUSU: ~70 x 20 x 60 mm

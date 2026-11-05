@@ -1,0 +1,16 @@
+import cadquery as cq
+# Olcusuz: hepsi TAHMIN (mm), izometrik piksel oranlarindan
+# Kutu (sol-on): X=25, Y=40, Z=45
+KX,KY,KZ=25,40,45
+kutu=cq.Workplane("XY").box(KX,KY,KZ,centered=False)
+# Kesik piramit (loft): buyuk uc Y=22'de (arkada), kucuk uc Y=-88'de (onde)
+BY=22          # TAHMIN buyuk uc Y konumu
+UZ=110         # TAHMIN kesik piramit boyu
+BW,BH,BZ0=35,90,0   # buyuk uc: genislik X, yukseklik Z, alt Z (TAHMIN)
+SW,SH,SZ0=19,22,0   # kucuk uc (TAHMIN)
+cx=17.5
+frustum=(cq.Workplane("XZ",origin=(0,BY,0)).center(cx,BZ0+BH/2).rect(BW,BH)
+         .workplane(offset=UZ).center(0,(SZ0+SH/2)-(BZ0+BH/2)).rect(SW,SH).loft(combine=True))
+frustum=frustum.translate((12,20,0))  # TAHMIN: kutu on-solda disari tasiyor
+result=kutu.union(frustum)
+# BEKLENEN SINIR KUTUSU: 47 x 152 x 90 mm

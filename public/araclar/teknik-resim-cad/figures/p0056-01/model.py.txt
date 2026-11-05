@@ -1,0 +1,9 @@
+import cadquery as cq
+# 60x40x40 blok (ic olculer TAHMIN)
+b=cq.Workplane("XY").box(60,40,40,centered=False)
+orta=cq.Workplane("XY").box(30,10,35,centered=False).translate((10,0,0))      # on orta cekme
+pencere=cq.Workplane("XY").box(10,40,20,centered=False).translate((20,0,10))   # 10x20 pencere
+ust=cq.Workplane("XY").box(30,20,10,centered=False).translate((15,20,30))     # ust yuva 30 genis
+sag=cq.Workplane("XY").box(10,40,25,centered=False).translate((50,0,0))       # sag alt kesik: alt kisim x40..50 (okunan 10), z0..25 TAHMIN
+result=b.cut(orta).cut(pencere).cut(ust).cut(sag)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

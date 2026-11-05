@@ -1,0 +1,34 @@
+import cadquery as cq
+# Catalli kulak: delik ekseni Y. Olculer cizimden; belirsizler TAHMIN.
+R = 9.0         # uc yaricapi (genislik 18)
+HOLE_D = 12.0   # delik capi
+LUG_T = 12.0    # alt kulak kalinligi (Y), cizimde 12
+EAR_T = 6.0     # her catal kolu kalinligi
+GAP = 12.0      # catal araligi
+FORK_T = 2*EAR_T + GAP   # 24
+Z_BOT = 9.0     # alt delik merkezi z (alt ucu z=0)
+Z_SHOULDER = Z_BOT + 42.0   # omuz: alt delik merkezinden 42
+Z_TOP = Z_SHOULDER + 18.0   # ust delik merkezi: omuzdan 18
+Z_SLOT = Z_SHOULDER + 6.0   # TAHMIN: aralik tabani omuzdan 6 yukarida
+Y0 = (FORK_T - LUG_T)/2     # alt kulak ortada
+
+def cyl(x, z, r, y0, y1):
+    # Y eksenli silindir
+    return cq.Workplane("XZ").center(x, z).circle(r).extrude(-(y1-y0)).translate((0, y0, 0))
+
+def blk(x0, x1, y0, y1, z0, z1):
+    return cq.Workplane("XY").box(x1-x0, y1-y0, z1-z0, centered=False).translate((x0, y0, z0))
+
+# alt kulak: dikdortgen govde + yuvarlak uc
+lug = blk(-R, R, Y0, Y0+LUG_T, Z_BOT, Z_SHOULDER + 8).union(cyl(0, Z_BOT, R, Y0, Y0+LUG_T))
+# catal blogu: dikdortgen + yuvarlak ust uc
+fork = blk(-R, R, 0, FORK_T, Z_SHOULDER, Z_TOP).union(cyl(0, Z_TOP, R, 0, FORK_T))
+body = lug.union(fork)
+# catal araligi (ustten acik)
+slot = blk(-R-1, R+1, EAR_T, EAR_T+GAP, Z_SLOT, Z_TOP+R+1)
+body = body.cut(slot)
+# delikler
+body = body.cut(cyl(0, Z_BOT, HOLE_D/2, Y0-1, Y0+LUG_T+1))
+body = body.cut(cyl(0, Z_TOP, HOLE_D/2, -1, FORK_T+1))
+result = body
+# BEKLENEN SINIR KUTUSU: 18 x 24 x 78 mm

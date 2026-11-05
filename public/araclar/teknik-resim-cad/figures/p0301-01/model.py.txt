@@ -1,0 +1,22 @@
+import cadquery as cq
+# Olcusuz izometrik cizim: hepsi TAHMIN (mm). Eksen Z, kesme duzlemi X=0'a dik; iki yarim parca ayri cizilmis.
+R_DIS = 40.0   # TAHMIN dis yaricap
+R_ALT = 22.0   # TAHMIN alt kademe delik yaricapi
+R_UST = 30.0   # TAHMIN ust kademe delik yaricapi (basamakli delik)
+H = 40.0       # TAHMIN toplam yukseklik
+H_ALT = 20.0   # TAHMIN alt kademe yuksekligi
+ARA = 40.0     # TAHMIN iki parca arasi aralik (X)
+D_RADYAL = 10.0  # TAHMIN radyal delik capi (sag parcada)
+# Tam basamakli halka (Z ekseni etrafinda)
+halka = (cq.Workplane("XY").circle(R_DIS).extrude(H)
+         .cut(cq.Workplane("XY").circle(R_ALT).extrude(H))
+         .cut(cq.Workplane("XY").workplane(offset=H_ALT).circle(R_UST).extrude(H - H_ALT)))
+# Sol yarim (X<0) ve sag yarim (X>0): kutu ile kesip ayir
+yarim_sol = halka.intersect(cq.Workplane("XY").box(R_DIS+1, 2*R_DIS+2, H, centered=(False, True, False)).translate((-(R_DIS+1), 0, 0))).translate((-ARA/2, 0, 0))
+sag = halka.intersect(cq.Workplane("XY").box(R_DIS+1, 2*R_DIS+2, H, centered=(False, True, False)).translate((0, 0, 0))).translate((ARA/2, 0, 0))
+sol = yarim_sol.translate((0,0,0))
+# Sag parca: dis yuzeyden +X yonunde radyal delik (gorunur daire), orta yukseklik, TAHMIN
+delik = cq.Workplane("YZ").workplane(offset=R_ALT).center(0, H_ALT/2).circle(D_RADYAL/2).extrude(R_DIS)
+sag = sag.cut(delik.translate((ARA/2, 0, 0)))
+result = sol.union(sag).rotate((0,0,0),(0,0,1),-90)  # ayrilma ekseni Y olsun (cizimde parcalar -Y/+Y ayrilir)
+# BEKLENEN SINIR KUTUSU: ~92 x 80 x 40 mm

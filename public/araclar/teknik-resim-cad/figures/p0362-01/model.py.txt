@@ -1,0 +1,29 @@
+import cadquery as cq
+# Eksenler: X = b (asagi-saga), Y = a (yukari-saga), Z yukari. Bakis 1,-1,1. Olculerin cogu kitapta var, konumlar cizimden TAHMIN
+BOSS_D=26.0; BOSS_H=10.0; BORE_D=10.0; REC_D=16.0; REC_DEPTH=2.0
+PLATE_T=4.0                        # taban plaka kalinligi 4
+A_SPAN=62.0                        # boss1 - boss2/3 arasi a mesafesi
+B_SPAN=45.0                        # boss3 - boss2 arasi b mesafesi
+B1=25.0                            # TAHMIN: boss1 b konumu (boss3=0, boss2=45 arasi)
+POST_A0=A_SPAN-6.0; POST_A1=A_SPAN   # TAHMIN: direk duvar kalinligi 6   # direk a araligi 20 (TAHMIN konum)
+ARM_W=18.0; POST_B0=B1-ARM_W/2     # kol/direk b genisligi 18
+POST_H=60.0                        # TAHMIN: 60 (detektor 50 okudu)
+centers=[(B1,0.0),(0.0,A_SPAN),(B_SPAN,A_SPAN)]   # (b,a)
+# taban plaka: uc boss merkezinin orttugu ucgen + direk izi
+plate=cq.Workplane("XY").polyline(centers).close().extrude(PLATE_T)
+bosses=None
+for (x,y) in centers:
+    c=cq.Workplane("XY").center(x,y).circle(BOSS_D/2).extrude(BOSS_H)
+    bosses=c if bosses is None else bosses.union(c)
+post=cq.Workplane("XY").box(ARM_W,POST_A1-POST_A0,POST_H,centered=False).translate((POST_B0,POST_A0,0))
+# egik kol: (a,z) profili, b yonunde 18 genislikte ekstrude; boss1'den direk tepesine TAHMIN
+arm_pts=[(0,4),(8,4),(POST_A0,36),(POST_A0,POST_H),(POST_A0-8,POST_H),(0,14)]
+arm=cq.Workplane("YZ").workplane(offset=POST_B0).polyline(arm_pts).close().extrude(ARM_W)
+# direkte C seklinde yuva (TAHMIN): arka yuzde basamakli cep
+notch=cq.Workplane("XY").box(ARM_W-6,6,14,centered=False).translate((POST_B0+3,POST_A1-6,30))
+body=plate.union(bosses).union(post).union(arm).cut(notch)
+for (x,y) in centers:
+    body=body.cut(cq.Workplane("XY").workplane(offset=-1).center(x,y).circle(BORE_D/2).extrude(BOSS_H+2))
+    body=body.cut(cq.Workplane("XY").workplane(offset=BOSS_H-REC_DEPTH).center(x,y).circle(REC_D/2).extrude(REC_DEPTH+1))
+result=body
+# BEKLENEN SINIR KUTUSU: ~58 x ~75 x 60 mm

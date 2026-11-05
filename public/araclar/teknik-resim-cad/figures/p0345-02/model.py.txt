@@ -1,0 +1,11 @@
+import cadquery as cq
+# Olcusuz: TAHMIN. Y ekseni etrafinda donel parca, on yuz Y=0. Cizimdeki halkalar: dis kabuk, ara halka, rotor/gobek.
+# (r, y) profili TAHMIN
+pts=[(5,0),(40,0),(40,16),(34,16),(34,6),(30,6),(30,12),(24,12),(24,6),(20,6),(20,10),(14,10),(14,16),(10,16),(10,6),(5,6)]
+prof=cq.Workplane("XY").polyline(pts).close()
+# XY duzleminde x=r, y=eksen; Y ekseni etrafinda dondur
+govde=prof.revolve(360,(0,0,0),(0,1,0)).mirror("XZ").translate((0,16,0))  # acik taraf on (Y=0)
+# Ceyrek kesit: x>0, z>0 ceyregi cikarilir
+kes=cq.Workplane("XY").box(45,30,45,centered=False).translate((0,-5,0))
+result=govde.cut(kes)
+# BEKLENEN SINIR KUTUSU: 80 x 18 x 80 mm

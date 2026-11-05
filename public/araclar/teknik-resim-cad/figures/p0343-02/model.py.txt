@@ -1,0 +1,18 @@
+import cadquery as cq
+# Olcusuz cizim: TAHMIN (hepsi). X sag-yukari, Y sol-yukari (izometrik -1,-1,1), Z yukari
+GX=30   # TAHMIN blok genisligi X
+GY=40   # TAHMIN blok uzunlugu Y
+GZ=30   # TAHMIN yukseklik Z
+blok=cq.Workplane("XY").box(GX,GY,GZ,centered=False)
+# Ustten acik U kanal, on (Y=0) tarafa acik: sol duvar 10, sag duvar 5, arka duvar 10 (TAHMIN)
+kanal=cq.Workplane("XY").box(GX-10-5,GY-10+1,GZ-10+1,centered=False).translate((10,-1,10))
+blok=blok.cut(kanal)
+# Sol-on alt kulak: yatay yarim-yuvarlak levha, delikli (sol duvarin on ucunda, -X tarafa)
+R1=12; T1=8
+k1=cq.Workplane("XY").center(-4,R1).circle(R1).extrude(T1)
+k1=k1.cut(cq.Workplane("XY").center(-4,R1).circle(4).extrude(T1))
+# Sag kulak: kanal icinde yatay disk, sag duvardan disa tasar, delikli (cizimde ustten gorunen delik)
+k2=cq.Workplane("XY").center(GX-3,22).circle(10).extrude(8).translate((0,0,14))
+k2=k2.cut(cq.Workplane("XY").center(GX-3,22).circle(3).extrude(8).translate((0,0,14)))
+result=blok.union(k1).union(k2)
+# Egik ic yuzey cizimde var ama modellenmedi (belirsiz)

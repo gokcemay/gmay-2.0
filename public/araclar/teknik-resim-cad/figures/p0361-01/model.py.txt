@@ -1,0 +1,35 @@
+import cadquery as cq
+# Eksenler: X = b (40 mm, asagi-saga), Y = a (uzun eksen, yukari-saga), Z yukari. Bakis 1,-1,1
+C=40.0            # yay merkezinin Y konumu (R40 dis yaricap sol sinira dayanir)
+R_IN=20.0; R_OUT=40.0     # R20 / R40
+ARM_T=15.0; GAP=10.0      # kollar 15, aralik 10 -> toplam 40 (16 olcusu belirsiz, kullanilmadi)
+B_TOT=2*ARM_T+GAP
+FOOT_H=6.0                # ayak yuksekligi 6
+EAR_R=10.0                # TAHMIN kulak ucu yaricapi (R6 kitapta; kol 20 genis oldugu icin 10 aldim)
+EAR_HOLE=6.0              # Ø6
+BAR_L=64.0; BAR_W=32.0; BAR_T=8.0   # ust bar 64x32x8
+BAR_B0=(B_TOT-BAR_W)/2    # TAHMIN: bar ortalandi
+H_TOP=R_OUT               # ust yuzey Z=40
+H1=25.0; H2=BAR_L-12.0    # delik konumlari (25, 64-12) TAHMIN eslemesi
+HOLE_D=8.0; CB_D=14.0; CB_DEPTH=4.0
+def arm(b0):
+    ring=(cq.Workplane("YZ").workplane(offset=b0).center(C,0).circle(R_OUT).circle(R_IN).extrude(ARM_T))
+    clip=cq.Workplane("XY").box(ARM_T,C,R_OUT,centered=False).translate((b0,0,0))   # Y 0..C, Z 0..40
+    r=ring.intersect(clip)
+    # kulak: yay ucunda Y=C'den baslayan kisa uzanti, ucu yuvarlak
+    ear=(cq.Workplane("YZ").workplane(offset=b0).center(C+EAR_R,R_OUT-EAR_R).circle(EAR_R).extrude(ARM_T))
+    earbox=cq.Workplane("XY").box(ARM_T,EAR_R,R_OUT-R_IN,centered=False).translate((b0,C,R_IN))
+    foot=cq.Workplane("XY").box(ARM_T,R_OUT-R_IN,FOOT_H,centered=False).translate((b0,C-R_OUT,0))
+    a=r.union(ear).union(earbox).union(foot)
+    hole=cq.Workplane("YZ").workplane(offset=b0-1).center(C+EAR_R,R_OUT-EAR_R).circle(EAR_HOLE/2).extrude(ARM_T+2)
+    return a.cut(hole)
+arms=arm(0).union(arm(ARM_T+GAP))
+bar=cq.Workplane("XY").box(BAR_W,BAR_L,BAR_T,centered=False).translate((BAR_B0,C,H_TOP-BAR_T))
+body=arms.union(bar)
+for h in (H1,H2):
+    y=C+h; x=B_TOT/2
+    body=body.cut(cq.Workplane("XY").workplane(offset=H_TOP-BAR_T-1).center(x,y).circle(HOLE_D/2).extrude(BAR_T+2))
+    body=body.cut(cq.Workplane("XY").workplane(offset=H_TOP-BAR_T-1).center(x,y).circle(CB_D/2).extrude(1+BAR_T-CB_DEPTH-0.0 if False else BAR_T-CB_DEPTH+1-1+0.0) if False else
+                  cq.Workplane("XY").workplane(offset=H_TOP-BAR_T-1).center(x,y).circle(CB_D/2).extrude(1+CB_DEPTH))
+result=body
+# BEKLENEN SINIR KUTUSU: 40 x ~114 x 40 mm

@@ -1,0 +1,16 @@
+import cadquery as cq, math
+# Şekil 5.36: iki yarım (bölünmüş) flanşlı burç; kesme düzlemi önü/arkası ayrı çizilmiş. Hepsi TAHMİN (mm)
+FL_R=40.0; FL_H=8.0; HUB_R=22.0; HUB_H=25.0; BORE_R=14.0; HOLE_R=4.0; PCD_R=30.0  # TAHMİN
+def half():
+    # +Y yarısı değil: y<0 yarısı, merkez yönü 270 derece
+    b=cq.Workplane("XY").circle(FL_R).extrude(FL_H).union(
+      cq.Workplane("XY").workplane(offset=FL_H).circle(HUB_R).extrude(HUB_H))
+    b=b.cut(cq.Workplane("XY").circle(BORE_R).extrude(FL_H+HUB_H))
+    for a in (190,350):   # kesim uçlarına yakın iki delik
+        b=b.cut(cq.Workplane("XY").center(PCD_R*math.cos(math.radians(a)),PCD_R*math.sin(math.radians(a))).circle(HOLE_R).extrude(FL_H))
+    return b.cut(cq.Workplane("XY").box(100,50,60,centered=False).translate((-50,0,-5)))
+lower=half().rotate((0,0,0),(0,0,1),-90)                       # ön-sol yarı
+upper=half().rotate((0,0,0),(0,0,1),90).translate((15,5,40))  # ayrılmış, yukarı-arkaya taşınmış yarı
+# Ayrı iki parça: birleştirilmez (kompozisyon)
+result=cq.Workplane("XY").newObject([cq.Compound.makeCompound([lower.val(),upper.val()])])
+# BEKLENEN SINIR KUTUSU: ~ 80 x 80 x 73 mm

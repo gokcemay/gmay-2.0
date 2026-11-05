@@ -1,0 +1,14 @@
+import cadquery as cq, math
+# TAHMIN: olcusuz cizim
+R=40      # TAHMIN: dis silindir yaricapi
+H=70      # TAHMIN: yukseklik
+R_IN=26   # TAHMIN: ust bosluk (ic silindir) yaricapi
+D_IN=40   # TAHMIN: ic bosluk derinligi
+STEP=22   # TAHMIN: on-sol yarimin indirildigi basamak derinligi
+body=cq.Workplane("XY").circle(R).extrude(H)
+# ust bosluk (arka-sag yarida gorunen halka ust yuzu)
+bore=cq.Workplane("XY").workplane(offset=H-D_IN).circle(R_IN).extrude(D_IN+1)
+# TAHMIN: on-sol yari (x<0 ... y<0 tarafi) STEP kadar indirilir: x<=0 yarisi
+step=cq.Workplane("XY").workplane(offset=H-STEP).center(-R/2-1,0).rect(R+2,2*R+2).extrude(STEP+1)
+result=body.cut(bore).cut(step)
+# BEKLENEN SINIR KUTUSU: 80 x 80 x 70 mm

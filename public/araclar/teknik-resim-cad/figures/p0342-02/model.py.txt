@@ -1,0 +1,26 @@
+import cadquery as cq
+# Izometrik, X: sag-ust (silindir ekseni), Y: arkaya, Z: yukari. Yalniz 24 (eksen yuksekligi), 7, 2 okunur; gerisi TAHMIN (mm).
+PL_X=40; PL_Y=60; PL_T=5      # TAHMIN taban plakasi
+PL_Z0=4                       # plaka alt yuzu (altinda kademe var) TAHMIN
+EKSEN_Z=24                    # OKUNDU: silindir ekseni yuksekligi (taban referansindan)
+SIL_R=9; SIL_L=40; BORE_R=4   # TAHMIN
+SIL_Y=PL_Y-8                  # silindir ekseni Y konumu TAHMIN
+KADEME=(0,4,14,22)            # TAHMIN: alttaki kademe x0,y0,x1,y1, z=0..PL_Z0
+DELIKLER=[(10,14),(32,30)]    # TAHMIN delik konumlari (belirsiz)
+DELIK_R=3; KOVAN_R=5          # TAHMIN
+plaka=cq.Workplane("XY").box(PL_X,PL_Y,PL_T,centered=False).translate((0,0,PL_Z0))
+kademe=cq.Workplane("XY").box(KADEME[2]-KADEME[0],KADEME[3]-KADEME[1],PL_Z0+0.5,centered=False).translate((KADEME[0],KADEME[1],0))
+# Silindir (eksen X) + delik
+sil=cq.Workplane("YZ").center(SIL_Y,EKSEN_Z).circle(SIL_R).extrude(SIL_L)
+# Silindir altindaki dikey destek (arka kenarda)
+destek=cq.Workplane("XY").box(SIL_L,2*SIL_R-4,EKSEN_Z-PL_Z0-PL_T,centered=False).translate((0,SIL_Y-SIL_R+2,PL_Z0+PL_T))
+# Egik nervur: YZ duzleminde ince plaka, x ortada (kalinlik 4)
+NER_X=19; NER_T=4
+ner=cq.Workplane("YZ").polyline([(4,PL_Z0+PL_T),(12,PL_Z0+PL_T),(SIL_Y,EKSEN_Z),(SIL_Y-6,EKSEN_Z-2)]).close().extrude(NER_T).translate((NER_X,0,0))
+result=plaka.union(kademe).union(destek).union(ner).union(sil)
+# Delikler (kovan + delik)
+for (x,y) in DELIKLER:
+    result=result.cut(cq.Workplane("XY").center(x,y).circle(DELIK_R).extrude(30))
+    result=result.cut(cq.Workplane("XY").workplane(offset=PL_Z0+PL_T-1.5).center(x,y).circle(KOVAN_R).extrude(5))
+result=result.cut(cq.Workplane("YZ").center(SIL_Y,EKSEN_Z).circle(BORE_R).extrude(SIL_L))
+# BEKLENEN SINIR KUTUSU: 40 x 60 x 33 mm

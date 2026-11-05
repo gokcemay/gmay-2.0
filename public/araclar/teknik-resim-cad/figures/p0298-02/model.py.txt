@@ -1,0 +1,22 @@
+import cadquery as cq, math
+# Şekil 5.38: kanallı kamalı silindir halka. Ölçüsüz: hepsi TAHMİN (mm)
+R=40.0       # TAHMİN dış yarıçap
+H=40.0       # TAHMİN toplam yükseklik
+BASE_H=25.0  # TAHMİN üstte oyulmadan önceki kalan alt gövde yüksekliği (basamak tabanı)
+BORE_R=22.0  # TAHMİN orta çukur yarıçapı
+SLOT_W=14.0  # TAHMİN iki yan kanalın genişliği
+KEY_W=4.0    # TAHMİN kama kanalı genişliği
+# Silindir gövde
+body=cq.Workplane("XY").circle(R).extrude(H)
+# Üst yüzden: orta dairesel çukur (yarıçap BORE_R) ve onu iki yana (±X) uzatan kanal;
+# kanal derinliği 12 mm TAHMİN
+DEP=12.0
+pocket=cq.Workplane("XY").workplane(offset=H-DEP).circle(BORE_R).extrude(DEP)
+slot=cq.Workplane("XY").workplane(offset=H-DEP).rect(2*R+2,SLOT_W).extrude(DEP)
+body=body.cut(pocket).cut(slot)
+# Kama kanalı: çukurun sol-arka kenarında dar ve derin yarık (-X yönü, TAHMİN derinlik 10 mm)
+key=(cq.Workplane("XY").workplane(offset=H-DEP-8).center(BORE_R+1,0).rect(6,KEY_W).extrude(8+1)
+     .rotate((0,0,0),(0,0,1),125))  # çukur çevresinde 125 derece (TAHMİN)
+body=body.cut(key)
+result=body
+# BEKLENEN SINIR KUTUSU: 80 x 80 x 40 mm

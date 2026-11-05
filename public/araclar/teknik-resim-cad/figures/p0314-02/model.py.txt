@@ -1,0 +1,37 @@
+import cadquery as cq
+# Şekil 5.68.A: uzun plaka, ortada cepli blok, delik, sol uçta yarım daire yuvalı ve sağ uçta dikdörtgen yuvalı. Ölçüsüz: TAHMİN (mm)
+L = 100.0    # TAHMİN plaka uzunluğu (X)
+W = 40.0     # TAHMİN plaka genişliği (Y)
+T = 12.0     # TAHMİN plaka kalınlığı (Z)
+BX0, BX1 = 25.0, 80.0   # TAHMİN blok X aralığı
+BH = 30.0    # TAHMİN blok üst kotu (toplam yükseklik)
+CEP_X0, CEP_X1 = 33.0, 73.0   # TAHMİN cep X
+CEP_Y0, CEP_Y1 = 8.0, 32.0    # TAHMİN cep Y
+CEP_DER = 14.0                # TAHMİN cep derinliği
+R_DELIK = 6.0                 # TAHMİN cep tabanındaki delik yarıçapı
+DELIK = (47.0, 14.0)          # TAHMİN delik merkezi
+SOL_W = 14.0   # TAHMİN sol yuva genişliği
+SOL_R_X = 18.0 # TAHMİN sol yuva yuvarlak ucu merkezi X
+SAG_W = 12.0   # TAHMİN sağ yuva genişliği
+SAG_X0 = 84.0  # TAHMİN sağ yuva başlangıç X
+SAG_YC = 27.0  # TAHMİN sağ yuva Y merkezi (arka tarafa kaymış)
+plaka = cq.Workplane("XY").box(L, W, T, centered=False)
+blok = cq.Workplane("XY").box(BX1-BX0, W, BH-T, centered=False).translate((BX0, 0, T))
+g = plaka.union(blok)
+# dikdörtgen cep (üstten)
+cep = cq.Workplane("XY").box(CEP_X1-CEP_X0, CEP_Y1-CEP_Y0, CEP_DER, centered=False).translate((CEP_X0, CEP_Y0, BH-CEP_DER))
+g = g.cut(cep)
+# cep ağzında pah/basamak (çizimde çift çizgi), TAHMİN: 3 mm taşma, 3 mm derinlik
+pah = cq.Workplane("XY").box(CEP_X1-CEP_X0+6, CEP_Y1-CEP_Y0+6, 3.0, centered=False).translate((CEP_X0-3, CEP_Y0-3, BH-3.0))
+g = g.cut(pah)
+# cep tabanından plakayı geçen delik
+g = g.cut(cq.Workplane("XY").center(*DELIK).circle(R_DELIK).extrude(BH-CEP_DER+1))
+# sol uç: -X'e açık, yarım daire uçlu yuva (tam kalınlık)
+sol = (cq.Workplane("XY").center(SOL_R_X, W/2).circle(SOL_W/2).extrude(T)
+       .union(cq.Workplane("XY").box(SOL_R_X+1, SOL_W, T, centered=False).translate((-1, W/2-SOL_W/2, 0))))
+g = g.cut(sol)
+# sağ uç: +X'e açık dikdörtgen yuva
+sag = cq.Workplane("XY").box(L-SAG_X0+1, SAG_W, T, centered=False).translate((SAG_X0, SAG_YC-SAG_W/2, 0))
+g = g.cut(sag)
+result = g
+# BEKLENEN SINIR KUTUSU: 100 x 40 x 30 mm

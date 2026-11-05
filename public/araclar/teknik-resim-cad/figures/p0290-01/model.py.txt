@@ -1,0 +1,31 @@
+import cadquery as cq
+# Olcusuz cizim: hepsi TAHMIN (mm). Uzun eksen X, genislik Y, yukseklik Z.
+PL_L = 110.0   # TAHMIN plaka uzunlugu X
+PL_W = 40.0    # TAHMIN plaka genisligi Y
+PL_T = 14.0    # TAHMIN plaka kalinligi Z
+CYL_D = 40.0   # TAHMIN silindir dis capi
+CYL_H = 50.0   # TAHMIN silindir toplam yuksekligi
+BORE_D = 28.0  # TAHMIN ic delik capi
+BORE_DEP = 38.0 # TAHMIN delik derinligi (ustten, kor)
+CB_D = 32.0    # TAHMIN ust basamak capi
+CB_DEP = 6.0
+CX = 20.0; CY = 20.0   # silindir ekseni
+OB_X = 78.0    # TAHMIN oblong cep merkezi X
+OB_L = 34.0; OB_W = 18.0; OB_DEP = 8.0
+# 1) Plaka: sol ucu silindirle ayni yaricapta yuvarlak
+plaka = cq.Workplane("XY").box(PL_L - CX, PL_W, PL_T, centered=False).translate((CX, 0, 0))
+sil = cq.Workplane("XY").center(CX, CY).circle(CYL_D/2).extrude(CYL_H)
+govde = plaka.union(sil)
+# 2) Silindir ici: kor delik + ust basamak
+govde = govde.cut(cq.Workplane("XY").workplane(offset=CYL_H-BORE_DEP).center(CX, CY).circle(BORE_D/2).extrude(BORE_DEP))
+govde = govde.cut(cq.Workplane("XY").workplane(offset=CYL_H-CB_DEP).center(CX, CY).circle(CB_D/2).extrude(CB_DEP))
+# 3) Oblong cep (plaka ustunde), basamakli
+cep = cq.Workplane("XY").workplane(offset=PL_T-OB_DEP).center(OB_X, CY).slot2D(OB_L, OB_W).extrude(OB_DEP)
+cep2 = cq.Workplane("XY").workplane(offset=PL_T-3).center(OB_X, CY).slot2D(OB_L+6, OB_W+6).extrude(3)
+tam = govde.cut(cep).cut(cep2)
+# 4) Kesme duzlemi A-A: XZ duzlemi, Y=CY. Iki yarim ayri katidir (kitapta ayri cizilmis)
+AYRIK = 25.0   # TAHMIN: on yarimin -Y'ye otelenmesi
+arka = tam.intersect(cq.Workplane("XY").box(200, CY, 100, centered=False).translate((-20, CY, -10)))
+on = tam.intersect(cq.Workplane("XY").box(200, CY, 100, centered=False).translate((-20, 0, -10))).translate((0, -AYRIK, 0))
+result = arka.add(on) if False else cq.Workplane("XY").newObject([cq.Compound.makeCompound([arka.val(), on.val()])])
+# BEKLENEN SINIR KUTUSU: 110 x 65 x 50 mm (iki ayri yarim)

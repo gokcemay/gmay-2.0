@@ -1,0 +1,23 @@
+import cadquery as cq
+# 5.1.27: Y+ yonunde duvar/kopruyle birlesen U tabanli, ucta iki kolonlu parca.
+# Eksenler: X = yuva uzerindeki genislik (sol->sag), Y = derinlik (on yuz Y=0, yuva Y=0'dan acik), Z yukari.
+L=40.0   # X toplam (olcu 40)
+W=40.0   # Y toplam (olcu 40)
+T=10.0   # taban kalinligi (olcu 10)
+H=50.0   # kolon toplam yuksekligi (olcu 50)
+A1=12.0  # sol kol X genisligi (olcu 12)
+A2=10.0  # sag kol X genisligi (olcu 10)
+KOP=15.0 # TAHMIN: arka kopru kalinligi Y (olcu 15)
+KOL=10.0 # kolon X genisligi (olcu 10)
+R=(L-A1-A2)/2  # yuva yaricapi = 9
+taban=cq.Workplane("XY").box(L,W,T,centered=False)
+# yuva: Y=0 yuzunden acik, ucu yarim daire; daire ucu Y=W-KOP'ta biter
+CY=W-KOP-R; CX=A1+R
+yuva=cq.Workplane("XY").center(CX,(CY-1)/2).rect(2*R,CY+1).extrude(T).union(
+     cq.Workplane("XY").center(CX,CY).circle(R).extrude(T))
+taban=taban.cut(yuva)
+# kolonlar: arka kopru uclarinda
+k1=cq.Workplane("XY").box(KOL,KOP,H,centered=False).translate((0,W-KOP,0))
+k2=cq.Workplane("XY").box(KOL,KOP,H,centered=False).translate((L-KOL,W-KOP,0))
+result=taban.union(k1).union(k2)
+# BEKLENEN SINIR KUTUSU: 40 x 40 x 50 mm

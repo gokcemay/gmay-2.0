@@ -1,0 +1,16 @@
+import cadquery as cq
+# Olcusuz izometrik. Olculer cizimden (2x buyutulmus goruntu pikseli) olculup SC ile mm'ye cevrildi: hepsi TAHMIN.
+SC=0.14   # TAHMIN: mm/piksel
+def s(v): return v*SC
+# A: sol-on kutu (X 0..185, Y 0..133, Z 0..240 px)
+A=cq.Workplane("XY").box(s(185),s(133),s(240),centered=False)
+# B: A'nin arkasinda (Y 133..266), ustu duz sonra +X yonunde 45 derece egimle iner; (X,Z) profili, Y boyunca ekstrude
+b_pts=[(0,0),(0,345),(144,345),(242,240),(185,240),(185,0)]  # alt yuz: X 185..242 arasi Z=240 dilinde asili (cizimde dikey kenar X=185)
+B=(cq.Workplane("XZ").polyline([(s(x),s(z)) for x,z in b_pts]).close().extrude(-s(133))
+   .translate((0,s(133),0)))   # XZ normali -Y: negatif extrude +Y'ye gider
+# C: on-sag kama blok (X 185..474, Y 67..269, Z 0..120); (X,Z) profili: ust duz 173 px, sonra egimle 289'a iner
+c_pts=[(0,0),(0,120),(173,120),(289,0)]
+C=(cq.Workplane("XZ").polyline([(s(x),s(z)) for x,z in c_pts]).close().extrude(-s(202))
+   .translate((s(185),s(67),0)))
+result=A.union(B).union(C)
+# BEKLENEN SINIR KUTUSU: ~ 66 x 37 x 48 mm

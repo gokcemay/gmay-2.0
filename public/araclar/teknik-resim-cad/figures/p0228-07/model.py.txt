@@ -1,0 +1,18 @@
+import cadquery as cq
+# Kademeli/kavisli konsol + sol ön takoz. Ölçüsüz: hepsi TAHMİN
+LX = 80.0  # toplam uzunluk X TAHMİN
+H = 50.0   # yükseklik Z TAHMİN
+Y = 20.0   # kalınlık Y TAHMİN
+R = 30.0   # içbükey yay yarıçapı TAHMİN
+# ön yüz profili XZ: sol dikey, üst düz, sağda içbükey yay, uçta kalın uç
+prof = (cq.Workplane("XZ").moveTo(0,0).lineTo(LX,0).lineTo(LX,H-R)
+        .radiusArc((LX-R,H), R)  # işareti denemeyle düzeltilecek
+        .lineTo(0,H).close())
+body = prof.extrude(-Y)
+# sol ön takoz: Y=-15..0, X=0..25 yüksekliği 30'dan 0'a eğimli
+wedge = cq.Workplane("XZ").polyline([(0,0),(25,0),(0,30)]).close().extrude(15)
+body = body.union(wedge)
+# ön yüzde delik (Y ekseni)
+hole = cq.Workplane("XZ").center(38,25).circle(7).extrude(-Y-2).translate((0,-1,0))
+result = body.cut(hole)
+# BEKLENEN SINIR KUTUSU: 80 x 35 x 50 mm

@@ -1,0 +1,22 @@
+import cadquery as cq
+GEN=100  # TAHMIN X
+DER=50   # TAHMIN Y
+KAL=12   # TAHMIN plaka kalinligi
+D_KOVAN=40 # TAHMIN
+H_KOVAN=30 # TAHMIN kovan yuksekligi (plaka ustunden)
+D_ICBORE=26 # TAHMIN
+D_ADIM=18  # TAHMIN ic basamak
+D_DELIK=9  # TAHMIN
+ic=10      # TAHMIN delik kenar payi
+plaka=cq.Workplane("XY").box(GEN,DER,KAL,centered=False)
+kovan=cq.Workplane("XY").workplane(offset=KAL).center(GEN/2,DER/2).circle(D_KOVAN/2).extrude(H_KOVAN)
+r=plaka.union(kovan)
+# kovan ici: ust 12 mm D_ICBORE, altinda D_ADIM'li gecis
+bore=cq.Workplane("XY").workplane(offset=KAL+H_KOVAN-12).center(GEN/2,DER/2).circle(D_ICBORE/2).extrude(13)
+adim=cq.Workplane("XY").center(GEN/2,DER/2).circle(D_ADIM/2).extrude(KAL+H_KOVAN+1)
+r=r.cut(bore).cut(adim)
+pts=[(ic,ic),(GEN-ic,ic),(ic,DER-ic),(GEN-ic,DER-ic)]
+d=cq.Workplane("XY").pushPoints(pts).circle(D_DELIK/2).extrude(KAL)
+result=r.cut(d)
+# BEKLENEN SINIR KUTUSU: 100 x 50 x 42 mm
+# Kesme duzlemleri (A-A) yalniz gosterimdir; katida kesilmemis tam parca modellendi

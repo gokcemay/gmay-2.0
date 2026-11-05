@@ -1,0 +1,26 @@
+import cadquery as cq
+# TAHMIN: olcusuz cizim, hepsi mm
+D_OUT=100   # TAHMIN: dis cap
+H_OUT=30    # TAHMIN: toplam yukseklik (cidar)
+WALL=5      # TAHMIN: cidar kalinligi
+STEP_W=4    # TAHMIN: ust kenardaki basamak genisligi
+STEP_H=4    # TAHMIN: basamak derinligi
+FLOOR=5     # TAHMIN: taban (disk) kalinligi
+D_HUB=34    # TAHMIN: gobek capi
+H_HUB=24    # TAHMIN: gobek yuksekligi (tabandan)
+D_BORE=22   # TAHMIN: mil deligi capi
+KEY_W=5     # TAHMIN: kama yuvasi genisligi
+KEY_D=3     # TAHMIN: kama yuvasi derinligi
+body=cq.Workplane("XY").circle(D_OUT/2).extrude(H_OUT)
+# ic bosluk (tabana kadar)
+body=body.cut(cq.Workplane("XY").workplane(offset=FLOOR).circle(D_OUT/2-WALL).extrude(H_OUT))
+# ust kenar basamagi (cidar inceltme)
+body=body.cut(cq.Workplane("XY").workplane(offset=H_OUT-STEP_H).circle(D_OUT/2-WALL+STEP_W/2).extrude(STEP_H))
+# gobek
+hub=cq.Workplane("XY").circle(D_HUB/2).extrude(FLOOR+H_HUB)
+body=body.union(hub)
+# mil deligi + kama yuvasi (+X yonunde)
+body=body.cut(cq.Workplane("XY").circle(D_BORE/2).extrude(FLOOR+H_HUB))
+body=body.cut(cq.Workplane("XY").box(KEY_D+1,KEY_W,FLOOR+H_HUB,centered=(False,True,False)).translate((D_BORE/2-1,0,0)))
+result=body
+# BEKLENEN SINIR KUTUSU: 100 x 100 x 30 mm

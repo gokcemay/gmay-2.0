@@ -1,0 +1,23 @@
+import cadquery as cq
+# Kesme duzleminin onunda ve arkasinda kalan iki parca tek parca (kesilmemis) olarak modellendi.
+KAL=12      # TAHMIN kol kalinligi (Z)
+D_HUB=40    # TAHMIN
+H_HUB=45    # TAHMIN kovan yuksekligi
+D_BORE=26   # TAHMIN
+D_LUG=36    # TAHMIN sag-ust kulak capi
+D_LUGH=14   # TAHMIN kulak deligi
+LUG=(55,-4) # TAHMIN kulak merkezi
+SL_X=-60    # TAHMIN kol ucu (yuva tarafi)
+D_SLOT=14   # TAHMIN yuva capi
+kol=(cq.Workplane("XY").polyline([(SL_X,-16),(SL_X,10),(0,28),(LUG[0]+4,LUG[1]+20),(LUG[0]+6,LUG[1]-18),(0,-28)]).close().extrude(KAL))
+kulak=cq.Workplane("XY").center(*LUG).circle(D_LUG/2).extrude(KAL)
+hub=cq.Workplane("XY").circle(D_HUB/2).extrude(H_HUB)
+r=kol.union(kulak).union(hub)
+# kovan deligi (gecis) ve kulak deligi
+r=r.cut(cq.Workplane("XY").circle(D_BORE/2).extrude(H_HUB))
+r=r.cut(cq.Workplane("XY").center(*LUG).circle(D_LUGH/2).extrude(KAL))
+# kol ucundaki yuva: daire + uca acik kanal
+yuva=cq.Workplane("XY").center(SL_X+14,-3).circle(D_SLOT/2).extrude(KAL)
+kanal=cq.Workplane("XY").box(16,D_SLOT,KAL,centered=(False,True,False)).translate((SL_X-2,-3,0))
+result=r.cut(yuva).cut(kanal)
+# BEKLENEN SINIR KUTUSU: ~ 120 x 160 x 45 mm

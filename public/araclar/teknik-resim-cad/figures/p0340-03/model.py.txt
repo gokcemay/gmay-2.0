@@ -1,0 +1,11 @@
+import cadquery as cq
+# Kademeli konik mil, X ekseni boyunca; olcusuz -> hepsi TAHMIN (mm)
+# (x0, x1, r0, r1) profil: sol uc ince, ortada konik genis, sag uc orta
+pts = [(0,0),(0,10),(25,10),(25,15),(45,15),(45,20),(85,22.5),(85,16),(105,16),(105,0)]  # TAHMIN (x, r)
+# Profili XY duzleminde ciz, X ekseni etrafinda dondur
+govde = cq.Workplane("XY").polyline(pts).close().revolve(360,(0,0,0),(1,0,0))
+# Sol uctaki duzlem (lama): on (-Y) tarafta, derinlik 3 mm TAHMIN, uzunluk 15 mm
+duz = cq.Workplane("XY").box(15, 5, 30, centered=(False, False, True)).translate((0,-10-1,0))
+duz = duz.translate((0,3-0,0)) if False else duz
+result = govde.cut(cq.Workplane("XY").box(15,5,30,centered=(False,False,True)).translate((0,-15+3-0.0,0)))
+# BEKLENEN SINIR KUTUSU: 105 x 45 x 45 mm

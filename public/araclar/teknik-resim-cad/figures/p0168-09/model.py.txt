@@ -1,0 +1,18 @@
+import cadquery as cq
+# İzometrik, ölçüsüz: piksel oranlarından, hepsi TAHMİN. Duvar X boyunca uzun, ince Y; taban öne (-Y) uzanır.
+L = 40.0     # TAHMİN duvar/taban uzunluğu X
+TW = 12.0    # TAHMİN duvar kalınlığı Y
+DB = 26.0    # TAHMİN taban derinliği Y (duvar dahil)
+TB = 6.0     # TAHMİN taban kalınlığı
+H = 55.0     # TAHMİN toplam yükseklik
+base = cq.Workplane("XY").box(L, DB, TB, centered=False)
+wall = cq.Workplane("XY").box(L, TW, H, centered=False).translate((0, DB-TW, 0))
+# Üç blok (küçük-büyük-küçük), duvarın önünde taban üzerinde, TAHMİN
+yb = DB-TW
+b1 = cq.Workplane("XY").box(7, 10, 8, centered=False).translate((2, yb-10, TB))
+b2 = cq.Workplane("XY").box(14, 10, 11, centered=False).translate((12, yb-10, TB))
+b3 = cq.Workplane("XY").box(7, 10, 8, centered=False).translate((30, yb-10, TB))
+# Duvarı tam kesen pencere, üstte köprü kalır, TAHMİN
+win = cq.Workplane("XY").box(22, TW+2, 24, centered=False).translate((11, DB-TW-1, 26))
+result = base.union(wall).union(b1).union(b2).union(b3).cut(win)
+# BEKLENEN SINIR KUTUSU: 40 x 26 x 55 mm

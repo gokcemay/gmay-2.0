@@ -1,0 +1,15 @@
+import cadquery as cq
+# Iki ayri parca (kesme duzlemi onunde/arkasinda). TAHMIN olculer, mm
+R=40.0; RI=22.0; H=30.0
+def yarim(y_on):
+    h=cq.Workplane("XY").circle(R).circle(RI).extrude(H)
+    k=cq.Workplane("XY").box(2*R+2,R+1,H+2,centered=(True,False,False)).translate((0,-R-1 if y_on else 0,-1))
+    return h.intersect(k)
+# On parca (y<0) alcakta, sag ucunda basamak
+on=yarim(True)
+on=on.cut(cq.Workplane("XY").box(12,R,12,centered=(False,False,False)).translate((R-12,-R,H-12)))
+# Arka parca (y>0) yukarida (kesme sonrasi ayrik gosterim)
+arka=yarim(False).translate((0,0,H+25))
+arka=arka.cut(cq.Workplane("XY").box(12,R,12,centered=(False,False,False)).translate((-R,0,H+25+H-12)))
+result=on.union(arka)
+# BEKLENEN SINIR KUTUSU: 80 x 40 x 85 mm

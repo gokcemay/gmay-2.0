@@ -1,0 +1,16 @@
+import cadquery as cq
+# TAHMIN: olcusuz cizim; en uzun boyut 80 mm
+L=80      # TAHMIN: toplam X
+B_X=20    # TAHMIN: yuksek blok X kalinligi
+D=40      # TAHMIN: derinlik Y
+H=32      # TAHMIN: yuksek blok yuksekligi
+T=10      # TAHMIN: levha kalinligi
+SW=8      # TAHMIN: oblong kanal genisligi
+SL=30     # TAHMIN: kanal boyu (uc merkezleri arasi + genislik)
+gov=cq.Workplane("XY").box(B_X,D,H,centered=False).union(cq.Workplane("XY").box(L,D,T,centered=False))
+# oblong kanal levhada, bloga yakin, X yonunde, delik
+slot=cq.Workplane("XY").workplane(offset=-1).center(B_X+4+SL/2,D/2).slot2D(SL,SW,0).extrude(T+2)
+# TAHMIN: blokta x=0 yuzunden acik, dusey (tam yukseklik) dikdortgen oluk: Y 14..26, derinlik X 10
+vgr=cq.Workplane("XY").workplane(offset=-1).center(5,20).rect(10.001,12).extrude(H+2).translate((0,0,0))
+result=gov.cut(slot).cut(vgr)
+# BEKLENEN SINIR KUTUSU: 80 x 40 x 35 mm
