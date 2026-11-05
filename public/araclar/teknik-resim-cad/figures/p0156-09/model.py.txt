@@ -1,0 +1,18 @@
+import cadquery as cq
+# Izometrik, olcusuz: TAHMIN. X = sol-asagi-sag eksen (egim yonu), Y = yukari-sag (rib uzunlugu), Z = yukseklik
+H = 100.0   # TAHMIN: yukseklik Z
+L = 38.0    # TAHMIN: taban uzunlugu X
+D = 60.0    # TAHMIN: genislik Y
+TOP = 12.0  # TAHMIN: ust kalinlik X
+BASE = 16.0 # TAHMIN: taban plaka kalinligi
+RIB = 8.0   # TAHMIN: yan kaburga kalinligi Y
+# 1) Takoz profili (X,Z): sol dik duvar + egik yuz, Y boyunca ekstrude
+prof = [(0,0),(L,0),(L,BASE),(TOP,H),(0,H)]
+body = cq.Workplane("XZ").polyline(prof).close().extrude(-D)
+# 2) Egik yuzden cep: kaburgalar arasinda kademeli arka duvar (X,Z), Y=RIB..D-RIB
+E = 60.0
+cep = [(E,BASE),(10,BASE),(10,32),(20,32),(20,58),(8,58),(8,H-18),(E,H-18)]
+# arka duvar kademesi: ust ve alt derin, orta cikinti (TAHMIN)
+cut = cq.Workplane("XZ").workplane(offset=-RIB).polyline(cep).close().extrude(-(D-2*RIB))
+result = body.cut(cut)
+# BEKLENEN SINIR KUTUSU: 40 x 60 x 100 mm

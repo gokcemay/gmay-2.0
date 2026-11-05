@@ -1,0 +1,28 @@
+import cadquery as cq
+# Izometrik (-1,-1,1), olcusuz, hepsi TAHMIN (mm). Uzun eksen X, genislik Y, yukseklik Z.
+UZ = 90.0      # TAHMIN: uc delik merkezleri arasi
+GEN = 50.0      # TAHMIN: plaka genisligi (uc yuvarlak capi)
+KAL = 14.0      # TAHMIN: plaka kalinligi
+BOSS_D = 54.0   # TAHMIN: orta silindirik baslik capi
+BOSS_H = 20.0   # TAHMIN: baslik yuksekligi (plaka ustunden)
+cx0 = GEN / 2; cy = GEN / 2
+cx1 = cx0 + UZ; cxm = cx0 + UZ / 2
+# 1) Oblong (stadyum) plaka
+plaka = cq.Workplane("XY").center((cx0 + cx1) / 2, cy).slot2D(UZ + GEN, GEN, 0).extrude(KAL)
+# 2) Orta silindirik baslik
+boss = cq.Workplane("XY").workplane(offset=KAL).center(cxm, cy).circle(BOSS_D / 2).extrude(BOSS_H)
+body = plaka.union(boss)
+ZT = KAL + BOSS_H
+def cyl(x, d, z0, h):
+    return cq.Workplane("XY").workplane(offset=z0).center(x, cy).circle(d / 2).extrude(h)
+# 3) Uc uctaki delikler: 3 basamakli (gecis d10, havsa d18 derinlik 4, ust d24 derinlik 2) TAHMIN
+for x in (cx0, cx1):
+    body = body.cut(cyl(x, 10, -1, KAL + 2)).cut(cyl(x, 18, KAL - 5, 6)).cut(cyl(x, 24, KAL - 2, 3))
+# 4) Ortadaki baslik deligi: 3 basamakli (d16 gecis, d26 derinlik 12, d36 derinlik 3) TAHMIN
+body = body.cut(cyl(cxm, 16, -1, ZT + 2)).cut(cyl(cxm, 26, ZT - 12, 13)).cut(cyl(cxm, 36, ZT - 3, 4))
+result = body
+
+# A-A kesiti: uzun eksen boyunca orta duzlemde (Y=cy) on yari (Y<cy) kesilip alinir; arka yari kalir.
+kes = cq.Workplane("XY").box(UZ + GEN + 2, cy + 10, 100, centered=False).translate((-1, -10, -1))
+result = result.cut(kes)
+# BEKLENEN SINIR KUTUSU: 140 x 27 x 34 mm

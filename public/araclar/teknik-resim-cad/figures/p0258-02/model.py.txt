@@ -1,0 +1,11 @@
+import cadquery as cq
+# Izometrik, olcusuz: hepsi TAHMIN (mm). Cizimden piksel oranlariyla.
+W = 30.0    # TAHMIN: X genisligi
+DP = 40.0   # TAHMIN: Y derinligi
+H = 85.0    # TAHMIN: arka (y=DP) yukseklik
+HL = 40.0   # TAHMIN: on duz kisim yuksekligi
+YE = 20.0   # TAHMIN: duz kismin y uzunlugu (e noktasi)
+# (y,z) profili: on duz, arkaya dogru egik yuzey; X boyunca ekstrude (YZ duzlemi normali +X)
+pts = [(0, 0), (DP, 0), (DP, H), (YE, HL), (0, HL)]
+result = cq.Workplane("YZ").polyline(pts).close().extrude(W)
+# BEKLENEN SINIR KUTUSU: 30 x 40 x 85 mm

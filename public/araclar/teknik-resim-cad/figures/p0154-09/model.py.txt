@@ -1,0 +1,26 @@
+import cadquery as cq
+# Kabinet cizim: egimli onlu basamakli kama/raf. Hepsi TAHMIN (olcusuz).
+W = 40.0     # X genislik TAHMIN
+D = 25.0     # Y derinlik (kabinette cizilen yarisi -> gercek tahmin) TAHMIN
+H = 65.0     # Z yukseklik (arka duvar) TAHMIN
+TB = 6.0     # taban plaka kalinligi (on yuzdeki serit) TAHMIN
+TW = 4.0     # yan plaka kalinligi X TAHMIN
+TS = 3.0     # raf kalinligi Z TAHMIN
+# On yuz Y=0. Yan plaka profili (YZ): taban, arka duvar, egimli yuz (on-alt -> arka-ust)
+prof = [(0, 0), (D, 0), (D, H), (0, TB)]
+def yan(x0):
+    # YZ duzlemi normali +X; offset ile X konumu
+    return cq.Workplane("YZ").workplane(offset=x0).polyline(prof).close().extrude(TW)
+sol = yan(0)
+sag = yan(W - TW)
+# taban plaka tum genislik, tum derinlik
+taban = cq.Workplane("XY").box(W, D, TB, centered=False)
+# raflar: egimli yuzeyden arka duvara kadar, yan plakalar arasi
+def raf(z):
+    y0 = D * (z - TB) / (H - TB)    # egimli yuzun Y'si bu yukseklikte
+    return cq.Workplane("XY").box(W - 2*TW + 0.2, D - y0, TS, centered=False).translate((TW - 0.1, y0, z - TS))
+r1 = raf(0.40 * H)
+r2 = raf(0.75 * H)
+ust = cq.Workplane('XY').box(W - 2*TW + 0.2, 6.0, TS, centered=False).translate((TW - 0.1, D - 6.0, H - TS))  # ust arka cubuk
+result = sol.union(sag).union(taban).union(r1).union(r2).union(ust)
+# BEKLENEN SINIR KUTUSU: 40 x 25 x 65 mm

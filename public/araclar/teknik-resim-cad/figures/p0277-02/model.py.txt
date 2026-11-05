@@ -1,0 +1,12 @@
+import cadquery as cq
+# Olcusuz: TAHMIN (mm). X genislik, Y derinlik, Z yukseklik; sol yuz = X=0
+X=70; Y=40; Z=45          # TAHMIN
+govde=cq.Workplane("XY").box(X,Y,Z,centered=False)
+# Ust kare cep: yalnizca sol yuze acik (kor), derinlik 25; TAHMIN
+cep=cq.Workplane("XY").box(26,21,17,centered=False).translate((-1,10,22))
+# Alt tunel: sol yuze ve tabana acik, X=55'te biter (gizli uc); TAHMIN
+tunel=cq.Workplane("XY").box(56,21,16,centered=False).translate((-1,10,-1))
+# Gizli ic kutu: tunelin ustunde, ust yuze ulasmaz; TAHMIN
+kutu=cq.Workplane("XY").box(13,14,22,centered=False).translate((44,14,15))
+result=govde.cut(cep).cut(tunel).cut(kutu)
+# BEKLENEN SINIR KUTUSU: 70 x 40 x 45 mm

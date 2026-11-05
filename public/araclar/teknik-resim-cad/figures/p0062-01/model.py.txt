@@ -1,0 +1,18 @@
+import cadquery as cq
+# p0062-01: taban 60x40x15 + arkada 15 kalin kulakli plaka (ust koseler R10), 2 delik Ø10
+GEN=60.0; DER=40.0; TABAN_H=15.0; TOP_H=40.0
+PL_T=15.0    # plaka kalinligi (Y)
+R=10.0; DELIK_D=10.0
+DELIK_Z=30.0 # TAHMIN: delik merkezi tabandan 15 yukarida (15 olcusu) => Z=30
+DELIK_AR=40.0 # delik merkezleri arasi
+taban=cq.Workplane("XY").box(GEN,DER,TABAN_H,centered=False)
+# plaka profili XZ'de, ust koseler R10; XZ normali -Y, extrude(-t) +Y'ye gider
+plaka=(cq.Workplane("XZ").workplane(offset=-(DER-PL_T))
+       .moveTo(0,TABAN_H).lineTo(GEN,TABAN_H).lineTo(GEN,TOP_H).lineTo(0,TOP_H).close().extrude(-PL_T))
+plaka=plaka.edges("|Y").edges(">Z").fillet(R)
+result=taban.union(plaka)
+x0=(GEN-DELIK_AR)/2
+for x in (x0,x0+DELIK_AR):
+    d=cq.Workplane("XZ").workplane(offset=-(DER-PL_T)).center(x,DELIK_Z).circle(DELIK_D/2).extrude(-PL_T)
+    result=result.cut(d)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

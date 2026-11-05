@@ -1,0 +1,17 @@
+import cadquery as cq
+# Olcusuz kabinet cizim: hepsi TAHMIN (mm). Kare taban, ustte kucuk kutu, arada kare kesik piramit (kose kenarlari birlesik)
+TABAN=80      # TAHMIN: taban kare kenari (X ve Y)
+TABAN_H=15    # TAHMIN: taban levha yuksekligi
+GECIS_H=50    # TAHMIN: kesik piramit yuksekligi
+UST=25        # TAHMIN: ust kutu kare kenari
+UST_H=20      # TAHMIN: ust kutu yuksekligi
+o=(TABAN-UST)/2
+# taban levhasi
+taban=cq.Workplane("XY").box(TABAN,TABAN,TABAN_H,centered=False)
+# gecis: taban ustunden ust kutu altina loft (kare -> kare)
+gecis=(cq.Workplane("XY").workplane(offset=TABAN_H).center(TABAN/2,TABAN/2).rect(TABAN,TABAN)
+       .workplane(offset=GECIS_H).rect(UST,UST).loft(ruled=True,combine=True))
+# ust kutu
+ust=cq.Workplane("XY").box(UST,UST,UST_H,centered=False).translate((o,o,TABAN_H+GECIS_H))
+result=taban.union(gecis).union(ust)
+# BEKLENEN SINIR KUTUSU: 80 x 80 x 85 mm

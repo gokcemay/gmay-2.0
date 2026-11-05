@@ -1,0 +1,10 @@
+import cadquery as cq
+# Kabinet: ön yüz gerçek şekil (XZ), derinlik arkaya (+Y). Ölçüsüz, hepsi TAHMİN.
+W, H, D = 45.0, 70.0, 15.0   # TAHMİN
+def P(px, py):   # ön dikdörtgen compare.png pikselinde x 42..315, y 87..515
+    return ((px - 42) / 273 * W, (515 - py) / 428 * H)
+outer = cq.Workplane("XY").box(W, D, H, centered=False)
+pix = [(320,130),(195,130),(195,203),(118,203),(118,330),(150,330),(150,440),(265,440),(265,390),(320,390)]
+cut = cq.Workplane("XZ").polyline([P(*p) for p in pix]).close().extrude(-D)
+result = outer.cut(cut)
+# BEKLENEN SINIR KUTUSU: 45 x 15 x 70 mm

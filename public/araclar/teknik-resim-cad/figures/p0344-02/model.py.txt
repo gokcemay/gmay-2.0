@@ -1,0 +1,17 @@
+import cadquery as cq
+# Olcusuz cizim: hepsi TAHMIN (mm). X sag-yukari, Y sol-yukari, Z yukari
+BX0, BX1 = 14, 38
+BY = 24
+BZ = 32               # blok yuksekligi
+blok = cq.Workplane("XY").box(BX1-BX0, BY, BZ, centered=False).translate((BX0, 0, 0))
+# On-sol levha: YZ duzleminde, X 0..10, +Y yonune uzanir, ucu yuvarlak, X eksenli delikli
+R = 16; CY = 22; CZ = 16
+prof = (cq.Workplane("YZ").moveTo(0, 0).lineTo(CY, 0).threePointArc((CY+R, CZ), (CY, 2*CZ)).lineTo(0, 2*CZ).close().extrude(BX0+1))
+delik = cq.Workplane("YZ").center(CY, CZ).circle(8).extrude(BX0+1)
+levha1 = prof.cut(delik)
+# Ust-arka halka: XY duzleminde, Z 22..32, +X yonune uzanir, ucu yuvarlak, Z eksenli delikli
+R2 = 15; CX2 = 48; CY2 = BY/2
+prof2 = (cq.Workplane("XY").moveTo(BX1-1, CY2-R2).lineTo(CX2, CY2-R2).threePointArc((CX2+R2, CY2), (CX2, CY2+R2)).lineTo(BX1-1, CY2+R2).close().extrude(10).translate((0, 0, 22)))
+delik2 = cq.Workplane("XY").center(CX2, CY2).circle(6).extrude(10).translate((0, 0, 22))
+levha2 = prof2.cut(delik2)
+result = blok.union(levha1).union(levha2)

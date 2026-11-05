@@ -1,0 +1,17 @@
+import cadquery as cq
+# TAHMIN olcular (mm), olcusuz cizim; ayni parca (5.1.26), kesme duzlemi tasarimi
+L=80.0; B=50.0; H=40.0   # X, Y, Z TAHMIN
+R=8.0; T=5.0             # kose yaricapi, cidar TAHMIN
+BOSS_OD=22.0; BOSS_ID=12.0; BOSS_H=22.0  # merkezde halka TAHMIN
+HOLE_D=8.0; HOLE_Z=26.0  # TAHMIN
+body=cq.Workplane("XY").box(L,B,H,centered=False).edges("|Z").fillet(R)
+cav=cq.Workplane("XY").box(L-2*T,B-2*T,H,centered=False).translate((T,T,T)).edges("|Z").fillet(R-T)
+body=body.cut(cav)
+boss=cq.Workplane("XY").center(L/2,B/2).circle(BOSS_OD/2).circle(BOSS_ID/2).extrude(BOSS_H).translate((0,0,T-0.5))
+body=body.union(boss)
+h=cq.Workplane("YZ").center(B/2,HOLE_Z).circle(HOLE_D/2).extrude(L)
+body=body.cut(h)
+# A-A kesme duzlemleri (x=L/2, y=B/2): on-sol ceyrek kaldirildi (on-sol kosede acik kesit)
+q=cq.Workplane("XY").box(L/2+1,B/2+1,H+2,centered=False).translate((-1,-1,-1))
+result=body.cut(q)
+# BEKLENEN SINIR KUTUSU: 80 x 50 x 40 mm

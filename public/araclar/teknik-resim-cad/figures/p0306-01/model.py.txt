@@ -1,0 +1,19 @@
+import cadquery as cq
+# Olcusuz izometrik: hepsi TAHMIN (mm). Z eksenli kasnak/burc, X=0 duzleminde ikiye kesilmis, yarimlar ayri cizilmis.
+R_DIS = 40.0    # TAHMIN dis yaricap
+CIDAR = 4.0     # TAHMIN dis cidar kalinligi
+H = 30.0        # TAHMIN yukseklik
+R_PIM = 17.0    # TAHMIN gobek dis yaricap
+R_DEL = 10.0    # TAHMIN gobek ic (delik) yaricap
+T_WEB = 5.0     # TAHMIN orta perde kalinligi (H sekilli kesit)
+ARA = 40.0      # TAHMIN iki yarim arasi aralik
+def cl(r1, r2, z0, h):  # halka: r2 dis, r1 ic
+    return cq.Workplane("XY").workplane(offset=z0).circle(r2).circle(r1).extrude(h)
+tam = (cl(R_DIS-CIDAR, R_DIS, 0, H)                 # dis cidar
+       .union(cl(R_DEL, R_PIM, 0, H))               # gobek borusu
+       .union(cl(R_PIM-1, R_DIS-CIDAR+1, (H-T_WEB)/2, T_WEB)))  # orta perde (1 mm binme ile birlesir)
+kutu = lambda x0: cq.Workplane("XY").box(R_DIS+1, 2*R_DIS+2, H, centered=(False, True, False)).translate((x0, 0, 0))
+sol = tam.intersect(kutu(-(R_DIS+1))).translate((-ARA/2, 0, 0))
+sag = tam.intersect(kutu(0)).translate((ARA/2, 0, 0))
+result = sol.union(sag)
+# BEKLENEN SINIR KUTUSU: ~120 x 80 x 30 mm

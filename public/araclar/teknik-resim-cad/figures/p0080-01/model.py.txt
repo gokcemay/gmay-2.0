@@ -1,0 +1,26 @@
+import cadquery as cq
+# Izometrik: X genislik (60), Y derinlik (35), Z yukseklik (30). Orijin sol-arka-alt.
+TABAN_X = 60.0   # taban genisligi
+TABAN_Y = 35.0   # taban derinligi
+TABAN_Z = 5.0    # taban kalinligi
+BLOK_X = 40.0    # blok genisligi (ust ölçü 40)
+BLOK_X0 = 10.0   # TAHMIN: blok soldan 10 icerde (taban iki yanda 10 tasar)
+H = 30.0         # toplam yukseklik
+OLUK_D = 30.0    # yari silindir capi (30 olcusu) -> R15
+R = OLUK_D / 2
+NOTCH_W = 15.0   # alt kanal genisligi
+NOTCH_H = 7.0    # alt kanal yuksekligi (7, zor okunur)
+NOTCH_X0 = 22.5  # TAHMIN: kanal blok ortasinda
+# 1) taban plakasi
+taban = cq.Workplane("XY").box(TABAN_X, TABAN_Y, TABAN_Z, centered=False)
+# 2) blok
+blok = cq.Workplane("XY").box(BLOK_X, TABAN_Y, H, centered=False).translate((BLOK_X0, 0, 0))
+g = taban.union(blok)
+# 3) ust yari silindir oluk (ekseni Y, merkezi ust yuzde)
+cx = BLOK_X0 + BLOK_X / 2
+oluk = (cq.Workplane("XZ").center(cx, H).circle(R).extrude(-TABAN_Y))
+g = g.cut(oluk)
+# 4) alttan kanal (tum derinlik boyunca)
+kanal = cq.Workplane("XY").box(NOTCH_W, TABAN_Y, NOTCH_H, centered=False).translate((NOTCH_X0, 0, 0))
+result = g.cut(kanal)
+# BEKLENEN SINIR KUTUSU: 60 x 35 x 30 mm

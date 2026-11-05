@@ -1,0 +1,10 @@
+import cadquery as cq
+# Kure basli silindirik parca, eksen Y (mil on tarafta Y=0, kure arkada). TAHMIN (mm).
+MIL_R=16; MIL_L=45        # TAHMIN
+BOGAZ_R=14; BOGAZ_L=12    # TAHMIN (mil ile kure arasi kisa boyun)
+KURE_R=25                 # TAHMIN
+mil=cq.Workplane("XZ").circle(MIL_R).extrude(-MIL_L)
+bogaz=cq.Workplane("XZ").workplane(offset=-(MIL_L-2)).circle(BOGAZ_R).extrude(-BOGAZ_L)
+kure=cq.Workplane("XY").sphere(KURE_R).translate((0,MIL_L+BOGAZ_L-2+18,0))
+result=mil.union(bogaz).union(kure)
+# BEKLENEN SINIR KUTUSU: 50 x ~100 x 50 mm

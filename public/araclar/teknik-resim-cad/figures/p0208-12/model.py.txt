@@ -1,0 +1,10 @@
+import cadquery as cq
+# Olcusuz: TAHMIN (mm). Cizim: basamakli prizma (uzun yuz YZ profili, X'e ekstruzyon)
+X=15    # TAHMIN genislik
+Y=80    # TAHMIN uzun kenar
+H2=40   # TAHMIN yuksek kisim
+H1=24   # TAHMIN alcak kisim (oranla 175/290)
+YS=41   # TAHMIN basamak konumu (on uca gore)
+pts=[(0,0),(Y,0),(Y,H1),(YS,H1),(YS,H2),(0,H2)]
+result=cq.Workplane("YZ").polyline(pts).close().extrude(X)
+# BEKLENEN SINIR KUTUSU: 15 x 80 x 40 mm

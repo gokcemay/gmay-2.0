@@ -1,0 +1,13 @@
+import cadquery as cq
+# TAHMIN: olcusuz cizim
+R_CONE=28   # TAHMIN: koni taban yaricapi (S2 duzleminde)
+H_CONE=60   # TAHMIN: koni yuksekligi
+R_CYL=15    # TAHMIN: yatay silindir yaricapi
+L_CYL=50    # TAHMIN: silindir boyu
+Z_AX=10     # TAHMIN: silindir ekseni yuksekligi
+# koni: taban z=0, uc z=H_CONE
+cone=cq.Workplane("XY").add(cq.Solid.makeCone(R_CONE,0,H_CONE,pnt=cq.Vector(0,0,0),dir=cq.Vector(0,0,1)))
+# yatay silindir, X ekseni dogrultusunda, koni eksenine dik kesisir
+cyl=cq.Workplane("XY").add(cq.Solid.makeCylinder(R_CYL,L_CYL,pnt=cq.Vector(-L_CYL*0.9,0,Z_AX),dir=cq.Vector(1,0,0)))
+result=cone.union(cyl)
+# BEKLENEN SINIR KUTUSU: 40 x 60 x 60 mm

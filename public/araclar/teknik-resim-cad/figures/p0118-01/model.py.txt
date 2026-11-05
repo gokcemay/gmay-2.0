@@ -1,0 +1,40 @@
+import cadquery as cq
+# Olculu cizim. Izometrik -1,-1,1: X yukari-saga (65), Y yukari-sola (75), Z yukari (140). Bakan yuz -X tarafi.
+GX=65.0     # toplam X (taban+levha)
+GY=75.0     # Y genisligi
+GZ=140.0    # levha yuksekligi
+LT=15.0     # levha kalinligi (X)
+TAB=25.0    # taban yuksekligi
+PR_ARKA=20.0  # +Y tarafi pencere (Y 55..75)
+SLOT=30.0   # kanal genisligi (Y)
+PR_ON=25.0  # Y=0 tarafi kol genisligi (75-20-30)
+SLOT_END=33.0 # TAHMIN: kanal yuvarlak ucunun merkezi X konumu
+RB=10.0     # kenar yuvarlatma R10
+# 1) Levha X=50..65
+x0=GX-LT
+levha=cq.Workplane("YZ").rect(GY,GZ,centered=False).extrude(LT).translate((x0,0,0))
+levha=levha.edges("|X").edges(">Z").fillet(RB)
+# 2) Taban X=0..50 (levhaya birlesir)
+taban=cq.Workplane("XY").box(x0+1,GY,TAB,centered=False)
+taban=taban.edges("|Z").edges("<X").fillet(RB)
+# U kanal: Y 25..55, X 0'dan SLOT_END merkezli yarim daire ucuna
+ky=PR_ON+SLOT/2
+kanal=(cq.Workplane("XY").center(0,ky).rect(2*SLOT_END,SLOT).extrude(TAB+2).translate((0,0,-1)))
+kanal=kanal.union(cq.Workplane("XY").center(SLOT_END,ky).circle(SLOT/2).extrude(TAB+2).translate((0,0,-1)))
+kanal=kanal.cut(cq.Workplane("XY").box(2,200,200,centered=True).translate((-1-SLOT_END*2+SLOT_END*2+0,ky,0)).translate((0,0,0))) if False else kanal
+taban=taban.cut(kanal)
+# on-sol kose yuvarlatmalari (dusey kenarlar, X=0)
+
+body=taban.union(levha)
+# 3) Ucgen nervurler (10 kalinlik, 25x25), kollarin dis kenarinda
+tri=[(x0-25,TAB-1),(x0+1,TAB-1),(x0+1,TAB+25)]
+def nerv(y0): return cq.Workplane("XZ").polyline(tri).close().extrude(-10).translate((0,y0,0))
+body=body.union(nerv(GY-10)).union(nerv(0))
+# 4) Levha: Ø35 havsa (5 derin) + Ø25 gecis, merkez Y=37.5, Z=82
+cy,cz=GY/2,82.0
+body=body.cut(cq.Workplane("YZ").center(cy,cz).circle(25/2).extrude(LT+2).translate((x0-1,0,0)))
+body=body.cut(cq.Workplane("YZ").center(cy,cz).circle(35/2).extrude(5).translate((x0,0,0)))
+# 5) 30x30 kare cep, 5 derin; merkez Z=40 (TAHMIN)
+body=body.cut(cq.Workplane("YZ").center(cy,40.0).rect(30,30).extrude(5).translate((x0,0,0)))
+result=body
+# BEKLENEN SINIR KUTUSU: 65 x 75 x 140 mm

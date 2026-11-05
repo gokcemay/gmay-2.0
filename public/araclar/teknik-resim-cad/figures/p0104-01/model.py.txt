@@ -1,0 +1,30 @@
+import cadquery as cq
+# Cizim 2.1.39, izometrik (bakis -1,-1,1): X uzunluk 70, Y derinlik 50 (on yuz Y=0, delikli), Z yukseklik 40
+UZ=70; DER=50; YUK=40
+PLAKA_T=15        # on plaka kalinligi (Y)
+KIRIS_Z0=25       # kirisin alt yuzu (sag olcu 25: delik merkezinin ustu/alt kisim) TAHMIN yorum
+KIRIS_T=10        # kiris kalinligi (Z)
+NERVUR_W=10; NERVUR_H=5   # arka nervur: Y 10 genis, 5 yuksek (TAHMIN: 15 toplam = 10+5)
+R=5               # yuvarlatma
+DELIK_D=15; DELIK_X=(15,55); DELIK_Z=15   # TAHMIN: 40 aralik, merkez Z=15
+YUVA_W=15; YUVA_X=(17.5,52.5); YUVA_Y=27.5    # TAHMIN: uzun yuva, merkez hatti Y
+# on plaka L profilinin dikey ayagi (Y 0..15, Z 0..40)
+plaka=cq.Workplane("XY").box(UZ,PLAKA_T,YUK,centered=False)
+# yatay kiris (Y 0..50, Z 25..35)
+kiris=cq.Workplane("XY").box(UZ,DER,KIRIS_T,centered=False).translate((0,0,KIRIS_Z0))
+nerv=cq.Workplane("XY").box(UZ,NERVUR_W,NERVUR_H,centered=False).translate((0,DER-NERVUR_W,KIRIS_Z0+KIRIS_T))
+g=plaka.union(kiris).union(nerv)
+# on plaka alt on koseleri R5 (X yonu kenarlar Z=0,Y=0 ve plaka alt yan kenarlari): yan koseler X ekseni degil, Y ekseni boyunca
+g=g.edges("|Y").edges("<Z").fillet(R)
+# kiris alti ile plaka arka yuzu ic kose R5
+ic=(cq.Workplane("XY").box(UZ,R,R,centered=False).translate((0,PLAKA_T,KIRIS_Z0-R))
+    .cut(cq.Workplane("YZ").workplane(offset=-1).center(PLAKA_T+R,KIRIS_Z0-R).circle(R).extrude(UZ+2)))
+g=g.union(ic)
+# plaka delikleri (Y boyunca)
+for x in DELIK_X:
+    g=g.cut(cq.Workplane("XZ").workplane(offset=-PLAKA_T-1).center(x,DELIK_Z).circle(DELIK_D/2).extrude(PLAKA_T+2))
+# uzun yuva (kiris ustunde, X boyunca), yuvarlak uclu
+yuva=(cq.Workplane("XY").workplane(offset=KIRIS_Z0-1).center(35,YUVA_Y).slot2D(YUVA_X[1]-YUVA_X[0]+YUVA_W,YUVA_W).extrude(KIRIS_T+2))
+g=g.cut(yuva)
+result=g
+# BEKLENEN SINIR KUTUSU: 70 x 50 x 40 mm

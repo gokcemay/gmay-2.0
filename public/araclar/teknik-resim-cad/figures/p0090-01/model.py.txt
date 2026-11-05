@@ -1,0 +1,32 @@
+import cadquery as cq, math
+# Eksen: kovan ekseni X (cizimde asagi-saga), plaka YZ duzleminde, Z yukari. Orijin: kovan arka yuzu merkezi.
+KOVAN_L = 30.0     # kovan boyu (30 olcusu, X)
+PLAKA_T = 15.0     # kulak plakasi kalinligi (15 olcusu, X); arka yuzle ayni hizada (TAHMIN)
+KOVAN_D = 40.0     # kovan dis capi
+DELIK_D = 25.0     # boydan boya delik
+KAMA_W = 8.0       # kama yuvasi genisligi
+KAMA_TOP = 27.8 - DELIK_D / 2   # kama ust yuzu (27.8: delik alt yuzu - kama ust)
+KULAK_H = 45.0     # kovan ekseni - kulak delik merkezi
+KULAK_R = 8.0      # kulak dis yaricapi
+KULAK_DELIK = 8.0  # kulak delik capi
+R1 = KOVAN_D / 2
+# Kulagin kovan ustunde ortada olmasi TAHMIN
+d = KULAK_H
+cs = (R1 - KULAK_R) / d
+sn = math.sqrt(1 - cs * cs)
+P1 = (R1 * sn, R1 * cs); P2 = (KULAK_R * sn, d + KULAK_R * cs)
+# 1) kovan
+kovan = cq.Workplane("YZ").circle(R1).extrude(KOVAN_L)
+# 2) plaka profili: kovan dairesi + kulak dairesi + teget yamuk
+yam = cq.Workplane("YZ").polyline([(-P1[0], P1[1]), (P1[0], P1[1]), (P2[0], P2[1]), (-P2[0], P2[1])]).close().extrude(PLAKA_T)
+kulak = cq.Workplane("YZ").center(0, d).circle(KULAK_R).extrude(PLAKA_T)
+plaka = cq.Workplane("YZ").circle(R1).extrude(PLAKA_T).union(yam).union(kulak)
+g = kovan.union(plaka)
+# 3) kovan deligi (boydan boya) + kama yuvasi (ustte, boydan boya)
+g = g.cut(cq.Workplane("YZ").circle(DELIK_D / 2).extrude(KOVAN_L))
+kama = cq.Workplane("XY").box(KOVAN_L, KAMA_W, KAMA_TOP, centered=(False, True, False))
+g = g.cut(kama)
+# 4) kulak deligi
+g = g.cut(cq.Workplane("YZ").center(0, d).circle(KULAK_DELIK / 2).extrude(PLAKA_T))
+result = g
+# BEKLENEN SINIR KUTUSU: 30 x 40 x 65 mm

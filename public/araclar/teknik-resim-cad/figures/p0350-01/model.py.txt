@@ -1,0 +1,24 @@
+import cadquery as cq
+# Izometrik, olculu. Eksenler: X = A (silindir ekseni, cizimde sag-asagi), Y = B (sag-yukari), Z yukari.
+# Gorunum 1,-1,1. Orijin: sutunun arka-sol-alt kosesi.
+COL_A=10.0; COL_B=28.0; COL_H=30.0   # sutun (28 ust kenar, 10 derinlik, 30 yukseklik)
+TOT_A=25.0                           # sutun+orta govde toplam A (25)
+MID_H=20.0                           # orta govde yuksekligi (20)
+FOOT_B=10.0; FOOT_H=10.0             # on ayak (10 x 10) TAHMIN B uzunlugu
+EAR_T=15.0                           # kulak (silindir) kalinligi: 40-25
+EAR_R=10.0                           # TAHMIN yaricap (yukseklik 20 ile uyumlu)
+EAR_CB=18.0                          # TAHMIN silindir merkezi B
+HOLE_D=10.0                          # Ø10
+WEDGE_H=10.0                         # egik yuzlu cikinti yuksekligi (10)
+col=cq.Workplane("XY").box(COL_A,COL_B,COL_H,centered=False)
+mid=cq.Workplane("XY").box(TOT_A-COL_A,COL_B-FOOT_B,MID_H,centered=False).translate((COL_A,FOOT_B,0))
+foot=cq.Workplane("XY").box(TOT_A-COL_A,FOOT_B,FOOT_H,centered=False).translate((COL_A,0,0))
+# egik yuzlu cikinti: (B,Z) profili, A boyunca 5 mm; ust kenar B'ye dogru egimli. TAHMIN
+wp=[(FOOT_B+5,MID_H),(FOOT_B+5,MID_H+WEDGE_H),(FOOT_B+15,MID_H+WEDGE_H),(FOOT_B+15,MID_H)]
+wedge=(cq.Workplane("YZ").polyline([(FOOT_B,MID_H),(FOOT_B+5,MID_H+WEDGE_H),(FOOT_B+10,MID_H+WEDGE_H),(FOOT_B+10,MID_H)]).close()
+       .extrude(5).translate((COL_A,0,0)))
+# kulak: A ekseni boyunca silindir, delikli
+ear=(cq.Workplane("YZ").workplane(offset=TOT_A).center(EAR_CB,MID_H/2).circle(EAR_R).extrude(EAR_T))
+hole=(cq.Workplane("YZ").workplane(offset=TOT_A-1).center(EAR_CB,MID_H/2).circle(HOLE_D/2).extrude(EAR_T+2))
+result=col.union(mid).union(foot).union(wedge).union(ear).cut(hole)
+# BEKLENEN SINIR KUTUSU: 40 x 28 x 30 mm

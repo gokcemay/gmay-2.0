@@ -1,0 +1,11 @@
+import cadquery as cq
+# Olcusuz: hepsi TAHMIN (mm)
+FR=50; FH=10; R1=40; R2=20; H=80; DEL=10; KES=-28
+gov=cq.Workplane("XY").circle(FR).extrude(FH)
+kon=cq.Workplane("XY").workplane(offset=FH).circle(R1).workplane(offset=H-FH).circle(R2).loft()
+gov=gov.union(kon)
+gov=gov.cut(cq.Workplane("XY").circle(DEL).extrude(H+1))   # eksenel delik
+# duz kesim: x < KES kaldirilir (flans dahil)
+gov=gov.cut(cq.Workplane("XY").box(100,200,200,centered=(False,True,False)).translate((KES-100,0,-10)))
+result=gov
+# BEKLENEN SINIR KUTUSU: 64 x 100 x 80 mm

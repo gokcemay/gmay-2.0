@@ -1,0 +1,26 @@
+import cadquery as cq
+# Dikey plaka (duvar) x=0..T, Y boyunca genis; taban ayagi +X'e uzanir, uc kisminda silindirik halka.
+PL_T=10     # TAHMIN dikey plaka kalinligi (X)
+PL_W=80     # TAHMIN plaka genisligi (Y)
+PL_H=50     # TAHMIN plaka yuksekligi (Z)
+BAS_T=10    # TAHMIN taban kalinligi
+HUB=(105,40) # TAHMIN halka merkezi (x,y)
+R_HUB=25    # TAHMIN halka dis yaricapi
+H_HUB=32    # TAHMIN halka yuksekligi
+R_ICH=15    # TAHMIN halka ic yaricapi
+D_DEL=10    # TAHMIN plaka delik capi
+plaka=cq.Workplane("XY").box(PL_T,PL_W,PL_H,centered=False)
+# taban: plakadan halkaya daralan yamuk + halka dairesi
+taban=cq.Workplane("XY").polyline([(0,0),(HUB[0],HUB[1]-R_HUB),(HUB[0],HUB[1]+R_HUB),(0,PL_W)]).close().extrude(BAS_T)
+halka=cq.Workplane("XY").center(*HUB).circle(R_HUB).extrude(H_HUB)
+# orta kaburga: duvar ustunden halkaya inen egimli uzantı (TAHMIN), YZ ortasinda
+RIB_T=10
+kaburga=(cq.Workplane("XZ").polyline([(0,BAS_T),(HUB[0]-R_HUB,BAS_T),(0,PL_H*0.6)]).close()
+         .extrude(-RIB_T).translate((0,HUB[1]-RIB_T/2,0)))
+r=plaka.union(taban).union(halka).union(kaburga)
+r=r.cut(cq.Workplane("XY").center(*HUB).circle(R_ICH).extrude(H_HUB))
+# duvar delikleri (X ekseni boyunca)
+for y in (20,60):
+    r=r.cut(cq.Workplane("YZ").center(y,35).circle(D_DEL/2).extrude(PL_T))
+result=r
+# BEKLENEN SINIR KUTUSU: 120 x 80 x 50 mm

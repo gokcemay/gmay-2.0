@@ -1,0 +1,16 @@
+import cadquery as cq
+# Olcusuz izometrik: X en uzun = 60 mm, digerleri oranlardan. Hepsi TAHMIN.
+GEN=60.0    # X TAHMIN
+DER=40.0    # Y TAHMIN
+YUK=35.0    # Z toplam TAHMIN
+KES=15.0    # kesme duzlemi A yuksekligi TAHMIN
+KAN_Y0, KAN_Y1 = 25.0, 35.0   # +X ucundaki kanal Y araligi TAHMIN
+KAN_X0 = 40.0                 # kanal baslangici TAHMIN
+D_DIK=16.0  # dikey delik capi TAHMIN
+D_YAT=20.0  # yatay delik (Y ekseni) capi TAHMIN
+govde=cq.Workplane("XY").box(GEN,DER,YUK,centered=False)
+kanal=cq.Workplane("XY").box(GEN-KAN_X0+1,KAN_Y1-KAN_Y0,YUK+2,centered=False).translate((KAN_X0,KAN_Y0,-1))
+dik=cq.Workplane("XY").circle(D_DIK/2).extrude(YUK+2).translate((20,15,-1))
+yat=cq.Workplane("XZ").center(48,KES+5).circle(D_YAT/2).extrude(-DER-2).translate((0,-1,0))
+result=govde.cut(kanal).cut(dik).cut(yat)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 35 mm

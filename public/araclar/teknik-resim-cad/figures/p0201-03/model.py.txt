@@ -1,0 +1,36 @@
+import cadquery as cq, math
+# Olcusuz izometrik: TAHMIN olcular (mm). Z yukari, kulak yuzu +Y arkada.
+GEN=90.0   # TAHMIN: plaka X
+DER=80.0   # TAHMIN: plaka Y
+T=8.0      # TAHMIN: plaka kalinligi
+RK=8.0    # TAHMIN: plaka kose yuvarlatma
+CX,CY=18.0,62.0  # TAHMIN: silindir ekseni
+RS=15.0    # TAHMIN: silindir yaricapi
+HS=24.0    # TAHMIN: silindir yuksekligi (plaka ustunden)
+RD=9.0     # TAHMIN: silindir ici delik yaricapi
+RT=4.0     # TAHMIN: kaburga kalinligi/2
+RL=35.0    # TAHMIN: kaburga uzunlugu (-Y)
+SW=8.0     # TAHMIN: yay kanal yari genisligi
+SD=4.0     # TAHMIN: kanal derinligi (kismi, taban egimi modellenmedi)
+# Plaka: yamuk (sag ust kose egik kenar), dikey kose yuvarlatma
+plaka=(cq.Workplane("XY").polyline([(0,0),(GEN,0),(GEN,26),(24,DER),(0,DER)]).close().extrude(T)
+       .edges("|Z").fillet(RK))
+sil=cq.Workplane("XY").workplane(offset=T).center(CX,CY).circle(RS).extrude(HS)
+# Kaburga: YZ profili ucgen, X'te ince
+kab=(cq.Workplane("YZ").workplane(offset=CX-RT)
+     .polyline([(CY,T),(CY-RL,T),(CY,T+HS)]).close().extrude(2*RT))
+g=plaka.union(sil).union(kab)
+g=g.cut(cq.Workplane("XY").workplane(offset=T).center(CX,CY).circle(RD).extrude(HS))
+# Yay kanal: merkez (40,75) yaricap 60, 255..320 derece
+C=(46.0,120.0); R=100.0; a0=math.radians(266); a1=math.radians(287); am=(a0+a1)/2
+def P(r,a): return (C[0]+r*math.cos(a), C[1]+r*math.sin(a))
+ro,ri=R+SW,R-SW
+def cap(a,sgn):
+    p=P(R,a); return (p[0]+sgn*SW*(-math.sin(a)), p[1]+sgn*SW*math.cos(a))
+w=(cq.Workplane("XY").workplane(offset=T-SD).moveTo(*P(ro,a0))
+   .threePointArc(P(ro,am),P(ro,a1))
+   .threePointArc(cap(a1,1),P(ri,a1))
+   .threePointArc(P(ri,am),P(ri,a0))
+   .threePointArc(cap(a0,-1),P(ro,a0)).close().extrude(SD+1))
+result=g.cut(w)
+# BEKLENEN SINIR KUTUSU: 90 x 80 x 32 mm

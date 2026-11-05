@@ -1,0 +1,11 @@
+import cadquery as cq
+# p0066-01: L profilli blok (YZ profili, X boyunca 60), arka alt kesik, 2 delik Ø10
+GEN=60.0
+# YZ profili (y,z): on blok z=25'e kadar; arka duvar Y30..40 z=40'a kadar; alt kesik Y>=10, z<15
+pts=[(0,0),(10,0),(10,15),(40,15),(40,40),(30,40),(30,25),(0,25)]
+# YZ duzlemi normali +X; extrude +X
+result=cq.Workplane("YZ").polyline(pts).close().extrude(GEN)
+for x in (15.0,45.0):
+    d=cq.Workplane("XY").workplane(offset=0).center(x,20.0).circle(5.0).extrude(25.0)
+    result=result.cut(d)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

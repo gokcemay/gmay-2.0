@@ -1,0 +1,16 @@
+import cadquery as cq
+# Olcusuz kabinet cizim: TAHMIN olcular (mm)
+GEN=60   # TAHMIN genislik X
+DER=24   # TAHMIN gercek derinlik Y
+YUK=95
+SOL=0    # sol kolon yok (ust/alt bloklar on, web arkada)
+FLANS=16
+ARKA=10  # TAHMIN web kalinligi (arka)
+govde=cq.Workplane("XY").box(GEN,DER,YUK,centered=False)
+# On yuzden cep: C profili (sag taraf acik), web arkada kalir
+cep=cq.Workplane("XY").box(GEN+2,DER-ARKA+1,YUK-2*FLANS,centered=False).translate((-1,-1,FLANS))
+gov=govde.cut(cep)
+# Dikdortgen delik/cep webde: derinlik yonunde (TAHMIN)
+delik=cq.Workplane("XY").box(20,DER+2,38,centered=False).translate((20,-1,29))
+result=gov.cut(delik)
+# BEKLENEN SINIR KUTUSU: 60 x 30 x 90 mm

@@ -1,0 +1,25 @@
+import cadquery as cq, math
+# Izometrik (-1,-1,1): uzun eksen X=96 (saga-yukari), Y=50 (sola-yukari), Z=40. On uc x=0.
+L, W, H = 96.0, 50.0, 40.0       # X boy, Y genislik, Z yukseklik
+TOP_L = 68.0
+RUN = (L - TOP_L) / 2            # 14: uclardaki egim yatay payi (simetrik, TAHMIN)
+Z_NEAR, Z_FAR = 8.0, 10.0        # on uc dikey kisim 8 (TAHMIN), arka uc 10 (olcu)
+# Govde profili (x,z); XZ duzleminin normali -Y, extrude(-W) +Y'ye gider
+prof = [(0,0),(L,0),(L,Z_FAR),(L-RUN,H),(RUN,H),(0,Z_NEAR)]
+body = cq.Workplane("XZ").polyline(prof).close().extrude(-W)
+# On yuzdeki (y=0) alt yamuk kanal: alt 40, ust 20, yukseklik 15; tum Y boyunca (TAHMIN konum x=25..65)
+trap = [(25,-1),(65,-1),(65,0),(55,15),(35,15),(25,0)]
+body = body.cut(cq.Workplane("XZ").polyline(trap).close().extrude(-W-2).translate((0,-1,0)))
+# Egik on yuzde cep: 30 genis, 22 boy, 5 derin; ortada D10 delik (TAHMIN)
+sl = math.hypot(RUN, H - Z_NEAR)
+b, a = RUN/sl, (H - Z_NEAR)/sl          # egim yonu (b,0,a); dis normal (-a,0,b)
+pl = cq.Plane(origin=(0, W/2, Z_NEAR), xDir=(0,-1,0), normal=(-a,0,b))
+S0, SL, DEP = 5.0, 22.0, 5.0
+body = body.cut(cq.Workplane(pl).center(0, S0+SL/2).rect(30, SL).extrude(-DEP))
+body = body.cut(cq.Workplane(pl).workplane(offset=-DEP).center(0, S0+SL/2).circle(5).extrude(-10))
+# Ust silindir D35, boy 20; ust 12 mm'de Y boyunca 24 genis yarik (x: sol duvar 5)
+CX, CY = 50.0, W/2               # TAHMIN: 60 olcusu belirsiz, piksel okumasi ~48
+cyl = cq.Workplane("XY", origin=(CX, CY, H)).circle(17.5).extrude(20)
+slot = cq.Workplane("XY").box(24, 40, 12+1, centered=False).translate((CX-17.5+5, CY-20, H+8))
+result = body.union(cyl.cut(slot))
+# BEKLENEN SINIR KUTUSU: 96 x 50 x 60 mm

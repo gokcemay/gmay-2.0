@@ -1,0 +1,11 @@
+import cadquery as cq
+# Olcusuz: hepsi TAHMIN (mm)
+R=30; H=70
+G_UST=24; G_ALT=36; G_DER=22   # TAHMIN: kirlangic kuyrugu kanal ust/alt genislik, derinlik
+silindir=cq.Workplane("XY").circle(R).extrude(H)
+# kanal profili YZ duzleminde (ustte dar, altta genis), X boyunca gecer
+pts=[(-G_UST/2,H+1),(G_UST/2,H+1),(G_UST/2,H),(G_ALT/2,H-G_DER),(-G_ALT/2,H-G_DER),(-G_UST/2,H)]
+kanal=cq.Workplane("YZ").workplane(offset=-R-1).polyline(pts).close().extrude(2*R+2)
+delik=cq.Workplane("XY").workplane(offset=H-G_DER-15).circle(6).extrude(30)  # TAHMIN: orta delik
+result=silindir.cut(kanal).cut(delik)
+# BEKLENEN SINIR KUTUSU: 60 x 60 x 70 mm

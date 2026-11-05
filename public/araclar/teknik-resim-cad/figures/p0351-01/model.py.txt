@@ -1,0 +1,35 @@
+import cadquery as cq
+# Catalli/yuvalı kol. Uzunluk X, genislik Y (36), yukseklik Z. Ust yuzler hizali (z=40).
+R = 18.0        # uc yaricapi
+W = 2*R         # genislik 36
+L = 67.0        # delik merkezleri arasi
+H = 40.0        # toplam yukseklik
+GAP = 30.0      # catal araligi
+T_ARM = 10.0    # sol kol kalinligi
+SLOT_W = 14.0   # yuva genisligi
+SLOT_END = 40.0 # yuva ucu (sol merkezden)
+HOLE_D = 16.0
+X_BLOCK = 40.0  # TAHMIN: catal blogunun sol yuzu
+WALL = 10.0     # catal araligi basi duvar kalinligi (cizimde 10)
+Yc = R
+
+def blk(x0, x1, z0, z1):
+    return cq.Workplane("XY").box(x1-x0, W, z1-z0, centered=False).translate((x0, 0, z0))
+def cylz(x, r, z0, z1):
+    return cq.Workplane("XY").center(x, Yc).circle(r).extrude(z1-z0).translate((0, 0, z0))
+
+# sol kol (kalinlik 10, ust z=40)
+arm = blk(0, X_BLOCK, H-T_ARM, H).union(cylz(0, R, H-T_ARM, H))
+# catal blogu
+block = blk(X_BLOCK, L, 0, H).union(cylz(L, R, 0, H))
+body = arm.union(block)
+# catal araligi: duvardan sonra, yandan ve uctan acik, z 5..35
+gap = cq.Workplane("XY").box(L+R+1-(X_BLOCK+WALL), W+2, GAP, centered=False).translate((X_BLOCK+WALL, -1, (H-GAP)/2))
+body = body.cut(gap)
+# sol yuva (14 genis, uclari yuvarlak, merkezden 40'a kadar)
+slot = cq.Workplane("XY").center((SLOT_END-SLOT_W/2)/2, Yc).slot2D(SLOT_END+SLOT_W/2, SLOT_W).extrude(T_ARM+2).translate((0, 0, H-T_ARM-1))
+body = body.cut(slot)
+# sag delik
+body = body.cut(cylz(L, HOLE_D/2, -1, H+1))
+result = body
+# BEKLENEN SINIR KUTUSU: 103 x 36 x 40 mm

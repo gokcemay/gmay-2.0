@@ -1,0 +1,14 @@
+import cadquery as cq
+# Izometrik, olcusuz: hepsi TAHMIN (mm)
+W = 30.0    # TAHMIN: toplam X
+WC = 15.0   # TAHMIN: alcak on kutunun baslangic x'i (C)
+DP = 20.0   # TAHMIN: egik bloğun Y derinligi (y=0..DP)
+YD = 20.0   # TAHMIN: on kutunun one cikintisi (y=-YD..0)
+H = 70.0    # TAHMIN: arka yukseklik (a,f)
+HL = 42.0   # TAHMIN: alcak yukseklik (b,c,d,e,c')
+# Egik blok: (y,z) profili, y=0'da HL, y=DP'de H
+blok = cq.Workplane("YZ").polyline([(0,0),(DP,0),(DP,H),(0,HL)]).close().extrude(W)
+# Alcak on kutu x in [WC,W], y in [-YD,0]
+kutu = cq.Workplane("XY").box(W-WC, YD, HL, centered=False).translate((WC, -YD, 0))
+result = blok.union(kutu)
+# BEKLENEN SINIR KUTUSU: 30 x 40 x 70 mm

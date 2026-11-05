@@ -1,0 +1,19 @@
+import cadquery as cq
+# Dikdortgen govde, ustte kanal, -X yuzunde (sol) ve -Y yuzunde (sag) basamakli delikler. Hepsi TAHMIN (mm).
+W = 36.0   # TAHMIN: X genislik (kisa)
+D = 70.0   # TAHMIN: Y derinlik (uzun)
+H = 36.0   # TAHMIN: Z yukseklik
+govde = cq.Workplane("XY").box(W, D, H, centered=False)
+# Ustte uzun dikdortgen kanal
+kanal = cq.Workplane("XY").box(20, 52, 14, centered=False).translate((8, 9, H - 14))
+govde = govde.cut(kanal)
+# -X yuzunden X ekseni boyunca delik: govde ortasina kadar, cap 14, havsa cap 22 derinlik 3
+Y0, Z0 = D / 2, H / 2 - 4
+dx = cq.Workplane("YZ").workplane(offset=-1).center(Y0, Z0).circle(7).extrude(W / 2 + 1)
+hx = cq.Workplane("YZ").workplane(offset=-1).center(Y0, Z0).circle(11).extrude(4)
+# -Y yuzunden Y ekseni boyunca delik (XZ normali -Y; negatif extrude +Y'ye gider)
+X1, Z1 = W / 2, H / 2 - 4
+dy = cq.Workplane("XZ").workplane(offset=1).center(X1, Z1).circle(6).extrude(-(D / 2))
+hy = cq.Workplane("XZ").workplane(offset=1).center(X1, Z1).circle(10).extrude(-4)
+result = govde.cut(dx).cut(hx).cut(dy).cut(hy)
+# BEKLENEN SINIR KUTUSU: 36 x 70 x 36 mm

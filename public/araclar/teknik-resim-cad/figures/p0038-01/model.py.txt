@@ -1,0 +1,9 @@
+import cadquery as cq
+D=40.0  # derinlik
+# ön profil (x,z): basamaklı; sağ duvar x50..60 tam yükseklik
+pts=[(0,0),(60,0),(60,40),(50,40),(50,20),(20,20),(20,10),(0,10)]
+govde=cq.Workplane("XZ").polyline(pts).close().extrude(-D)
+# arka duvar: kalınlık 10, x 20..50, z 20..40
+arka=cq.Workplane("XY").box(30,10,20,centered=False).translate((20,30,20))
+result=govde.union(arka)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

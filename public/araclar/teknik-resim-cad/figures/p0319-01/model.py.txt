@@ -1,0 +1,22 @@
+import cadquery as cq
+# TAHMIN olcular (mm), olcusuz cizim; 5.1.26 parcasi, kesme duzlemi onunde ve arkasinda kalan iki parca
+L=80.0; B=50.0; H=40.0; R=8.0; T=5.0
+HOLE_D=8.0; HOLE_Z=26.0
+BOSS_OD=22.0; BOSS_ID=12.0; BOSS_H=22.0
+SLOT_W=28.0; SLOT_X=L/2          # arka parca: on cidardaki kanal (ortada) TAHMIN
+def shell():
+    b=cq.Workplane("XY").box(L,B,H,centered=False).edges("|Z").fillet(R)
+    c=cq.Workplane("XY").box(L-2*T,B-2*T,H,centered=False).translate((T,T,T)).edges("|Z").fillet(R-T)
+    return b.cut(c)
+body=shell()
+# on cidarda ustten tabana kadar kanal
+body=body.cut(cq.Workplane("XY").box(SLOT_W,2*T+2,H,centered=False).translate((SLOT_X-SLOT_W/2,-1,T)))
+# kanal arkasinda halka (U bosluk)
+boss=cq.Workplane("XY").center(SLOT_X,T+8).circle(BOSS_OD/2).circle(BOSS_ID/2).extrude(BOSS_H).translate((0,0,T-0.5))
+body=body.union(boss)
+body=body.cut(cq.Workplane("YZ").center(B/2,HOLE_Z).circle(HOLE_D/2).extrude(L))
+# on-parca: kesilen on-sag ceyrek kose (L seklinde kabuk), ayri katı; arka-saga/asagiya ofsetli
+q=shell().intersect(cq.Workplane("XY").box(L/2,B/2,H,centered=False).translate((L/2,0,0)))
+q=q.translate((L+25,-40,-8))
+result=body.union(q)
+# BEKLENEN SINIR KUTUSU: ~ 185 x 90 x 40 mm

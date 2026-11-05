@@ -1,0 +1,22 @@
+import cadquery as cq
+# Olcusuz izometrik; hepsi TAHMIN (mm). X uzun eksen (yukari-saga), Y derinlik (arkaya), Z yukseklik.
+L = 100.0   # TAHMIN: toplam uzunluk X
+D = 40.0    # TAHMIN: derinlik Y
+H_KOL = 15.0  # TAHMIN: sol kol / taban yuksekligi
+H_BLOK = 50.0 # TAHMIN: yuksek blok yuksekligi
+X_BLOK = 30.0 # TAHMIN: yuksek blok baslangici
+# 1) Taban (kol + govde altı)
+taban = cq.Workplane("XY").box(L, D, H_KOL, centered=False)
+# 2) Yuksek blok (kolun sag tarafinda)
+blok = cq.Workplane("XY").box(L - X_BLOK, D, H_BLOK, centered=False).translate((X_BLOK, 0, 0))
+govde = taban.union(blok)
+# 3) Sag uc: onden acik dikdortgen kertik (TAHMIN), arkada yuksek kisim kalir
+kertik = cq.Workplane("XY").box(12, 25, H_BLOK - 30 + 1, centered=False).translate((78, -1, 30))
+govde = govde.cut(kertik)
+# 4) Ustte dikdortgen cep (TAHMIN)
+cep = cq.Workplane("XY").box(45, 28, 21, centered=False).translate((35, 6, 30))
+govde = govde.cut(cep)
+# 5) Dusey delik (TAHMIN): cap 14, cepten tabana kadar
+delik = cq.Workplane("XY").workplane(offset=-1).center(50, 20).circle(7).extrude(H_BLOK)
+result = govde.cut(delik)
+# BEKLENEN SINIR KUTUSU: 100 x 40 x 50 mm

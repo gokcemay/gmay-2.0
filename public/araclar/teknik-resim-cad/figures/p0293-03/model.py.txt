@@ -1,0 +1,20 @@
+import cadquery as cq
+# Alttan gorunus; uzun eksen Y (cizimde asagi-saga giden kenar). TAHMIN (mm).
+GEN=40    # TAHMIN: X
+DER=80    # TAHMIN: Y (uzun)
+KAL=6     # TAHMIN: plaka kalinligi
+DUV=15    # TAHMIN: yan duvar yuksekligi
+plaka=cq.Workplane("XY").box(GEN,DER,KAL,centered=False)
+# Uzun kenar boyunca duvar (cizimde sag-ust kenar, X=max)
+duvar=cq.Workplane("XY").box(5,DER,DUV,centered=False).translate((GEN-5,0,0))
+# Silindirik govde: duvarin disinda degil, plaka uzerinde Y ucuna yakin (cizimde sol-ust uc)
+sil=cq.Workplane("XY").center(GEN*0.45,DER*0.8).circle(13).extrude(DUV+20)
+govde=plaka.union(duvar).union(sil)
+govde=govde.cut(cq.Workplane("XY").center(GEN*0.45,DER*0.8).circle(7).extrude(DUV+20))
+# Tabanda dikdortgen cep (uzun kenar Y'ye paralel)
+govde=govde.cut(cq.Workplane("XY").box(18,42,3,centered=False).translate((8,18,0)))
+# Dort delik
+for x,y in [(7,6),(7,DER-6),(GEN-12,6),(GEN-12,DER-6)]:
+    govde=govde.cut(cq.Workplane("XY").center(x,y).circle(3.5).extrude(KAL))
+result=govde
+# BEKLENEN SINIR KUTUSU: 40 x 80 x 35 mm

@@ -1,0 +1,34 @@
+import cadquery as cq
+# Kesilmiş kasnak, iki yarım parça ayrı çizilmiş. Ölçüsüz: TAHMİN (mm)
+R_DIS = 40.0   # TAHMİN dış çeper yarıçapı
+R_IC = 34.0    # TAHMİN iç çeper yarıçapı
+H = 30.0       # TAHMİN çeper yüksekliği
+R_GOBEK = 14.0 # TAHMİN göbek dış yarıçapı
+R_DELIK = 9.0  # TAHMİN göbek deliği yarıçapı
+KOL_W = 6.0    # TAHMİN kol genişliği
+KOL_Z0, KOL_Z1 = 8.0, 16.0  # TAHMİN kol alt/üst kotu
+AYRIK = (30.0, 30.0, 10.0)  # TAHMİN: ikinci parçanın kaydırması
+# Yarım halka (Y<0 yarısı) için kutu ile kes
+def yarim(r, h, alt):
+    c = cq.Workplane("XY").circle(r).extrude(h)
+    return c
+half_mask_front = cq.Workplane("XY").box(200, 100, 100, centered=(True, False, False)).translate((0, -100, -10))
+half_mask_back = cq.Workplane("XY").box(200, 100, 100, centered=(True, False, False)).translate((0, 0, -10))
+def parca(mask, kolsiz_tarafi):
+    cep = cq.Workplane("XY").circle(R_DIS).circle(R_IC).extrude(H)
+    gob = cq.Workplane("XY").circle(R_GOBEK).circle(R_DELIK).extrude(H)
+    p = cep.union(gob).intersect(mask)
+    # kollar: göbekten çepere +X ve -X yönünde
+    for s in (1, -1):
+        x0 = s * (R_DELIK + (R_GOBEK-R_DELIK)/2)
+        x1 = s * (R_IC + 1)
+        k = cq.Workplane("XY").box(abs(x1-x0), KOL_W, KOL_Z1-KOL_Z0, centered=False)
+        k = k.translate((min(x0,x1), -KOL_W/2, KOL_Z0)).intersect(mask)
+        p = p.union(k)
+    return p
+a = parca(half_mask_front, 1)
+# ikinci parça: arka yarı, ayrık konumda; kollardan biri simetri dışı (tek kol)
+b = parca(half_mask_back, 1).translate(AYRIK)
+result = a.add(b)  # iki ayrı katı (birleştirilmedi)
+result = cq.Workplane("XY").newObject([cq.Compound.makeCompound([a.val(), b.val()])])
+# BEKLENEN SINIR KUTUSU: ~110 x 70 x 40 mm, 2 katı

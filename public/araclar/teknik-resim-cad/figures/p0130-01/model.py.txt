@@ -1,0 +1,30 @@
+import cadquery as cq
+# Izometrik (-1,-1,1): X=65 saga-yukari, Y=75 sola-yukari, Z yukseklik. Orijin on-sol-alt kose.
+BX, BY, BZ = 65.0, 75.0, 25.0    # taban
+PT, PH = 15.0, 140.0             # dik levha: X kalinlik 15 (x=50..65), yukseklik 140
+RC_Y, RC_Z = 52.0, 75.0          # TAHMIN: halka merkezi (y), z=75 (ölçü)
+RO, RI, RL = 25.0, 15.0, 20.0    # D50, D30, boy 20 (levhadan -X'e)
+HOLE_D, HOLE_Z = 16.0, 123.0     # iki D16 delik, halka merkezinin 48 ustunde
+HOLE_Y = (15.0, 57.0)            # aralik 42, arka kenardan 18 (15 ve 18 olculerinden)
+SLOT_W, SLOT_L, SLOT_YC = 20.0, 40.0, 33.0   # TAHMIN: U kanal genisligi, x=0'dan derinlik 40, y merkezi
+# Taban, on-sol dikey kosede 10x45 pah
+base = cq.Workplane("XY").box(BX, BY, BZ, centered=False)
+base = base.edges("|Z").edges(cq.selectors.BoxSelector((-1,-1,-1),(1,1,BZ+1))).chamfer(10)
+# U kanal (x=0 yuzunden icerye, ucu yarim daire)
+r = SLOT_W/2
+u = (cq.Workplane("XY").box(SLOT_L-r+1, SLOT_W, BZ+2, centered=False).translate((-1, SLOT_YC-r, -1))
+     .union(cq.Workplane("XY", origin=(0,0,-1)).center(SLOT_L-r, SLOT_YC).circle(r).extrude(BZ+2)))
+base = base.cut(u)
+# Dik levha, ust on kenarda 10x45 pah
+plate = cq.Workplane("XY").box(PT, BY, PH, centered=False).translate((BX-PT, 0, 0))
+plate = plate.edges("|X").edges(cq.selectors.BoxSelector((BX-PT-1,-1,PH-1),(BX+1,1,PH+1))).chamfer(10)
+# Halka (YZ duzlemi normali +X; negatif extrude -X'e)
+ring = cq.Workplane("YZ", origin=(BX-PT, RC_Y, RC_Z)).circle(RO).extrude(-RL)
+body = base.union(plate).union(ring)
+# D30 delik boydan boya
+body = body.cut(cq.Workplane("YZ", origin=(BX-PT-RL-1, RC_Y, RC_Z)).circle(RI).extrude(RL+PT+2))
+# iki D16 delik levhadan gecer
+for y in HOLE_Y:
+    body = body.cut(cq.Workplane("YZ", origin=(BX-PT-1, y, HOLE_Z)).circle(HOLE_D/2).extrude(PT+2))
+result = body
+# BEKLENEN SINIR KUTUSU: 65 x 75 x 140 mm

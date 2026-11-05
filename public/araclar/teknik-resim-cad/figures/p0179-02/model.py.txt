@@ -1,0 +1,14 @@
+import cadquery as cq
+# 4 ayrı prizma (kompozisyon), ölçüler çizimden; belirsiz olanlar TAHMİN
+# Parça 1: 45 x 10 x 84.5 (62+22.5)
+p1 = cq.Workplane("XY").box(45, 10, 84.5, centered=False)
+# Parça 2: genişlik 11, derinlik 20 (TAHMİN: ölçü belirsiz), yükseklik 28
+p2 = cq.Workplane("XY").box(11, 20, 28, centered=False).translate((60, 0, 0))
+# Parça 3: taban 11 x derinlik 20, yükseklik 28, eğik yüz: yan profil (y,z) yamuk, TAHMİN
+pts = [(0, 0), (20, 0), (20, 28), (6, 28)]
+p3 = cq.Workplane("YZ").polyline(pts).close().extrude(11).translate((80, 0, 0))
+# Parça 4: 23 x 9 x 12
+p4 = cq.Workplane("XY").box(23, 9, 12, centered=False).translate((100, 0, 0))
+result = p1.add(p2).add(p3).add(p4)
+result = cq.Workplane("XY").newObject([cq.Compound.makeCompound([o.val() for o in (p1, p2, p3, p4)])])
+# BEKLENEN SINIR KUTUSU: 123 x 20 x 84.5 mm

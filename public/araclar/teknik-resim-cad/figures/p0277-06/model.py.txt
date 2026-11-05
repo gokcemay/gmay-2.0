@@ -1,0 +1,12 @@
+import cadquery as cq
+# TAHMIN: olcusuz. XZ profili (on yuz gercek sekil) Y yonunde ekstrude; A kesme duzlemi XZ'ye paralel (Y=YC).
+D=30.0   # Y derinlik TAHMIN
+YC=12.0  # kesme duzlemi A konumu (onden) TAHMIN
+# profil (x,z) TAHMIN: ana plaka x15..60, z0..50; sol tarafta basamakli kollar
+pts=[(15,0),(75,0),(75,50),(15,50),(15,40),(8,40),(8,32),(0,32),(0,22),(15,22)]
+govde=cq.Workplane("XZ").polyline(pts).close().extrude(-D)
+# gizli bosluklar (kesikli cizgi): kesme duzleminin iki yanina tasan cepler TAHMIN
+cep1=cq.Workplane("XY").box(10,14,12,centered=False).translate((32,3,30))
+cep2=cq.Workplane("XY").box(8,10,10,centered=False).translate((52,6,14))
+tam=govde.cut(cep1).cut(cep2)
+result=tam.intersect(cq.Workplane("XY").box(90,YC,60,centered=False).translate((-10,0,-5)))

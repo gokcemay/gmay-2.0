@@ -1,0 +1,26 @@
+import cadquery as cq
+# Kabinet çizimi (arka yukarı-sola). Ölçüsüz: genişlik 40 mm'ye sabitlendi, kalanı piksel oranından. Hepsi TAHMİN.
+W = 40.0      # TAHMİN X genişlik
+DS = 30.0     # TAHMİN taban plakası derinliği (Y)
+TS = 6.0      # TAHMİN taban kalınlığı
+TW = 7.0      # TAHMİN duvar kalınlığı (arkada)
+HW = 60.0     # TAHMİN duvar yüksekliği (tabandan)
+CH_X, CH_Z = 9.0, 11.0   # TAHMİN üst köşe pahı
+RIB_T = 5.0   # TAHMİN kaburga kalınlığı (X)
+RIB_D = 15.0  # TAHMİN kaburga öne çıkıntısı (Y)
+RIB_H = 43.0  # TAHMİN kaburga üst yüksekliği (taban üstünden)
+# 1) Taban plakası, ön yüz Y=0
+base = cq.Workplane("XY").box(W, DS, TS, centered=False)
+# 2) Duvar: sekizgen-benzeri profil (XZ), arka Y=DS-TW..DS
+pts = [(0, TS), (W, TS), (W, TS+HW-CH_Z), (W-CH_X, TS+HW), (CH_X, TS+HW), (0, TS+HW-CH_Z)]
+wall = cq.Workplane("XZ").polyline(pts).close().extrude(-TW).translate((0, DS-TW, 0))
+# 3) Eğik kaburgalar: yan profil (YZ) üçgen, duvar ön yüzünden öne çıkar
+yw = DS - TW
+tri = [(yw+0.5, TS), (yw-RIB_D, TS), (yw+0.5, TS+RIB_H)]
+def rib(x0):
+    return cq.Workplane("YZ").polyline(tri).close().extrude(RIB_T).translate((x0, 0, 0))
+ribs = rib(0).union(rib(W-RIB_T))
+# 4) Dikdörtgen pencere (duvarı tam keser) TAHMİN
+win = cq.Workplane("XY").box(10, TW+2, 20, centered=False).translate((15, DS-TW-1, TS+19))
+result = base.union(wall).union(ribs).cut(win)
+# BEKLENEN SINIR KUTUSU: 40 x 30 x 66 mm

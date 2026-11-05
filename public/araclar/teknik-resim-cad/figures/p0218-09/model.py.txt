@@ -1,0 +1,21 @@
+import cadquery as cq
+# Olcusuz cizim: TAHMIN (mm), cizimdeki piksel oranlarindan
+X_UZ = 100   # TAHMIN: toplam uzunluk X
+Y_DER = 75   # TAHMIN: derinlik Y
+Z_TABAN = 45 # TAHMIN: taban yuksekligi
+Z_DUVAR = 62 # TAHMIN: sag duvar tepe yuksekligi
+# taban blogu
+taban = cq.Workplane("XY").box(X_UZ, Y_DER, Z_TABAN, centered=False)
+# sag duvar: egimli ic yuzlu, XZ profili, tum derinlik
+duvar_pts = [(78, Z_TABAN-1), (92, Z_DUVAR), (X_UZ, Z_DUVAR), (X_UZ, Z_TABAN-1)]
+duvar = cq.Workplane("XZ").polyline(duvar_pts).close().extrude(-Y_DER)
+# sol ince levha (X=0..8), tum derinlik, taban ustune cikik
+levha = cq.Workplane("XY").box(8, Y_DER, Z_DUVAR+3, centered=False)
+# sol alt blok: pah (YZ profili) X 0..30 -- ON tarafa dogru tasar? TAHMIN
+pah_pts = [(0,0),(Y_DER,0),(Y_DER,Z_TABAN-5),(Y_DER-10,Z_TABAN+10),(0,Z_TABAN+10)]
+# kare delik (tasiyici), TAHMIN
+delik = cq.Workplane("XY").box(25, 25, 100, centered=False).translate((38, 25, -10))
+# sol on blok: X -18..8, ust on kenari pahli (YZ profili), TAHMIN
+blok = (cq.Workplane("YZ").polyline([(0,0),(Y_DER,0),(Y_DER,32),(Y_DER-12,45),(0,45)]).close().extrude(26).translate((-18,0,0)))
+result = blok.union(taban.union(duvar).union(levha).cut(delik))
+# BEKLENEN SINIR KUTUSU: 100 x 75 x 65 mm

@@ -1,0 +1,20 @@
+import cadquery as cq
+# Olcusuz izometrik cizim: oranlardan TAHMIN (hepsi TAHMIN, mm). En buyuk boyut yukseklik = 80.
+W = 50.0      # TAHMIN: X genislik (uzun kenar, sag-yukari)
+D = 30.0      # TAHMIN: Y derinlik (arka=spine, on=acik uc)
+H = 80.0      # TAHMIN: Z yukseklik
+KOL_UST = 13.0   # TAHMIN: ust kol kalinligi
+KOL_ALT = 15.0   # TAHMIN: alt kol kalinligi
+SIRT = 12.0      # TAHMIN: arka sirt kalinligi (Y)
+# Pocket (dikdortgen kanal) sirtin on yuzunden arkaya, arka duvara acik; sol yuze acilmaz
+KX0, KX1 = 16.0, 33.0   # TAHMIN: kanal X araligi
+KZ0, KZ1 = 25.0, 57.0   # TAHMIN: kanal Z araligi
+KDER = 8.0              # TAHMIN: kanal derinligi (sirtin icine, sol yuze tasmaz)
+# Govde: YZ duzleminde C profil (on Y=0 acik, sirt Y=D-SIRT..D), X boyunca ekstrude
+govde = cq.Workplane("XY").box(W, D, H, centered=False)
+bosluk = cq.Workplane("XY").box(W + 2, D - SIRT + 1, H - KOL_UST - KOL_ALT, centered=False).translate((-1, -1, KOL_ALT))
+govde = govde.cut(bosluk)
+# Kanal: arka duvardan (Y=D-SIRT) sirtin icine
+kanal = cq.Workplane("XY").box(KX1 - KX0, KDER, KZ1 - KZ0, centered=False).translate((KX0, D - SIRT, KZ0))
+result = govde.cut(kanal)
+# BEKLENEN SINIR KUTUSU: 50 x 30 x 80 mm

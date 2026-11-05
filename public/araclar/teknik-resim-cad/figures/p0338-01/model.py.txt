@@ -1,0 +1,15 @@
+import cadquery as cq
+# Kademeli mil, ekseni X; olcusuz, hepsi TAHMIN (mm), toplam uzunluk ~100.
+# (x_baslangic, x_bitis, yaricap)
+kademe = [(0,16,14.0),   # sol bas D28
+          (16,52,22.0),  # ana govde D44
+          (52,68,16.0),  # boyun/flans D32
+          (68,72,13.0),  # kucuk halka D26
+          (72,100,11.0)] # uc mili D22
+pts = [(0,0)]
+for x0,x1,r in kademe:
+    pts += [(x0,r),(x1,r)]
+pts += [(100,0)]
+# Profil XY duzleminde (x, r), X ekseni etrafinda dondurulur
+result = cq.Workplane("XY").polyline(pts).close().revolve(360,(0,0,0),(1,0,0))
+# BEKLENEN SINIR KUTUSU: 100 x 44 x 44 mm

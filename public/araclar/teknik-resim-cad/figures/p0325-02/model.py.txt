@@ -1,0 +1,21 @@
+import cadquery as cq
+# p0325-02: ayrilmis on parca. Hepsi TAHMIN (olcusuz)
+L=40.0   # TAHMIN: govde uzunlugu (delik ekseni X boyunca)
+W=45.0   # TAHMIN: govde derinligi Y
+H=40.0   # TAHMIN: govde yuksekligi Z
+R=14.0   # TAHMIN: yatay delik yaricapi
+body=cq.Workplane("XY").box(L,W,H,centered=False)
+# yatay silindirik bosluk, X ekseni boyunca, one (Y min) dogru acik
+bore=cq.Workplane("YZ").center(W*0.45,H/2).circle(R).extrude(L)
+slot=cq.Workplane("XY").box(L,W*0.45,2*R,centered=False).translate((0,0,H/2-R))
+body=body.edges("|X").edges(">Y").fillet(16)
+body=body.cut(bore).cut(slot)
+# ust kulak: levha (YZ duzleminde), X'te ince; delik X ekseni boyunca
+T=8.0   # TAHMIN kulak kalinligi
+CY=W*0.55; CZ=H+22.0
+ear=cq.Workplane("YZ").center(CY,CZ).circle(11).extrude(T)
+neck=cq.Workplane("XY").box(T,22,CZ-H,centered=False).translate((0,CY-11,H))
+ear=ear.union(neck)
+hole=cq.Workplane("YZ").center(CY,CZ).circle(5).extrude(L)
+result=body.union(ear).cut(hole)
+# BEKLENEN SINIR KUTUSU: 40 x 45 x 62 mm

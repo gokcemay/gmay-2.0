@@ -1,0 +1,15 @@
+import cadquery as cq
+# Kabinet: on yuz gercek sekil (XZ), derinlik Y arkaya, gercek derinlik 40 (olcu).
+D = 40.0
+def blk(x0, x1, y0, y1, z0, z1):
+    return cq.Workplane("XY").box(x1-x0, y1-y0, z1-z0, centered=False).translate((x0, y0, z0))
+# ana govde: sol blok 40 x 40 x 30, sag alcak blok 20 x 40 x 20
+body = blk(0, 40, 0, D, 0, 30).union(blk(40, 60, 0, D, 0, 20))
+# on pervazlar (derinlik 0..10, z 30..40) x 0..10 ve 30..40
+body = body.union(blk(0, 10, 0, 10, 30, 40)).union(blk(30, 40, 0, 10, 30, 40))
+# arka kutular 10x10x10 (derinlik 30..40), x 0..10 ve 30..40 ; TAHMIN: oturdugu seviye z=30
+body = body.union(blk(0, 10, 30, 40, 30, 40)).union(blk(30, 40, 30, 40, 30, 40))
+# sag yuzdeki kanal: z 0..10, derinlik 10..30, 10 mm icerlik TAHMIN
+body = body.cut(blk(50, 61, 10, 30, -1, 10))
+result = body
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

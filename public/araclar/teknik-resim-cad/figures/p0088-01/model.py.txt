@@ -1,0 +1,18 @@
+import cadquery as cq, math
+# Dusey eksenli iki silindirik baslikli kol; tabanlar ayni duzlemde (Z=0)
+D_MERKEZ = 60.0   # mm merkez arasi
+R1, RH1, H1 = 15.0, 11.0, 20.0   # Ø30 dis, Ø22 delik, yukseklik 20
+R2, RH2, H2 = 10.0, 6.0, 15.0    # Ø20 dis, Ø12 delik, yukseklik 15
+T_KOL = 10.0                     # kol kalinligi 10 (tabanda)
+# Kol: iki daire arasi dis teget profil (XY)
+c = (R1 - R2) / D_MERKEZ
+s = math.sqrt(1 - c*c)
+pts = [(R1*c, R1*s), (D_MERKEZ+R2*c, R2*s), (D_MERKEZ+R2*c, -R2*s), (R1*c, -R1*s)]
+kol = cq.Workplane("XY").polyline(pts).close().extrude(T_KOL)
+b1 = cq.Workplane("XY").circle(R1).extrude(H1)
+b2 = cq.Workplane("XY").center(D_MERKEZ, 0).circle(R2).extrude(H2)
+govde = kol.union(b1).union(b2)
+h1 = cq.Workplane("XY").workplane(offset=-1).circle(RH1).extrude(H1+2)
+h2 = cq.Workplane("XY").workplane(offset=-1).center(D_MERKEZ, 0).circle(RH2).extrude(H2+2)
+result = govde.cut(h1).cut(h2)
+# BEKLENEN SINIR KUTUSU: 70 x 30 x 20 mm

@@ -1,0 +1,24 @@
+import cadquery as cq
+# Uzun eksen Y; plaka + yarim silindir kabuk (acik taraf -X) + uc basamaklari. TAHMIN (mm).
+W=40    # TAHMIN: X
+L=120   # TAHMIN: Y
+T=10    # TAHMIN: plaka kalinligi
+H=35    # TAHMIN: silindir yuksekligi
+R=22    # TAHMIN: dis yaricap
+r=14    # TAHMIN: ic yaricap
+cy=L*0.5
+plaka=cq.Workplane("XY").box(W,L,T,centered=False)
+# Uc basamaklari: Y uclarinda X>25 bolgesi kesilir (basamak), delikle
+for y0,y1 in ((0,18),(L-18,L)):
+    plaka=plaka.cut(cq.Workplane("XY").box(W-25+1,y1-y0,T/2,centered=False).translate((25,y0,T/2)))
+sil=cq.Workplane("XY").center(W-R,cy).circle(R).extrude(T+H)
+govde=plaka.union(sil)
+govde=govde.cut(cq.Workplane("XY").center(W-R,cy).circle(r).extrude(T+H))
+# Ic boslugun -X yarisini ac (kabuk yarim silindir)
+govde=govde.cut(cq.Workplane("XY").box(R,2*r,H,centered=False).translate((W-R-R,cy-r,T)))
+# Yan yarim delik cenikleri ve delik
+for y in (8,L-8):
+    govde=govde.cut(cq.Workplane("XY").center(30,y).circle(4).extrude(T))
+govde=govde.cut(cq.Workplane("XY").center(8,cy+35).circle(4).extrude(T))
+result=govde
+# BEKLENEN SINIR KUTUSU: 40 x 120 x 45 mm

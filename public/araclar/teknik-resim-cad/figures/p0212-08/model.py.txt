@@ -1,0 +1,17 @@
+import cadquery as cq
+# Olcusuz: TAHMIN (mm). Uzun eksen X, yan profil YZ'de.
+GEN=100   # TAHMIN: X boyu
+DER=60    # TAHMIN: Y derinligi
+H_ARKA=70 # TAHMIN: arka yukseklik
+H_ON=40   # TAHMIN: on kenar yuksekligi
+Y_DUZ=22  # TAHMIN: arkadaki duz ust genisligi
+KAN_X0,KAN_X1=40,70  # TAHMIN: kanal araligi
+KAN_TABAN=15         # TAHMIN: kanal taban yuksekligi
+# Egik ustlu profil (Y,Z): on Y=0, egim arkaya dogru yukselir
+prof=[(0,0),(DER,0),(DER,H_ARKA),(DER-Y_DUZ,H_ARKA),(0,H_ON)]
+# YZ duzleminin normali +X
+govde=cq.Workplane("YZ").polyline(prof).close().extrude(GEN)
+# Tum derinlik boyunca uzanan kanal
+kanal=cq.Workplane("XY").box(KAN_X1-KAN_X0,DER+2,H_ARKA,centered=False).translate((KAN_X0,-1,KAN_TABAN))
+result=govde.cut(kanal)
+# BEKLENEN SINIR KUTUSU: 100 x 60 x 70 mm

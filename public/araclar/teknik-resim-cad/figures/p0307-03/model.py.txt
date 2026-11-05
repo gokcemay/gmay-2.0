@@ -1,0 +1,22 @@
+import cadquery as cq
+import math
+# Olcusuz izometrik uc kollu kasnak: hepsi TAHMIN (mm). Eksen Z.
+R_DIS = 50.0   # TAHMIN rim dis yaricap
+CIDAR = 5.0    # TAHMIN rim cidar kalinligi
+H = 28.0       # TAHMIN rim ve gobek yuksekligi
+R_PIM = 20.0   # TAHMIN gobek dis yaricap
+R_DEL = 13.0   # TAHMIN gobek delik yaricap
+KOL_G = 10.0    # TAHMIN kol genisligi
+KOL_H = 9.0    # TAHMIN kol yuksekligi (tabana yakin)
+KOL_Z = 4.0    # TAHMIN kol alt kotu (tabandan hafif yukarida)
+AÇILAR = [180, 300, 60]   # kol yonleri (derece), cizimden: sol, sag-on, arka
+rim = cq.Workplane("XY").circle(R_DIS).circle(R_DIS-CIDAR).extrude(H)
+gobek = cq.Workplane("XY").circle(R_PIM).circle(R_DEL).extrude(H)
+result = rim.union(gobek)
+L = (R_DIS - CIDAR/2) - (R_PIM - 2)   # kol ucu rim cidar ortasinda biter (disari tasmaz)
+for a in AÇILAR:
+    # +X yonunde kol olustur, sonra Z etrafinda don
+    kol = (cq.Workplane("XY").box(L, KOL_G, KOL_H, centered=(False, True, False))
+           .translate((R_PIM-2, 0, KOL_Z)).rotate((0,0,0),(0,0,1),a))
+    result = result.union(kol)
+# BEKLENEN SINIR KUTUSU: 100 x 100 x 30 mm

@@ -1,0 +1,28 @@
+import cadquery as cq
+# Bukumlu kol: YZ duzleminde L seklinde serit, iki halka. Halka 1 ekseni X, halka 2 ekseni Z.
+L_Y = 60.0      # yatay merkez mesafesi (Y) - cizimdeki 60
+L_Z = 40.0      # dikey merkez mesafesi (Z) - cizimdeki 40
+R_DIS, R_IC = 15.0, 8.0   # buküm dis/ic yaricap (R15, R8)
+W = 15.0                  # serit ic duzlem genisligi 15 (TAHMIN: halka kalinligiyla ayni)
+RC = R_IC + W/2           # buküm orta yaricap (ic R8, dis R23; R15 etiketi belirsiz)
+R_DIS = R_IC + W
+RO, RH = 15.0, 9.0        # halka Ø30, delik Ø18
+T = 15.0                  # halka kalinligi 15 (serit X kalinligi de 15 kabul, TAHMIN)
+# Halka 1: merkez (y=0,z=0), eksen X, X'te ortali
+h1 = cq.Workplane("YZ").workplane(offset=-T/2).circle(RO).extrude(T)
+# Halka 2: merkez (y=L_Y, z=L_Z), eksen Z
+h2 = cq.Workplane("XY").workplane(offset=L_Z-T/2).center(0, L_Y).circle(RO).extrude(T)
+# Serit: dikey bacak, buküm, yatay bacak (hepsi X'te T kalin, ortali)
+def box(y0, y1, z0, z1):
+    return cq.Workplane("XY").box(T, y1-y0, z1-z0, centered=False).translate((-T/2, y0, z0))
+dik = box(-W/2, W/2, 0, L_Z-RC)
+yat = box(RC, L_Y, L_Z-W/2, L_Z+W/2)
+# buküm: merkez (y=RC, z=L_Z-RC); ceyrek halka, sol-ust ceyrek
+ceyrek = (cq.Workplane("YZ").workplane(offset=-T/2).center(RC, L_Z-RC).circle(R_DIS).circle(R_IC).extrude(T))
+kutu = box(0, RC, L_Z-RC, L_Z)  # sol-ust ceyregi sec (y<RC, z>L_Z-RC)
+ceyrek = ceyrek.intersect(box(-20, RC, L_Z-RC, L_Z+20))
+govde = h1.union(h2).union(dik).union(yat).union(ceyrek)
+d1 = cq.Workplane("YZ").workplane(offset=-T).circle(RH).extrude(2*T)
+d2 = cq.Workplane("XY").workplane(offset=L_Z-T).center(0, L_Y).circle(RH).extrude(2*T)
+result = govde.cut(d1).cut(d2)
+# BEKLENEN SINIR KUTUSU: 30 x 75 x 55 mm

@@ -1,0 +1,18 @@
+import cadquery as cq
+# Sekil 5.69: ayni parca, on-sol ceyrek (dusey delik ekseninin on-sol tarafi) kesilmis halde. Hepsi TAHMIN (mm).
+L = 100.0; D = 40.0; H_KOL = 15.0; H_BLOK = 50.0; X_BLOK = 30.0
+taban = cq.Workplane("XY").box(L, D, H_KOL, centered=False)
+blok = cq.Workplane("XY").box(L - X_BLOK, D, H_BLOK, centered=False).translate((X_BLOK, 0, 0))
+govde = taban.union(blok)
+kertik = cq.Workplane("XY").box(12, 25, 21, centered=False).translate((78, -1, 30))
+govde = govde.cut(kertik)
+cep = cq.Workplane("XY").box(45, 28, 21, centered=False).translate((35, 6, 30))
+govde = govde.cut(cep)
+HX, HY = 50.0, 20.0   # delik ekseni TAHMIN
+delik = cq.Workplane("XY").workplane(offset=-1).center(HX, HY).circle(7).extrude(H_BLOK)
+govde = govde.cut(delik)
+# Ceyrek kesim: x in [X_BLOK, HX], y in [0, HY], z > H_KOL (kolun ustu) -- kol kalir
+ceyrek = cq.Workplane("XY").box(HX - X_BLOK + 0.0, HY + 1, H_BLOK, centered=False).translate((X_BLOK, -1, H_KOL))
+result = govde.cut(ceyrek)
+# Kesilen ceyrek ayri cizilmis; burada yalnizca kalan parca modellendi.
+# BEKLENEN SINIR KUTUSU: 100 x 40 x 50 mm

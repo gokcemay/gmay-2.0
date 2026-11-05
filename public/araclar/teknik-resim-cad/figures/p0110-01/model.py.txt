@@ -1,0 +1,19 @@
+import cadquery as cq
+# Cizim 2.1.41, izometrik (bakis -1,-1,1): eksen Z. Flans Ø50 x 7, bosluk Ø28 yukseklik 17 (flans ustunden)
+FL_D=50; FL_T=7
+BOS_D=28; BOS_H=17        # "17" olcusu flans ustunden bosluk yuksekligi (yorum)
+DELIK_D=15                # merkez Ø15 delik
+YARIK_W=8; YARIK_DER=10   # 8 genis yarik (TAHMIN derinlik 10, "10" olcusu okunamadi)
+CEMBER_D=38; CIVATA_D=6   # Ø38 daire uzerinde 4 adet Ø6 delik, eksenler uzerinde (0/90/180/270)
+g=cq.Workplane("XY").circle(FL_D/2).extrude(FL_T)
+g=g.union(cq.Workplane("XY").workplane(offset=FL_T-0.01).circle(BOS_D/2).extrude(BOS_H+0.01))
+TOP=FL_T+BOS_H
+# merkez gecis deligi (boydan boya, TAHMIN)
+g=g.cut(cq.Workplane("XY").workplane(offset=-1).circle(DELIK_D/2).extrude(TOP+2))
+# ustte Y yonunde uzanan yarik (X'te 8 mm genis), derinlik 10
+g=g.cut(cq.Workplane("XY").workplane(offset=TOP-YARIK_DER).rect(YARIK_W,BOS_D+2).extrude(YARIK_DER+1))
+# 4 civata deligi
+for (x,y) in [(CEMBER_D/2,0),(-CEMBER_D/2,0),(0,CEMBER_D/2),(0,-CEMBER_D/2)]:
+    g=g.cut(cq.Workplane("XY").workplane(offset=-1).center(x,y).circle(CIVATA_D/2).extrude(FL_T+2))
+result=g
+# BEKLENEN SINIR KUTUSU: 50 x 50 x 24 mm

@@ -1,0 +1,6 @@
+import cadquery as cq
+# Olcusuz; hepsi TAHMIN (mm). Kesilmis arka parca: L profil (XZ), Y boyunca 20 mm
+W=60.0; H=45.0; D=20.0   # TAHMIN
+pts=[(0,0),(W,0),(W,H),(20,H),(20,20),(0,20)]  # TAHMIN: sol alcak, sag yuksek basamak
+result=cq.Workplane("XZ").polyline(pts).close().extrude(-D)
+# BEKLENEN SINIR KUTUSU: 60 x 20 x 45 mm

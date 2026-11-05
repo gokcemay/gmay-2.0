@@ -1,0 +1,20 @@
+import cadquery as cq
+# Olcusuz cizim: tum olculer oranlardan TAHMIN (mm)
+W, H, T = 60.0, 100.0, 15.0        # TAHMIN plaka genislik X, yukseklik Z, kalinlik Y
+CH = 12.0                          # TAHMIN ust iki kose pahi
+WX0, WX1, WZ0, WZ1 = 12.0, 48.0, 66.0, 80.0   # TAHMIN dikdortgen pencere (X, Z araliklari), plakayi boydan boya deler
+CX, CZ = 30.0, 28.0                # TAHMIN silindir ekseni konumu (plaka on yuzunde)
+R_OUT, R_IN = 21.0, 10.0           # TAHMIN silindir dis/ic yaricap
+L = 32.0                           # TAHMIN silindirin plakadan on tarafa (-Y) cikinti boyu
+# 1) plaka profili (XZ), Y=0..T (arka yuz Y=T; on yuz Y=0)
+pts = [(0,0),(W,0),(W,H-CH),(W-CH,H),(CH,H),(0,H-CH)]
+plaka = cq.Workplane("XZ").polyline(pts).close().extrude(-T)
+# 2) silindir: on yuzden -Y yonune L cikinti
+sil = cq.Workplane("XZ", origin=(0,0,0)).center(CX,CZ).circle(R_OUT).extrude(L)   # XZ normali -Y: +extrude on tarafa
+govde = plaka.union(sil)
+# 3) pencere: plaka boyunca
+pencere = cq.Workplane("XZ", origin=(0,-1,0)).center((WX0+WX1)/2,(WZ0+WZ1)/2).rect(WX1-WX0,WZ1-WZ0).extrude(-(T+2))
+# 4) silindir deligi: uctan arka yuze kadar tam delik (gizli cember arka yuzde)
+delik = cq.Workplane("XZ", origin=(0,T+1,0)).center(CX,CZ).circle(R_IN).extrude(L+T+2)
+result = govde.cut(pencere).cut(delik)
+# BEKLENEN SINIR KUTUSU: 60 x 50 x 100 mm

@@ -1,0 +1,29 @@
+import cadquery as cq
+# p0144-01: izometrik, X=genislik(50), Y=uzunluk(96), Z=yukseklik. Yon: -1,-1,1 (Y=0 ucu on, tutamak orada)
+GEN = 50      # mm X (ölçü)
+UZUN = 96     # mm Y (ölçü)
+YUK = 40      # mm TAHMİN: gövde 30 + üst pah 10 (30 ölçüsü pah altı duvar yüksekliği varsayıldı)
+UC_YUK = 10   # mm uç dikey kenar (ölçü 10)
+UC_EGIM = 18  # mm uç eğiminin Y'deki uzunluğu (TAHMİN; üst yüz 60 olsun diye (96-60)/2)
+YAN_PAH = 10  # mm yan pah yüksekliği (ölçü 10)
+UST_GEN = 35  # mm üst yüz genişliği (ölçü 35)
+# Gövde: (Y,Z) yan profili, X boyunca ekstrüde (YZ düzlemi normali +X)
+yan = cq.Workplane("YZ").polyline([(0,0),(UZUN,0),(UZUN,UC_YUK),(UZUN-UC_EGIM,YUK),(UC_EGIM,YUK),(0,UC_YUK)]).close().extrude(GEN)
+# Kesit (X,Z) profili: üstte yan pahlar; Y boyunca ekstrüde
+ins = (GEN-UST_GEN)/2
+kes = cq.Workplane("XZ").polyline([(0,0),(GEN,0),(GEN,YUK-YAN_PAH),(GEN-ins,YUK),(ins,YUK),(0,YUK-YAN_PAH)]).close().extrude(-UZUN)
+govde = yan.intersect(kes)
+# Alt kemer: X boyunca açık, 40 x 15, Y ortada
+kemer = cq.Workplane("XY").box(GEN+2, 40, 15, centered=False).translate((-1,(UZUN-40)/2,0))
+govde = govde.cut(kemer)
+# Ön uçta (Y=0) tutamak: 30 genişlik, 18 yükseklik, 5 çıkıntı
+tut = cq.Workplane("XY").box(30, 5+6, 18, centered=False).translate((GEN/2-15,-5,0))
+govde = govde.union(tut)
+# Üst silindir Ø30, 20 yükseklik (5+10+5), ortada
+CX, CY = GEN/2, UZUN/2
+sil = cq.Workplane("XY").workplane(offset=YUK-1).center(CX,CY).circle(15).extrude(20+1)
+# Ortadaki 10'luk bantta -X yönünde düz yuva (kiriş 20 -> merkezden 11.2)
+yuva = cq.Workplane("XY").box(10, 40, 10, centered=False).translate((CX-11.2-10, CY-20, YUK+5))
+sil = sil.cut(yuva)
+result = govde.union(sil)
+# BEKLENEN SINIR KUTUSU: 50 x 101 x 50 mm

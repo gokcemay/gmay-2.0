@@ -1,0 +1,18 @@
+import cadquery as cq
+# TAHMIN: olcusuz cizim
+X=50   # TAHMIN: genislik
+Y=55   # TAHMIN: derinlik
+Z=28   # TAHMIN: yukseklik
+CH_Y0=28  # TAHMIN: alt eğik yuzun Y baslangici (bottom)
+CH_Z=10   # TAHMIN: eğik yuzun yukselme miktari (Y=Ymax ucunda)
+PW=18     # TAHMIN: oblong cep genisligi
+PD=18     # TAHMIN: cep derinligi
+# YZ profili: arka-alt kose egik kesilmis
+prof=[(0,0),(CH_Y0,0),(Y,CH_Z),(Y,Z),(0,Z)]
+blok=cq.Workplane("YZ").polyline(prof).close().extrude(X)
+# oblong cep: Y boyunca, +Y ucuna acik, X ortada
+pocket=(cq.Workplane("XY").workplane(offset=Z-PD).center(X*0.42,(12+Y-8)/2)
+        .slot2D(Y-8-12+PW, PW, 90).extrude(PD+1))
+# cep: ucu Y=10'da yuvarlak, +Y'de tasma
+result=blok.cut(pocket)
+# BEKLENEN SINIR KUTUSU: 40 x 60 x 25 mm

@@ -1,0 +1,17 @@
+import cadquery as cq
+# Kabinet; ön yüz gerçek şekil. Genişlik 40 mm'ye sabitlendi, kalan piksel oranından. Hepsi TAHMİN.
+W = 40.0; DS = 30.0; TS = 7.0; TW = 7.0; H = 63.0   # TAHMİN: genişlik, taban derinliği, taban kalınlığı, duvar kal., toplam yük.
+base = cq.Workplane("XY").box(W, DS, TS, centered=False)
+wall = cq.Workplane("XY").box(W, TW, H, centered=False).translate((0, DS-TW, 0))
+yb = DS-TW
+# Üç blok duvara dayalı (soldan sağa küçük-büyük-küçük), yükseklik 8 mm, derinlik 11 mm TAHMİN
+b1 = cq.Workplane("XY").box(7, 11, 8, centered=False).translate((0, yb-11, TS))
+b2 = cq.Workplane("XY").box(13.5, 11, 8, centered=False).translate((13.5, yb-11, TS))
+b3 = cq.Workplane("XY").box(6, 11, 8, centered=False).translate((34, yb-11, TS))
+# İnce bağlantı boyunları (çizimde küçük çizgiler) TAHMİN
+n1 = cq.Workplane("XY").box(7, 4, 2, centered=False).translate((6.5, yb-8, TS))
+n2 = cq.Workplane("XY").box(7.5, 4, 2, centered=False).translate((27, yb-8, TS))
+# Pencere: duvarı tam keser, üstte köprü kalır; X 6..33, Z 29..49 TAHMİN
+win = cq.Workplane("XY").box(27, TW+2, 20, centered=False).translate((6, yb-1, 29))
+result = base.union(wall).union(b1).union(b2).union(b3).union(n1).union(n2).cut(win)
+# BEKLENEN SINIR KUTUSU: 40 x 30 x 63 mm

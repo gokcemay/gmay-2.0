@@ -1,0 +1,25 @@
+import cadquery as cq, math
+# Flanşlı kamalı burç, üç delikli. Ölçüsüz: hepsi TAHMİN (mm)
+FL_R=40.0   # TAHMİN flanş yarıçapı
+FL_H=8.0    # TAHMİN flanş kalınlığı
+HUB_R=22.0  # TAHMİN göbek yarıçapı
+HUB_H=25.0  # TAHMİN göbek yüksekliği (flanş üstünden)
+BORE_R=14.0 # TAHMİN iç delik yarıçapı
+KEY_W=5.0   # TAHMİN kama kanalı genişliği
+KEY_D=4.0   # TAHMİN kanal derinliği (delik yüzeyinden dışa)
+HOLE_R=4.0  # TAHMİN flanş delik yarıçapı
+PCD_R=30.0  # TAHMİN delik daire yarıçapı
+body=cq.Workplane("XY").circle(FL_R).extrude(FL_H).union(
+     cq.Workplane("XY").workplane(offset=FL_H).circle(HUB_R).extrude(HUB_H))
+# Merkez delik (tam boy)
+body=body.cut(cq.Workplane("XY").circle(BORE_R).extrude(FL_H+HUB_H))
+# Kama kanalı: 20 derece yönünde (sağ-arka), tam göbek boyu
+key=(cq.Workplane("XY").center(BORE_R+KEY_D/2-1,0).rect(KEY_D+2,KEY_W).extrude(FL_H+HUB_H)
+     .rotate((0,0,0),(0,0,1),20))
+body=body.cut(key)
+# Üç flanş deliği, 120 derece aralık (biri öne bakar: 225)
+for a in (225,345,105):
+    x,y=PCD_R*math.cos(math.radians(a)),PCD_R*math.sin(math.radians(a))
+    body=body.cut(cq.Workplane("XY").center(x,y).circle(HOLE_R).extrude(FL_H))
+result=body
+# BEKLENEN SINIR KUTUSU: 80 x 80 x 33 mm

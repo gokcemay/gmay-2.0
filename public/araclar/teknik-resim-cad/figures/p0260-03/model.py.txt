@@ -1,0 +1,14 @@
+import cadquery as cq, math
+# Egik kesik silindir. Hepsi TAHMIN (mm)
+R = 30.0     # TAHMIN yaricap
+HS = 90.0    # silindir ham yuksekligi (kesilecek)
+Z0 = 55.0    # TAHMIN: kesme duzleminin eksendeki yuksekligi
+A = 0.3      # TAHMIN: z egimi x yonunde (sol alcak/sag yuksek degil: hafif)
+B = 0.8     # TAHMIN: z egimi y yonunde (arka yuksek, on alcak)
+sil = cq.Workplane("XY").circle(R).extrude(HS)
+n = cq.Vector(-A, -B, 1).normalized()
+# Kesme duzlemi ustundeki yarim uzay
+pl = cq.Plane(origin=(0,0,Z0), xDir=(1,0,A), normal=n.toTuple())
+ust = cq.Workplane(pl).rect(400,400).extrude(200)
+result = sil.cut(ust)
+# BEKLENEN SINIR KUTUSU: ~60 x 60 x ~75 mm

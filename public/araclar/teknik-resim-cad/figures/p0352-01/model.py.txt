@@ -1,0 +1,23 @@
+import cadquery as cq
+# Kulakli yuvali blok. X (sag-yukari), Y (sol-yukari), Z yukari. Gorunum -1,-1,1. Orijin: blok sol-on-alt kose.
+BX=41.0; BY=40.0; BZ=35.0            # blok (41, 40, 35)
+SAD_R=15.0                           # ust yarim silindir yuvasi Ø30, ekseni X
+WIN_X=26.0; WIN_Z=25.0; WIN_X0=8.0   # on yuz penceresi 26 x 25; X konumu TAHMIN
+EAR_T=10.0; EAR_R=15.0               # kulak kalinligi 10, genisligi 30 (R15)
+CB_D=15.0; CB_DEPTH=3.0; HOLE_D=7.0  # Ø15 derinlik 3, Ø7
+TOT_X=65.0                           # toplam X (65): kulak cikintisi 24 TAHMIN yorum
+blok=cq.Workplane("XY").box(BX,BY,BZ,centered=False)
+# ust yuva: Y-Z duzleminde daire, X boyunca
+sad=cq.Workplane("YZ").workplane(offset=-1).center(BY/2,BZ).circle(SAD_R).extrude(BX+2)
+# on yuz (-Y) penceresi, Y boyunca gecer
+win=cq.Workplane("XY").box(WIN_X,BY+2,WIN_Z,centered=False).translate((WIN_X0,-1,0))
+# kulak: -X yuzunden disari, Y 0..30, ucu yuvarlak
+OUT=TOT_X-BX
+ecx,ecy=-(OUT-EAR_R),EAR_R
+ear=cq.Workplane("XY").center(ecx/2+0.5,ecy).rect(-ecx+1,2*EAR_R).extrude(EAR_T)
+ear=ear.union(cq.Workplane("XY").center(ecx,ecy).circle(EAR_R).extrude(EAR_T))
+hole=cq.Workplane("XY").center(ecx,ecy).circle(HOLE_D/2).extrude(EAR_T)
+cb=cq.Workplane("XY").workplane(offset=EAR_T-CB_DEPTH).center(ecx,ecy).circle(CB_D/2).extrude(CB_DEPTH+1)
+# sag-arka silindirik cikinti modellenmedi
+result=blok.cut(sad).cut(win).union(ear).cut(hole).cut(cb)
+# BEKLENEN SINIR KUTUSU: 65 x 40 x 35 mm

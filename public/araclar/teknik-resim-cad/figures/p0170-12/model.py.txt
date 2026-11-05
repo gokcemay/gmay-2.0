@@ -1,0 +1,16 @@
+import cadquery as cq
+# İzometrik, ölçüsüz: hepsi TAHMİN. Plaka + Y boyunca iki yan duvar (ortada U oluk) + aşağı sarkan gövde.
+LX = 50.0; LY = 40.0; TP = 10.0    # TAHMİN plaka boyutu ve kalınlığı
+ZP = 33.0                            # plaka alt yüzü z (sarkan gövde yüksekliği) TAHMİN
+plate = cq.Workplane("XY").box(LX, LY, TP, centered=False).translate((0, 0, ZP))
+WT = 8.0; WH = 10.0                  # TAHMİN duvar kalınlığı (X) ve yüksekliği
+def wall(x0):
+    w = cq.Workplane("XY").box(WT, LY, WH, centered=False).translate((x0, 0, ZP+TP))
+    notch = cq.Workplane("XY").box(WT+2, 16, 7, centered=False).translate((x0-1, 12, ZP+TP+WH-7))
+    return w.cut(notch)
+body = plate.union(wall(0)).union(wall(LX-WT))
+# Aşağı sarkan gövde, ön-sol köşeye yakın; Y min yüzünde dikdörtgen yuva TAHMİN
+stem = cq.Workplane("XY").box(14, 20, ZP, centered=False).translate((4, 2, 0))
+slot = cq.Workplane("XY").box(6, 10, 20, centered=False).translate((8, -1, 6))
+result = body.union(stem.cut(slot))
+# BEKLENEN SINIR KUTUSU: 50 x 40 x 53 mm

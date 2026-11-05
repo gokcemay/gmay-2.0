@@ -1,0 +1,17 @@
+import cadquery as cq
+# Kabinet cizim: on yuz gercek sekil. Olcusuz: hepsi TAHMIN (mm), H=80'e sabitlendi.
+W = 50.0       # TAHMIN: X genislik (on yuz orani 550:870)
+H = 80.0       # TAHMIN: Z yukseklik
+D = 22.0       # TAHMIN: Y toplam derinlik (cizilen derinligin 2 kati)
+KOL = 14.0     # TAHMIN: ust ve alt kol kalinligi (Z)
+SIRT = 8.0     # TAHMIN: arka sirt kalinligi (Y); on taraf acik
+KX0, KX1 = 16.0, 34.0   # TAHMIN: kanal X araligi
+KZ0, KZ1 = 24.0, 55.0   # TAHMIN: kanal Z araligi
+# Govde: YZ duzleminde C profil (on Y=0 acik), X boyunca ekstrude
+govde = cq.Workplane("XY").box(W, D, H, centered=False)
+bosluk = cq.Workplane("XY").box(W + 2, D - SIRT + 1, H - 2 * KOL, centered=False).translate((-1, -1, KOL))
+govde = govde.cut(bosluk)
+# Kanal: arka duvardan sirtin icinden gecen dikdortgen kanal (kesikli cizgiler arka yuze kadar gidiyor, TAHMIN: gecit)
+kanal = cq.Workplane("XY").box(KX1 - KX0, SIRT + 1, KZ1 - KZ0, centered=False).translate((KX0, D - SIRT, KZ0))
+result = govde.cut(kanal)
+# BEKLENEN SINIR KUTUSU: 50 x 22 x 80 mm

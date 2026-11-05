@@ -1,0 +1,25 @@
+import cadquery as cq
+# Izometrik, ölçülü. X=genişlik 34, Y=uzunluk (yuvarlak uç Y=0, dikey kol arkada), Z=yükseklik
+WX=34.0; R=17.0
+T_BASE=10.0
+HOLE_D=15.0
+H_C=25.0            # dikey koldaki delik merkez yüksekliği (25 ölçüsü) TAHMİN yorum
+Y_END=R             # yuvarlak uç merkezi Y=17
+Y_H1=R+30.0         # 30 aralık -> Y=47
+T_UP=10.0
+Y_UP0=R+55.0        # 55: yuvarlak uç merkezinden dikey kol arka yüzüne -> arka Y=72 TAHMİN yorum
+Y_UP1=Y_UP0         # arka yüz
+Y_UP0=Y_UP1-T_UP
+# 1) Taban: dikdörtgen + yuvarlak uç
+base=cq.Workplane("XY").box(WX,Y_UP1-R,T_BASE,centered=False).translate((0,R,0))
+base=base.union(cq.Workplane("XY").center(R,R).circle(R).extrude(T_BASE))
+# 2) Dikey kol: XZ'de dikdörtgen + yarım daire üst, kalınlık Y
+up=cq.Workplane("XY").box(WX,T_UP,H_C,centered=False).translate((0,Y_UP0,0))
+up=up.union(cq.Workplane("XZ",origin=(0,Y_UP0,0)).center(R,H_C).circle(R).extrude(-T_UP))
+body=base.union(up)
+# 3) Deliklar: tabanda 2, dikey kolda 1
+for y in (Y_END,Y_H1):
+    body=body.cut(cq.Workplane("XY",origin=(R,y,-1)).circle(HOLE_D/2).extrude(T_BASE+2))
+body=body.cut(cq.Workplane("XZ",origin=(0,Y_UP0-1,0)).center(R,H_C).circle(HOLE_D/2).extrude(-(T_UP+2)))
+result=body
+# BEKLENEN SINIR KUTUSU: 34 x 72 x 42 mm

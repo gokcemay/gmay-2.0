@@ -1,0 +1,11 @@
+import cadquery as cq
+W=60.0   # X genişlik
+D=40.0   # Y derinlik (ölçülü)
+H=40.0   # Z yükseklik
+HF=10.0  # ön dikey yüz yüksekliği
+DT=10.0  # üst düz yüzün derinliği
+# Yan profil (y,z), YZ düzleminde; eğik yüz (0,HF)->(D-DT,H)
+pts=[(0,0),(D,0),(D,H),(D-DT,H),(0,HF)]
+# YZ düzlemi normali +X
+result=cq.Workplane("YZ").polyline(pts).close().extrude(W)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

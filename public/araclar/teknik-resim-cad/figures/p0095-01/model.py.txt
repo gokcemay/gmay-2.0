@@ -1,0 +1,37 @@
+import cadquery as cq, math
+# X = 35 (cizimde asagi-saga), Y = 70 (yukari-saga), Z yukari. Orijin sol-on-alt.
+GX, GY, TH = 35.0, 70.0, 10.0   # taban 35 x 70 x 10 (10 olcusu)
+EAR_T = 7.0      # kulak kalinligi (7)
+GAP = 21.0       # kulaklar arasi bosluk (21) -> 7+21+7 = 35
+R = 10.0         # kulak ust yaricapi (R10)
+HOLE_D = 12.0    # delik capi
+HZ = 30.0        # delik merkez yuksekligi (30 olcusu delik eksenine kadar) YORUM
+HY = GY / 2      # TAHMIN: delik Y konumu taban ortasinda
+N_X0, N_W, N_D = 10.0, 15.0, 5.0   # on kanal: soldan 10, genislik 15, derinlik 5
+N_LEN = 22.5     # TAHMIN: on kanal Y uzunlugu
+P_Y0, P_LEN = 22.5, 25.0           # yan cep: Y 22.5..47.5 (22.5 + 25 + 22.5 = 70)
+P_X0 = 25.0      # TAHMIN: cep X 25..35
+
+def teget(A, C, r, secim):
+    dx, dy = A[0]-C[0], A[1]-C[1]
+    d = math.hypot(dx, dy); a = math.atan2(dy, dx); b = math.acos(r/d)
+    adaylar = [(C[0]+r*math.cos(a+s*b), C[1]+r*math.sin(a+s*b)) for s in (1, -1)]
+    return max(adaylar, key=secim)
+
+C = (HY, HZ)
+Tf = teget((0, TH), C, R, lambda p: p[1]-p[0])     # on egim teget noktasi
+Tb = teget((GY, TH), C, R, lambda p: p[1]+p[0])    # arka egim teget noktasi
+def kulak(x0):
+    return (cq.Workplane("YZ").moveTo(0, TH).lineTo(GY, TH).lineTo(*Tb)
+            .threePointArc((HY, HZ+R), Tf).lineTo(0, TH).close().extrude(EAR_T)
+            .translate((x0, 0, 0)))
+# 1) taban + iki kulak (kulak profili taban ust yuzunden (Z=10) baslar; cepler kulagin altina tasar)
+g = cq.Workplane("XY").box(GX, GY, TH, centered=False)
+g = g.union(kulak(0)).union(kulak(GX-EAR_T))
+# 2) kulak deligi (X ekseni boyunca, ikisinden gecer)
+g = g.cut(cq.Workplane("YZ").center(HY, HZ).circle(HOLE_D/2).extrude(GX))
+# 3) on kanal (tabanda 5 derinlik) ve yan cep
+g = g.cut(cq.Workplane("XY").box(N_W, N_LEN, N_D, centered=False).translate((N_X0, 0, TH-N_D)))
+g = g.cut(cq.Workplane("XY").box(GX-P_X0, P_LEN, N_D, centered=False).translate((P_X0, P_Y0, TH-N_D)))
+result = g
+# BEKLENEN SINIR KUTUSU: 35 x 70 x 40 mm

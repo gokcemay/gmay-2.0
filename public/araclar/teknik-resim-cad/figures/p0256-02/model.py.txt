@@ -1,0 +1,9 @@
+import cadquery as cq
+# Egik tepeli prizma; olcusuz -> TAHMIN
+GEN=40.0   # TAHMIN X (AB)
+DER=25.0   # TAHMIN Y (BC)
+H_A=70.0   # TAHMIN: x=0 yuksekligi (A,D)
+H_B=45.0   # TAHMIN: x=GEN yuksekligi (B,C)
+# XZ profili (yamuk), Y boyunca ekstrude (XZ normali -Y, negatif -> +Y)
+result = cq.Workplane("XZ").polyline([(0,0),(GEN,0),(GEN,H_B),(0,H_A)]).close().extrude(-DER)
+# BEKLENEN SINIR KUTUSU: 40 x 25 x 70 mm

@@ -1,0 +1,19 @@
+import cadquery as cq
+# Sac parca t=3 (olculu); diger olculer TAHMIN (mm). Plaka XZ duzleminde, kalinlik +Y.
+T = 3.0      # kalinlik
+W = 60.0     # TAHMIN: genislik X
+ZSOL = 40.0  # TAHMIN: sol dikey kenar yuksekligi
+ZSAG = 44.0  # TAHMIN: sag dikey kenar yuksekligi
+XC, ZC, R = 29.0, 76.0, 18.0  # TAHMIN: kulak yayi merkezi ve yaricapi
+DH = 14.0    # TAHMIN: delik capi
+XU1, XU2 = 16.0, 41.0  # TAHMIN: U yuvasi sol/sag duvar
+ZU = 18.5    # TAHMIN: U yayi merkez yuksekligi
+RU = (XU2-XU1)/2
+XUC = (XU1+XU2)/2
+s = (cq.Workplane("XZ").moveTo(0,0).lineTo(0,ZSOL).lineTo(XC-R,55).lineTo(XC-R,ZC)
+     .threePointArc((XC,ZC+R),(XC+R,ZC)).lineTo(XC+R,56).lineTo(W,ZSAG).lineTo(W,0)
+     .lineTo(XU2,0).lineTo(XU2,ZU).threePointArc((XUC,ZU+RU),(XU1,ZU)).lineTo(XU1,0).close())
+plaka = s.extrude(-T)
+delik = cq.Workplane("XZ").center(XC,ZC).circle(DH/2).extrude(-T)
+result = plaka.cut(delik)
+# BEKLENEN SINIR KUTUSU: 60 x 3 x 94 mm

@@ -1,0 +1,10 @@
+import cadquery as cq
+# Olcusuz: TAHMIN (mm)
+X=60; Y=40; Z=60          # TAHMIN govde
+govde=cq.Workplane("XY").box(X,Y,Z,centered=False)
+# Derin kisim (sol-on), tabana yakin biter; TAHMIN
+derin=cq.Workplane("XY").workplane(offset=5).rect(18,15,centered=False).extrude(Z).translate((10,10,0))
+# Sig kisim (sag-arka), orta derinlikte biter; TAHMIN
+sig=cq.Workplane("XY").workplane(offset=Z-30).rect(22,19,centered=False).extrude(31).translate((28,10,0))
+result=govde.cut(derin).cut(sig)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 60 mm

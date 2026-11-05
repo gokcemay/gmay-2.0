@@ -1,0 +1,18 @@
+import cadquery as cq
+# Olcusuz cizim: tum olculer TAHMIN (mm). Izometrik (-1,-1,1): X sag-yukari, Y sol-yukari, Z yukari.
+GEN=60   # TAHMIN X
+DER=45   # TAHMIN Y
+YUK=40   # TAHMIN Z
+Z_KES=20 # TAHMIN: A kesme duzlemi yuksekligi
+# Govde: ust levha dahil tam parca
+govde=cq.Workplane("XY").box(GEN,DER,YUK,centered=False)
+# Ic bosluk: one (Y=0) acik, TAHMIN
+bosluk=cq.Workplane("XY").box(30,33,22,centered=False).translate((12,-1,8))
+# Ust levhada dikdortgen pencere (gizli kenarli), boslukla birlesir
+pencere=cq.Workplane("XY").box(20,18,12,centered=False).translate((20,12,28))
+# On alt kenarda kucuk basamak/olugu, TAHMIN
+oluk=cq.Workplane("XY").box(8,DER+2,5,centered=False).translate((45,-1,-0.0))
+full=govde.cut(bosluk).cut(pencere).cut(oluk)
+# Kesme duzlemi A katı degil, modele eklenmedi; parca tam hali
+result=full
+# BEKLENEN SINIR KUTUSU: 60 x 45 x 40 mm

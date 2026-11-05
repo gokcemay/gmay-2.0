@@ -1,0 +1,33 @@
+import cadquery as cq
+# Izometrik (-1,-1,1), olcusuz: tum olculer TAHMIN (mm). X genislik, Y uzunluk (derinlik), Z yukseklik.
+GEN = 50.0      # TAHMIN: X genisligi
+BLOK_Y = 35.0   # TAHMIN: yuksek blok uzunlugu (Y=0 .. 35, on taraf)
+PLAKA_Y = 55.0  # TAHMIN: ince plaka uzunlugu (Y=35 .. 90)
+PLAKA_H = 10.0  # TAHMIN: plaka kalinligi
+BLOK_H = 30.0   # TAHMIN: blok yuksekligi
+# 1) Basamakli gövde: blok + plaka (ayni genislik)
+blok = cq.Workplane("XY").box(GEN, BLOK_Y, BLOK_H, centered=False)
+plaka = cq.Workplane("XY").box(GEN, PLAKA_Y, PLAKA_H, centered=False).translate((0, BLOK_Y, 0))
+body = blok.union(plaka)
+# 2) Iki basamakli (havsa) delikler: plakada iki adet. TAHMIN konumlar
+def basamakli(x, y, ztop):
+    d_thru = cq.Workplane("XY").workplane(offset=0).center(x, y).circle(4).extrude(ztop + 1)
+    c1 = cq.Workplane("XY").workplane(offset=ztop - 4).center(x, y).circle(6).extrude(5)
+    c2 = cq.Workplane("XY").workplane(offset=ztop - 1.5).center(x, y).circle(7.5).extrude(2.5)
+    return d_thru.union(c1).union(c2)
+for (hx, hy) in [(25, 78), (25, 52)]:  # TAHMIN
+    body = body.cut(basamakli(hx, hy, PLAKA_H))
+# 3) Blokta oblong (X yonunde uzun) basamakli yuva
+def oblong(cx, cy, z0, L, D, h):
+    return cq.Workplane("XY").workplane(offset=z0).center(cx, cy).slot2D(L, D, 0).extrude(h)
+sx, sy = 25.0, 17.0  # TAHMIN
+yuva = oblong(sx, sy, 0, 30, 10, BLOK_H + 1)
+yuva = yuva.union(oblong(sx, sy, BLOK_H - 4, 33, 13, 5)).union(oblong(sx, sy, BLOK_H - 1.5, 36, 16, 2.5))
+body = body.cut(yuva)
+result = body
+# Kismi kesit (kabuk koparma): blogun x<25 yarisi kesilip alinir; yuva kesit duzleminde yari acik kalir.
+# Ayri cizilen alt parca (kesilen kisim) tek katı kuralı gereği modellenmedi.
+KESIM_X = 25.0  # TAHMIN: kesit duzlemi yuva eksenine yakin
+kes = cq.Workplane("XY").box(KESIM_X + 1, BLOK_Y + 1, BLOK_H, centered=False).translate((-1, -0.5, PLAKA_H))
+result = result.cut(kes)
+# BEKLENEN SINIR KUTUSU: 50 x 90 x 30 mm

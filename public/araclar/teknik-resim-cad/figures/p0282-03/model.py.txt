@@ -1,0 +1,25 @@
+import cadquery as cq, math
+# Olcusuz cizim: tum olculer TAHMIN (mm). Uzun eksen Y (silindir arka ucta), bakis -1,-1,1
+GEN_YAKIN=58  # TAHMIN: silindir ucundaki plaka genisligi X
+GEN_UZAK=100   # TAHMIN: uzak uctaki plaka genisligi X
+UZ=130        # TAHMIN: plaka uzunlugu Y
+T=8           # TAHMIN: plaka kalinligi
+CX,CY=30,100  # TAHMIN: silindir merkezi
+CR,CRI,CH=26,13,50   # TAHMIN: silindir dis/ic yaricap, toplam yukseklik
+BR,BH=6,6     # TAHMIN: kucuk bosluk yaricapi / plaka ustunden yukseklik
+RT=4          # TAHMIN: nervur kalinligi
+# Plaka: yamuk, kose yuvarlatmali
+plaka=cq.Workplane("XY").polyline([(0,0),(GEN_UZAK,0),(GEN_YAKIN,UZ),(0,UZ)]).close().extrude(T)
+plaka=plaka.edges("|Z").fillet(8)
+# Silindir (ustten ic delik)
+sil=cq.Workplane("XY").center(CX,CY).circle(CR).extrude(CH)
+# Kucuk bosluklar (uzak uctaki iki kose)
+bos=cq.Workplane("XY").workplane(offset=T).pushPoints([(14,12),(GEN_UZAK-14,12)]).circle(BR).extrude(BH)
+# Nervur: silindirin +X yanindan uzak ucta sag boslugun yakinina inen ucgen levha
+P0=(CX+CR-RT,CY); P1=(GEN_UZAK-32,8)
+dx,dy=P1[0]-P0[0],P1[1]-P0[1]; L=math.hypot(dx,dy); ang=math.degrees(math.atan2(dy,dx))
+nerv=(cq.Workplane("XZ").polyline([(0,T-1),(0,CH-2),(L,T-1)]).close().extrude(RT/2,both=True)
+      .rotate((0,0,0),(0,0,1),ang).translate((P0[0],P0[1],0)))
+result=plaka.union(sil).union(nerv).union(bos)
+result=result.cut(cq.Workplane("XY").center(CX,CY).circle(CRI).extrude(CH))
+# BEKLENEN SINIR KUTUSU: 100 x 130 x 50 mm

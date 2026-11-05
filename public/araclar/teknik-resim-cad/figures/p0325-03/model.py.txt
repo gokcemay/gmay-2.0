@@ -1,0 +1,21 @@
+import cadquery as cq
+# p0325-03: arka parca (kulakli, yatay yarim yuvali, altta flansli). TAHMIN olculer
+L=40.0; W=45.0; H=40.0; R=14.0
+body=cq.Workplane("XY").box(L,W,H,centered=False)
+bore=cq.Workplane("YZ").center(W*0.4,H/2).circle(R).extrude(L)
+slot=cq.Workplane("XY").box(L,W*0.4,2*R,centered=False).translate((0,0,H/2-R))
+body=body.edges("|X").edges(">Y").fillet(16)
+body=body.cut(bore).cut(slot)
+# ust kulak
+T=8.0; CY=W*0.55; CZ=H+22.0
+ear=cq.Workplane("YZ").center(CY,CZ).circle(11).extrude(T)
+neck=cq.Workplane("XY").box(T,22,CZ-H,centered=False).translate((0,CY-11,H))
+ear=ear.union(neck)
+# yan flans (Y yonunde disari), yuvarlak uclu, delikli
+# yan flans: XZ profili, X'te disari, kalinlik Y 0..12; uc R10, delik O6 ekseni Y (TAHMIN)
+FX=L+22
+fp=cq.Workplane("XZ").polyline([(L-10,6),(FX,6),(FX,26),(L-10,36)]).close().extrude(-12)
+fp=fp.union(cq.Workplane("XZ").center(FX,16).circle(10).extrude(-12))
+fh=cq.Workplane("XZ").center(FX,16).circle(3).extrude(-30)
+result=body.union(ear).union(fp).cut(cq.Workplane("YZ").center(CY,CZ).circle(5).extrude(L)).cut(fh)
+# BEKLENEN SINIR KUTUSU: ~72 x 45 x 62 mm

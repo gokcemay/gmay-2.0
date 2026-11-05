@@ -1,0 +1,15 @@
+import cadquery as cq
+# Olcusuz izometrik; oranlar cizimden piksel olcumuyle (olcek ~0.1 mm/px), TAHMIN
+LX=35      # TAHMIN: tepe cizgisi (X) uzunlugu
+H_DUVAR=10 # TAHMIN: -Y tarafindaki dikey duvar yuksekligi
+ZIRVE=(20,40)   # TAHMIN: (Y,Z) tepe noktasi
+Y_ARKA=45  # TAHMIN: arka egim sonu Y; sonra dikey duvar (cizimde arka egim dikey basamakla biter)
+Z_ARKA=12  # TAHMIN: arka egimin bittigi yukseklik
+FLANS_Y=10 # TAHMIN: on (-Y) basamak/flans derinligi
+FLANS_Z=5  # TAHMIN: flans ust yukseklik (rampa)
+# Ana prizma: (Y,Z) profili YZ duzleminde, X boyunca extrude
+prizma=cq.Workplane("YZ").polyline([(0,0),(0,H_DUVAR),ZIRVE,(Y_ARKA,Z_ARKA),(Y_ARKA,0)]).close().extrude(LX)
+# On flans: rampa seklinde basamak (yaklasik)
+flans=cq.Workplane("YZ").polyline([(-FLANS_Y,0),(0,0),(0,FLANS_Z)]).close().extrude(LX)
+result=prizma.union(flans)
+# BEKLENEN SINIR KUTUSU: 35 x 55 x 40 mm

@@ -1,0 +1,30 @@
+import cadquery as cq
+# Cizim 2.1.38, izometrik (bakis 1,-1,1): X uzunluk (95), Y genislik (45), Z yukseklik
+L=95; W=45
+PLAKA_H=25      # TAHMIN: plaka kalinligi (piksel oranindan)
+SIL_D=25; SIL_H=25   # silindir govde Ø25, plaka ustunden yukseklik 25
+SIL_X=47.5; SIL_Y=22.5   # TAHMIN: ortada
+D_BASAMAK=18; DER_BAS=4  # Ø18 derinlik 4
+D_DELIK=13; DER_DELIK=31 # Ø13 derinlik 31 (silindir ustunden)
+YUVA_MERKEZ_X=(15,80)    # iki yuva merkezi arasi 65
+YUVA_GEN=15              # genis yuva genisligi
+YUVA_DAR=10              # dar gecis yuvasi genisligi
+YUVA_DER=6               # genis yuva derinligi (ustten; "6" olcusu, yorum belirsiz)
+plaka=cq.Workplane("XY").box(L,W,PLAKA_H,centered=False)
+sil=cq.Workplane("XY").workplane(offset=PLAKA_H).center(SIL_X,SIL_Y).circle(SIL_D/2).extrude(SIL_H)
+g=plaka.union(sil)
+ust=PLAKA_H+SIL_H
+g=g.cut(cq.Workplane("XY").workplane(offset=ust-DER_BAS).center(SIL_X,SIL_Y).circle(D_BASAMAK/2).extrude(DER_BAS))
+g=g.cut(cq.Workplane("XY").workplane(offset=ust-DER_DELIK).center(SIL_X,SIL_Y).circle(D_DELIK/2).extrude(DER_DELIK))
+yc=W/2
+def yuva(cx,acik_x):
+    # U profilli yuva: merkez cx, ucu aciga (acik_x) kadar
+    x0=min(cx,acik_x); x1=max(cx,acik_x)
+    def u(gen,z0,h):
+        w=cq.Workplane("XY").workplane(offset=z0).center(cx,yc).circle(gen/2).extrude(h)
+        b=cq.Workplane("XY").workplane(offset=z0).center((x0+x1)/2,yc).rect(x1-x0,gen).extrude(h)
+        return w.union(b)
+    return u(YUVA_GEN,PLAKA_H-YUVA_DER,YUVA_DER+1).union(u(YUVA_DAR,-1,PLAKA_H+2))
+g=g.cut(yuva(YUVA_MERKEZ_X[0],-1)).cut(yuva(YUVA_MERKEZ_X[1],L+1))
+result=g
+# BEKLENEN SINIR KUTUSU: 95 x 45 x 50 mm

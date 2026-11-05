@@ -1,0 +1,15 @@
+import cadquery as cq
+# Olcusuz izometrik (kitap 3.3.10): TAHMIN olculer (mm); -Y on yuz, Z yukari
+D=20.0    # TAHMIN: toplam derinlik Y
+YF=6.0    # TAHMIN: on yuksek duvar kalinligi (Y); orta bolum bu kadar geride
+KX,KZ=16.0,21.0   # TAHMIN: sol kup X ve Z
+# Sol kup
+kup=cq.Workplane("XY").box(KX,D,KZ,centered=False)
+# Arka levha (Y YF..D): XZ profili, egik ust yuz solda asagi iner
+levha_p=[(KX-1,0),(64,0),(64,32),(54,32),(32,12),(KX-1,12)]
+levha=cq.Workplane("XZ").workplane(offset=-YF).polyline(levha_p).close().extrude(-(D-YF))
+# On yuksek duvar (Y 0..YF): sag uc, ust sol kose egik
+on_p=[(45,0),(64,0),(64,32),(54,32),(45,22)]
+on=cq.Workplane("XZ").polyline(on_p).close().extrude(-YF)
+result=kup.union(levha).union(on)
+# BEKLENEN SINIR KUTUSU: 64 x 20 x 32 mm

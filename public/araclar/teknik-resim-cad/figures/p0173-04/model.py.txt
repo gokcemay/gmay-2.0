@@ -1,0 +1,23 @@
+import cadquery as cq
+# Olcusuz cizim: tum olculer oranlardan TAHMIN (mm)
+BX, BY, BZ = 60.0, 30.0, 12.0     # TAHMIN taban plaka: genislik X, derinlik Y, kalinlik Z
+T = 15.0                           # TAHMIN ana levha kalinligi (Y), tabanin arkasina hizali
+Y0 = BY - T                        # levha on yuzu Y konumu
+H = 90.0                           # TAHMIN levha yuksekligi (tabandan itibaren)
+ADIM_Z = 25.0                      # TAHMIN genis govdenin basladigi yukseklik
+NECK_L, NECK_R = 8.0, 51.0         # TAHMIN bacak dis sinirlari (X)
+NOTCH_L, NOTCH_R, NOTCH_H = 20.0, 38.0, 20.0   # TAHMIN alt orta girinti
+CH = 10.0                          # TAHMIN ust kose pahi (iki kose)
+SLOT_W, SLOT_CX, SLOT_ZC = 24.0, 30.0, 54.0    # TAHMIN U kanal genisligi, ekseni, yay merkezi z
+# 1) taban
+taban = cq.Workplane("XY").box(BX, BY, BZ, centered=False)
+# 2) levha profili (XZ), tabana oturur
+pts = [(NECK_L,0),(NOTCH_L,0),(NOTCH_L,NOTCH_H),(NOTCH_R,NOTCH_H),(NOTCH_R,0),(NECK_R,0),
+       (NECK_R,ADIM_Z),(BX,ADIM_Z),(BX,H-CH),(BX-CH,H),(CH,H),(0,H-CH),(0,ADIM_Z),(NECK_L,ADIM_Z)]
+levha = cq.Workplane("XZ", origin=(0, Y0, BZ)).polyline(pts).close().extrude(-T)
+# 3) U kanal: dikdortgen + alt yari daire, levha boyunca
+r = SLOT_W/2
+kanal = (cq.Workplane("XZ", origin=(0, Y0-1, BZ)).center(SLOT_CX, SLOT_ZC).circle(r).extrude(-(T+2))
+         .union(cq.Workplane("XZ", origin=(0, Y0-1, BZ)).center(SLOT_CX, SLOT_ZC+ (H+5-SLOT_ZC)/2).rect(SLOT_W, H+5-SLOT_ZC).extrude(-(T+2))))
+result = taban.union(levha.cut(kanal))
+# BEKLENEN SINIR KUTUSU: 60 x 30 x 102 mm

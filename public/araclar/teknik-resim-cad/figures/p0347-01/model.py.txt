@@ -1,0 +1,28 @@
+import cadquery as cq
+# Olculu cizim (kabinet: on yuz gercek sekil, derinlik sag-yukari). X genislik, Y derinlik, Z yukseklik
+L=70                 # toplam uzunluk
+HX1, HX2 = 10, 60    # yatay delik merkezleri (60 mm aralik: resimden 10 ve 60 okundu)
+HZ=10; HD=10         # delik yuksekligi 10, Ø10
+R=10                 # dis ust kose R10 (delik merkezli)
+H=30                 # orta yukseklik 30
+TOP_W=15             # ust yuz genisligi 15
+EAR_D=10             # kulak derinligi 10
+CEN_D=20             # orta kisim derinligi 20 (TAHMIN: ust sagdaki 20 olcusu)
+CX=L/2
+# On profil (x,z): yuvarlak uclu kulaklar + egik yanlar + ust yuz; arc ucu merkez (10,10)
+import math
+s=R*math.sqrt(0.5)
+prof=(cq.Workplane("XZ").moveTo(0,0).lineTo(L,0).lineTo(L,HZ)
+      .threePointArc((HX2+s,HZ+s),(HX2,HZ+R))
+      .lineTo(CX+TOP_W/2,H).lineTo(CX-TOP_W/2,H).lineTo(HX1,HZ+R)
+      .threePointArc((HX1-s,HZ+s),(0,HZ)).close().extrude(-CEN_D))
+# Kulak bolgelerinde derinligi 10'a indir (x<20 ve x>50, Y>10 kesilir)
+prof=prof.cut(cq.Workplane("XY").box(20,CEN_D,H+1,centered=False).translate((0,EAR_D,0)))
+prof=prof.cut(cq.Workplane("XY").box(20,CEN_D,H+1,centered=False).translate((50,EAR_D,0)))
+# Yatay delikler Y ekseninde
+for x in (HX1,HX2):
+    prof=prof.cut(cq.Workplane("XZ").center(x,HZ).circle(HD/2).extrude(-EAR_D))
+# Dikey Ø10 boydan boya delik
+prof=prof.cut(cq.Workplane("XY").center(CX,CEN_D/2).circle(5).extrude(H))
+result=prof
+# BEKLENEN SINIR KUTUSU: 70 x 20 x 30 mm

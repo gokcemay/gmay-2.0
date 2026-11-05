@@ -1,0 +1,19 @@
+import cadquery as cq
+# Kitap 2.1.23: C blok. Plan 60x40, sol iki kose pahli (20x10), kollar 10 mm, aralik 20 mm, toplam 40.
+L=60.0   # X (60 olculu)
+B=40.0   # Y (40 olculu)
+H=40.0   # Z toplam
+KOL=10.0 # her kol kalinligi
+PAH_X=20.0; PAH_Y=10.0   # sol kose pahi (20 ve 10 olculerinden)
+HOLE_D=24.0
+HOLE_C=(25.0,20.0)       # TAHMIN: delik merkezi (piksel okumasi, 25 etiketi)
+WEB_X=40.0               # TAHMIN: govde (web) x=40..60 arasi, on/sol acik
+plan=[(PAH_X,0),(L,0),(L,B),(PAH_X,B),(0,B-PAH_Y),(0,PAH_Y)]
+blok=cq.Workplane("XY").polyline(plan).close().extrude(H)
+# kollar arasi bosluk: z 10..30, x< WEB_X
+bosluk=cq.Workplane("XY").box(WEB_X+1,B+2,H-2*KOL,centered=False).translate((-1,-1,KOL))
+blok=blok.cut(bosluk)
+# iki dusey delik (her iki kolu deler)
+delik=cq.Workplane("XY").center(*HOLE_C).circle(HOLE_D/2).extrude(H)
+result=blok.cut(delik)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

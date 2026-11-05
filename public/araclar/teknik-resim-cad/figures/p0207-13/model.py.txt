@@ -1,0 +1,12 @@
+import cadquery as cq
+# Olcusuz: TAHMIN (mm)
+GEN=80   # TAHMIN on kenar uzunlugu X
+DER=30   # TAHMIN ucgenin arka tepe derinligi Y
+AX=0     # TAHMIN tepe X konumu (tepe sol-on koseden hemen arkada)
+H=40     # TAHMIN yukseklik Z
+# Ucgen plan, dikey ekstruzyon
+govde=cq.Workplane("XY").polyline([(0,0),(GEN,0),(AX,DER)]).close().extrude(H)
+# Alt yuzde on cepheden gecen egimli girinti (XZ profili, TAHMIN), tum derinlikten kesilir
+kes=cq.Workplane("XZ").polyline([(18,-1),(42,25),(66,-1)]).close().extrude(-(DER+2)).translate((0,-1,0))
+result=govde.cut(kes)
+# BEKLENEN SINIR KUTUSU: 80 x 30 x 40 mm

@@ -1,0 +1,17 @@
+import cadquery as cq
+# Olcusuz: TAHMIN (mm)
+X_UZ = 120   # TAHMIN
+Y_DER = 70   # TAHMIN
+Z_ZEMIN = 45 # TAHMIN: orta zemin ust yuksekligi
+Z_TEPE = 80  # TAHMIN: sol/sag duvar tepe
+# Ana govde profili XZ (on yuz), basamakli alt kontur
+pts = [(0,15),(12,0),(26,0),(36,14),(48,30),(58,34),(58,40),(80,40),(80,30),(90,30),(95,22),(105,22),(115,30),(120,22),
+       (X_UZ,Z_TEPE),(100,Z_TEPE),(80,Z_ZEMIN),(15,Z_ZEMIN),(15,Z_TEPE),(0,Z_TEPE)]
+# duz: yukaridaki sol duvar x0..25 tepe, sag duvar egimli ic yuz
+govde = cq.Workplane("XZ").polyline(pts).close().extrude(-Y_DER)
+# on yuzden acik, uc yuvarlak yuva (Y 0..38, genislik 24, x merkez 62)
+yuva = (cq.Workplane("XY").center(62, 0).rect(24, 76).extrude(100).translate((0, 0, -10))
+        .union(cq.Workplane("XY").center(62, 38).circle(12).extrude(100).translate((0,0,-10))))
+yuva = cq.Workplane("XY").slot2D(76, 24, 90).extrude(100).translate((62, 0, -10))
+result = govde.cut(yuva)
+# BEKLENEN SINIR KUTUSU: 120 x 70 x 80 mm

@@ -1,0 +1,13 @@
+import cadquery as cq
+# İzometrik, ölçüsüz: ölçekten TAHMİN (izometrik pikselden: 4.7 px/mm)
+A = 45.0   # TAHMİN: kol uzunluğu (X, çizimde yukarı-sağ eksen)
+T = 15.0   # TAHMİN: kalınlık (Y)
+H = 70.0   # TAHMİN: yükseklik (Z)
+E = 1.0
+outer = cq.Workplane("XY").box(A, T, H, centered=False)
+# Basamaklı C boşluğu, profil (a=X, z) TAHMİN; sağa açık
+pts = [(A+E,58.5),(25.8,58.5),(25.8,51),(13,51),(13,12),(37,12),(37,21),(A+E,21)]
+# XZ düzleminde çiz, kalınlığı boyunca kes (normal -Y): +T ekstrüzyon -Y'ye gider, kutuyu y=-T..0'a taşı
+cut = cq.Workplane("XZ").polyline(pts).close().extrude(T)
+result = outer.translate((0,-T,0)).cut(cut)
+# BEKLENEN SINIR KUTUSU: 45 x 15 x 70 mm

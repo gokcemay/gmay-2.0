@@ -1,0 +1,20 @@
+import cadquery as cq
+# Izometrik, ölçülü. Y=uzunluk(85), X=genişlik(35), Z=yükseklik
+LY=85.0; WX=35.0
+T_UP=10.0       # arka dikey kolun kalınlığı (Y)
+FOOT=10.0       # ön ayak uzunluğu (Y), tam kalınlık
+T_BASE=15.0     # ön uçtaki kalınlık (Z 0..15)  ("5" okunuşu kısmi; 15 kabul)
+RELIEF=5.0      # altta Y=10..85 arasında 5 mm yükseltilmiş taban
+H_UP=25.0       # dikey kol yüksekliği (Z 5'ten 30'a) TAHMİN: 25 dikey kolun kendi boyu
+SLOT_L=30.0; SLOT_W=15.0; SLOT_Y0=28.0   # yuva Y=28..58 (ön uçtan 28), genişlik 15
+# 1) Taban: Y 0..85, Z 5..15; ön ayak Z 0..5 da dolu
+base=cq.Workplane("XY").box(WX,LY,T_BASE-RELIEF,centered=False).translate((0,0,RELIEF))
+foot=cq.Workplane("XY").box(WX,FOOT,RELIEF,centered=False)
+# 2) Arka dikey kol
+up=cq.Workplane("XY").box(WX,T_UP,H_UP,centered=False).translate((0,LY-T_UP,RELIEF))
+body=base.union(foot).union(up)
+# 3) Üstte oblong yuva (uzun eksen Y), tabanı deler
+slot=(cq.Workplane("XY",origin=(0,0,RELIEF-1)).center(WX/2,SLOT_Y0+SLOT_L/2)
+      .slot2D(SLOT_L,SLOT_W,90).extrude(T_BASE-RELIEF+2))
+result=body.cut(slot)
+# BEKLENEN SINIR KUTUSU: 35 x 85 x 30 mm

@@ -1,0 +1,35 @@
+import cadquery as cq
+import math
+# Kanatlı destek: ortada büyük silindir, iki yanda delikli kulak, ince plaka. Ölçüsüz: hepsi TAHMİN (mm)
+R_B = 22.0      # TAHMİN büyük silindir dış yarıçap
+R_B_DELIK = 15.0  # TAHMİN büyük delik yarıçapı
+R_B_BASAMAK = 18.5  # TAHMİN üstteki basamak (havşa) yarıçapı
+BASAMAK_DER = 4.0   # TAHMİN basamak derinliği
+H_B = 40.0      # TAHMİN büyük silindir yüksekliği
+R_K = 11.0      # TAHMİN kulak dış yarıçap
+R_K_DELIK = 6.0 # TAHMİN kulak delik yarıçapı
+H_K = 28.0      # TAHMİN kulak yüksekliği
+T = 6.0         # TAHMİN plaka kalınlığı
+MERKEZ = (0.0, 0.0)
+KULAK1 = (-42.0, -4.0)   # TAHMİN sol-ön kulak
+KULAK2 = (42.0, -10.0)   # TAHMİN sağ-arka kulak
+def kol(c, r_c):
+    # plaka kolu: kulak ile büyük silindir arasında yamuk (kulak genişliği -> büyük silindir genişliği)
+    dx, dy = KULAK_V = (c[0]-MERKEZ[0], c[1]-MERKEZ[1])
+    L = math.hypot(dx, dy); ux, uy = dx/L, dy/L; nx, ny = -uy, ux
+    pts = [(c[0]+nx*R_K, c[1]+ny*R_K), (c[0]-nx*R_K, c[1]-ny*R_K),
+           (MERKEZ[0]-nx*r_c, MERKEZ[1]-ny*r_c), (MERKEZ[0]+nx*r_c, MERKEZ[1]+ny*r_c)]
+    return cq.Workplane("XY").polyline(pts).close().extrude(T)
+plaka = kol(KULAK1, R_B*1.0).union(kol(KULAK2, R_B*1.0))
+# büyük silindir ve kulaklar
+buyuk = cq.Workplane("XY").center(*MERKEZ).circle(R_B).extrude(H_B)
+k1 = cq.Workplane("XY").center(*KULAK1).circle(R_K).extrude(H_K)
+k2 = cq.Workplane("XY").center(*KULAK2).circle(R_K).extrude(H_K)
+govde = plaka.union(buyuk).union(k1).union(k2)
+# delikler: büyük delik (alta kadar açık), üstte basamak, kulak delikleri
+govde = govde.cut(cq.Workplane("XY").center(*MERKEZ).circle(R_B_DELIK).extrude(H_B))
+govde = govde.cut(cq.Workplane("XY").workplane(offset=H_B-BASAMAK_DER).center(*MERKEZ).circle(R_B_BASAMAK).extrude(BASAMAK_DER))
+for k in (KULAK1, KULAK2):
+    govde = govde.cut(cq.Workplane("XY").center(*k).circle(R_K_DELIK).extrude(H_K))
+result = govde
+# BEKLENEN SINIR KUTUSU: ~120 x 44 x 40 mm

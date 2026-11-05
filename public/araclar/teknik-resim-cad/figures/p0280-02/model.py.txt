@@ -1,0 +1,14 @@
+import cadquery as cq
+# Ölçüsüz izometrik çizim; en büyük boyut X=70 mm. Hepsi TAHMİN (mm)
+W=70.0   # X genişlik TAHMİN
+D=50.0   # Y derinlik TAHMİN
+H=50.0   # Z yükseklik TAHMİN
+govde=cq.Workplane("XY").box(W,D,H,centered=False)
+# Ön yüzden (Y=0) içeri açılan dikdörtgen cep: x 10..60, z 12..38, derinlik 35 (gizli kenarlara göre TAHMİN)
+cep=cq.Workplane("XY").box(50,35,26,centered=False).translate((10,0,12))
+# Üstten açılan çentik: arka sağ blok yükseltisi önünde, x 25..45, y 25..50 TAHMİN, z 28..50
+cent=cq.Workplane("XY").box(20,25,22,centered=False).translate((25,25,28))
+# Cebin sağ ucunda küçük basamak (çizimde x=415..440 civarı), TAHMİN: x 55..60, z 38..42
+basamak=cq.Workplane('XY').box(5,35,4,centered=False).translate((55,0,38))
+result=govde.cut(cep).cut(cent).cut(basamak)
+# BEKLENEN SINIR KUTUSU: 70 x 50 x 50 mm

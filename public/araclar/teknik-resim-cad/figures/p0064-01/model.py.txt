@@ -1,0 +1,15 @@
+import cadquery as cq
+# p0064-01: taban 60x40x15 (alt kanal 20x5), uzerinde Y=15..25 dik plaka (yukseklik 40), 2 delik Ø10
+GEN=60.0; DER=40.0; TABAN_H=15.0; TOP_H=40.0
+PL_Y0=15.0; PL_T=10.0   # plaka on yuzu Y=15, kalinlik 10
+KANAL_Y0=10.0; KANAL_W=20.0; KANAL_H=5.0  # alt kanal Y 10..30, 5 derin, tum X boyunca
+DELIK_D=10.0; DELIK_Z=30.0  # delik merkezi taban ustunden 15 yukari
+govde=cq.Workplane("XY").box(GEN,DER,TABAN_H,centered=False)
+plaka=cq.Workplane("XY").box(GEN,PL_T,TOP_H-TABAN_H,centered=False).translate((0,PL_Y0,TABAN_H))
+result=govde.union(plaka)
+kanal=cq.Workplane("XY").box(GEN+2,KANAL_W,KANAL_H,centered=False).translate((-1,KANAL_Y0,0))
+result=result.cut(kanal)
+for x in (15.0,45.0):
+    d=cq.Workplane("XZ").workplane(offset=-PL_Y0).center(x,DELIK_Z).circle(DELIK_D/2).extrude(-PL_T)
+    result=result.cut(d)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

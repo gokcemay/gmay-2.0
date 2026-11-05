@@ -1,0 +1,22 @@
+import cadquery as cq
+# p0159-10: ölçüsüz; TAHMİN (hepsi). Duvar arkada (Y yüksek), taban plakası -Y'ye uzanır, iki yanda üçgen nervür. Yön -1,-1,1 (X sağ-yukarı)
+GEN = 60      # TAHMİN X
+YUK = 85      # TAHMİN Z
+DUV = 15      # TAHMİN duvar kalınlığı (Y)
+TABAN_Y = 52  # TAHMİN taban derinliği (Y)
+TABAN_T = 8   # TAHMİN taban kalınlığı
+PAH = 15      # TAHMİN sol üst köşe pahı
+NERV_T = 5    # TAHMİN nervür kalınlığı
+yd = TABAN_Y-DUV
+# Duvar: (X,Z) profili, sol üst köşe pahlı, Y=yd..TABAN_Y
+duvar = cq.Workplane("XZ").polyline([(0,0),(GEN,0),(GEN,YUK),(PAH,YUK),(0,YUK-PAH)]).close().extrude(-DUV).translate((0,yd,0))
+taban = cq.Workplane("XY").box(GEN, TABAN_Y, TABAN_T, centered=False)
+g = duvar.union(taban)
+# Nervürler: (Y,Z) üçgen, x=0..5 ve x=55..60
+def nerv(x0):
+    return cq.Workplane("YZ").polyline([(0,TABAN_T-1),(yd+1,TABAN_T-1),(yd+1,YUK*0.8)]).close().extrude(NERV_T).translate((x0,0,0))
+g = g.union(nerv(0)).union(nerv(GEN-NERV_T))
+# Duvarda dikdörtgen geçiş deliği (çizimde kesikli görünüyor), TAHMİN
+delik = cq.Workplane("XY").box(17, DUV+2, 25, centered=False).translate((15, yd-1, 20))
+result = g.cut(delik)
+# BEKLENEN SINIR KUTUSU: 60 x 52 x 85 mm

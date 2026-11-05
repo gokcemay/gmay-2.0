@@ -1,0 +1,14 @@
+import cadquery as cq
+# Kabinet; olculer okunan (60x40x40), bazi ic olculer TAHMIN
+W=60; D=40; H=40
+FD=10      # on bloklarin derinligi (okunan 10)
+FH=20      # on blok yuksekligi (okunan 20)
+SLOT_X0,SLOT_X1=20,40   # U yuva (okunan 20/20)
+SLOT_H=10  # yuva tabani yuksekligi (okunan 10)
+# TAHMIN: arka duvar y=FD..D, z=10..40 (sol arka kenar 30 yuksek), altinda taban z=0..10
+alt=cq.Workplane("XY").box(W,D,SLOT_H,centered=False)
+on=cq.Workplane("XY").box(W,FD,FH,centered=False)
+yuva=cq.Workplane("XY").box(SLOT_X1-SLOT_X0,FD,FH-SLOT_H,centered=False).translate((SLOT_X0,0,SLOT_H))
+arka=cq.Workplane("XY").box(W,D-FD,H-SLOT_H,centered=False).translate((0,FD,SLOT_H))
+result=alt.union(on).union(arka).cut(yuva)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm

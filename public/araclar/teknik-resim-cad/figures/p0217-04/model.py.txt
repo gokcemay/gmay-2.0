@@ -1,0 +1,15 @@
+import cadquery as cq
+# Olcusuz cizim: oranlardan TAHMIN (mm). Uzun eksen Y, profil XZ'de, X=0 on-sol.
+UZ=100      # TAHMIN: uzunluk Y
+# Profil (X,Z): sol alcak blok (X0-16, h17), taban kat (h11, X17-34), yuksek kisim (X34-50, h26)
+prof=[(0,0),(50,0),(50,26),(34,26),(34,11),(16,11),(16,17),(0,17)]
+govde=cq.Workplane("XZ").polyline(prof).close().extrude(-UZ)  # +Y'ye uzanir
+# Sol blokta icerde gizli dar kanal (on yuzde acik): X 12-15, ust yuzden derinlik 6
+kanal=cq.Workplane("XY").box(3,UZ+2,6,centered=False).translate((12.5,-1,11))
+govde=govde.cut(kanal)
+# Ust cubuk: yuksek kisim uzerinde, TAHMIN
+BAR=cq.Workplane("XY").box(16,88,8,centered=False).translate((34,12,44))
+AYAK1=cq.Workplane("XY").box(16,10,18,centered=False).translate((34,90,26))
+AYAK2=cq.Workplane("XY").box(16,10,18,centered=False).translate((34,12,26))
+result=govde.union(BAR).union(AYAK1).union(AYAK2)
+# BEKLENEN SINIR KUTUSU: 50 x 100 x 52 mm

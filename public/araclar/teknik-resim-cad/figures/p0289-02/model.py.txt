@@ -1,0 +1,28 @@
+import cadquery as cq
+# TAHMIN: olcusuz cizim, mm
+R_B = 25.0     # TAHMIN: silindirik baslik yaricapi
+H_B = 35.0     # TAHMIN: baslik yuksekligi (z=0'dan)
+R_HOLE = 17.0  # TAHMIN: baslik deligi
+R_STEP = 21.0  # TAHMIN: ust kademe/havsa yaricapi
+STEP_D = 5.0   # TAHMIN: kademe derinligi
+T = 10.0       # TAHMIN: plaka kalinligi
+W = 2 * R_B    # plaka genisligi (x), basligin capi kadar
+L = 105.0      # TAHMIN: plaka uzunlugu (y), baslik ekseni y=L-R_B..., on kenar y=0
+CY = L - R_B   # baslik ekseni y
+# Plaka: on tarafi duz, arka ucu baslik ile yuvarlak (x ekseni -R_B..R_B)
+plate = cq.Workplane("XY").center(0, (CY) / 2).rect(W, CY).extrude(T)
+plate = plate.union(cq.Workplane("XY").center(0, CY).circle(R_B).extrude(T))
+boss = cq.Workplane("XY").center(0, CY).circle(R_B).extrude(H_B)
+body = plate.union(boss)
+# Baslik deligi (gecimli) ve ust kademe
+body = body.cut(cq.Workplane("XY").center(0, CY).circle(R_HOLE).extrude(H_B))
+body = body.cut(cq.Workplane("XY").workplane(offset=H_B - STEP_D).center(0, CY).circle(R_STEP).extrude(STEP_D))
+# Oblong delik (x yonunde uzun) + havsa
+SY = 28.0       # TAHMIN: delik merkezi y
+SL = 38.0       # TAHMIN: oblong toplam uzunluk (x)
+SW = 16.0       # TAHMIN: oblong genislik
+body = body.cut(cq.Workplane("XY").center(0, SY).slot2D(SL, SW).extrude(T))
+# Havsa: daha genis oblong, ust yuzden sig (1.5 mm)
+body = body.cut(cq.Workplane("XY").workplane(offset=T - 1.5).center(0, SY).slot2D(SL + 5, SW + 5).extrude(1.5))
+result = body
+# BEKLENEN SINIR KUTUSU: 50 x 105 x 35 mm

@@ -1,0 +1,18 @@
+import cadquery as cq
+# p0360-01: silindirik govde (Y ekseni), cift kulak, yan ucgen flans
+OD=40.0; ID=25.0; LC=35.0   # LC TAHMIN (25+10)
+body=cq.Workplane("XZ").circle(OD/2).circle(ID/2).extrude(-LC)  # Y 0..LC
+# kulaklar (XZ levhalar): 5 kalin, 5 aralik; delik Ø10 ve Ø20; merkez z=35
+HZ=35.0; RW=14.0
+def kulak(y0,dh):
+    e=cq.Workplane("XZ").center(0,HZ).circle(RW).extrude(-5).translate((0,y0,0))
+    n=cq.Workplane("XY").box(2*RW,5,HZ-5,centered=False).translate((-RW,y0,5))
+    return e.union(n).cut(cq.Workplane("XZ").center(0,HZ).circle(dh/2).extrude(-LC).translate((0,y0,0)))
+ears=kulak(10,10).union(kulak(20,20))
+# yan flans: kalinlik 10, delik Ø6 merkezi x=35,z=0, R10 uc
+fp=cq.Workplane("XZ").polyline([(0,-18),(35,-10),(35,10),(15,18),(0,18)]).close().extrude(-10).translate((0,LC-10,0))
+fp=fp.union(cq.Workplane("XZ").center(35,0).circle(10).extrude(-10).translate((0,LC-10,0)))
+hole=cq.Workplane("XZ").center(35,0).circle(3).extrude(-LC)
+result=body.union(ears).union(fp).cut(hole).cut(cq.Workplane("XZ").circle(ID/2).extrude(-LC))
+result=result.rotate((0,0,0),(0,0,1),-90)  # eksen Y -> X (halka sol-onde)
+# BEKLENEN SINIR KUTUSU: ~55 x 35 x 49 mm

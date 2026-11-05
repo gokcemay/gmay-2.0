@@ -1,0 +1,19 @@
+import cadquery as cq
+# Kitap 2.1.26: taban (dikdortgen + yuvarlak uc) 20 yuksek, ustte Ø40x20 halka, Ø25 delik, solda 20 genis kanal.
+D=40.0; HB=20.0
+CX=40.0          # TAHMIN: silindir merkezi x (piksel oranindan)
+CYL_D=40.0       # TAHMIN: dis cap
+CYL_H=20.0
+BORE=25.0
+KANAL_Y=(10.0,30.0)  # 10 / 20 / 10
+KANAL_X=8.0          # 8 olcusu
+dik=cq.Workplane("XY").box(CX,D,HB,centered=False)
+yuvarlak=cq.Workplane("XY").center(CX,20).circle(CYL_D/2).extrude(HB)
+taban=dik.union(yuvarlak)
+silin=cq.Workplane("XY").workplane(offset=HB).center(CX,20).circle(CYL_D/2).extrude(CYL_H)
+parca=taban.union(silin)
+kanal=cq.Workplane("XY").box(KANAL_X+1,KANAL_Y[1]-KANAL_Y[0],HB,centered=False).translate((-1,KANAL_Y[0],0))
+parca=parca.cut(kanal)
+delik=cq.Workplane("XY").center(CX,20).circle(BORE/2).extrude(HB+CYL_H)  # TAHMIN: tum yukseklikte
+result=parca.cut(delik)
+# BEKLENEN SINIR KUTUSU: 60 x 40 x 40 mm
