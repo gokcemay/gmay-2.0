@@ -1,10 +1,10 @@
 # Quiz review pages
 
 # Technical drawing CAD gallery
-- [ ] Inspect existing gallery and preserve catalog/assets and legacy links.
-- [ ] Rebuild gallery/details with lazy STL viewing and reader filters.
-- [ ] Add private vote storage, safe aggregate counts and confirmed abuse protection.
-- [ ] Provide owner-only CSV export instructions and verify full voting flow.
+- [x] Inspect existing gallery and preserve catalog/assets and legacy links.
+- [x] Rebuild gallery/details with lazy STL viewing and reader filters.
+- [x] Add private vote storage, safe aggregate counts and confirmed abuse protection.
+- [x] Provide owner-only CSV export instructions and verify full voting flow.
 
 # English and Turkish website
 - [x] Translate public pages and tools, preserving original publication titles and unlisted HTML.

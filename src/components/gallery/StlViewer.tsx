@@ -26,10 +26,17 @@ export default function StlViewer({url, fallback, english}:{url:string;fallback?
       container.replaceChildren(renderer.domElement);
       const scene=new THREE.Scene();const camera=new THREE.PerspectiveCamera(35,1,0.01,10000);camera.up.set(0,0,1);
       const span=Math.max(size.x,size.y,size.z,1);const distance=span*2.7;camera.far=distance*20;
-      const probe=document.createElement('span');container.appendChild(probe);probe.style.color='var(--primary)';
-      const material=new THREE.MeshStandardMaterial({color:new THREE.Color(getComputedStyle(probe).color),roughness:.65,metalness:.05,side:THREE.DoubleSide});
-      probe.style.color='var(--foreground)';
-      const edgeGeometry=new THREE.EdgesGeometry(geometry,25);const edgeMaterial=new THREE.LineBasicMaterial({color:new THREE.Color(getComputedStyle(probe).color)});probe.remove();
+      const probe=document.createElement('span');container.appendChild(probe);
+      const colorFromToken=(token:string)=>{
+        probe.style.color=`var(${token})`;
+        const canvas=document.createElement('canvas');canvas.width=1;canvas.height=1;
+        const ctx=canvas.getContext('2d');if(!ctx)return new THREE.Color();
+        ctx.fillStyle=getComputedStyle(probe).color;ctx.fillRect(0,0,1,1);
+        const pixel=ctx.getImageData(0,0,1,1).data;
+        return new THREE.Color().setRGB((pixel[0]??0)/255,(pixel[1]??0)/255,(pixel[2]??0)/255,THREE.SRGBColorSpace);
+      };
+      const material=new THREE.MeshStandardMaterial({color:colorFromToken('--primary'),roughness:.65,metalness:.05,side:THREE.DoubleSide});
+      const edgeGeometry=new THREE.EdgesGeometry(geometry,25);const edgeMaterial=new THREE.LineBasicMaterial({color:colorFromToken('--foreground')});probe.remove();
       scene.add(new THREE.Mesh(geometry,material),new THREE.LineSegments(edgeGeometry,edgeMaterial));
       scene.add(new THREE.HemisphereLight(0xffffff,0x777777,2));const light=new THREE.DirectionalLight(0xffffff,3);light.position.set(-1,-2,3);scene.add(light);
       const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=false;
