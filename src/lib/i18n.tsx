@@ -6,7 +6,7 @@ import { translate } from './translate';
 
 export function useLanguage(): Language {
   const search = useSearch({ strict: false });
-  return resolveLanguage(search.lang);
+  return resolveLanguage(search['lang']);
 }
 
 export function useT() {

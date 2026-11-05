@@ -34,7 +34,7 @@ type ToolHref =
   | "/lab/sliding-distance-calculator"
   | "/lab/cadquery-prompt"
   | "/araclar/teknik-rapor-stili"
-  | "/araclar/teknik-resim-cad/index.html";
+  | "/araclar/teknik-resim-cad";
 
 type Tool = {
   name: string;
@@ -77,7 +77,7 @@ const groups: Group[] = [
       },
       {
         name: "Teknik Resimden CAD'e",
-        href: "/araclar/teknik-resim-cad/index.html",
+        href: "/araclar/teknik-resim-cad",
         purpose:
           "Teknik resim kitabındaki üç boyutlu çizimler için galeri, CAD promptu ve model dosyaları.",
       },
@@ -123,7 +123,7 @@ function ToolCard({ tool, group }: { tool: Tool; group: string }) {
   const tx = useT();
   const isStatic = tool.href.endsWith(".html");
   const linkProps = {
-    to: tool.href as Exclude<ToolHref, "/araclar/teknik-resim-cad/index.html">,
+    to: tool.href,
     search: { distance: undefined, distanceUnit: undefined, source: undefined },
   } as const;
   const ToolLink = ({ className, children }: { className: string; children: React.ReactNode }) =>

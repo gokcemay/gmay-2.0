@@ -29,6 +29,8 @@ import { Route as LabHertzContactCalculatorRouteImport } from './routes/lab_.her
 import { Route as LabSlidingDistanceCalculatorRouteImport } from './routes/lab_.sliding-distance-calculator'
 import { Route as LabWearRateCalculatorRouteImport } from './routes/lab_.wear-rate-calculator'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
+import { Route as AraclarTeknikResimCadIdRouteImport } from './routes/araclar.teknik-resim-cad_.$id'
+import { Route as AraclarTeknikResimCadIndexDothtmlRouteImport } from './routes/araclar.teknik-resim-cad_.index[.]html'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -136,6 +138,17 @@ const Char91DotmcpChar93InvokeToolToolRoute =
     path: '/.mcp/invoke-tool/$tool',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AraclarTeknikResimCadIdRoute = AraclarTeknikResimCadIdRouteImport.update({
+  id: '/araclar/teknik-resim-cad_/$id',
+  path: '/araclar/teknik-resim-cad/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AraclarTeknikResimCadIndexDothtmlRoute =
+  AraclarTeknikResimCadIndexDothtmlRouteImport.update({
+    id: '/araclar/teknik-resim-cad_/index.html',
+    path: '/araclar/teknik-resim-cad/index.html',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -158,6 +171,8 @@ export interface FileRoutesByFullPath {
   '/lab/sliding-distance-calculator': typeof LabSlidingDistanceCalculatorRoute
   '/lab/wear-rate-calculator': typeof LabWearRateCalculatorRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/araclar/teknik-resim-cad/$id': typeof AraclarTeknikResimCadIdRoute
+  '/araclar/teknik-resim-cad/index.html': typeof AraclarTeknikResimCadIndexDothtmlRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -180,6 +195,8 @@ export interface FileRoutesByTo {
   '/lab/sliding-distance-calculator': typeof LabSlidingDistanceCalculatorRoute
   '/lab/wear-rate-calculator': typeof LabWearRateCalculatorRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/araclar/teknik-resim-cad/$id': typeof AraclarTeknikResimCadIdRoute
+  '/araclar/teknik-resim-cad/index.html': typeof AraclarTeknikResimCadIndexDothtmlRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -203,6 +220,8 @@ export interface FileRoutesById {
   '/lab_/sliding-distance-calculator': typeof LabSlidingDistanceCalculatorRoute
   '/lab_/wear-rate-calculator': typeof LabWearRateCalculatorRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/araclar/teknik-resim-cad_/$id': typeof AraclarTeknikResimCadIdRoute
+  '/araclar/teknik-resim-cad_/index.html': typeof AraclarTeknikResimCadIndexDothtmlRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -227,6 +246,8 @@ export interface FileRouteTypes {
     | '/lab/sliding-distance-calculator'
     | '/lab/wear-rate-calculator'
     | '/.mcp/invoke-tool/$tool'
+    | '/araclar/teknik-resim-cad/$id'
+    | '/araclar/teknik-resim-cad/index.html'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -249,6 +270,8 @@ export interface FileRouteTypes {
     | '/lab/sliding-distance-calculator'
     | '/lab/wear-rate-calculator'
     | '/.mcp/invoke-tool/$tool'
+    | '/araclar/teknik-resim-cad/$id'
+    | '/araclar/teknik-resim-cad/index.html'
   id:
     | '__root__'
     | '/'
@@ -271,6 +294,8 @@ export interface FileRouteTypes {
     | '/lab_/sliding-distance-calculator'
     | '/lab_/wear-rate-calculator'
     | '/.mcp/invoke-tool/$tool'
+    | '/araclar/teknik-resim-cad_/$id'
+    | '/araclar/teknik-resim-cad_/index.html'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -294,6 +319,8 @@ export interface RootRouteChildren {
   LabSlidingDistanceCalculatorRoute: typeof LabSlidingDistanceCalculatorRoute
   LabWearRateCalculatorRoute: typeof LabWearRateCalculatorRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
+  AraclarTeknikResimCadIdRoute: typeof AraclarTeknikResimCadIdRoute
+  AraclarTeknikResimCadIndexDothtmlRoute: typeof AraclarTeknikResimCadIndexDothtmlRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -438,6 +465,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/araclar/teknik-resim-cad_/$id': {
+      id: '/araclar/teknik-resim-cad_/$id'
+      path: '/araclar/teknik-resim-cad/$id'
+      fullPath: '/araclar/teknik-resim-cad/$id'
+      preLoaderRoute: typeof AraclarTeknikResimCadIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/araclar/teknik-resim-cad_/index.html': {
+      id: '/araclar/teknik-resim-cad_/index.html'
+      path: '/araclar/teknik-resim-cad/index.html'
+      fullPath: '/araclar/teknik-resim-cad/index.html'
+      preLoaderRoute: typeof AraclarTeknikResimCadIndexDothtmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -463,6 +504,9 @@ const rootRouteChildren: RootRouteChildren = {
   LabSlidingDistanceCalculatorRoute: LabSlidingDistanceCalculatorRoute,
   LabWearRateCalculatorRoute: LabWearRateCalculatorRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
+  AraclarTeknikResimCadIdRoute: AraclarTeknikResimCadIdRoute,
+  AraclarTeknikResimCadIndexDothtmlRoute:
+    AraclarTeknikResimCadIndexDothtmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
