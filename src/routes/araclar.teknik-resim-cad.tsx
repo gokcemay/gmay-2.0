@@ -1,15 +1,14 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from '@tanstack/react-router';
+import { CadGallery } from '@/components/gallery/CadGallery';
+import { galleryQuery } from '@/lib/cadGallery.functions';
+import { galleryHead } from '@/lib/cadGallery';
 
-// Short address for the standalone static app in public/araclar/teknik-resim-cad/.
-const target = "/araclar/teknik-resim-cad/index.html";
-
-export const Route = createFileRoute("/araclar/teknik-resim-cad")({
-  server: {
-    handlers: {
-      GET: ({ request }) => Response.redirect(new URL(target, request.url).toString(), 302),
-    },
+export const Route = createFileRoute('/araclar/teknik-resim-cad')({
+  validateSearch: (search: Record<string, unknown>) => {
+    const keys=['q','ch','t','cx','dim','var','mdl','s','assessment'];
+    return Object.fromEntries(keys.filter(key=>typeof search[key]==='string').map(key=>[key,search[key]]));
   },
-  beforeLoad: () => {
-    if (typeof window !== "undefined") window.location.replace(target);
-  },
+  head: ({match})=>galleryHead(match.context.language??'en'),
+  loader: ({context})=>context.queryClient.ensureQueryData(galleryQuery),
+  component: ()=> <CadGallery/>,
 });
