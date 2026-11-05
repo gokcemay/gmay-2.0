@@ -8,6 +8,13 @@
       "when": 1793863660765,
       "tag": "0000_reader_model_votes",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793863966300,
+      "tag": "0001_reject_failed_models_and_lock_vote_window",
+      "breakpoints": true
     }
   ]
 }
