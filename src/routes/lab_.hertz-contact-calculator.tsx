@@ -129,7 +129,7 @@ function HertzPage() {
 
       <Section>
         <p className="mb-5 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-          {tr ? 'Hertz temas teorisine dayanan bu hesaplayıcı, elastik bir kürenin düzlemle sürtünmesiz temasında temas yarıçapını ve Hertzian temas basıncını hesaplar. Küre-düzlem triboloji deneylerinde ve yerel temasın ön değerlendirmesinde kullanılabilir; çizgisel veya plastik temas için geçerli değildir. Yük N, boyutlar mm veya m, elastisite modülü GPa veya Pa olarak girilir; basınç MPa olarak gösterilir.' : 'This Hertzian contact calculator uses Hertz contact theory to calculate contact radius and maximum contact stress for an elastic sphere on a flat surface under frictionless normal loading. Use it for sphere-on-flat tribology tests and preliminary localized contact calculations, not line contact or plastic contact. Enter load in N, dimensions in mm or m and elastic modulus in GPa or Pa; contact pressure is reported in MPa.'}
+          {tr ? 'Hertz temas teorisine dayanan bu hesaplayıcı, elastik bir kürenin düzlemle sürtünmesiz temasında temas yarıçapını ve Hertzian temas basıncını hesaplar. Küre-düzlem triboloji deneylerinde ve yerel temasın ön değerlendirmesinde kullanılabilir; çizgisel veya plastik temas için geçerli değildir. Yük N veya kN, boyutlar mm, µm veya m, elastisite modülü GPa veya MPa olarak girilir; basınç büyüklüğüne göre MPa veya GPa olarak gösterilir.' : 'This Hertzian contact calculator uses Hertz contact theory to calculate contact radius and maximum contact stress for an elastic sphere on a flat surface under frictionless normal loading. Use it for sphere-on-flat tribology tests and preliminary localized contact calculations, not line contact or plastic contact. Enter load in N or kN, dimensions in mm, µm or m and elastic modulus in GPa or MPa; pressure is reported in MPa or GPa according to magnitude.'}
         </p>
         <div className="flex flex-wrap items-center gap-3">
           <span className="inline-flex items-center gap-2 border border-border px-2.5 py-1 font-mono text-[0.65rem] tracking-[0.18em] text-muted-foreground uppercase">
@@ -205,13 +205,9 @@ function HertzPage() {
                 {tx(tool.status)}
               </p>
               <h3 className="mt-2 font-display text-lg font-semibold text-foreground">
-                {tool.href ? (
-                  <Link to={tool.href} search={{ distance: undefined, distanceUnit: undefined, source: undefined }} className="hover:underline hover:underline-offset-4">
-                    {tx(tool.name)}
-                  </Link>
-                ) : (
-                  tool.name
-                )}
+                <Link to={tool.href} search={{ distance: undefined, distanceUnit: undefined, source: undefined }} className="hover:underline hover:underline-offset-4">
+                  {tx(tool.name)}
+                </Link>
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tx(tool.purpose)}</p>
             </article>

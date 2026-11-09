@@ -46,7 +46,7 @@ export function localizeHead<T extends HeadData>(head: T, language: Language, pa
   }
   return {
     ...head,
-    meta: head.meta?.filter(meta => meta['property'] !== 'og:image' && meta['name'] !== 'twitter:image').map(meta => ({
+    meta: head.meta?.filter(meta => meta['property'] !== 'og:image' && meta['name'] !== 'twitter:image').map<Record<string, unknown>>(meta => ({
       ...meta,
       ...(typeof meta['title'] === 'string' ? { title } : {}),
       ...(typeof meta['content'] === 'string' && ['description', 'og:title', 'og:description', 'twitter:title', 'twitter:description'].includes(String(meta['name'] ?? meta['property'])) ? { content: copy ? (String(meta['name'] ?? meta['property']).endsWith('title') ? copy.title : copy.description) : translate(meta['content'], language) } : {}),
