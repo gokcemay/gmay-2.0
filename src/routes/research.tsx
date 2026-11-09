@@ -1,5 +1,6 @@
 import { useT, localizeHead } from '@/lib/i18n';
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { RelatedKnowledge } from '@/components/site/RelatedKnowledge';
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
 import { GridPanel, InfoCard } from "@/components/site/Cards";
 import { academicProfiles } from "@/lib/profiles";
@@ -118,6 +119,15 @@ function ResearchPage() {
           )))}
         </ul>
       </Section>
+      <Section>
+        <h2 className="font-display text-xl font-semibold text-foreground">{tx("Tribology & Contact")}</h2>
+        <ul className="mt-5 flex flex-wrap gap-5 text-sm text-foreground">
+          <li><Link to="/lab/hertz-contact-calculator" className="underline underline-offset-4">Hertz Contact Calculator</Link></li>
+          <li><Link to="/lab/wear-rate-calculator" search={{ distance: undefined, distanceUnit: undefined, source: undefined }} className="underline underline-offset-4">Wear Rate Calculator</Link></li>
+          <li><Link to="/lab/sliding-distance-calculator" className="underline underline-offset-4">Sliding Distance Calculator</Link></li>
+        </ul>
+      </Section>
+      <RelatedKnowledge />
     </>
   );
 }

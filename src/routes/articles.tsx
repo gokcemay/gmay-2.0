@@ -6,6 +6,7 @@ import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
 import { ArticleList, substackPostsQueryOptions } from "@/components/site/Articles";
 import { buttonStyles, CTABlock } from "@/components/site/CTA";
 import { profileLinks } from "@/lib/profiles";
+import { RelatedKnowledge } from '@/components/site/RelatedKnowledge';
 
 export const Route = createFileRoute("/articles")({
   head: ({ match }) => (localizeHead({
@@ -88,6 +89,7 @@ function ArticlesPage() {
             {tx("Substack'e Abone Ol")}</a>
         </CTABlock>
       </Section>
+      <RelatedKnowledge />
     </>
   );
 }

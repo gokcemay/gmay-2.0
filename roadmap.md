@@ -1,5 +1,10 @@
 # Quiz review pages
 
+# Search-result CTR improvements
+- [x] Refine priority-page metadata and visible calculator explanations without redesigning.
+- [x] Audit language canonicals, crawlable links and structured data.
+- [x] Verify both languages and prepare the old/new metadata report.
+
 # Technical drawing CAD gallery
 - [x] Inspect existing gallery and preserve catalog/assets and legacy links.
 - [x] Rebuild gallery/details with lazy STL viewing and reader filters.
