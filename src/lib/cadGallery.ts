@@ -26,7 +26,7 @@ export function legacyDestination(hash: string): string {
 }
 export function galleryHead(language: string, id?: string) {
   const title = language === 'tr' ? `Teknik Resimden CAD'e${id ? ` — ${id}` : ''} | gmay.me` : `From Technical Drawing to CAD${id ? ` — ${id}` : ''} | gmay.me`;
-  const description = language === 'tr' ? 'Nejat Kıraç’ın teknik resim çizimleri, 3B modeller, CadQuery kodu ve okur değerlendirmeleri.' : 'Technical drawings by Nejat Kıraç, 3D models, CadQuery code and reader assessments.';
+  const description = language === 'tr' ? `${id ? `${id} teknik çizimini inceleyin: ` : ''}Nejat Kıraç’ın teknik resim çizimleri, 3B modeller, CadQuery kodu ve okur değerlendirmeleri.` : `${id ? `Explore technical drawing ${id}: ` : ''}Technical drawings by Nejat Kıraç, 3D models, CadQuery code and reader assessments.`;
   const path = `${GALLERY_BASE.slice(0,-1)}${id ? `/${id}` : ''}`;
   const url = `https://gmay.me${path}`;
   const localizedUrl = language === 'tr' ? `${url}?lang=tr` : url;
@@ -35,9 +35,9 @@ export function galleryHead(language: string, id?: string) {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: language === 'tr' ? 'Ana sayfa' : 'Home', item: 'https://gmay.me/' },
-      { '@type': 'ListItem', position: 2, name: listLabel, item: url },
-      ...(id ? [{ '@type': 'ListItem', position: 3, name: id, item: `${url}/${id}` }] : []),
+      { '@type': 'ListItem', position: 1, name: language === 'tr' ? 'Ana sayfa' : 'Home', item: `https://gmay.me/${language === 'tr' ? '?lang=tr' : ''}` },
+      { '@type': 'ListItem', position: 2, name: listLabel, item: `https://gmay.me${GALLERY_BASE.slice(0,-1)}${language === 'tr' ? '?lang=tr' : ''}` },
+      ...(id ? [{ '@type': 'ListItem', position: 3, name: id, item: localizedUrl }] : []),
     ],
   };
   return {
