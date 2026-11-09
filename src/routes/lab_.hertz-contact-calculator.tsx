@@ -1,4 +1,5 @@
-import { useT, localizeHead } from '@/lib/i18n';
+import { useT, useLanguage, localizeHead } from '@/lib/i18n';
+import { RelatedKnowledge } from '@/components/site/RelatedKnowledge';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader, Section } from "@/components/site/Section";
 import { HertzContactCalculator } from "@/components/lab/HertzContactCalculator";
@@ -103,18 +104,21 @@ const relatedTools = [
   },
   {
     name: "Wear Rate Calculator",
-    status: "Planlanıyor",
-    purpose: "Aşınma hacmi, normal yük ve kayma mesafesinden özgül aşınma oranını hesaplayacaktır.",
+    status: "Kullanılabilir",
+    href: "/lab/wear-rate-calculator" as const,
+    purpose: "Aşınma hacmi veya kütle kaybından hacimsel ve özgül aşınma oranını hesaplar.",
   },
   {
     name: "Sliding Distance Calculator",
-    status: "Planlanıyor",
-    purpose: "Dönme hızı, iz yarıçapı ve deney süresinden toplam kayma mesafesini hesaplayacaktır.",
+    status: "Kullanılabilir",
+    href: "/lab/sliding-distance-calculator" as const,
+    purpose: "Döner ve ileri-geri deneylerde toplam kayma mesafesini, çevrim sayısını ve ortalama kayma hızını hesaplar.",
   },
 ];
 
 function HertzPage() {
   const tx = useT();
+  const tr = useLanguage() === 'tr';
   return (
     <>
       <PageHeader
@@ -124,6 +128,9 @@ function HertzPage() {
       />
 
       <Section>
+        <p className="mb-5 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+          {tr ? 'Hertz temas teorisine dayanan bu hesaplayıcı, elastik bir kürenin düzlemle sürtünmesiz temasında temas yarıçapını ve Hertzian temas basıncını hesaplar. Küre-düzlem triboloji deneylerinde ve yerel temasın ön değerlendirmesinde kullanılabilir; çizgisel veya plastik temas için geçerli değildir. Yük N, boyutlar mm veya m, elastisite modülü GPa veya Pa olarak girilir; basınç MPa olarak gösterilir.' : 'This Hertzian contact calculator uses Hertz contact theory to calculate contact radius and maximum contact stress for an elastic sphere on a flat surface under frictionless normal loading. Use it for sphere-on-flat tribology tests and preliminary localized contact calculations, not line contact or plastic contact. Enter load in N, dimensions in mm or m and elastic modulus in GPa or Pa; contact pressure is reported in MPa.'}
+        </p>
         <div className="flex flex-wrap items-center gap-3">
           <span className="inline-flex items-center gap-2 border border-border px-2.5 py-1 font-mono text-[0.65rem] tracking-[0.18em] text-muted-foreground uppercase">
             <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
@@ -199,7 +206,7 @@ function HertzPage() {
               </p>
               <h3 className="mt-2 font-display text-lg font-semibold text-foreground">
                 {tool.href ? (
-                  <Link to={tool.href} className="hover:underline hover:underline-offset-4">
+                  <Link to={tool.href} search={{ distance: undefined, distanceUnit: undefined, source: undefined }} className="hover:underline hover:underline-offset-4">
                     {tx(tool.name)}
                   </Link>
                 ) : (
@@ -217,6 +224,7 @@ function HertzPage() {
         <Link to="/lab" className="mt-6 inline-block text-sm text-foreground underline underline-offset-4">
           {tx("Engineering Lab'e dön")}</Link>
       </Section>
+      <RelatedKnowledge />
     </>
   );
 }

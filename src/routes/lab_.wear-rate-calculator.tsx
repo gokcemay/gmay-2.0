@@ -1,4 +1,5 @@
-import { useT, localizeHead } from '@/lib/i18n';
+import { useT, useLanguage, localizeHead } from '@/lib/i18n';
+import { RelatedKnowledge } from '@/components/site/RelatedKnowledge';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader, Section } from "@/components/site/Section";
 import { WearRateCalculator } from "@/components/lab/WearRateCalculator";
@@ -120,6 +121,7 @@ const relatedTools: {
 
 function WearRatePage() {
   const tx = useT();
+  const tr = useLanguage() === 'tr';
   const search = Route.useSearch();
   const transfer = parseSlidingTransfer(search);
   return (
@@ -131,6 +133,13 @@ function WearRatePage() {
       />
 
       <Section>
+        <h2 className="mb-3 font-display text-xl font-semibold text-foreground">{tr ? 'Aşınma oranı formülü ve Archard denklemi' : 'Wear rate formula and the Archard wear equation'}</h2>
+        <p className="mb-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+          {tr ? 'Özgül aşınma oranı k_s = V/(F·s) ile hesaplanır: V aşınma hacmi (mm³), F normal yük (N), s kayma mesafesi (m); sonuç mm³/(N·m) olur. Hacimsel aşınma/mesafe q_v = V/s (mm³/m) şeklindedir. Kütle kaybı biliniyorsa hacim V = Δm/ρ ile bulunur ve birimler önce tutarlı hale getirilir.' : 'The specific wear rate formula is k_s = V/(F·s): V is wear volume (mm³), F is normal load (N), and s is sliding distance (m), giving mm³/(N·m). Volumetric wear per sliding distance is q_v = V/s (mm³/m). If mass loss is known, volume is obtained from V = Δm/ρ after converting to consistent units.'}
+        </p>
+        <p className="mb-5 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+          {tr ? 'Klasik Archard aşınma denklemi V = K·F·s/H şeklindedir; H sertlik, K boyutsuz aşınma katsayısıdır. Tutarlı birimlerle k_s = K/H olur. Bu araç ölçülen kayma aşınmasını normalize eder; sertlikten aşınma tahmini yapmaz ve boyutsuz K katsayısını hesaplamaz.' : 'The classical Archard wear equation is V = K·F·s/H, where H is hardness and K is a dimensionless wear coefficient. With consistent units, k_s = K/H. This tool normalizes measured sliding wear; it does not predict wear from hardness or calculate the dimensionless coefficient K.'}
+        </p>
         <p className="max-w-3xl border-l-2 border-accent bg-muted/50 px-5 py-4 text-sm leading-relaxed text-muted-foreground">
           {tx("Bu araç deneysel aşınma miktarını normal yük ve kayma mesafesine göre normalize eder. Literatürde sembol ve adlandırmalar değişebildiğinden, bu araç sonuçları kullanılan denklem ve birimlerle birlikte gösterir.")}</p>
 
@@ -217,6 +226,7 @@ function WearRatePage() {
         <Link to="/lab" className="mt-6 inline-block text-sm text-foreground underline underline-offset-4">
           {tx("Engineering Lab'e dön")}</Link>
       </Section>
+      <RelatedKnowledge />
     </>
   );
 }

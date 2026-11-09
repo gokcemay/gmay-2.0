@@ -2,6 +2,7 @@ import type React from "react";
 import { useT, localizeHead } from '@/lib/i18n';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
+import { RelatedKnowledge } from '@/components/site/RelatedKnowledge';
 
 export const Route = createFileRoute("/lab")({
   head: ({ match }) => (localizeHead({
@@ -233,6 +234,7 @@ function LabPage() {
         <p className="max-w-3xl border-l-2 border-accent bg-muted/50 px-5 py-4 text-sm leading-relaxed text-muted-foreground">
           {tx("Hesaplama araçlarında kullanılan denklemler, varsayımlar ve birimler açık biçimde sunulur. Kritik mühendislik kararlarında sonuçlar bağımsız yöntemlerle doğrulanmalıdır.")}</p>
       </Section>
+      <RelatedKnowledge />
     </>
   );
 }
