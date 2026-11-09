@@ -56,9 +56,6 @@ export function localizeHead<T extends HeadData>(head: T, language: Language, pa
       ...(head.links?.filter(link => link['rel'] !== 'canonical' && !(link['rel'] === 'alternate' && link['hrefLang'])) ?? []),
       ...(head.links?.some(link => link['rel'] === 'canonical') ? [
         { rel: 'canonical', href: localizedUrl },
-        { rel: 'alternate', hrefLang: 'en', href: url },
-        { rel: 'alternate', hrefLang: 'tr', href: `${url}?lang=tr` },
-        { rel: 'alternate', hrefLang: 'x-default', href: url },
       ] : []),
     ],
     scripts,

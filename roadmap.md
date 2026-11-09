@@ -1,5 +1,9 @@
 # Quiz review pages
 
+# Clean canonical consolidation
+- [ ] Consolidate language variants, gallery metadata and sitemap to clean URLs.
+- [ ] Verify generated HTML, retained language navigation and URL normalization; deliver final table.
+
 # Search-result CTR improvements
 - [x] Refine priority-page metadata and visible calculator explanations without redesigning.
 - [x] Audit language canonicals, crawlable links and structured data.
