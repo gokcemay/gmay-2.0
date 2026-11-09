@@ -27,5 +27,27 @@ export function legacyDestination(hash: string): string {
 export function galleryHead(language: string, id?: string) {
   const title = language === 'tr' ? `Teknik Resimden CAD'e${id ? ` — ${id}` : ''} | gmay.me` : `From Technical Drawing to CAD${id ? ` — ${id}` : ''} | gmay.me`;
   const description = language === 'tr' ? 'Nejat Kıraç’ın teknik resim çizimleri, 3B modeller, CadQuery kodu ve okur değerlendirmeleri.' : 'Technical drawings by Nejat Kıraç, 3D models, CadQuery code and reader assessments.';
-  return { meta: [{title},{name:'description',content:description},{property:'og:title',content:title},{property:'og:description',content:description},{property:'og:type',content:'website'},{name:'twitter:card',content:'summary_large_image'}], links:[{rel:'canonical',href:`https://gmay.me${GALLERY_BASE.slice(0,-1)}${id ? `/${id}` : ''}${language === 'tr' ? '?lang=tr' : ''}`}] };
+  const path = `${GALLERY_BASE.slice(0,-1)}${id ? `/${id}` : ''}`;
+  const url = `https://gmay.me${path}`;
+  const localizedUrl = language === 'tr' ? `${url}?lang=tr` : url;
+  const listLabel = language === 'tr' ? "Teknik Resimden CAD'e" : 'From Technical Drawing to CAD';
+  const breadcrumbs = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: language === 'tr' ? 'Ana sayfa' : 'Home', item: 'https://gmay.me/' },
+      { '@type': 'ListItem', position: 2, name: listLabel, item: url },
+      ...(id ? [{ '@type': 'ListItem', position: 3, name: id, item: `${url}/${id}` }] : []),
+    ],
+  };
+  return {
+    meta: [{title},{name:'description',content:description},{property:'og:title',content:title},{property:'og:description',content:description},{property:'og:type',content:'website'},{property:'og:url',content:localizedUrl},{name:'twitter:card',content:'summary_large_image'}],
+    links:[
+      {rel:'canonical',href:localizedUrl},
+      {rel:'alternate',hrefLang:'en',href:url},
+      {rel:'alternate',hrefLang:'tr',href:`${url}?lang=tr`},
+      {rel:'alternate',hrefLang:'x-default',href:url},
+    ],
+    scripts:[{type:'application/ld+json',children:JSON.stringify(breadcrumbs)}],
+  };
 }
