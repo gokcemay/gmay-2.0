@@ -1,9 +1,9 @@
 import type { Language } from './language';
 
-// English and Turkish are separately indexable translations, not duplicate views.
-export function pageUrl(path: string, language: Language = 'en'): string {
-  const url = `https://gmay.me${path}`;
-  return language === 'tr' ? `${url}?lang=tr` : url;
+// Locale is a view preference; all views consolidate into the clean route URL.
+export function pageUrl(path: string, _language: Language = 'en'): string {
+  const cleanPath = path.split(/[?#]/)[0]?.replace(/\/+$/, '') || '/';
+  return `https://gmay.me${cleanPath}`;
 }
 
 type SearchCopy = { title: string; description: string };
@@ -14,11 +14,11 @@ export const searchCopy: Record<string, Record<Language, SearchCopy>> = {
   },
   '/egitim': {
     en: { title: 'AI & Engineering Training | Dr. Gökçe Mehmet Ay', description: 'Practical generative AI and prompt engineering training for engineers, academics and organizations. Explore corporate workshops and engineering consulting.' },
-    tr: { title: 'Yapay Zekâ ve Mühendislik Eğitimleri | Dr. Gökçe Mehmet Ay', description: 'Mühendisler, akademisyenler ve kurumlar için üretken yapay zekâ ve prompt engineering eğitimleri. Kurumsal atölyeleri ve mühendislik danışmanlığını inceleyin.' },
+    tr: { title: 'Yapay Zekâ ve Mühendislik Eğitimleri | Dr. Gökçe Mehmet Ay', description: 'Mühendisler, akademisyenler ve Ar-Ge ekipleri için üretken yapay zekâ, prompt engineering ve mühendislik eğitimleri. Kurumsal programları inceleyin.' },
   },
   '/lab': {
     en: { title: 'Free Engineering Calculators & AI Tools | GMA Lab', description: 'Free engineering calculators, tribology and CAD tools: calculate Hertz contact stress, wear rate and sliding distance, or build structured engineering AI prompts.' },
-    tr: { title: 'Ücretsiz Mühendislik Hesaplayıcıları ve AI Araçları | GMA Lab', description: 'Ücretsiz triboloji, CAD ve mühendislik araçları: Hertz temas basıncı, aşınma oranı ve kayma mesafesi hesaplayın; yapılandırılmış yapay zekâ promptları oluşturun.' },
+    tr: { title: 'Mühendislik Hesaplayıcıları ve Yapay Zekâ Araçları | GMA Lab', description: 'Mühendisler ve araştırmacılar için ücretsiz triboloji, CAD ve yapay zekâ araçları. Hertz temas basıncı ve aşınma oranı hesaplayın, mühendislik promptları oluşturun.' },
   },
   '/kitaplar': {
     en: { title: 'Engineering, AI & Research Books | Gökçe Mehmet Ay', description: 'Discover Gökçe Mehmet Ay’s books on AI prompts for mechanical engineers, digital tools for academic research, and science fiction, with available reading links.' },

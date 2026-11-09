@@ -1,3 +1,4 @@
+import { pageUrl } from './seo';
 export const GALLERY_BASE = '/araclar/teknik-resim-cad/';
 export const VOTE_RULES = { minimumVotes: 5, correctRatio: 0.8, maxNote: 280, perMinute: 30 } as const;
 export type Vote = -1 | 0 | 1;
@@ -29,14 +30,14 @@ export function galleryHead(language: string, id?: string) {
   const description = language === 'tr' ? `${id ? `${id} teknik çizimini inceleyin: ` : ''}Nejat Kıraç’ın teknik resim çizimleri, 3B modeller, CadQuery kodu ve okur değerlendirmeleri.` : `${id ? `Explore technical drawing ${id}: ` : ''}Technical drawings by Nejat Kıraç, 3D models, CadQuery code and reader assessments.`;
   const path = `${GALLERY_BASE.slice(0,-1)}${id ? `/${id}` : ''}`;
   const url = `https://gmay.me${path}`;
-  const localizedUrl = language === 'tr' ? `${url}?lang=tr` : url;
+  const localizedUrl = pageUrl(path);
   const listLabel = language === 'tr' ? "Teknik Resimden CAD'e" : 'From Technical Drawing to CAD';
   const breadcrumbs = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: language === 'tr' ? 'Ana sayfa' : 'Home', item: `https://gmay.me/${language === 'tr' ? '?lang=tr' : ''}` },
-      { '@type': 'ListItem', position: 2, name: listLabel, item: `https://gmay.me${GALLERY_BASE.slice(0,-1)}${language === 'tr' ? '?lang=tr' : ''}` },
+      { '@type': 'ListItem', position: 1, name: language === 'tr' ? 'Ana sayfa' : 'Home', item: pageUrl('/') },
+      { '@type': 'ListItem', position: 2, name: listLabel, item: pageUrl(GALLERY_BASE.slice(0,-1)) },
       ...(id ? [{ '@type': 'ListItem', position: 3, name: id, item: localizedUrl }] : []),
     ],
   };
@@ -44,9 +45,6 @@ export function galleryHead(language: string, id?: string) {
     meta: [{title},{name:'description',content:description},{property:'og:title',content:title},{property:'og:description',content:description},{property:'og:type',content:'website'},{property:'og:url',content:localizedUrl},{name:'twitter:card',content:'summary_large_image'}],
     links:[
       {rel:'canonical',href:localizedUrl},
-      {rel:'alternate',hrefLang:'en',href:url},
-      {rel:'alternate',hrefLang:'tr',href:`${url}?lang=tr`},
-      {rel:'alternate',hrefLang:'x-default',href:url},
     ],
     scripts:[{type:'application/ld+json',children:JSON.stringify(breadcrumbs)}],
   };
