@@ -69,7 +69,7 @@ export function pitchPointRadii(d1: number, d2: number, alphaRad: number) {
   return { rho1, rho2, R: (rho1 * rho2) / (rho1 + rho2) };
 }
 
-/** Hertz line-contact peak pressure, p0 = √(w·E*/(π·R')), w = Fn/b. */
+// Hertz line-contact peak pressure: p0 = sqrt(w · E_star / (π · R_eq)), with w = Fn / b.
 export const hertzLineP0 = (Fn: number, b: number, Estar: number, R: number) => Math.sqrt(((Fn / b) * Estar) / (Math.PI * R));
 
 /** Theoretical minimum pinion teeth without undercut: standard rack, addendum 1·m, zero profile shift. */
