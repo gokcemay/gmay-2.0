@@ -83,7 +83,18 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient; language?: Language }>()({
   validateSearch: (search: Record<string, unknown>) => ({ ...(typeof search['lang'] === 'string' ? { lang: search['lang'] } : {}) }),
   search: { middlewares: [retainSearchParams(['lang'])] },
-  beforeLoad: ({ search }) => ({ language: resolveLanguage(search.lang) }),
+  beforeLoad: ({ search, location }) => {
+    // TanStack Router matches static segments case-insensitively, so /LAB would
+    // otherwise render /lab with HTTP 200 (a duplicate crawlable URL). Permanently
+    // redirect case variants of known content routes to the canonical lowercase
+    // path. Legacy short links stay case-sensitive: /KBT lowercases to /kbt, which
+    // is not a content route, so short-link handling is untouched.
+    const lower = location.pathname.toLowerCase();
+    if (lower !== location.pathname && CASE_SENSITIVE_CONTENT_ROUTES.has(lower)) {
+      throw redirect({ href: `${lower}${location.searchStr}`, statusCode: 301 });
+    }
+    return { language: resolveLanguage(search.lang) };
+  },
   head: ({ match }) => (localizeHead({
     meta: [
       { charSet: "utf-8" },
