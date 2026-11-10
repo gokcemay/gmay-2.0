@@ -35,7 +35,7 @@ function Field({ctx,  k, label, unitKey, units, hint }: {ctx: Ctx;  k: Key; labe
 }
 
 function Toggle({ctx,  k, legend, options }: {ctx: Ctx;  k: Key; legend: string; options: [string, string][] }) {
-  const { form, set, errors, message } = ctx;
+  const { form, set } = ctx;
   return (
     <fieldset>
       <legend className={labelClass}>{legend}</legend>

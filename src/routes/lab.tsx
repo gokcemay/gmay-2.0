@@ -33,6 +33,7 @@ type ToolHref =
   | "/lab/hertz-contact-calculator"
   | "/lab/wear-rate-calculator"
   | "/lab/sliding-distance-calculator"
+  | "/lab/pin-on-disc-wear-calculator"
   | "/lab/cadquery-prompt"
   | "/araclar/teknik-rapor-stili"
   | "/araclar/teknik-resim-cad";
@@ -101,6 +102,12 @@ const groups: Group[] = [
         href: "/lab/wear-rate-calculator",
         purpose:
           "Aşınma hacmi veya kütle kaybından hacimsel ve özgül aşınma oranlarını hesaplayın.",
+      },
+      {
+        name: "Pin-on-Disc Wear Test Calculator",
+        href: "/lab/pin-on-disc-wear-calculator",
+        purpose:
+          "Pin-on-disc deneyinde kütle kaybından aşınma hacmini, kayma mesafesini, özgül aşınma oranını ve sürtünme katsayısını hesaplayın.",
       },
     ],
   },

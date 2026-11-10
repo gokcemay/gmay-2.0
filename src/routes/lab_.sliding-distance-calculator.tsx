@@ -56,6 +56,12 @@ const reciprocatingEquations = [
 
 const relatedTools = [
   {
+    name: "Pin-on-Disc Wear Test Calculator",
+    status: "Kullanılabilir",
+    href: "/lab/pin-on-disc-wear-calculator" as const,
+    purpose: "Pin-on-disc deneyinde kütle kaybından aşınma hacmini, kayma mesafesini, özgül aşınma oranını ve sürtünme katsayısını hesaplayın.",
+  },
+  {
     name: "Wear Rate Calculator",
     status: "Kullanılabilir",
     href: "/lab/wear-rate-calculator" as const,
