@@ -230,6 +230,7 @@ function HertzPage() {
       <Section>
         <h2 className="font-display text-xl font-semibold text-foreground">
           {tx("Hertz Modelinin Varsayımları")}</h2>
+        <p className="mt-3 text-sm"><Link to="/lab/surface-roughness-converter" className="text-foreground underline underline-offset-4">{tr ? 'Yüzey Pürüzlülüğü Dönüşüm Aracı' : 'Surface Roughness Converter'}</Link>{tr ? ' — yüzey dokusu, pürüzsüz Hertz yaklaşımının kapsamını etkileyebilir.' : ' — surface texture may affect the applicability of the smooth-surface Hertz approximation.'}</p>
         <ul className="mt-5 grid max-w-4xl gap-2 sm:grid-cols-2">
           {tx(assumptions.map((item) => (
             <li

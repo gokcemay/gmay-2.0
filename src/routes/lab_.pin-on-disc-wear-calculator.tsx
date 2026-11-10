@@ -160,6 +160,7 @@ function PinOnDiscPage() {
       <Section>
         <h2 className="font-display text-xl font-semibold text-foreground">{L('Related tools', 'İlgili araçlar')}</h2>
         <ul className="mt-5 grid max-w-4xl gap-3 text-sm leading-relaxed text-muted-foreground">
+          <li><Link to="/lab/surface-roughness-converter" className={linkClass}>{L('Surface Roughness Converter', 'Yüzey Pürüzlülüğü Dönüşüm Aracı')}</Link> — {L('interpret surface texture before comparing wear tests.', 'aşınma deneylerini karşılaştırmadan önce yüzey dokusunu yorumlayın.')}</li>
           <li><Link to="/lab/wear-rate-calculator" search={noSearch} className={linkClass}>{L('Wear Rate Calculator', 'Aşınma Oranı Hesaplayıcı')}</Link> — {L('normalise measured wear with unit options and the Archard relation.', 'ölçülen aşınmayı birim seçenekleri ve Archard ilişkisiyle normalize edin.')}</li>
           <li><Link to="/lab/sliding-distance-calculator" className={linkClass}>{L('Sliding Distance Calculator', 'Kayma Mesafesi Hesaplayıcı')}</Link> — {L('rotary and reciprocating sliding distance and velocity.', 'döner ve ileri-geri deneylerde kayma mesafesi ve hızı.')}</li>
           <li><Link to="/lab/hertz-contact-calculator" className={linkClass}>{L('Hertz Contact Calculator', 'Hertz Temas Hesaplayıcı')}</Link> — {L('initial contact pressure of a ball-on-flat pin-on-disc configuration.', 'bilye-düzlem pin-on-disc düzeninde başlangıç temas basıncı.')}</li>
