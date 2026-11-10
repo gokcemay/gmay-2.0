@@ -16,3 +16,5 @@
 - Consolidate language/query views into each clean route canonical and sitemap URL; retain URL-based language selection but omit hreflang for noncanonical parameter views to avoid conflicting indexing signals.
 - Keep hardness conversion equations and domain checks in a pure browser-safe module; invert only inside documented brackets so empirical relationships cannot silently extrapolate.
 - Keep roughness comparisons in a pure browser-safe module with model-specific Ra/Rq bounds and explicit unavailable Rz/Rt outputs; unit changes preserve the physical input and never invent process multipliers.
+
+- Keep friction calculations in a pure browser-safe module with nonnegative magnitudes, divisor validation and degree/radian boundaries; distinguish incline static estimates from measured kinetic friction.

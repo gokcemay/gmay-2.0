@@ -1,5 +1,7 @@
 // Source-language keys preserve saved tool choices and API values.
 export const english: Record<string, string> = {
+  "Sürtünme Katsayısı Hesaplayıcı": "Coefficient of Friction Calculator",
+  "Mühendislik ve triboloji uygulamaları için sürtünme katsayısı, sürtünme kuvveti, normal yük ve sürtünme açısını hesaplayın.": "Calculate friction coefficient, friction force, normal load and friction angle for engineering and tribology applications.",
   "Yüzey Pürüzlülüğü Dönüşüm Aracı": "Surface Roughness Converter",
   "Ra, Rq, Rz ve Rt ilişkilerini yaklaşık olarak karşılaştırın ve µm ile µin arasında dönüşüm yapın.": "Compare approximate Ra, Rq, Rz and Rt relationships and convert between µm and µin.",
   "Sertlik Dönüşüm Hesaplayıcı": "Hardness Conversion Calculator",

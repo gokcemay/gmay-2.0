@@ -8,6 +8,10 @@ export function pageUrl(path: string, _language: Language = 'en'): string {
 
 type SearchCopy = { title: string; description: string };
 export const searchCopy: Record<string, Record<Language, SearchCopy>> = {
+  '/lab/coefficient-of-friction-calculator': {
+    en: { title: 'Coefficient of Friction Calculator | Friction Force & Angle', description: 'Calculate coefficient of friction, friction force, normal load and friction angle for engineering and tribology applications.' },
+    tr: { title: 'Sürtünme Katsayısı Hesaplayıcı | Sürtünme Kuvveti ve Açısı', description: 'Sürtünme katsayısı, sürtünme kuvveti, normal yük ve sürtünme açısını mühendislik ve triboloji uygulamaları için hesaplayın.' },
+  },
   '/lab/surface-roughness-converter': {
     en: { title: 'Surface Roughness Converter | Ra, Rq, Rz & Rt', description: 'Compare approximate surface roughness relationships between Ra, Rq, Rz and Rt, with µm/µin conversion and engineering limitations explained.' },
     tr: { title: 'Yüzey Pürüzlülüğü Dönüşüm Aracı | Ra, Rq, Rz ve Rt', description: 'Ra, Rq, Rz ve Rt yüzey pürüzlülüğü parametrelerini yaklaşık ilişkilerle karşılaştırın; µm ve µin dönüşümü ve mühendislik sınırlamalarını görün.' },

@@ -21,6 +21,7 @@ import { Route as ResearchRouteImport } from './routes/research'
 import { Route as AraclarTeknikRaporStiliRouteImport } from './routes/araclar.teknik-rapor-stili'
 import { Route as AraclarTeknikResimCadRouteImport } from './routes/araclar.teknik-resim-cad'
 import { Route as LabCadqueryPromptRouteImport } from './routes/lab_.cadquery-prompt'
+import { Route as LabCoefficientOfFrictionCalculatorRouteImport } from './routes/lab_.coefficient-of-friction-calculator'
 import { Route as LabEngineeringPromptBuilderRouteImport } from './routes/lab_.engineering-prompt-builder'
 import { Route as LabGearStressCalculatorRouteImport } from './routes/lab_.gear-stress-calculator'
 import { Route as LabHardnessConversionCalculatorRouteImport } from './routes/lab_.hardness-conversion-calculator'
@@ -93,6 +94,12 @@ const LabCadqueryPromptRoute = LabCadqueryPromptRouteImport.update({
   path: '/lab/cadquery-prompt',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LabCoefficientOfFrictionCalculatorRoute =
+  LabCoefficientOfFrictionCalculatorRouteImport.update({
+    id: '/lab_/coefficient-of-friction-calculator',
+    path: '/lab/coefficient-of-friction-calculator',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const LabEngineeringPromptBuilderRoute =
   LabEngineeringPromptBuilderRouteImport.update({
     id: '/lab_/engineering-prompt-builder',
@@ -170,6 +177,7 @@ export interface FileRoutesByFullPath {
   '/araclar/teknik-rapor-stili': typeof AraclarTeknikRaporStiliRoute
   '/araclar/teknik-resim-cad': typeof AraclarTeknikResimCadRoute
   '/lab/cadquery-prompt': typeof LabCadqueryPromptRoute
+  '/lab/coefficient-of-friction-calculator': typeof LabCoefficientOfFrictionCalculatorRoute
   '/lab/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
   '/lab/gear-stress-calculator': typeof LabGearStressCalculatorRoute
   '/lab/hardness-conversion-calculator': typeof LabHardnessConversionCalculatorRoute
@@ -195,6 +203,7 @@ export interface FileRoutesByTo {
   '/araclar/teknik-rapor-stili': typeof AraclarTeknikRaporStiliRoute
   '/araclar/teknik-resim-cad': typeof AraclarTeknikResimCadRoute
   '/lab/cadquery-prompt': typeof LabCadqueryPromptRoute
+  '/lab/coefficient-of-friction-calculator': typeof LabCoefficientOfFrictionCalculatorRoute
   '/lab/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
   '/lab/gear-stress-calculator': typeof LabGearStressCalculatorRoute
   '/lab/hardness-conversion-calculator': typeof LabHardnessConversionCalculatorRoute
@@ -221,6 +230,7 @@ export interface FileRoutesById {
   '/araclar/teknik-rapor-stili': typeof AraclarTeknikRaporStiliRoute
   '/araclar/teknik-resim-cad': typeof AraclarTeknikResimCadRoute
   '/lab_/cadquery-prompt': typeof LabCadqueryPromptRoute
+  '/lab_/coefficient-of-friction-calculator': typeof LabCoefficientOfFrictionCalculatorRoute
   '/lab_/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
   '/lab_/gear-stress-calculator': typeof LabGearStressCalculatorRoute
   '/lab_/hardness-conversion-calculator': typeof LabHardnessConversionCalculatorRoute
@@ -248,6 +258,7 @@ export interface FileRouteTypes {
     | '/araclar/teknik-rapor-stili'
     | '/araclar/teknik-resim-cad'
     | '/lab/cadquery-prompt'
+    | '/lab/coefficient-of-friction-calculator'
     | '/lab/engineering-prompt-builder'
     | '/lab/gear-stress-calculator'
     | '/lab/hardness-conversion-calculator'
@@ -273,6 +284,7 @@ export interface FileRouteTypes {
     | '/araclar/teknik-rapor-stili'
     | '/araclar/teknik-resim-cad'
     | '/lab/cadquery-prompt'
+    | '/lab/coefficient-of-friction-calculator'
     | '/lab/engineering-prompt-builder'
     | '/lab/gear-stress-calculator'
     | '/lab/hardness-conversion-calculator'
@@ -298,6 +310,7 @@ export interface FileRouteTypes {
     | '/araclar/teknik-rapor-stili'
     | '/araclar/teknik-resim-cad'
     | '/lab_/cadquery-prompt'
+    | '/lab_/coefficient-of-friction-calculator'
     | '/lab_/engineering-prompt-builder'
     | '/lab_/gear-stress-calculator'
     | '/lab_/hardness-conversion-calculator'
@@ -324,6 +337,7 @@ export interface RootRouteChildren {
   AraclarTeknikRaporStiliRoute: typeof AraclarTeknikRaporStiliRoute
   AraclarTeknikResimCadRoute: typeof AraclarTeknikResimCadRoute
   LabCadqueryPromptRoute: typeof LabCadqueryPromptRoute
+  LabCoefficientOfFrictionCalculatorRoute: typeof LabCoefficientOfFrictionCalculatorRoute
   LabEngineeringPromptBuilderRoute: typeof LabEngineeringPromptBuilderRoute
   LabGearStressCalculatorRoute: typeof LabGearStressCalculatorRoute
   LabHardnessConversionCalculatorRoute: typeof LabHardnessConversionCalculatorRoute
@@ -423,6 +437,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabCadqueryPromptRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lab_/coefficient-of-friction-calculator': {
+      id: '/lab_/coefficient-of-friction-calculator'
+      path: '/lab/coefficient-of-friction-calculator'
+      fullPath: '/lab/coefficient-of-friction-calculator'
+      preLoaderRoute: typeof LabCoefficientOfFrictionCalculatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lab_/engineering-prompt-builder': {
       id: '/lab_/engineering-prompt-builder'
       path: '/lab/engineering-prompt-builder'
@@ -516,6 +537,8 @@ const rootRouteChildren: RootRouteChildren = {
   AraclarTeknikRaporStiliRoute: AraclarTeknikRaporStiliRoute,
   AraclarTeknikResimCadRoute: AraclarTeknikResimCadRoute,
   LabCadqueryPromptRoute: LabCadqueryPromptRoute,
+  LabCoefficientOfFrictionCalculatorRoute:
+    LabCoefficientOfFrictionCalculatorRoute,
   LabEngineeringPromptBuilderRoute: LabEngineeringPromptBuilderRoute,
   LabGearStressCalculatorRoute: LabGearStressCalculatorRoute,
   LabHardnessConversionCalculatorRoute: LabHardnessConversionCalculatorRoute,
