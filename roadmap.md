@@ -1,3 +1,8 @@
+# Contact Stress Studio
+- [ ] Preserve uploaded Hertz/stress-field logic in a tested pure module.
+- [ ] Add bilingual Lab page, interactive field, materials and yield/coating results.
+- [ ] Verify both languages, numerical parity and mobile layout.
+
 # Quiz review pages
 
 # Coefficient of friction calculator
