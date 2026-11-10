@@ -29,6 +29,7 @@ export const Route = createFileRoute("/lab")({
 });
 
 type ToolHref =
+  | "/lab/contact-stress-studio"
   | "/lab/coefficient-of-friction-calculator"
   | "/lab/surface-roughness-converter"
   | "/lab/hardness-conversion-calculator"
@@ -101,6 +102,11 @@ const groups: Group[] = [
         href: "/lab/hertz-contact-calculator",
         purpose:
           "Küre-düzlem elastik temasında temas alanı, Hertz basıncı ve elastik yaklaşmayı hesaplayın.",
+      },
+      {
+        name: "Temas Gerilmesi Stüdyosu",
+        href: "/lab/contact-stress-studio",
+        purpose: "Küre ve silindir temasında yüzey altı gerilmeleri, akma eşiğini ve kaplama arayüzünü etkileşimli olarak inceleyin.",
       },
       {
         name: "Hertz Line Contact Calculator",

@@ -1,5 +1,7 @@
 // Source-language keys preserve saved tool choices and API values.
 export const english: Record<string, string> = {
+  "Temas Gerilmesi Stüdyosu": "Contact Stress Studio",
+  "Küre ve silindir temasında yüzey altı gerilmeleri, akma eşiğini ve kaplama arayüzünü etkileşimli olarak inceleyin.": "Explore subsurface stresses, yield thresholds and coating interfaces interactively for sphere and cylinder contact.",
   "Sürtünme Katsayısı Hesaplayıcı": "Coefficient of Friction Calculator",
   "Mühendislik ve triboloji uygulamaları için sürtünme katsayısı, sürtünme kuvveti, normal yük ve sürtünme açısını hesaplayın.": "Calculate friction coefficient, friction force, normal load and friction angle for engineering and tribology applications.",
   "Yüzey Pürüzlülüğü Dönüşüm Aracı": "Surface Roughness Converter",
