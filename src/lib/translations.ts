@@ -717,7 +717,6 @@ export const english: Record<string, string> = {
   "Girdi parametreleri": "Input parameters",
   "Küre yarıçapı, R": "Sphere radius, R",
   "Temasa gelen kürenin yarıçapıdır; çap girildiğinde yarıçap R = D/2 olarak alınır. mm, µm veya m olarak girilebilir.": "The radius of the sphere in contact; when a diameter is entered, the radius is taken as R = D/2. Can be entered in mm, µm or m.",
-  "Normal yük, F": "Normal load, F",
   "Teması oluşturan dış normal kuvvettir; N veya kN olarak girilir. Temas yarıçapı yükün küp köküyle büyür.": "The external normal force creating the contact; entered in N or kN. The contact radius grows with the cube root of the load.",
   "Elastisite modülü, E": "Elastic modulus, E",
   "Temas eden iki malzemenin Young modülleridir; GPa veya MPa olarak girilir ve efektif modül E* hesabında birleştirilir.": "The Young's moduli of the two contacting materials; entered in GPa or MPa and combined into the effective modulus E*.",
