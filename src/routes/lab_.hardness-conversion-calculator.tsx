@@ -1,0 +1,58 @@
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { localizeHead, useLanguage } from '@/lib/i18n';
+import { PageHeader, Section } from '@/components/site/Section';
+import { HardnessCalculator } from '@/components/lab/HardnessCalculator';
+
+const PATH = '/lab/hardness-conversion-calculator';
+const TITLE = 'Hardness Conversion Calculator | HRC, HV, HBW & HRB';
+const DESCRIPTION = 'Convert approximate hardness values between Rockwell C, Rockwell B, Vickers and Brinell scales for non-austenitic steels.';
+export const Route = createFileRoute('/lab_/hardness-conversion-calculator')({
+  head: ({ match }) => localizeHead({
+    meta: [{ title: TITLE }, { name: 'description', content: DESCRIPTION }, { property: 'og:title', content: TITLE }, { property: 'og:description', content: DESCRIPTION }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary_large_image' }],
+    links: [{ rel: 'canonical', href: PATH }],
+    scripts: [{ type: 'application/ld+json', children: JSON.stringify({ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'Hardness Conversion Calculator', description: DESCRIPTION, url: `https://gmay.me${PATH}`, applicationCategory: 'EngineeringApplication', operatingSystem: 'Web', inLanguage: 'tr-TR', author: { '@id': 'https://gmay.me/#person' }, offers: { '@type': 'Offer', price: '0', priceCurrency: 'TRY' } }) }],
+  }, match.context.language ?? 'en', PATH),
+  component: HardnessPage,
+});
+
+function HardnessPage() {
+  const tr = useLanguage() === 'tr';
+  const L = (en: string, turkish: string) => tr ? turkish : en;
+  const explanations = [
+    [L('Why hardness conversion is approximate', 'Sertlik dönüşümü neden yaklaşıktır'), L('Brinell and Vickers measure indentation size; Rockwell measures indentation depth. Different indenters and loads probe material response differently. Composition, microstructure, heat treatment, work hardening, testing method and surface condition affect the correlation. These are empirical equations, not physical unit conversions.', 'Brinell ve Vickers iz boyutunu, Rockwell ise batma derinliğini ölçer. Farklı uçlar ve yükler malzeme davranışını farklı biçimde ölçer. Bileşim, mikroyapı, ısıl işlem, pekleşme, test yöntemi ve yüzey koşulu ilişkiyi etkiler. Bunlar ampirik denklemlerdir; fiziksel birim dönüşümleri değildir.')],
+    [L('Vickers hardness', 'Vickers sertliği'), L('HV uses a diamond pyramid and the indentation diagonals. It covers a wide hardness range; this calculator uses HV as its internal axis. The implemented correlations do not establish validity for microhardness measurements of thin layers.', 'HV, elmas piramit uç ve izin köşegenlerini kullanır. Geniş bir sertlik aralığını kapsar; hesaplayıcının iç ekseni HV’dir. Uygulanan ilişkiler ince tabakaların mikrosertlik ölçümleri için geçerlilik oluşturmaz.')],
+    [L('Brinell hardness', 'Brinell sertliği'), L('HBW uses a tungsten-carbide ball and indentation diameter, typically for bulk material testing. Here the published relationship is limited to a 10 mm ball and 3000 kgf load, 226–634 HBW. It must not be confused with legacy steel-ball HBS. No soft-steel HBW relationship is implemented.', 'HBW, tungsten karbür bilye ve iz çapını kullanır; genellikle kütlesel malzeme testlerine uygundur. Burada yayımlanan ilişki 10 mm bilye ve 3000 kgf yük için 226–634 HBW ile sınırlıdır. Eski çelik bilyeli HBS ile karıştırılmamalıdır. Yumuşak çelik için HBW ilişkisi uygulanmamıştır.')],
+    ['Rockwell C', L('HRC uses a diamond cone and a 150 kgf total test force, commonly for harder steels. Only the implemented higher-HV branch is used; a numerical equation result below its domain is not reported.', 'HRC, elmas koni ve 150 kgf toplam test kuvveti kullanır; daha sert çelikler için yaygındır. Yalnızca uygulanan yüksek HV dalı kullanılır; geçerlilik aralığının altında sayısal denklem sonucu gösterilmez.')],
+    ['Rockwell B', L('HRB uses a ball indenter and a 100 kgf total test force, commonly for softer metallic materials. This tool restricts the relationship to homogeneous non-austenitic steel and 100–240 HV; it does not extend to other metals.', 'HRB, bilye uç ve 100 kgf toplam test kuvveti kullanır; daha yumuşak metalik malzemeler için yaygındır. Bu araç ilişkiyi homojen östenitik olmayan çelik ve 100–240 HV ile sınırlar; diğer metallere genişletmez.')],
+  ];
+  return <>
+    <PageHeader eyebrow={L('Materials / Mechanical Engineering', 'Malzemeler / Makine Mühendisliği')} title={L('Hardness Conversion Calculator', 'Sertlik Dönüşüm Hesaplayıcı')} description={L(DESCRIPTION, 'Östenitik olmayan çeliklerde Vickers, Brinell ve Rockwell ölçekleri arasında yaklaşık sertlik dönüşümü.')} />
+    <Section>
+      <div className="mb-8 max-w-4xl border-l-2 border-accent bg-muted/50 p-5 text-sm leading-relaxed text-foreground">
+        <p className="font-semibold">{L('Converted hardness values are approximate equivalents, not substitute test results.', 'Dönüştürülen sertlik değerleri yaklaşık eşdeğerlerdir; test sonuçlarının yerine geçmez.')}</p>
+        <p className="mt-2 text-muted-foreground">{L('Hardness scales do not have a universal one-to-one physical conversion. Scope: homogeneous non-austenitic carbon, alloy and tool steels. Verify suitability for the actual material and heat treatment.', 'Sertlik ölçekleri arasında evrensel, bire bir fiziksel dönüşüm yoktur. Kapsam: homojen, östenitik olmayan karbon, alaşım ve takım çelikleri. Gerçek malzeme ve ısıl işlem için uygunluğu doğrulayın.')}</p>
+      </div>
+      <HardnessCalculator />
+    </Section>
+    <Section><div className="grid max-w-4xl gap-8">{explanations.map(([title,body]) => <div key={title}><h2 className="font-display text-xl font-semibold text-foreground">{title}</h2><p className="mt-3 text-sm leading-relaxed text-muted-foreground">{body}</p></div>)}</div></Section>
+    <Section>
+      <aside className="max-w-4xl border-l-2 border-accent bg-muted/50 p-5">
+        <h2 className="font-display text-xl font-semibold text-foreground">{L('Limitations', 'Sınırlamalar')}</h2>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{L('Do not automatically apply these conversions to austenitic stainless steels, aluminum, copper alloys, cast iron, magnesium, titanium, ceramics, coatings, carburized/nitrided case layers, very thin specimens or highly heterogeneous structures. Separate material-specific relationships are required.', 'Bu dönüşümleri östenitik paslanmaz çeliklere, alüminyuma, bakır alaşımlarına, dökme demire, magnezyuma, titanyuma, seramiklere, kaplamalara, sementasyon/nitrürleme tabakalarına, çok ince numunelere veya çok heterojen yapılara otomatik olarak uygulamayın. Ayrı, malzemeye özgü ilişkiler gereklidir.')}</p>
+        <p className="mt-3 text-sm leading-relaxed text-foreground">{L('For acceptance testing or specification compliance, use the hardness scale specified by the applicable standard or drawing whenever possible. No ASTM E140 or ISO 18265 compliance or certification is claimed.', 'Kabul testleri veya şartname uygunluğu için mümkün olduğunda ilgili standartta ya da teknik resimde belirtilen sertlik ölçeğini kullanın. ASTM E140 veya ISO 18265 uygunluğu veya sertifikasyonu iddia edilmez.')}</p>
+      </aside>
+    </Section>
+    <Section>
+      <h2 className="font-display text-xl font-semibold text-foreground">{L('Conversion method and sources', 'Dönüşüm yöntemi ve kaynaklar')}</h2>
+      <div className="mt-4 grid max-w-4xl gap-4 text-sm leading-relaxed text-muted-foreground">
+        <p>{L('Equation-based implementation using the publicly documented correlations below, not a reproduction of standard conversion tables. HV is the common axis. Dependent scales are inverted by bracketed bisection (80 iterations); no anchor-point interpolation or extrapolation is used.', 'Aşağıdaki kamuya açık ilişkileri kullanan denklem tabanlı uygulamadır; standart dönüşüm tablolarının kopyası değildir. Ortak eksen HV’dir. Bağımlı ölçekler sınırlı aralıkta ikiye bölme yöntemiyle (80 yineleme) ters çözülür; referans noktası enterpolasyonu veya ekstrapolasyon yapılmaz.')}</p>
+        <div className="overflow-x-auto font-mono text-xs leading-loose text-foreground"><p>HRC(HV) = 31.49 + 0.0796683·HV − 3.55432×10⁻⁵·HV² − 6728.16/HV</p><p>HRB(HV) = 114.665 + 0.0882795·HV − 1.41855×10⁻⁴·HV² − 6695.28/HV</p><p>HRC(HBW) = 18.1673 + 0.120388·HBW − 6.94388×10⁻⁵·HBW² − 4883.27/HBW</p></div>
+        <p>{L('Conservative source domains: HRC relation 238–940 HV; HRB relation 100–240 HV; HBW relation 226–634 HBW. Input HRC is 20.168166547…–67.814613459… and HRB is 55.1216–99.784232: equation images of those domains, not rounded standard-table endpoints. HV input is 100–940. Each output must satisfy its own domain; HBW stops at about 58.88 HRC. Both Rockwell branches are available in the 238–240 HV overlap.', 'Kaynağa göre koruyucu aralıklar: HRC ilişkisi 238–940 HV; HRB ilişkisi 100–240 HV; HBW ilişkisi 226–634 HBW. HRC girdisi 20,168166547…–67,814613459…; HRB girdisi 55,1216–99,784232’dir: bunlar yuvarlanmış standart tablo uçları değil, aralıkların denklem görüntüleridir. HV girdisi 100–940’tır. Her çıktı kendi aralığını sağlamalıdır; HBW yaklaşık 58,88 HRC’de durur. 238–240 HV örtüşmesinde iki Rockwell dalı da kullanılabilir.')}</p>
+        <p>{L('Output rounding: HV/HBW to whole numbers; HRC/HRB to 0.1. Unrounded values drive domain checks. Tensile-strength estimation, HRA and HK are not implemented. Numerical solving precision is not empirical accuracy.', 'Çıktı yuvarlaması: HV/HBW tam sayıya; HRC/HRB 0,1’e. Aralık kontrolleri yuvarlanmamış değerlerle yapılır. Çekme dayanımı tahmini, HRA ve HK uygulanmamıştır. Sayısal çözüm hassasiyeti ampirik doğruluk anlamına gelmez.')}</p>
+        <p>{L('Recognized references such as ASTM E140 and ISO 18265 use material-specific approximate conversion principles. This implementation was checked against the publicly readable equations, not against a licensed current standard or specimen test data.', 'ASTM E140 ve ISO 18265 gibi tanınmış kaynaklar malzemeye özgü yaklaşık dönüşüm yaklaşımı kullanır. Bu uygulama kamuya açık denklemlerle kontrol edilmiştir; lisanslı güncel standart veya numune test verileriyle doğrulama yapılmamıştır.')}</p>
+        <ul className="grid gap-2"><li><a href="https://turn2engineering.com/calculators/hardness-conversion-calculator" target="_blank" rel="noopener noreferrer" className="text-foreground underline underline-offset-4">Turn2Engineering — {L('public equations and working ranges', 'kamuya açık denklemler ve çalışma aralıkları')}</a></li><li><a href="https://www.astm.org/e0140-02e01.html" target="_blank" rel="noopener noreferrer" className="text-foreground underline underline-offset-4">ASTM E140 — {L('material scope and conversion principles (2002 edition listing)', 'malzeme kapsamı ve dönüşüm ilkeleri (2002 sürüm kaydı)')}</a></li></ul>
+      </div>
+    </Section>
+    <Section><h2 className="font-display text-xl font-semibold text-foreground">{L('Related engineering tools', 'İlgili mühendislik araçları')}</h2><div className="mt-4 flex flex-wrap gap-5 text-sm text-foreground"><Link to="/lab/gear-stress-calculator" className="underline underline-offset-4">{L('Gear Contact & Bending Stress Calculator', 'Dişli Temas ve Eğilme Gerilmesi Hesaplayıcı')}</Link><Link to="/research" className="underline underline-offset-4">{L('Materials and surface engineering research', 'Malzeme ve yüzey mühendisliği araştırmaları')}</Link><Link to="/lab" className="underline underline-offset-4">{L('Back to Engineering Lab', "Engineering Lab'e dön")}</Link></div></Section>
+  </>;
+}

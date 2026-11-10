@@ -23,6 +23,7 @@ import { Route as AraclarTeknikResimCadRouteImport } from './routes/araclar.tekn
 import { Route as LabCadqueryPromptRouteImport } from './routes/lab_.cadquery-prompt'
 import { Route as LabEngineeringPromptBuilderRouteImport } from './routes/lab_.engineering-prompt-builder'
 import { Route as LabGearStressCalculatorRouteImport } from './routes/lab_.gear-stress-calculator'
+import { Route as LabHardnessConversionCalculatorRouteImport } from './routes/lab_.hardness-conversion-calculator'
 import { Route as LabHertzContactCalculatorRouteImport } from './routes/lab_.hertz-contact-calculator'
 import { Route as LabHertzLineContactCalculatorRouteImport } from './routes/lab_.hertz-line-contact-calculator'
 import { Route as LabPinOnDiscWearCalculatorRouteImport } from './routes/lab_.pin-on-disc-wear-calculator'
@@ -102,6 +103,12 @@ const LabGearStressCalculatorRoute = LabGearStressCalculatorRouteImport.update({
   path: '/lab/gear-stress-calculator',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LabHardnessConversionCalculatorRoute =
+  LabHardnessConversionCalculatorRouteImport.update({
+    id: '/lab_/hardness-conversion-calculator',
+    path: '/lab/hardness-conversion-calculator',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const LabHertzContactCalculatorRoute =
   LabHertzContactCalculatorRouteImport.update({
     id: '/lab_/hertz-contact-calculator',
@@ -158,6 +165,7 @@ export interface FileRoutesByFullPath {
   '/lab/cadquery-prompt': typeof LabCadqueryPromptRoute
   '/lab/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
   '/lab/gear-stress-calculator': typeof LabGearStressCalculatorRoute
+  '/lab/hardness-conversion-calculator': typeof LabHardnessConversionCalculatorRoute
   '/lab/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
   '/lab/hertz-line-contact-calculator': typeof LabHertzLineContactCalculatorRoute
   '/lab/pin-on-disc-wear-calculator': typeof LabPinOnDiscWearCalculatorRoute
@@ -181,6 +189,7 @@ export interface FileRoutesByTo {
   '/lab/cadquery-prompt': typeof LabCadqueryPromptRoute
   '/lab/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
   '/lab/gear-stress-calculator': typeof LabGearStressCalculatorRoute
+  '/lab/hardness-conversion-calculator': typeof LabHardnessConversionCalculatorRoute
   '/lab/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
   '/lab/hertz-line-contact-calculator': typeof LabHertzLineContactCalculatorRoute
   '/lab/pin-on-disc-wear-calculator': typeof LabPinOnDiscWearCalculatorRoute
@@ -205,6 +214,7 @@ export interface FileRoutesById {
   '/lab_/cadquery-prompt': typeof LabCadqueryPromptRoute
   '/lab_/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
   '/lab_/gear-stress-calculator': typeof LabGearStressCalculatorRoute
+  '/lab_/hardness-conversion-calculator': typeof LabHardnessConversionCalculatorRoute
   '/lab_/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
   '/lab_/hertz-line-contact-calculator': typeof LabHertzLineContactCalculatorRoute
   '/lab_/pin-on-disc-wear-calculator': typeof LabPinOnDiscWearCalculatorRoute
@@ -230,6 +240,7 @@ export interface FileRouteTypes {
     | '/lab/cadquery-prompt'
     | '/lab/engineering-prompt-builder'
     | '/lab/gear-stress-calculator'
+    | '/lab/hardness-conversion-calculator'
     | '/lab/hertz-contact-calculator'
     | '/lab/hertz-line-contact-calculator'
     | '/lab/pin-on-disc-wear-calculator'
@@ -253,6 +264,7 @@ export interface FileRouteTypes {
     | '/lab/cadquery-prompt'
     | '/lab/engineering-prompt-builder'
     | '/lab/gear-stress-calculator'
+    | '/lab/hardness-conversion-calculator'
     | '/lab/hertz-contact-calculator'
     | '/lab/hertz-line-contact-calculator'
     | '/lab/pin-on-disc-wear-calculator'
@@ -276,6 +288,7 @@ export interface FileRouteTypes {
     | '/lab_/cadquery-prompt'
     | '/lab_/engineering-prompt-builder'
     | '/lab_/gear-stress-calculator'
+    | '/lab_/hardness-conversion-calculator'
     | '/lab_/hertz-contact-calculator'
     | '/lab_/hertz-line-contact-calculator'
     | '/lab_/pin-on-disc-wear-calculator'
@@ -300,6 +313,7 @@ export interface RootRouteChildren {
   LabCadqueryPromptRoute: typeof LabCadqueryPromptRoute
   LabEngineeringPromptBuilderRoute: typeof LabEngineeringPromptBuilderRoute
   LabGearStressCalculatorRoute: typeof LabGearStressCalculatorRoute
+  LabHardnessConversionCalculatorRoute: typeof LabHardnessConversionCalculatorRoute
   LabHertzContactCalculatorRoute: typeof LabHertzContactCalculatorRoute
   LabHertzLineContactCalculatorRoute: typeof LabHertzLineContactCalculatorRoute
   LabPinOnDiscWearCalculatorRoute: typeof LabPinOnDiscWearCalculatorRoute
@@ -409,6 +423,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabGearStressCalculatorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lab_/hardness-conversion-calculator': {
+      id: '/lab_/hardness-conversion-calculator'
+      path: '/lab/hardness-conversion-calculator'
+      fullPath: '/lab/hardness-conversion-calculator'
+      preLoaderRoute: typeof LabHardnessConversionCalculatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lab_/hertz-contact-calculator': {
       id: '/lab_/hertz-contact-calculator'
       path: '/lab/hertz-contact-calculator'
@@ -476,6 +497,7 @@ const rootRouteChildren: RootRouteChildren = {
   LabCadqueryPromptRoute: LabCadqueryPromptRoute,
   LabEngineeringPromptBuilderRoute: LabEngineeringPromptBuilderRoute,
   LabGearStressCalculatorRoute: LabGearStressCalculatorRoute,
+  LabHardnessConversionCalculatorRoute: LabHardnessConversionCalculatorRoute,
   LabHertzContactCalculatorRoute: LabHertzContactCalculatorRoute,
   LabHertzLineContactCalculatorRoute: LabHertzLineContactCalculatorRoute,
   LabPinOnDiscWearCalculatorRoute: LabPinOnDiscWearCalculatorRoute,

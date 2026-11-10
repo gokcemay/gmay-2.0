@@ -8,6 +8,10 @@ export function pageUrl(path: string, _language: Language = 'en'): string {
 
 type SearchCopy = { title: string; description: string };
 export const searchCopy: Record<string, Record<Language, SearchCopy>> = {
+  '/lab/hardness-conversion-calculator': {
+    en: { title: 'Hardness Conversion Calculator | HRC, HV, HBW & HRB', description: 'Convert approximate hardness values between Rockwell C, Rockwell B, Vickers and Brinell scales for non-austenitic steels.' },
+    tr: { title: 'Sertlik Dönüşüm Hesaplayıcı | HRC, HV, HBW ve HRB', description: 'Alaşımlı ve karbon çelikleri için Rockwell C, Rockwell B, Vickers ve Brinell sertlik değerleri arasında yaklaşık dönüşüm yapın.' },
+  },
   '/': {
     en: { title: 'Dr. Gökçe Mehmet Ay | Mechanical Engineering, AI & Tribology', description: 'Explore Dr. Gökçe Mehmet Ay’s work in mechanical engineering, tribology and AI: free engineering tools, academic research, books and training.' },
     tr: { title: 'Dr. Gökçe Mehmet Ay | Makine Mühendisliği, Yapay Zekâ ve Triboloji', description: 'Dr. Gökçe Mehmet Ay’ın makine mühendisliği, triboloji ve yapay zekâ çalışmalarını keşfedin: ücretsiz mühendislik araçları, akademik araştırma ve eğitim.' },
