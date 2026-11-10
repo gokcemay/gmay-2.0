@@ -50,7 +50,7 @@ function Result({ title, symbol, value, unit, equation, emphasis }: { title: str
 const f = (v: number, d = 4) => formatSci(v, d);
 
 /** Schematic only: circles are pitch circles, not tooth profiles. */
-function GearSchematic({ z1, z2, alphaDeg, labels }: { z1: number; z2: number; alphaDeg: number; labels: Record<string, string> }) {
+function GearSchematic({ z1, z2, alphaDeg, labels }: { z1: number; z2: number; alphaDeg: number; labels: { aria: string; pinion: string; gear: string; loa: string; caption: string } }) {
   const W = 420, H = 260;
   const total = 300;
   const r1 = (total * z1) / (z1 + z2) / 2, r2 = (total * z2) / (z1 + z2) / 2;
