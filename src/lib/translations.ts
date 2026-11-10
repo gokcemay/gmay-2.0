@@ -1,5 +1,7 @@
 // Source-language keys preserve saved tool choices and API values.
 export const english: Record<string, string> = {
+  "Sertlik Dönüşüm Hesaplayıcı": "Hardness Conversion Calculator",
+  "Östenitik olmayan çeliklerde Vickers, Brinell ve Rockwell ölçekleri arasında yaklaşık sertlik eşdeğerlerini hesaplayın.": "Convert approximate hardness equivalents between Vickers, Brinell and Rockwell scales for non-austenitic steels.",
   "Silindir-düzlem ve paralel silindir-silindir çizgisel temaslarında Hertz temas genişliğini ve maksimum basıncı hesaplayın.": "Calculate Hertzian contact width and maximum pressure for cylinder-flat and parallel cylinder-cylinder line contacts.",
   "Ön boyutlandırma için düz dişlilerde temas gerilmesini, diş dibi eğilme gerilmesini ve aktarılan kuvvetleri tahmin edin.": "Estimate spur-gear contact stress, tooth-root bending stress and transmitted forces for preliminary engineering screening.",
   "Pin-on-disc deneyinde kütle kaybından aşınma hacmini, kayma mesafesini, özgül aşınma oranını ve sürtünme katsayısını hesaplayın.": "Calculate wear volume from mass loss, sliding distance, specific wear rate and coefficient of friction for pin-on-disc tests.",

@@ -25,7 +25,7 @@ test('the sitemap contains only clean canonical routes', async () => {
   const { readFile } = await import('node:fs/promises');
   const xml = await readFile(new URL('../../public/sitemap.xml', import.meta.url), 'utf8');
   const urls = Array.from(xml.matchAll(/<loc>(.*?)<\/loc>/g), match => match[1]);
-  assert.equal(urls.length, 284);
+  assert.equal(urls.length, 285);
   assert.equal(new Set(urls).size, urls.length);
   assert.ok(urls.every(url => url && !url.includes('?') && !url.includes('/r/')));
   for (const path of ['/', '/egitim', '/lab', '/kitaplar', '/lab/hertz-contact-calculator', '/lab/wear-rate-calculator']) assert.ok(urls.includes(`https://gmay.me${path}`));

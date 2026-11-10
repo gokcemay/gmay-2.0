@@ -14,3 +14,4 @@
 - Resolve the site locale from root-validated URL search state and retain it across navigation; translate at presentation and prompt-template boundaries while keeping persisted choices, calculations, and public API values stable, so SSR and hydration agree.
 - Keep the CAD gallery catalog/figure files at their original public URLs; use un-nested detail and legacy-link routes, a lazy Three.js viewer, locked vote tables and aggregate-only public RPCs to preserve links and private feedback.
 - Consolidate language/query views into each clean route canonical and sitemap URL; retain URL-based language selection but omit hreflang for noncanonical parameter views to avoid conflicting indexing signals.
+- Keep hardness conversion equations and domain checks in a pure browser-safe module; invert only inside documented brackets so empirical relationships cannot silently extrapolate.

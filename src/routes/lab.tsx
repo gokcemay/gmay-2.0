@@ -29,6 +29,7 @@ export const Route = createFileRoute("/lab")({
 });
 
 type ToolHref =
+  | "/lab/hardness-conversion-calculator"
   | "/lab/engineering-prompt-builder"
   | "/lab/hertz-contact-calculator"
   | "/lab/hertz-line-contact-calculator"
@@ -110,6 +111,11 @@ const groups: Group[] = [
         href: "/lab/gear-stress-calculator",
         purpose:
           "Ön boyutlandırma için düz dişlilerde temas gerilmesini, diş dibi eğilme gerilmesini ve aktarılan kuvvetleri tahmin edin.",
+      },
+      {
+        name: "Sertlik Dönüşüm Hesaplayıcı",
+        href: "/lab/hardness-conversion-calculator",
+        purpose: "Östenitik olmayan çeliklerde Vickers, Brinell ve Rockwell ölçekleri arasında yaklaşık sertlik eşdeğerlerini hesaplayın.",
       },
       {
         name: "Wear Rate Calculator",

@@ -161,6 +161,7 @@ function GearStressPage() {
       <Section>
         <h2 className="font-display text-xl font-semibold text-foreground">{L('Related tools', 'İlgili araçlar')}</h2>
         <ul className="mt-5 grid max-w-4xl gap-3 text-sm leading-relaxed text-muted-foreground">
+          <li><Link to="/lab/hardness-conversion-calculator" className={linkClass}>{L('Hardness Conversion Calculator', 'Sertlik Dönüşüm Hesaplayıcı')}</Link> — {L('approximate steel hardness equivalents, not allowable gear stresses.', 'yaklaşık çelik sertlik eşdeğerleri; izin verilen dişli gerilmeleri değildir.')}</li>
           <li><Link to="/lab/hertz-line-contact-calculator" className={linkClass}>{L('Hertz Line Contact Calculator', 'Hertz Çizgisel Temas Hesaplayıcı')}</Link> — {L('the cylinder contact model used for the flank stress.', 'yanak gerilmesi için kullanılan silindir temas modeli.')}</li>
           <li><Link to="/lab/hertz-contact-calculator" className={linkClass}>{L('Hertz Point Contact Calculator', 'Hertz Nokta Teması Hesaplayıcı')}</Link> — {L('sphere-on-flat contact.', 'küre-düzlem teması.')}</li>
           <li><Link to="/research" className={linkClass}>{L('Tribology research', 'Triboloji araştırmaları')}</Link> — {L('contact, wear and surface engineering.', 'temas, aşınma ve yüzey mühendisliği.')}</li>
