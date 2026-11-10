@@ -1,5 +1,6 @@
 // Source-language keys preserve saved tool choices and API values.
 export const english: Record<string, string> = {
+  "Pin-on-disc deneyinde kütle kaybından aşınma hacmini, kayma mesafesini, özgül aşınma oranını ve sürtünme katsayısını hesaplayın.": "Calculate wear volume from mass loss, sliding distance, specific wear rate and coefficient of friction for pin-on-disc tests.",
   "Ana Sayfa": "Home",
   "Yazılar": "Articles",
   "Araştırma": "Research",

@@ -32,6 +32,10 @@ export const searchCopy: Record<string, Record<Language, SearchCopy>> = {
     en: { title: 'Wear Rate Calculator & Formula | Specific Wear Rate', description: 'Calculate specific wear rate from wear volume or mass loss, load and sliding distance. See k_s = V/(F·s), units and its relation to the Archard wear equation.' },
     tr: { title: 'Aşınma Oranı Hesaplayıcı ve Formülü | Özgül Aşınma', description: 'Aşınma hacmi veya kütle kaybı, yük ve kayma mesafesinden özgül aşınma oranını hesaplayın. k_s = V/(F·s), birimler ve Archard denklemiyle ilişkisini inceleyin.' },
   },
+  '/lab/pin-on-disc-wear-calculator': {
+    en: { title: 'Pin-on-Disc Wear Calculator | Wear Rate & Sliding Distance', description: 'Calculate pin-on-disc wear volume, sliding distance, volumetric wear rate, specific wear rate and coefficient of friction from common tribology test measurements.' },
+    tr: { title: 'Pin-on-Disc Aşınma Hesaplayıcı | Aşınma Oranı ve Kayma Mesafesi', description: 'Pin-on-disc deney ölçümlerinden aşınma hacmi, kayma mesafesi, hacimsel ve özgül aşınma oranı ile sürtünme katsayısını hesaplayın.' },
+  },
 };
 
 export function breadcrumbSchema(path: string, language: Language, title: string) {

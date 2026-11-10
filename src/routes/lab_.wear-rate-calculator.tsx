@@ -95,9 +95,15 @@ const interpretations = [
 const relatedTools: {
   name: string;
   status: string;
-  href: "/lab/hertz-contact-calculator" | "/lab/engineering-prompt-builder" | "/lab/sliding-distance-calculator";
+  href: "/lab/hertz-contact-calculator" | "/lab/engineering-prompt-builder" | "/lab/sliding-distance-calculator" | "/lab/pin-on-disc-wear-calculator";
   purpose: string;
 }[] = [
+  {
+    name: "Pin-on-Disc Wear Test Calculator",
+    status: "Kullanılabilir",
+    href: "/lab/pin-on-disc-wear-calculator" as const,
+    purpose: "Pin-on-disc deneyinde kütle kaybından aşınma hacmini, kayma mesafesini, özgül aşınma oranını ve sürtünme katsayısını hesaplayın.",
+  },
   {
     name: "Hertz Contact Calculator",
     status: "Kullanılabilir",
