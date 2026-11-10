@@ -188,6 +188,11 @@ function HertzPage() {
         <p className="mb-5 max-w-3xl text-sm leading-relaxed text-muted-foreground">
           {tr ? 'Hertz temas teorisine dayanan bu hesaplayıcı, elastik bir kürenin düzlemle sürtünmesiz temasında temas yarıçapını ve Hertzian temas basıncını hesaplar. Küre-düzlem triboloji deneylerinde ve yerel temasın ön değerlendirmesinde kullanılabilir; çizgisel veya plastik temas için geçerli değildir. Yük N veya kN, boyutlar mm, µm veya m, elastisite modülü GPa veya MPa olarak girilir; basınç büyüklüğüne göre MPa veya GPa olarak gösterilir.' : 'This Hertzian contact calculator uses Hertz contact theory to calculate contact radius and maximum contact stress for an elastic sphere on a flat surface under frictionless normal loading. Use it for sphere-on-flat tribology tests and preliminary localized contact calculations, not line contact or plastic contact. Enter load in N or kN, dimensions in mm, µm or m and elastic modulus in GPa or MPa; pressure is reported in MPa or GPa according to magnitude.'}
         </p>
+        <p className="mb-5 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+          {tr ? 'Silindir veya makara teması mı gerekiyor? ' : 'Need cylinder or roller contact? Use the '}
+          <Link to="/lab/hertz-line-contact-calculator" className="text-foreground underline underline-offset-4">{tr ? 'Hertz Çizgisel Temas Hesaplayıcı' : 'Hertz Line Contact Calculator'}</Link>
+          {tr ? ' aracını kullanın.' : '.'}
+        </p>
         <div className="flex flex-wrap items-center gap-3">
           <span className="inline-flex items-center gap-2 border border-border px-2.5 py-1 font-mono text-[0.65rem] tracking-[0.18em] text-muted-foreground uppercase">
             <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />

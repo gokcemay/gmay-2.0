@@ -23,6 +23,7 @@ import { Route as AraclarTeknikResimCadRouteImport } from './routes/araclar.tekn
 import { Route as LabCadqueryPromptRouteImport } from './routes/lab_.cadquery-prompt'
 import { Route as LabEngineeringPromptBuilderRouteImport } from './routes/lab_.engineering-prompt-builder'
 import { Route as LabHertzContactCalculatorRouteImport } from './routes/lab_.hertz-contact-calculator'
+import { Route as LabHertzLineContactCalculatorRouteImport } from './routes/lab_.hertz-line-contact-calculator'
 import { Route as LabPinOnDiscWearCalculatorRouteImport } from './routes/lab_.pin-on-disc-wear-calculator'
 import { Route as LabSlidingDistanceCalculatorRouteImport } from './routes/lab_.sliding-distance-calculator'
 import { Route as LabWearRateCalculatorRouteImport } from './routes/lab_.wear-rate-calculator'
@@ -101,6 +102,12 @@ const LabHertzContactCalculatorRoute =
     path: '/lab/hertz-contact-calculator',
     getParentRoute: () => rootRouteImport,
   } as any)
+const LabHertzLineContactCalculatorRoute =
+  LabHertzLineContactCalculatorRouteImport.update({
+    id: '/lab_/hertz-line-contact-calculator',
+    path: '/lab/hertz-line-contact-calculator',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const LabPinOnDiscWearCalculatorRoute =
   LabPinOnDiscWearCalculatorRouteImport.update({
     id: '/lab_/pin-on-disc-wear-calculator',
@@ -145,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/lab/cadquery-prompt': typeof LabCadqueryPromptRoute
   '/lab/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
   '/lab/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
+  '/lab/hertz-line-contact-calculator': typeof LabHertzLineContactCalculatorRoute
   '/lab/pin-on-disc-wear-calculator': typeof LabPinOnDiscWearCalculatorRoute
   '/lab/sliding-distance-calculator': typeof LabSlidingDistanceCalculatorRoute
   '/lab/wear-rate-calculator': typeof LabWearRateCalculatorRoute
@@ -166,6 +174,7 @@ export interface FileRoutesByTo {
   '/lab/cadquery-prompt': typeof LabCadqueryPromptRoute
   '/lab/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
   '/lab/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
+  '/lab/hertz-line-contact-calculator': typeof LabHertzLineContactCalculatorRoute
   '/lab/pin-on-disc-wear-calculator': typeof LabPinOnDiscWearCalculatorRoute
   '/lab/sliding-distance-calculator': typeof LabSlidingDistanceCalculatorRoute
   '/lab/wear-rate-calculator': typeof LabWearRateCalculatorRoute
@@ -188,6 +197,7 @@ export interface FileRoutesById {
   '/lab_/cadquery-prompt': typeof LabCadqueryPromptRoute
   '/lab_/engineering-prompt-builder': typeof LabEngineeringPromptBuilderRoute
   '/lab_/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
+  '/lab_/hertz-line-contact-calculator': typeof LabHertzLineContactCalculatorRoute
   '/lab_/pin-on-disc-wear-calculator': typeof LabPinOnDiscWearCalculatorRoute
   '/lab_/sliding-distance-calculator': typeof LabSlidingDistanceCalculatorRoute
   '/lab_/wear-rate-calculator': typeof LabWearRateCalculatorRoute
@@ -211,6 +221,7 @@ export interface FileRouteTypes {
     | '/lab/cadquery-prompt'
     | '/lab/engineering-prompt-builder'
     | '/lab/hertz-contact-calculator'
+    | '/lab/hertz-line-contact-calculator'
     | '/lab/pin-on-disc-wear-calculator'
     | '/lab/sliding-distance-calculator'
     | '/lab/wear-rate-calculator'
@@ -232,6 +243,7 @@ export interface FileRouteTypes {
     | '/lab/cadquery-prompt'
     | '/lab/engineering-prompt-builder'
     | '/lab/hertz-contact-calculator'
+    | '/lab/hertz-line-contact-calculator'
     | '/lab/pin-on-disc-wear-calculator'
     | '/lab/sliding-distance-calculator'
     | '/lab/wear-rate-calculator'
@@ -253,6 +265,7 @@ export interface FileRouteTypes {
     | '/lab_/cadquery-prompt'
     | '/lab_/engineering-prompt-builder'
     | '/lab_/hertz-contact-calculator'
+    | '/lab_/hertz-line-contact-calculator'
     | '/lab_/pin-on-disc-wear-calculator'
     | '/lab_/sliding-distance-calculator'
     | '/lab_/wear-rate-calculator'
@@ -275,6 +288,7 @@ export interface RootRouteChildren {
   LabCadqueryPromptRoute: typeof LabCadqueryPromptRoute
   LabEngineeringPromptBuilderRoute: typeof LabEngineeringPromptBuilderRoute
   LabHertzContactCalculatorRoute: typeof LabHertzContactCalculatorRoute
+  LabHertzLineContactCalculatorRoute: typeof LabHertzLineContactCalculatorRoute
   LabPinOnDiscWearCalculatorRoute: typeof LabPinOnDiscWearCalculatorRoute
   LabSlidingDistanceCalculatorRoute: typeof LabSlidingDistanceCalculatorRoute
   LabWearRateCalculatorRoute: typeof LabWearRateCalculatorRoute
@@ -382,6 +396,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabHertzContactCalculatorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lab_/hertz-line-contact-calculator': {
+      id: '/lab_/hertz-line-contact-calculator'
+      path: '/lab/hertz-line-contact-calculator'
+      fullPath: '/lab/hertz-line-contact-calculator'
+      preLoaderRoute: typeof LabHertzLineContactCalculatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lab_/pin-on-disc-wear-calculator': {
       id: '/lab_/pin-on-disc-wear-calculator'
       path: '/lab/pin-on-disc-wear-calculator'
@@ -435,6 +456,7 @@ const rootRouteChildren: RootRouteChildren = {
   LabCadqueryPromptRoute: LabCadqueryPromptRoute,
   LabEngineeringPromptBuilderRoute: LabEngineeringPromptBuilderRoute,
   LabHertzContactCalculatorRoute: LabHertzContactCalculatorRoute,
+  LabHertzLineContactCalculatorRoute: LabHertzLineContactCalculatorRoute,
   LabPinOnDiscWearCalculatorRoute: LabPinOnDiscWearCalculatorRoute,
   LabSlidingDistanceCalculatorRoute: LabSlidingDistanceCalculatorRoute,
   LabWearRateCalculatorRoute: LabWearRateCalculatorRoute,
