@@ -245,6 +245,42 @@ function WearRatePage() {
       </Section>
 
       <Section>
+        <h2 className="font-display text-xl font-semibold text-foreground">
+          {tx("Özgül ve hacimsel aşınma oranı arasındaki fark")}</h2>
+        <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+          {tr
+            ? "Hacimsel aşınma oranı q_v = V/s, birim kayma mesafesi başına aşınan hacmi verir ve yüke göre normalize edilmemiştir. Özgül aşınma oranı k_s = V/(F·s) ise normal yükü de hesaba katar; bu nedenle farklı yüklerde yapılan deneylerin karşılaştırılmasında tercih edilir. Her iki büyüklük de ölçülen aşınmayı tanımlar; hiçbiri tek başına aşınma mekanizması hakkında bilgi vermez."
+            : "The volumetric wear rate q_v = V/s gives the worn volume per unit sliding distance and is not normalized by load. The specific wear rate k_s = V/(F·s) also accounts for the normal load, which is why it is preferred when comparing tests run at different loads. Both quantities describe measured wear; neither alone reveals the wear mechanism."}
+        </p>
+      </Section>
+
+      <Section>
+        <h2 className="font-display text-xl font-semibold text-foreground">
+          {tx("Tipik kullanım alanları")}</h2>
+        <ul className="mt-5 grid max-w-4xl gap-2 sm:grid-cols-2">
+          {tx(useCases.map((item) => (
+            <li
+              key={item}
+              className="border-l border-border pl-4 text-sm leading-relaxed text-muted-foreground"
+            >
+              {tx(item)}
+            </li>
+          )))}
+        </ul>
+        <p className="mt-6 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+          {tr ? "Triboloji deneyleri ve temas koşulları hakkında daha fazla bağlam için " : "For more context on tribology experiments and contact conditions, see the "}
+          <Link to="/research" className="text-foreground underline underline-offset-4">
+            {tr ? "araştırma sayfasına" : "research page"}
+          </Link>
+          {tr ? " bakabilirsiniz." : "."}
+        </p>
+      </Section>
+
+      <Section>
+        <Faq title={tr ? "Sık sorulan sorular" : "Frequently asked questions"} items={faqItems} />
+      </Section>
+
+      <Section>
         <h2 className="font-display text-xl font-semibold text-foreground">{tx("İlgili Araçlar")}</h2>
         <div className="mt-5 grid max-w-4xl gap-4 lg:grid-cols-2">
           {tx(relatedTools.map((tool) => (
