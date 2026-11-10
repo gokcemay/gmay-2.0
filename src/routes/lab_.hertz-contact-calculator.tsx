@@ -3,6 +3,7 @@ import { RelatedKnowledge } from '@/components/site/RelatedKnowledge';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader, Section } from "@/components/site/Section";
 import { HertzContactCalculator } from "@/components/lab/HertzContactCalculator";
+import { Faq } from "@/components/site/Faq";
 
 export const Route = createFileRoute("/lab_/hertz-contact-calculator")({
   head: ({ match }) => (localizeHead({
@@ -116,9 +117,65 @@ const relatedTools = [
   },
 ];
 
+const inputParameters = [
+  {
+    title: "Küre yarıçapı, R",
+    text: "Temasa gelen kürenin yarıçapıdır; çap girildiğinde yarıçap R = D/2 olarak alınır. mm, µm veya m olarak girilebilir.",
+  },
+  {
+    title: "Normal yük, F",
+    text: "Teması oluşturan dış normal kuvvettir; N veya kN olarak girilir. Temas yarıçapı yükün küp köküyle büyür.",
+  },
+  {
+    title: "Elastisite modülü, E",
+    text: "Temas eden iki malzemenin Young modülleridir; GPa veya MPa olarak girilir ve efektif modül E* hesabında birleştirilir.",
+  },
+  {
+    title: "Poisson oranı, ν",
+    text: "Her iki malzeme için Poisson oranıdır; efektif elastisite modülü 1/E* = (1 − ν₁²)/E₁ + (1 − ν₂²)/E₂ ifadesinde kullanılır.",
+  },
+];
+
+const useCases = [
+  "Bilyalı ve makaralı rulmanlarda yuvarlanma temasının ön değerlendirmesi",
+  "Dişli çark temaslarında yerel temas basıncının ilk tahmini",
+  "Yuvarlanmalı ve kaymalı temas içeren triboloji deneylerinin planlanması",
+  "Küre-düzlem (ball-on-flat) aşınma ve sürtünme deneylerinde yük seçimi",
+  "Temas mekaniği derslerinde ve araştırmalarında Hertz çözümünün doğrulanması",
+];
+
 function HertzPage() {
   const tx = useT();
   const tr = useLanguage() === 'tr';
+  const faqItems = tr
+    ? [
+        {
+          q: "Hertzian temas gerilmesi nedir?",
+          a: "İki elastik cismin sürtünmesiz normal temasında, temas bölgesinde oluşan basınç dağılımını ve gerilme alanını tanımlayan klasik temas mekaniği çözümüdür. Basınç temas merkezinde maksimumdur ve temas kenarına doğru yarı-eliptik biçimde azalır.",
+        },
+        {
+          q: "Hertz temas basıncı nasıl hesaplanır?",
+          a: "Küre-düzlem temasında önce temas yarıçapı a = [(3FR)/(4E*)]^(1/3) bulunur; maksimum basınç p₀ = 3F/(2πa²), ortalama basınç ise p_mean = F/(πa²) = (2/3)p₀ olur. E* iki malzemenin elastisite modülü ve Poisson oranından hesaplanan efektif modüldür.",
+        },
+        {
+          q: "Hertz teorisi hangi varsayımlara dayanır?",
+          a: "Malzemeler homojen, izotropik ve lineer elastiktir; temas sürtünmesizdir, yüzeyler pürüzsüzdür, temas alanı cisim boyutlarına göre küçüktür ve adezyon, plastik deformasyon ile kaplama etkileri ihmal edilir. Bu koşullar sağlanmıyorsa sonuçlar yalnızca ilk yaklaşım olarak kullanılmalıdır.",
+        },
+      ]
+    : [
+        {
+          q: "What is Hertzian contact stress?",
+          a: "It is the classical contact-mechanics solution describing the pressure distribution and stress field in the frictionless normal contact of two elastic bodies. Pressure is maximal at the contact center and decreases semi-elliptically toward the edge of the contact.",
+        },
+        {
+          q: "How is Hertz contact pressure calculated?",
+          a: "For sphere-on-flat contact, the contact radius a = [(3FR)/(4E*)]^(1/3) is found first; the maximum pressure is p₀ = 3F/(2πa²) and the mean pressure is p_mean = F/(πa²) = (2/3)p₀. E* is the effective modulus derived from both materials' elastic moduli and Poisson ratios.",
+        },
+        {
+          q: "What assumptions does Hertz theory make?",
+          a: "Materials are homogeneous, isotropic and linearly elastic; contact is frictionless, surfaces are smooth, the contact area is small compared with the body dimensions, and adhesion, plastic deformation and coating effects are neglected. When these do not hold, results should be treated as a first approximation only.",
+        },
+      ];
   return (
     <>
       <PageHeader
