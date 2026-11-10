@@ -26,7 +26,7 @@ function HardnessPage() {
     ['Rockwell B', L('HRB uses a ball indenter and a 100 kgf total test force, commonly for softer metallic materials. This tool restricts the relationship to homogeneous non-austenitic steel and 100–240 HV; it does not extend to other metals.', 'HRB, bilye uç ve 100 kgf toplam test kuvveti kullanır; daha yumuşak metalik malzemeler için yaygındır. Bu araç ilişkiyi homojen östenitik olmayan çelik ve 100–240 HV ile sınırlar; diğer metallere genişletmez.')],
   ];
   return <>
-    <PageHeader eyebrow={L('Materials / Mechanical Engineering', 'Malzemeler / Makine Mühendisliği')} title={L('Hardness Conversion Calculator', 'Sertlik Dönüşüm Hesaplayıcı')} description={DESCRIPTION === '' ? '' : L(DESCRIPTION, 'Östenitik olmayan çeliklerde Vickers, Brinell ve Rockwell ölçekleri arasında yaklaşık sertlik dönüşümü.')} />
+    <PageHeader eyebrow={L('Materials / Mechanical Engineering', 'Malzemeler / Makine Mühendisliği')} title={L('Hardness Conversion Calculator', 'Sertlik Dönüşüm Hesaplayıcı')} description={L(DESCRIPTION, 'Östenitik olmayan çeliklerde Vickers, Brinell ve Rockwell ölçekleri arasında yaklaşık sertlik dönüşümü.')} />
     <Section>
       <div className="mb-8 max-w-4xl border-l-2 border-accent bg-muted/50 p-5 text-sm leading-relaxed text-foreground">
         <p className="font-semibold">{L('Converted hardness values are approximate equivalents, not substitute test results.', 'Dönüştürülen sertlik değerleri yaklaşık eşdeğerlerdir; test sonuçlarının yerine geçmez.')}</p>
