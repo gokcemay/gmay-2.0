@@ -17,10 +17,7 @@ import { Route as EgitimRouteImport } from './routes/egitim'
 import { Route as IletisimRouteImport } from './routes/iletisim'
 import { Route as KitaplarRouteImport } from './routes/kitaplar'
 import { Route as LabRouteImport } from './routes/lab'
-import { Route as McpRouteImport } from './routes/mcp'
 import { Route as ResearchRouteImport } from './routes/research'
-import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
-import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as AraclarTeknikRaporStiliRouteImport } from './routes/araclar.teknik-rapor-stili'
 import { Route as AraclarTeknikResimCadRouteImport } from './routes/araclar.teknik-resim-cad'
 import { Route as LabCadqueryPromptRouteImport } from './routes/lab_.cadquery-prompt'
@@ -28,7 +25,6 @@ import { Route as LabEngineeringPromptBuilderRouteImport } from './routes/lab_.e
 import { Route as LabHertzContactCalculatorRouteImport } from './routes/lab_.hertz-contact-calculator'
 import { Route as LabSlidingDistanceCalculatorRouteImport } from './routes/lab_.sliding-distance-calculator'
 import { Route as LabWearRateCalculatorRouteImport } from './routes/lab_.wear-rate-calculator'
-import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as AraclarTeknikResimCadIdRouteImport } from './routes/araclar.teknik-resim-cad_.$id'
 import { Route as AraclarTeknikResimCadIndexDothtmlRouteImport } from './routes/araclar.teknik-resim-cad_.index[.]html'
 
@@ -72,28 +68,11 @@ const LabRoute = LabRouteImport.update({
   path: '/lab',
   getParentRoute: () => rootRouteImport,
 } as any)
-const McpRoute = McpRouteImport.update({
-  id: '/mcp',
-  path: '/mcp',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ResearchRoute = ResearchRouteImport.update({
   id: '/research',
   path: '/research',
   getParentRoute: () => rootRouteImport,
 } as any)
-const Char91DotmcpChar93ListToolsRoute =
-  Char91DotmcpChar93ListToolsRouteImport.update({
-    id: '/.mcp/list-tools',
-    path: '/.mcp/list-tools',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const Char91DotwellKnownChar93OauthProtectedResourceRoute =
-  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
-    id: '/.well-known/oauth-protected-resource',
-    path: '/.well-known/oauth-protected-resource',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const AraclarTeknikRaporStiliRoute = AraclarTeknikRaporStiliRouteImport.update({
   id: '/araclar/teknik-rapor-stili',
   path: '/araclar/teknik-rapor-stili',
@@ -132,12 +111,6 @@ const LabWearRateCalculatorRoute = LabWearRateCalculatorRouteImport.update({
   path: '/lab/wear-rate-calculator',
   getParentRoute: () => rootRouteImport,
 } as any)
-const Char91DotmcpChar93InvokeToolToolRoute =
-  Char91DotmcpChar93InvokeToolToolRouteImport.update({
-    id: '/.mcp/invoke-tool/$tool',
-    path: '/.mcp/invoke-tool/$tool',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const AraclarTeknikResimCadIdRoute = AraclarTeknikResimCadIdRouteImport.update({
   id: '/araclar/teknik-resim-cad_/$id',
   path: '/araclar/teknik-resim-cad/$id',
@@ -159,10 +132,7 @@ export interface FileRoutesByFullPath {
   '/iletisim': typeof IletisimRoute
   '/kitaplar': typeof KitaplarRoute
   '/lab': typeof LabRoute
-  '/mcp': typeof McpRoute
   '/research': typeof ResearchRoute
-  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
-  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/araclar/teknik-rapor-stili': typeof AraclarTeknikRaporStiliRoute
   '/araclar/teknik-resim-cad': typeof AraclarTeknikResimCadRoute
   '/lab/cadquery-prompt': typeof LabCadqueryPromptRoute
@@ -170,7 +140,6 @@ export interface FileRoutesByFullPath {
   '/lab/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
   '/lab/sliding-distance-calculator': typeof LabSlidingDistanceCalculatorRoute
   '/lab/wear-rate-calculator': typeof LabWearRateCalculatorRoute
-  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/araclar/teknik-resim-cad/$id': typeof AraclarTeknikResimCadIdRoute
   '/araclar/teknik-resim-cad/index.html': typeof AraclarTeknikResimCadIndexDothtmlRoute
 }
@@ -183,10 +152,7 @@ export interface FileRoutesByTo {
   '/iletisim': typeof IletisimRoute
   '/kitaplar': typeof KitaplarRoute
   '/lab': typeof LabRoute
-  '/mcp': typeof McpRoute
   '/research': typeof ResearchRoute
-  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
-  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/araclar/teknik-rapor-stili': typeof AraclarTeknikRaporStiliRoute
   '/araclar/teknik-resim-cad': typeof AraclarTeknikResimCadRoute
   '/lab/cadquery-prompt': typeof LabCadqueryPromptRoute
@@ -194,7 +160,6 @@ export interface FileRoutesByTo {
   '/lab/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
   '/lab/sliding-distance-calculator': typeof LabSlidingDistanceCalculatorRoute
   '/lab/wear-rate-calculator': typeof LabWearRateCalculatorRoute
-  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/araclar/teknik-resim-cad/$id': typeof AraclarTeknikResimCadIdRoute
   '/araclar/teknik-resim-cad/index.html': typeof AraclarTeknikResimCadIndexDothtmlRoute
 }
@@ -208,10 +173,7 @@ export interface FileRoutesById {
   '/iletisim': typeof IletisimRoute
   '/kitaplar': typeof KitaplarRoute
   '/lab': typeof LabRoute
-  '/mcp': typeof McpRoute
   '/research': typeof ResearchRoute
-  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
-  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/araclar/teknik-rapor-stili': typeof AraclarTeknikRaporStiliRoute
   '/araclar/teknik-resim-cad': typeof AraclarTeknikResimCadRoute
   '/lab_/cadquery-prompt': typeof LabCadqueryPromptRoute
@@ -219,7 +181,6 @@ export interface FileRoutesById {
   '/lab_/hertz-contact-calculator': typeof LabHertzContactCalculatorRoute
   '/lab_/sliding-distance-calculator': typeof LabSlidingDistanceCalculatorRoute
   '/lab_/wear-rate-calculator': typeof LabWearRateCalculatorRoute
-  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/araclar/teknik-resim-cad_/$id': typeof AraclarTeknikResimCadIdRoute
   '/araclar/teknik-resim-cad_/index.html': typeof AraclarTeknikResimCadIndexDothtmlRoute
 }
@@ -234,10 +195,7 @@ export interface FileRouteTypes {
     | '/iletisim'
     | '/kitaplar'
     | '/lab'
-    | '/mcp'
     | '/research'
-    | '/.mcp/list-tools'
-    | '/.well-known/oauth-protected-resource'
     | '/araclar/teknik-rapor-stili'
     | '/araclar/teknik-resim-cad'
     | '/lab/cadquery-prompt'
@@ -245,7 +203,6 @@ export interface FileRouteTypes {
     | '/lab/hertz-contact-calculator'
     | '/lab/sliding-distance-calculator'
     | '/lab/wear-rate-calculator'
-    | '/.mcp/invoke-tool/$tool'
     | '/araclar/teknik-resim-cad/$id'
     | '/araclar/teknik-resim-cad/index.html'
   fileRoutesByTo: FileRoutesByTo
@@ -258,10 +215,7 @@ export interface FileRouteTypes {
     | '/iletisim'
     | '/kitaplar'
     | '/lab'
-    | '/mcp'
     | '/research'
-    | '/.mcp/list-tools'
-    | '/.well-known/oauth-protected-resource'
     | '/araclar/teknik-rapor-stili'
     | '/araclar/teknik-resim-cad'
     | '/lab/cadquery-prompt'
@@ -269,7 +223,6 @@ export interface FileRouteTypes {
     | '/lab/hertz-contact-calculator'
     | '/lab/sliding-distance-calculator'
     | '/lab/wear-rate-calculator'
-    | '/.mcp/invoke-tool/$tool'
     | '/araclar/teknik-resim-cad/$id'
     | '/araclar/teknik-resim-cad/index.html'
   id:
@@ -282,10 +235,7 @@ export interface FileRouteTypes {
     | '/iletisim'
     | '/kitaplar'
     | '/lab'
-    | '/mcp'
     | '/research'
-    | '/.mcp/list-tools'
-    | '/.well-known/oauth-protected-resource'
     | '/araclar/teknik-rapor-stili'
     | '/araclar/teknik-resim-cad'
     | '/lab_/cadquery-prompt'
@@ -293,7 +243,6 @@ export interface FileRouteTypes {
     | '/lab_/hertz-contact-calculator'
     | '/lab_/sliding-distance-calculator'
     | '/lab_/wear-rate-calculator'
-    | '/.mcp/invoke-tool/$tool'
     | '/araclar/teknik-resim-cad_/$id'
     | '/araclar/teknik-resim-cad_/index.html'
   fileRoutesById: FileRoutesById
@@ -307,10 +256,7 @@ export interface RootRouteChildren {
   IletisimRoute: typeof IletisimRoute
   KitaplarRoute: typeof KitaplarRoute
   LabRoute: typeof LabRoute
-  McpRoute: typeof McpRoute
   ResearchRoute: typeof ResearchRoute
-  Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
-  Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   AraclarTeknikRaporStiliRoute: typeof AraclarTeknikRaporStiliRoute
   AraclarTeknikResimCadRoute: typeof AraclarTeknikResimCadRoute
   LabCadqueryPromptRoute: typeof LabCadqueryPromptRoute
@@ -318,7 +264,6 @@ export interface RootRouteChildren {
   LabHertzContactCalculatorRoute: typeof LabHertzContactCalculatorRoute
   LabSlidingDistanceCalculatorRoute: typeof LabSlidingDistanceCalculatorRoute
   LabWearRateCalculatorRoute: typeof LabWearRateCalculatorRoute
-  Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   AraclarTeknikResimCadIdRoute: typeof AraclarTeknikResimCadIdRoute
   AraclarTeknikResimCadIndexDothtmlRoute: typeof AraclarTeknikResimCadIndexDothtmlRoute
 }
@@ -381,32 +326,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/mcp': {
-      id: '/mcp'
-      path: '/mcp'
-      fullPath: '/mcp'
-      preLoaderRoute: typeof McpRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/research': {
       id: '/research'
       path: '/research'
       fullPath: '/research'
       preLoaderRoute: typeof ResearchRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/.mcp/list-tools': {
-      id: '/.mcp/list-tools'
-      path: '/.mcp/list-tools'
-      fullPath: '/.mcp/list-tools'
-      preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/.well-known/oauth-protected-resource': {
-      id: '/.well-known/oauth-protected-resource'
-      path: '/.well-known/oauth-protected-resource'
-      fullPath: '/.well-known/oauth-protected-resource'
-      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/araclar/teknik-rapor-stili': {
@@ -458,13 +382,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabWearRateCalculatorRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/.mcp/invoke-tool/$tool': {
-      id: '/.mcp/invoke-tool/$tool'
-      path: '/.mcp/invoke-tool/$tool'
-      fullPath: '/.mcp/invoke-tool/$tool'
-      preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/araclar/teknik-resim-cad_/$id': {
       id: '/araclar/teknik-resim-cad_/$id'
       path: '/araclar/teknik-resim-cad/$id'
@@ -491,11 +408,7 @@ const rootRouteChildren: RootRouteChildren = {
   IletisimRoute: IletisimRoute,
   KitaplarRoute: KitaplarRoute,
   LabRoute: LabRoute,
-  McpRoute: McpRoute,
   ResearchRoute: ResearchRoute,
-  Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
-  Char91DotwellKnownChar93OauthProtectedResourceRoute:
-    Char91DotwellKnownChar93OauthProtectedResourceRoute,
   AraclarTeknikRaporStiliRoute: AraclarTeknikRaporStiliRoute,
   AraclarTeknikResimCadRoute: AraclarTeknikResimCadRoute,
   LabCadqueryPromptRoute: LabCadqueryPromptRoute,
@@ -503,7 +416,6 @@ const rootRouteChildren: RootRouteChildren = {
   LabHertzContactCalculatorRoute: LabHertzContactCalculatorRoute,
   LabSlidingDistanceCalculatorRoute: LabSlidingDistanceCalculatorRoute,
   LabWearRateCalculatorRoute: LabWearRateCalculatorRoute,
-  Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   AraclarTeknikResimCadIdRoute: AraclarTeknikResimCadIdRoute,
   AraclarTeknikResimCadIndexDothtmlRoute:
     AraclarTeknikResimCadIndexDothtmlRoute,
