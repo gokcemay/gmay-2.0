@@ -32,6 +32,10 @@ export const searchCopy: Record<string, Record<Language, SearchCopy>> = {
     en: { title: 'Hertz Line Contact Calculator | Cylinder Contact Stress', description: 'Calculate Hertzian line-contact width, effective radius, line load and maximum contact pressure for cylinder-flat and parallel cylinder-cylinder contacts.' },
     tr: { title: 'Hertz Çizgisel Temas Hesaplayıcı | Silindirik Temas Basıncı', description: 'Silindir-düzlem ve paralel silindir temaslarında Hertz temas genişliği, eşdeğer yarıçap, çizgisel yük ve maksimum temas basıncını hesaplayın.' },
   },
+  '/lab/gear-stress-calculator': {
+    en: { title: 'Gear Stress Calculator | Contact & Bending Stress', description: 'Estimate spur-gear Hertz contact stress, tooth-root bending stress and transmitted forces for preliminary engineering design.' },
+    tr: { title: 'Dişli Gerilme Hesaplayıcı | Temas ve Eğilme Gerilmesi', description: 'Düz dişlilerde Hertz temas gerilmesi, diş dibi eğilme gerilmesi ve aktarılan kuvvetleri ön boyutlandırma amacıyla hesaplayın.' },
+  },
   '/lab/wear-rate-calculator': {
     en: { title: 'Wear Rate Calculator & Formula | Specific Wear Rate', description: 'Calculate specific wear rate from wear volume or mass loss, load and sliding distance. See k_s = V/(F·s), units and its relation to the Archard wear equation.' },
     tr: { title: 'Aşınma Oranı Hesaplayıcı ve Formülü | Özgül Aşınma', description: 'Aşınma hacmi veya kütle kaybı, yük ve kayma mesafesinden özgül aşınma oranını hesaplayın. k_s = V/(F·s), birimler ve Archard denklemiyle ilişkisini inceleyin.' },
