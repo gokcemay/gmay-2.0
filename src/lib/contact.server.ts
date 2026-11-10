@@ -1,6 +1,6 @@
 import { contactEmail, contactSchema } from './contact.schema';
 
-type Settings = { apiKey?: string; gatewayKey?: string; from?: string; to?: string };
+type Settings = { apiKey?: string | undefined; gatewayKey?: string | undefined; from?: string | undefined; to?: string | undefined };
 const response = (ok: boolean, status = 200) => Response.json({ ok }, { status, headers: { 'Cache-Control': 'no-store' } });
 
 export async function handleContact(request: Request, settings: Settings, send: typeof fetch = fetch) {
