@@ -1,5 +1,8 @@
 # Quiz review pages
 
+# Organic search content phase
+- [x] Expand /egitim, Hertz, Wear content with FAQs; add /kitaplar related links; bilingual; report delivered.
+
 # SEO redirect/duplicate cleanup
 - [x] 301-redirect case variants of content routes; preserve case-sensitive shortlinks.
 - [x] Audit 404s, 5xx, internal links, sitemap (281 URLs); report hosting-level items (www 302, trailing-slash 307).
