@@ -35,3 +35,7 @@
 - [x] Build the Turkish form, live prompt, example, and export controls.
 - [x] Isolate the page from analytics; add browser storage and themes.
 - [x] Verify prompt rules, persistence, exports, and mobile layout.
+# Hardness conversion calculator
+- [ ] Verify open conversion relationships and ranges.
+- [ ] Add bilingual calculator, Lab integration, metadata and clean sitemap entry.
+- [ ] Test numerical rules and browser flows; deliver verification report.
