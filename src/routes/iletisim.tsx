@@ -1,7 +1,8 @@
 import { useT, localizeHead } from '@/lib/i18n';
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
-import { GridPanel, InfoCard, PlaceholderNote } from "@/components/site/Cards";
+import { GridPanel, InfoCard } from "@/components/site/Cards";
+import { ContactForm } from '@/components/site/ContactForm';
 import { emails, professionalProfiles } from "@/lib/profiles";
 
 export const Route = createFileRoute("/iletisim")({
@@ -102,8 +103,7 @@ function ContactPage() {
       <Section>
         <SectionHeader eyebrow={tx("04")} title={tx("İletişim formu")} />
         <div className="mt-8 max-w-2xl">
-          <PlaceholderNote>
-            {tx("Web sitesi üzerinden mesaj gönderme özelliği henüz aktif değildir. Lütfen yukarıdaki e-posta adreslerini kullanın.")}</PlaceholderNote>
+          <ContactForm />
         </div>
       </Section>
     </>

@@ -20,3 +20,4 @@
 - Keep friction calculations in a pure browser-safe module with nonnegative magnitudes, divisor validation and degree/radian boundaries; distinguish incline static estimates from measured kinetic friction.
 
 - Keep Contact Stress Studio equations and axial sampling in a pure browser-safe module, with an independent canvas renderer; preserve uploaded numerical behavior and label coating/yield plots as homogeneous elastic screening.
+- Keep contact submissions email-only through a dedicated same-origin POST handler with shared validation and server-only Resend credentials; never store messages or expose a generic send endpoint.
