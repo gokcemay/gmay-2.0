@@ -14,7 +14,7 @@ const selectClass = 'border border-border bg-background px-2 py-2 font-mono text
 type Key = keyof LineForm;
 type Ctx = { form: LineForm; set: (k: Key, v: string) => void; errors: ReturnType<typeof validateLineForm>; message: (c?: LineErrorCode) => string | undefined };
 
-function Field({ ctx, k, label, unitKey, units, hint }: { ctx: Ctx; k: Key; label: string; unitKey?: Key; units?: readonly string[]; hint?: string }) {
+function Field({ ctx, k, label, unitKey, units, hint }: { ctx: Ctx; k: Key; label: string; unitKey?: Key; units?: readonly string[]; hint?: string | undefined }) {
   const { form, set, errors, message } = ctx;
   return (
     <div>
