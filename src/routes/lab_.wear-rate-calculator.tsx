@@ -3,6 +3,7 @@ import { RelatedKnowledge } from '@/components/site/RelatedKnowledge';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader, Section } from "@/components/site/Section";
 import { WearRateCalculator } from "@/components/lab/WearRateCalculator";
+import { Faq } from "@/components/site/Faq";
 import { parseSlidingTransfer } from "@/lib/wearRate.transfer";
 
 export const Route = createFileRoute("/lab_/wear-rate-calculator")({
@@ -119,10 +120,55 @@ const relatedTools: {
   },
 ];
 
+const useCases = [
+  "Pin-on-disc ve benzeri kaymalı aşınma deneylerinin değerlendirilmesi",
+  "Farklı malzemelerin aşınma davranışının karşılaştırılması",
+  "Kaplama performansının kaplamasız referans numuneyle kıyaslanması",
+  "Triboloji deney raporlarında aşınma sonuçlarının normalize edilmesi",
+  "Malzeme aşınma çalışmalarında literatür değerleriyle ön karşılaştırma",
+];
+
 function WearRatePage() {
   const tx = useT();
   const tr = useLanguage() === 'tr';
   const search = Route.useSearch();
+  const faqItems = tr
+    ? [
+        {
+          q: "Özgül aşınma oranı nedir?",
+          a: "Aşınma hacminin normal yük ve toplam kayma mesafesine bölünmesiyle elde edilen normalize edilmiş bir aşınma ölçüsüdür: k_s = V/(F·s). Birimi genellikle mm³/(N·m) olarak verilir ve farklı deney koşullarının karşılaştırılmasında kullanılır.",
+        },
+        {
+          q: "Aşınma oranı nasıl hesaplanır?",
+          a: "Önce aşınma hacmi belirlenir; kütle kaybı ölçülmüşse V = Δm/ρ ile hacme dönüştürülür. Ardından k_s = V/(F·s) formülüyle özgül aşınma oranı, q_v = V/s ile birim kayma mesafesi başına hacimsel aşınma hesaplanır.",
+        },
+        {
+          q: "Kütle kaybı aşınma hacmine nasıl dönüştürülür?",
+          a: "Kütle kaybı numune malzemesinin yoğunluğuna bölünür: V = Δm/ρ. Örneğin mg cinsinden kütle kaybı ve g/cm³ cinsinden yoğunluk kullanıldığında sonuç mm³ elde edilir. Bu araç birim dönüşümlerini hesaplamadan önce otomatik olarak yapar.",
+        },
+        {
+          q: "Özgül aşınma oranı hangi birimlerle verilir?",
+          a: "En yaygın birim mm³/(N·m) şeklindedir; SI birimlerinde m³/(N·m) = m²/N de kullanılır. Bu araç girdileri SI birimlerine dönüştürür ve sonuçları mm³/(N·m), mm³/m ve mg/m olarak sunar. k_s burada boyutsuz Archard katsayısı K değildir; tutarlı birimlerle k_s = K/H ilişkisi vardır.",
+        },
+      ]
+    : [
+        {
+          q: "What is specific wear rate?",
+          a: "It is a normalized wear measure obtained by dividing the wear volume by the normal load and the total sliding distance: k_s = V/(F·s). It is usually reported in mm³/(N·m) and used to compare different test conditions.",
+        },
+        {
+          q: "How do you calculate wear rate?",
+          a: "First determine the wear volume; if mass loss was measured, convert it with V = Δm/ρ. Then compute the specific wear rate with k_s = V/(F·s) and the volumetric wear per sliding distance with q_v = V/s.",
+        },
+        {
+          q: "How do you convert mass loss to wear volume?",
+          a: "Divide the mass loss by the density of the specimen material: V = Δm/ρ. For example, with mass loss in mg and density in g/cm³, the result is in mm³. This tool performs the unit conversions automatically before the calculation.",
+        },
+        {
+          q: "What units are used for specific wear rate?",
+          a: "The most common unit is mm³/(N·m); in SI units, m³/(N·m) = m²/N is also used. This tool converts inputs to SI units and reports results in mm³/(N·m), mm³/m and mg/m. Here k_s is not the dimensionless Archard coefficient K; with consistent units, k_s = K/H.",
+        },
+      ];
   const transfer = parseSlidingTransfer(search);
   return (
     <>
