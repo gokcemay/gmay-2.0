@@ -1,3 +1,8 @@
+# Contact form and Resend setup
+- [ ] Read Resend setup instructions and connect the sending account.
+- [ ] Replace inactive notice with validated bilingual email-only contact form.
+- [ ] Verify domain, Reply-To, real delivery, errors and mobile layout.
+
 # Contact Stress Studio
 - [x] Preserve uploaded Hertz/stress-field logic in a tested pure module.
 - [x] Add bilingual Lab page, interactive field, materials and yield/coating results.
