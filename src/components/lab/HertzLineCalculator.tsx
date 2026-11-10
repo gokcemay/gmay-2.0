@@ -29,7 +29,7 @@ function Field({ ctx, k, label, unitKey, units, hint }: { ctx: Ctx; k: Key; labe
         ) : null}
       </div>
       {errors[k] ? <p className="mt-2 text-xs text-destructive">{message(errors[k])}</p> : null}
-      {hint ? <p className="mt-2 text-xs leading-relaxed text-amber-700 dark:text-amber-400">{hint}</p> : null}
+      {hint ? <p className="mt-2 text-xs leading-relaxed text-foreground">⚠ {hint}</p> : null}
     </div>
   );
 }
