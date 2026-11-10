@@ -242,6 +242,19 @@ function HertzPage() {
 
       <Section>
         <h2 className="font-display text-xl font-semibold text-foreground">
+          {tx("Girdi parametreleri")}</h2>
+        <dl className="mt-5 grid max-w-4xl gap-4 sm:grid-cols-2">
+          {tx(inputParameters.map((item) => (
+            <div key={item.title} className="border border-border p-4">
+              <dt className="font-display text-base font-semibold text-foreground">{tx(item.title)}</dt>
+              <dd className="mt-2 text-sm leading-relaxed text-muted-foreground">{tx(item.text)}</dd>
+            </div>
+          )))}
+        </dl>
+      </Section>
+
+      <Section>
+        <h2 className="font-display text-xl font-semibold text-foreground">
           {tx("Sonuçlar nasıl yorumlanır?")}</h2>
         <dl className="mt-5 grid max-w-4xl gap-4 sm:grid-cols-2">
           {tx(interpretations.map((item) => (
@@ -251,6 +264,32 @@ function HertzPage() {
             </div>
           )))}
         </dl>
+      </Section>
+
+      <Section>
+        <h2 className="font-display text-xl font-semibold text-foreground">
+          {tx("Mühendislik kullanım alanları")}</h2>
+        <ul className="mt-5 grid max-w-4xl gap-2 sm:grid-cols-2">
+          {tx(useCases.map((item) => (
+            <li
+              key={item}
+              className="border-l border-border pl-4 text-sm leading-relaxed text-muted-foreground"
+            >
+              {tx(item)}
+            </li>
+          )))}
+        </ul>
+        <p className="mt-6 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+          {tr ? "Temas mekaniği ve triboloji bağlamı için " : "For the contact mechanics and tribology context, see the "}
+          <Link to="/research" className="text-foreground underline underline-offset-4">
+            {tr ? "araştırma sayfasındaki triboloji ve temas bölümüne" : "tribology and contact section on the research page"}
+          </Link>
+          {tr ? " bakabilirsiniz." : "."}
+        </p>
+      </Section>
+
+      <Section>
+        <Faq title={tr ? "Sık sorulan sorular" : "Frequently asked questions"} items={faqItems} />
       </Section>
 
       <Section>
