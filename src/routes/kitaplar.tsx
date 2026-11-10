@@ -1,5 +1,5 @@
 import { useT, localizeHead } from '@/lib/i18n';
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
 import { buttonStyles } from "@/components/site/CTA";
 import { book } from "@/lib/profiles";
@@ -171,6 +171,44 @@ function BooksPage() {
           {tx(literaryBooks.map((b) => (
             <BookCard key={b.title} item={b} />
           )))}
+        </div>
+      </Section>
+
+      <Section>
+        <SectionHeader eyebrow={tx("03")} title={tx("İlgili içerikler")} />
+        <div className="mt-8 grid max-w-4xl gap-4 sm:grid-cols-2">
+          <article className="border border-border bg-card p-5 md:p-6">
+            <h3 className="font-display text-base font-semibold text-foreground">
+              <Link to="/articles" className="hover:underline hover:underline-offset-4">
+                {tx("Mühendislikte yapay zekâ yazıları")}</Link>
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              {tx("Kitaplarda ele alınan konuları genişleten yazılar ve bülten içerikleri.")}</p>
+          </article>
+          <article className="border border-border bg-card p-5 md:p-6">
+            <h3 className="font-display text-base font-semibold text-foreground">
+              <Link to="/lab/engineering-prompt-builder" className="hover:underline hover:underline-offset-4">
+                {tx("Engineering Prompt Builder")}</Link>
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              {tx("Prompt kitabındaki yaklaşımı uygulamaya dönüştüren ücretsiz araç.")}</p>
+          </article>
+          <article className="border border-border bg-card p-5 md:p-6">
+            <h3 className="font-display text-base font-semibold text-foreground">
+              <Link to="/research" className="hover:underline hover:underline-offset-4">
+                {tx("Araştırma ve yayınlar")}</Link>
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              {tx("Triboloji, yüzey mühendisliği ve akademik çalışmalar.")}</p>
+          </article>
+          <article className="border border-border bg-card p-5 md:p-6">
+            <h3 className="font-display text-base font-semibold text-foreground">
+              <Link to="/egitim" className="hover:underline hover:underline-offset-4">
+                {tx("Eğitim ve danışmanlık")}</Link>
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              {tx("Kitap içerikleriyle bağlantılı uygulamalı eğitim programları.")}</p>
+          </article>
         </div>
       </Section>
     </>

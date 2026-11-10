@@ -1,9 +1,10 @@
-import { useT, localizeHead } from '@/lib/i18n';
-import { createFileRoute } from "@tanstack/react-router";
+import { useT, useLanguage, localizeHead } from '@/lib/i18n';
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
 import { GridPanel, InfoCard } from "@/components/site/Cards";
 import { ContactCTA } from "@/components/site/CTA";
 import { RelatedKnowledge } from '@/components/site/RelatedKnowledge';
+import { Faq } from '@/components/site/Faq';
 
 export const Route = createFileRoute("/egitim")({
   head: ({ match }) => (localizeHead({
@@ -109,6 +110,36 @@ const sections = [
 
 function TrainingPage() {
   const tx = useT();
+  const tr = useLanguage() === 'tr';
+  const faqItems = tr
+    ? [
+        {
+          q: "Yapay zekâ eğitimleri kimler için?",
+          a: "Tasarım, üretim, kalite, bakım ve Ar-Ge alanlarında çalışan mühendisler, teknik ekipler, araştırmacılar ve akademisyenler için tasarlanır. Programlama bilgisi ön koşul değildir; odak, üretken yapay zekânın mühendislik görevlerinde yapılandırılmış ve doğrulanabilir biçimde kullanılmasıdır.",
+        },
+        {
+          q: "Eğitimler mühendislik ve Ar-Ge ekiplerine göre özelleştirilebilir mi?",
+          a: "Evet. Kurumsal programlarda öncesinde ekibin iş akışları, kullandığı yazılımlar ve tekrar eden teknik görevleri konuşulur; örnekler, şablonlar ve alıştırmalar şirketin kendi ürün, süreç ve terminolojisiyle hazırlanır.",
+        },
+        {
+          q: "Kurumsal eğitim programı alınabilir mi?",
+          a: "Evet. Şirket ekiplerine özel kurumsal yapay zekâ eğitimleri, kısa atölyeler ve çok oturumlu programlar çevrimiçi veya yüz yüze düzenlenebilir. Kapsam ve takvim için iletişim sayfasından ulaşabilirsiniz.",
+        },
+      ]
+    : [
+        {
+          q: "Who are the AI trainings for?",
+          a: "They are designed for engineers working in design, manufacturing, quality, maintenance and R&D, as well as technical teams, researchers and academics. No programming background is required; the focus is using generative AI for engineering tasks in a structured, verifiable way.",
+        },
+        {
+          q: "Can training be customized for engineering and R&D teams?",
+          a: "Yes. For corporate programs, the team's workflows, software and recurring technical tasks are discussed beforehand; examples, templates and exercises are prepared with the company's own products, processes and terminology.",
+        },
+        {
+          q: "Are corporate training programs available?",
+          a: "Yes. Corporate AI training for company teams, short workshops and multi-session programs can be held online or in person. Use the contact page to discuss scope and scheduling.",
+        },
+      ];
   return (
     <>
       <PageHeader
@@ -116,6 +147,32 @@ function TrainingPage() {
         title={tx("Eğitim ve Danışmanlık")}
         description={tx("Mühendislik ekipleri, kurumlar ve araştırma grupları için uygulamalı eğitim ve danışmanlık programları.")}
       />
+
+      <Section>
+        <div className="max-w-3xl space-y-4 text-sm leading-relaxed text-muted-foreground md:text-base">
+          <p>
+            {tr
+              ? "Bu sayfadaki eğitimler; mühendisler, teknik ekipler, araştırmacılar ve akademisyenler içindir. Konular arasında üretken yapay zekânın temel çalışma mantığı, mühendislik görevleri için prompt tasarımı, teknik dokümantasyon ve rapor üretimi, veri yorumlama ve model çıktılarının mühendislik gözüyle doğrulanması yer alır."
+              : "The trainings on this page are for engineers, technical teams, researchers and academics. Topics include how generative AI works, prompt design for engineering tasks, technical documentation and report writing, data interpretation, and verifying model output with an engineer's eye."}
+          </p>
+          <p>
+            {tr
+              ? "Kurumsal eğitim alınabilir: programlar şirket ekiplerinin kendi iş akışları, yazılımları ve terminolojisiyle özelleştirilir. Mühendislik ve Ar-Ge ekiplerine uyarlama; gerçek görevler üzerinde canlı uygulama, çıktı kalitesi denetimi ve ekibe teslim edilen prompt ve kontrol listesi setleriyle yapılır."
+              : "Corporate training is available: programs are customized around the team's own workflows, software and terminology. Adaptation for engineering and R&D teams happens through hands-on work on real tasks, output-quality checks, and a delivered set of prompts and checklists the team can keep using."}
+          </p>
+          <p>
+            {tr ? "Eğitimlerde kullanılan yaklaşımı ücretsiz denemek isterseniz " : "To try the approach used in the trainings for free, see the "}
+            <Link to="/lab/engineering-prompt-builder" className="text-foreground underline underline-offset-4">
+              {tr ? "Engineering Prompt Builder" : "Engineering Prompt Builder"}
+            </Link>
+            {tr ? " aracına ve " : " tool and the "}
+            <Link to="/articles" className="text-foreground underline underline-offset-4">
+              {tr ? "mühendislikte yapay zekâ yazılarına" : "articles on AI in engineering"}
+            </Link>
+            {tr ? " göz atabilirsiniz." : "."}
+          </p>
+        </div>
+      </Section>
 
       {tx(sections.map((s) => (
         <Section key={s.title}>
@@ -127,6 +184,10 @@ function TrainingPage() {
           </GridPanel>
         </Section>
       )))}
+
+      <Section>
+        <Faq title={tr ? "Sık sorulan sorular" : "Frequently asked questions"} items={faqItems} />
+      </Section>
 
       <Section>
         <ContactCTA />

@@ -3,6 +3,7 @@ import { RelatedKnowledge } from '@/components/site/RelatedKnowledge';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader, Section } from "@/components/site/Section";
 import { WearRateCalculator } from "@/components/lab/WearRateCalculator";
+import { Faq } from "@/components/site/Faq";
 import { parseSlidingTransfer } from "@/lib/wearRate.transfer";
 
 export const Route = createFileRoute("/lab_/wear-rate-calculator")({
@@ -119,10 +120,55 @@ const relatedTools: {
   },
 ];
 
+const useCases = [
+  "Pin-on-disc ve benzeri kaymalı aşınma deneylerinin değerlendirilmesi",
+  "Farklı malzemelerin aşınma davranışının karşılaştırılması",
+  "Kaplama performansının kaplamasız referans numuneyle kıyaslanması",
+  "Triboloji deney raporlarında aşınma sonuçlarının normalize edilmesi",
+  "Malzeme aşınma çalışmalarında literatür değerleriyle ön karşılaştırma",
+];
+
 function WearRatePage() {
   const tx = useT();
   const tr = useLanguage() === 'tr';
   const search = Route.useSearch();
+  const faqItems = tr
+    ? [
+        {
+          q: "Özgül aşınma oranı nedir?",
+          a: "Aşınma hacminin normal yük ve toplam kayma mesafesine bölünmesiyle elde edilen normalize edilmiş bir aşınma ölçüsüdür: k_s = V/(F·s). Birimi genellikle mm³/(N·m) olarak verilir ve farklı deney koşullarının karşılaştırılmasında kullanılır.",
+        },
+        {
+          q: "Aşınma oranı nasıl hesaplanır?",
+          a: "Önce aşınma hacmi belirlenir; kütle kaybı ölçülmüşse V = Δm/ρ ile hacme dönüştürülür. Ardından k_s = V/(F·s) formülüyle özgül aşınma oranı, q_v = V/s ile birim kayma mesafesi başına hacimsel aşınma hesaplanır.",
+        },
+        {
+          q: "Kütle kaybı aşınma hacmine nasıl dönüştürülür?",
+          a: "Kütle kaybı numune malzemesinin yoğunluğuna bölünür: V = Δm/ρ. Örneğin mg cinsinden kütle kaybı ve g/cm³ cinsinden yoğunluk kullanıldığında sonuç mm³ elde edilir. Bu araç birim dönüşümlerini hesaplamadan önce otomatik olarak yapar.",
+        },
+        {
+          q: "Özgül aşınma oranı hangi birimlerle verilir?",
+          a: "En yaygın birim mm³/(N·m) şeklindedir; SI birimlerinde m³/(N·m) = m²/N de kullanılır. Bu araç girdileri SI birimlerine dönüştürür ve sonuçları mm³/(N·m), mm³/m ve mg/m olarak sunar. k_s burada boyutsuz Archard katsayısı K değildir; tutarlı birimlerle k_s = K/H ilişkisi vardır.",
+        },
+      ]
+    : [
+        {
+          q: "What is specific wear rate?",
+          a: "It is a normalized wear measure obtained by dividing the wear volume by the normal load and the total sliding distance: k_s = V/(F·s). It is usually reported in mm³/(N·m) and used to compare different test conditions.",
+        },
+        {
+          q: "How do you calculate wear rate?",
+          a: "First determine the wear volume; if mass loss was measured, convert it with V = Δm/ρ. Then compute the specific wear rate with k_s = V/(F·s) and the volumetric wear per sliding distance with q_v = V/s.",
+        },
+        {
+          q: "How do you convert mass loss to wear volume?",
+          a: "Divide the mass loss by the density of the specimen material: V = Δm/ρ. For example, with mass loss in mg and density in g/cm³, the result is in mm³. This tool performs the unit conversions automatically before the calculation.",
+        },
+        {
+          q: "What units are used for specific wear rate?",
+          a: "The most common unit is mm³/(N·m); in SI units, m³/(N·m) = m²/N is also used. This tool converts inputs to SI units and reports results in mm³/(N·m), mm³/m and mg/m. Here k_s is not the dimensionless Archard coefficient K; with consistent units, k_s = K/H.",
+        },
+      ];
   const transfer = parseSlidingTransfer(search);
   return (
     <>
@@ -196,6 +242,42 @@ function WearRatePage() {
 
         <p className="mt-8 max-w-3xl border-l-2 border-accent bg-muted/50 px-5 py-4 text-sm leading-relaxed text-muted-foreground">
           {tx("Özgül aşınma oranlarının doğrudan karşılaştırılması için karşı cisim, yüzey pürüzlülüğü, yük, hız, kayma mesafesi, sıcaklık, nem, yağlama ve test geometrisi gibi tribolojik koşulların dikkate alınması gerekir.")}</p>
+      </Section>
+
+      <Section>
+        <h2 className="font-display text-xl font-semibold text-foreground">
+          {tx("Özgül ve hacimsel aşınma oranı arasındaki fark")}</h2>
+        <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+          {tr
+            ? "Hacimsel aşınma oranı q_v = V/s, birim kayma mesafesi başına aşınan hacmi verir ve yüke göre normalize edilmemiştir. Özgül aşınma oranı k_s = V/(F·s) ise normal yükü de hesaba katar; bu nedenle farklı yüklerde yapılan deneylerin karşılaştırılmasında tercih edilir. Her iki büyüklük de ölçülen aşınmayı tanımlar; hiçbiri tek başına aşınma mekanizması hakkında bilgi vermez."
+            : "The volumetric wear rate q_v = V/s gives the worn volume per unit sliding distance and is not normalized by load. The specific wear rate k_s = V/(F·s) also accounts for the normal load, which is why it is preferred when comparing tests run at different loads. Both quantities describe measured wear; neither alone reveals the wear mechanism."}
+        </p>
+      </Section>
+
+      <Section>
+        <h2 className="font-display text-xl font-semibold text-foreground">
+          {tx("Tipik kullanım alanları")}</h2>
+        <ul className="mt-5 grid max-w-4xl gap-2 sm:grid-cols-2">
+          {tx(useCases.map((item) => (
+            <li
+              key={item}
+              className="border-l border-border pl-4 text-sm leading-relaxed text-muted-foreground"
+            >
+              {tx(item)}
+            </li>
+          )))}
+        </ul>
+        <p className="mt-6 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+          {tr ? "Triboloji deneyleri ve temas koşulları hakkında daha fazla bağlam için " : "For more context on tribology experiments and contact conditions, see the "}
+          <Link to="/research" className="text-foreground underline underline-offset-4">
+            {tr ? "araştırma sayfasına" : "research page"}
+          </Link>
+          {tr ? " bakabilirsiniz." : "."}
+        </p>
+      </Section>
+
+      <Section>
+        <Faq title={tr ? "Sık sorulan sorular" : "Frequently asked questions"} items={faqItems} />
       </Section>
 
       <Section>
