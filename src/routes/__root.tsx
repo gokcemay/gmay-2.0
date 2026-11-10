@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
+  redirect,
   createRootRouteWithContext,
   useRouter,
   useLocation,
@@ -21,6 +22,26 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { profileLinks } from "@/lib/profiles";
 import { resolveLanguage, type Language } from '@/lib/language';
 import { useLanguage } from '@/lib/i18n';
+
+// Canonical lowercase paths of all public content routes (static segments only).
+// Used by beforeLoad to 301-redirect uppercase variants like /LAB → /lab.
+const CASE_SENSITIVE_CONTENT_ROUTES = new Set([
+  "/lab",
+  "/egitim",
+  "/kitaplar",
+  "/articles",
+  "/research",
+  "/about",
+  "/iletisim",
+  "/lab/hertz-contact-calculator",
+  "/lab/wear-rate-calculator",
+  "/lab/sliding-distance-calculator",
+  "/lab/engineering-prompt-builder",
+  "/lab/cadquery-prompt",
+  "/araclar/teknik-rapor-stili",
+  "/araclar/teknik-resim-cad",
+  "/araclar/teknik-resim-cad/index.html",
+]);
 
 
 
