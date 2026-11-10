@@ -31,6 +31,7 @@ export const Route = createFileRoute("/lab")({
 type ToolHref =
   | "/lab/engineering-prompt-builder"
   | "/lab/hertz-contact-calculator"
+  | "/lab/hertz-line-contact-calculator"
   | "/lab/wear-rate-calculator"
   | "/lab/sliding-distance-calculator"
   | "/lab/pin-on-disc-wear-calculator"
@@ -96,6 +97,12 @@ const groups: Group[] = [
         href: "/lab/hertz-contact-calculator",
         purpose:
           "Küre-düzlem elastik temasında temas alanı, Hertz basıncı ve elastik yaklaşmayı hesaplayın.",
+      },
+      {
+        name: "Hertz Line Contact Calculator",
+        href: "/lab/hertz-line-contact-calculator",
+        purpose:
+          "Silindir-düzlem ve paralel silindir-silindir çizgisel temaslarında Hertz temas genişliğini ve maksimum basıncı hesaplayın.",
       },
       {
         name: "Wear Rate Calculator",
