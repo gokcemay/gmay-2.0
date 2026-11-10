@@ -41,8 +41,14 @@ export async function handleContact(request: Request, settings: Settings, send: 
       signal: AbortSignal.timeout(20000),
     });
     if (!result.ok) {
-      // Do not log submitted personal information or provider bodies that may echo it.
-      console.error('Contact email refused', { status: result.status });
+      // Classify known setup failures without exposing provider text or visitor data.
+      const failure = await result.json().catch(() => null) as { name?: string; message?: string } | null;
+      const unverifiedDomain = result.status === 403 && failure?.name === 'validation_error' && /domain.*not verified|verify your domain/i.test(failure.message ?? '');
+      if (unverifiedDomain) {
+        console.warn('Contact sending unavailable: sender domain requires verification');
+        return response(false, 422);
+      }
+      console.error('Contact email refused', { status: result.status, category: failure?.name === 'validation_error' ? 'validation_error' : 'provider_error' });
       return response(false, 502);
     }
     const body = await result.json() as { id?: string };
