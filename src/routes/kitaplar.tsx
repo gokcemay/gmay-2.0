@@ -1,4 +1,4 @@
-import { useT, useLanguage, localizeHead } from '@/lib/i18n';
+import { useT, localizeHead } from '@/lib/i18n';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader, Section, SectionHeader } from "@/components/site/Section";
 import { buttonStyles } from "@/components/site/CTA";
