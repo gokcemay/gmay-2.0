@@ -298,3 +298,14 @@
   .cq-dimension { grid-template-columns: minmax(0, 1fr) 64px 54px 28px; }
   .cq-step-body { padding: 14px; }
 }
+
+/* Contact studio field colors are fixed scientific visualization tokens. */
+.studio-tool {
+ --studio-screen: #0d1622; --studio-ink: #dfe8f1; --studio-muted: #93a3b3;
+ --studio-pressure: #6fb1ea; --studio-pressure-fill: rgba(111,177,234,.28);
+ --studio-yield: #ff7a2f;
+ --studio-band-0: #0d1622; --studio-band-1: #1c3a68; --studio-band-2: #24788c;
+ --studio-band-3: #7ab278; --studio-band-4: #e2cd6e; --studio-band-5: #faf4d6;
+}
+.studio-screen { background: var(--studio-screen); color: var(--studio-ink); }
+.studio-legend { background: linear-gradient(90deg,var(--studio-band-0),var(--studio-band-1) 20%,var(--studio-band-2) 45%,var(--studio-band-3) 70%,var(--studio-band-4) 88%,var(--studio-band-5)); }

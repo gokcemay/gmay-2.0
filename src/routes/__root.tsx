@@ -39,6 +39,7 @@ const CASE_SENSITIVE_CONTENT_ROUTES = new Set([
   "/lab/hardness-conversion-calculator",
   "/lab/surface-roughness-converter",
   "/lab/coefficient-of-friction-calculator",
+  "/lab/contact-stress-studio",
   "/lab/pin-on-disc-wear-calculator",
   "/lab/wear-rate-calculator",
   "/lab/sliding-distance-calculator",

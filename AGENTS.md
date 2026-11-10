@@ -18,3 +18,5 @@
 - Keep roughness comparisons in a pure browser-safe module with model-specific Ra/Rq bounds and explicit unavailable Rz/Rt outputs; unit changes preserve the physical input and never invent process multipliers.
 
 - Keep friction calculations in a pure browser-safe module with nonnegative magnitudes, divisor validation and degree/radian boundaries; distinguish incline static estimates from measured kinetic friction.
+
+- Keep Contact Stress Studio equations and axial sampling in a pure browser-safe module, with an independent canvas renderer; preserve uploaded numerical behavior and label coating/yield plots as homogeneous elastic screening.
