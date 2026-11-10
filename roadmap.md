@@ -1,5 +1,9 @@
 # Quiz review pages
 
+# SEO redirect/duplicate cleanup
+- [x] 301-redirect case variants of content routes; preserve case-sensitive shortlinks.
+- [x] Audit 404s, 5xx, internal links, sitemap (281 URLs); report hosting-level items (www 302, trailing-slash 307).
+
 # Clean canonical consolidation
 - [x] Consolidate language variants, gallery metadata and sitemap to clean URLs.
 - [x] Verify generated HTML, retained language navigation and URL normalization; deliver final table.
