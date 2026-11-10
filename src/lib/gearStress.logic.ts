@@ -51,12 +51,13 @@ export const LEWIS_Y_20DEG: readonly [number, number][] = [
 
 export function lewisY(z: number): number | undefined {
   const t = LEWIS_Y_20DEG;
-  if (z < t[0][0] || z > t[t.length - 1][0]) return undefined;
   for (let i = 0; i < t.length - 1; i++) {
-    const [za, ya] = t[i], [zb, yb] = t[i + 1];
+    const a = t[i], c = t[i + 1];
+    if (!a || !c) break;
+    const [za, ya] = a, [zb, yb] = c;
     if (z >= za && z <= zb) return ya + ((z - za) / (zb - za)) * (yb - ya);
   }
-  return t[t.length - 1][1];
+  return undefined;
 }
 
 export const effectiveModulus = (E1: number, nu1: number, E2: number, nu2: number) =>
