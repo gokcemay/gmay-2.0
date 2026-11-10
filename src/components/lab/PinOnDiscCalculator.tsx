@@ -12,6 +12,57 @@ const selectClass = 'border border-border bg-background px-2 py-2 font-mono text
 
 type Key = keyof PodForm;
 
+type Ctx = { form: PodForm; set: (k: Key, v: string) => void; errors: ReturnType<typeof validatePodForm>; message: (c?: PodErrorCode) => string | undefined };
+
+function Field({ctx,  k, label, unitKey, units, hint }: {ctx: Ctx;  k: Key; label: string; unitKey?: Key; units?: readonly string[]; hint?: string }) {
+  const { form, set, errors, message } = ctx;
+  return (
+    <div>
+      <label htmlFor={`pod-${k}`} className={labelClass}>{label}</label>
+      <div className={`mt-2 grid gap-2 ${unitKey ? 'grid-cols-[minmax(0,1fr)_auto]' : ''}`}>
+        <input id={`pod-${k}`} inputMode="decimal" value={form[k]} onChange={(e) => set(k, e.target.value)}
+          aria-invalid={Boolean(errors[k])} className={inputClass} />
+        {unitKey && units ? (
+          <select aria-label={`${label} unit`} value={form[unitKey]} onChange={(e) => set(unitKey, e.target.value)} className={selectClass}>
+            {units.map((u) => <option key={u} value={u}>{u}</option>)}
+          </select>
+        ) : null}
+      </div>
+      {errors[k] ? <p className="mt-2 text-xs text-destructive">{message(errors[k])}</p> : null}
+      {hint ? <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{hint}</p> : null}
+    </div>
+  );
+}
+
+function Toggle({ctx,  k, legend, options }: {ctx: Ctx;  k: Key; legend: string; options: [string, string][] }) {
+  const { form, set, errors, message } = ctx;
+  return (
+    <fieldset>
+      <legend className={labelClass}>{legend}</legend>
+      <div className="mt-2 grid grid-cols-1 border border-border sm:grid-cols-2">
+        {options.map(([value, label]) => (
+          <button key={value} type="button" aria-pressed={form[k] === value} onClick={() => set(k, value)}
+            className={`px-3 py-2 text-sm transition-colors ${form[k] === value ? 'bg-accent text-accent-foreground' : 'bg-background text-muted-foreground hover:text-foreground'}`}>
+            {label}
+          </button>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
+function Result({ title, symbol, value, unit, equation, emphasis }: { title: string; symbol: string; value: string; unit: string; equation: string; emphasis?: boolean }) {
+  return (
+    <div className={`border border-border p-4 ${emphasis ? 'bg-muted/50' : 'bg-card'}`}>
+      <p className="font-mono text-[0.65rem] tracking-[0.2em] text-muted-foreground uppercase">{title}</p>
+      <p className={`mt-2 font-display font-semibold break-words text-foreground ${emphasis ? 'text-2xl' : 'text-xl'}`}>
+        {value} <span className="font-mono text-sm font-normal">{unit}</span>
+      </p>
+      <p className="mt-1 font-mono text-xs text-muted-foreground">{symbol} · {equation}</p>
+    </div>
+  );
+}
+
 export function PinOnDiscCalculator() {
   const tr = useLanguage() === 'tr';
   const L = (en: string, trText: string) => (tr ? trText : en);
@@ -30,46 +81,10 @@ export function PinOnDiscCalculator() {
     }[code];
   };
 
-  const Field = ({ k, label, unitKey, units, hint }: { k: Key; label: string; unitKey?: Key; units?: readonly string[]; hint?: string }) => (
-    <div>
-      <label htmlFor={`pod-${k}`} className={labelClass}>{label}</label>
-      <div className={`mt-2 grid gap-2 ${unitKey ? 'grid-cols-[minmax(0,1fr)_auto]' : ''}`}>
-        <input id={`pod-${k}`} inputMode="decimal" value={form[k]} onChange={(e) => set(k, e.target.value)}
-          aria-invalid={Boolean(errors[k])} className={inputClass} />
-        {unitKey && units ? (
-          <select aria-label={`${label} unit`} value={form[unitKey]} onChange={(e) => set(unitKey, e.target.value)} className={selectClass}>
-            {units.map((u) => <option key={u} value={u}>{u}</option>)}
-          </select>
-        ) : null}
-      </div>
-      {errors[k] ? <p className="mt-2 text-xs text-destructive">{message(errors[k])}</p> : null}
-      {hint ? <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{hint}</p> : null}
-    </div>
-  );
 
-  const Toggle = ({ k, legend, options }: { k: Key; legend: string; options: [string, string][] }) => (
-    <fieldset>
-      <legend className={labelClass}>{legend}</legend>
-      <div className="mt-2 grid grid-cols-1 border border-border sm:grid-cols-2">
-        {options.map(([value, label]) => (
-          <button key={value} type="button" aria-pressed={form[k] === value} onClick={() => set(k, value)}
-            className={`px-3 py-2 text-sm transition-colors ${form[k] === value ? 'bg-accent text-accent-foreground' : 'bg-background text-muted-foreground hover:text-foreground'}`}>
-            {label}
-          </button>
-        ))}
-      </div>
-    </fieldset>
-  );
 
-  const Result = ({ title, symbol, value, unit, equation, emphasis }: { title: string; symbol: string; value: string; unit: string; equation: string; emphasis?: boolean }) => (
-    <div className={`border border-border p-4 ${emphasis ? 'bg-muted/50' : 'bg-card'}`}>
-      <p className="font-mono text-[0.65rem] tracking-[0.2em] text-muted-foreground uppercase">{title}</p>
-      <p className={`mt-2 font-display font-semibold break-words text-foreground ${emphasis ? 'text-2xl' : 'text-xl'}`}>
-        {value} <span className="font-mono text-sm font-normal">{unit}</span>
-      </p>
-      <p className="mt-1 font-mono text-xs text-muted-foreground">{symbol} · {equation}</p>
-    </div>
-  );
+
+  const ctx: Ctx = { form, set, errors, message };
 
   const group = (title: string, children: ReactNode) => (
     <div className="grid gap-5 border-t border-border pt-5">
@@ -82,14 +97,14 @@ export function PinOnDiscCalculator() {
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
       <section className="grid content-start gap-6 border border-border bg-card p-5 md:p-6" aria-label={L('Inputs', 'Girdiler')}>
         <h2 className="font-display text-lg font-semibold text-foreground">{L('Inputs', 'Girdiler')}</h2>
-        <Toggle k="mode" legend={L('Calculation mode', 'Hesaplama yöntemi')} options={[
+        <Toggle ctx={ctx} k="mode" legend={L('Calculation mode', 'Hesaplama yöntemi')} options={[
           ['mass', L('A — Mass loss', 'A — Kütle kaybı')],
           ['volume', L('B — Known wear volume', 'B — Bilinen aşınma hacmi')],
         ]} />
 
         {form.mode === 'mass'
           ? group(L('Mass loss', 'Kütle kaybı'), <>
-              <Toggle k="massEntry" legend={L('Mass input', 'Kütle girişi')} options={[
+              <Toggle ctx={ctx} k="massEntry" legend={L('Mass input', 'Kütle girişi')} options={[
                 ['difference', L('Initial and final mass', 'İlk ve son kütle')],
                 ['direct', L('Direct mass loss', 'Doğrudan kütle kaybı')],
               ]} />
@@ -100,31 +115,31 @@ export function PinOnDiscCalculator() {
                 </select>
               </div>
               {form.massEntry === 'difference' ? <>
-                <Field k="massInitial" label={L('Initial mass, m_initial', 'İlk kütle, m_ilk')} />
-                <Field k="massFinal" label={L('Final mass, m_final', 'Son kütle, m_son')} />
-              </> : <Field k="massLoss" label={L('Mass loss, Δm', 'Kütle kaybı, Δm')} />}
-              <Field k="density" label={L('Specimen density, ρ', 'Numune yoğunluğu, ρ')} unitKey="densityUnit" units={['g/cm³', 'kg/m³']} />
+                <Field ctx={ctx} k="massInitial" label={L('Initial mass, m_initial', 'İlk kütle, m_ilk')} />
+                <Field ctx={ctx} k="massFinal" label={L('Final mass, m_final', 'Son kütle, m_son')} />
+              </> : <Field ctx={ctx} k="massLoss" label={L('Mass loss, Δm', 'Kütle kaybı, Δm')} />}
+              <Field ctx={ctx} k="density" label={L('Specimen density, ρ', 'Numune yoğunluğu, ρ')} unitKey="densityUnit" units={['g/cm³', 'kg/m³']} />
             </>)
-          : group(L('Wear volume', 'Aşınma hacmi'), <Field k="volume" label={L('Wear volume, V', 'Aşınma hacmi, V')} unitKey="volumeUnit" units={['mm³', 'cm³']} />)}
+          : group(L('Wear volume', 'Aşınma hacmi'), <Field ctx={ctx} k="volume" label={L('Wear volume, V', 'Aşınma hacmi, V')} unitKey="volumeUnit" units={['mm³', 'cm³']} />)}
 
-        {group(L('Load', 'Yük'), <Field k="load" label={L('Normal load, F (N)', 'Normal yük, F (N)')} />)}
+        {group(L('Load', 'Yük'), <Field ctx={ctx} k="load" label={L('Normal load, F (N)', 'Normal yük, F (N)')} />)}
 
         {group(L('Sliding distance', 'Kayma mesafesi'), <>
-          <Toggle k="distanceEntry" legend={L('Distance input', 'Mesafe girişi')} options={[
+          <Toggle ctx={ctx} k="distanceEntry" legend={L('Distance input', 'Mesafe girişi')} options={[
             ['rotary', L('From radius, rpm and duration', 'Yarıçap, devir ve süreden')],
             ['direct', L('Enter directly', 'Doğrudan gir')],
           ]} />
           {form.distanceEntry === 'direct'
-            ? <Field k="distance" label={L('Sliding distance, s', 'Kayma mesafesi, s')} unitKey="distanceUnit" units={['m', 'km']} />
+            ? <Field ctx={ctx} k="distance" label={L('Sliding distance, s', 'Kayma mesafesi, s')} unitKey="distanceUnit" units={['m', 'km']} />
             : <>
-                <Field k="radius" label={L('Wear-track radius, r', 'Aşınma izi yarıçapı, r')} unitKey="radiusUnit" units={['mm', 'cm']} />
-                <Field k="rpm" label={L('Rotational speed (rpm)', 'Dönme hızı (dev/dak)')} />
-                <Field k="duration" label={L('Test duration, t', 'Deney süresi, t')} unitKey="durationUnit" units={['s', 'min', 'h']} />
+                <Field ctx={ctx} k="radius" label={L('Wear-track radius, r', 'Aşınma izi yarıçapı, r')} unitKey="radiusUnit" units={['mm', 'cm']} />
+                <Field ctx={ctx} k="rpm" label={L('Rotational speed (rpm)', 'Dönme hızı (dev/dak)')} />
+                <Field ctx={ctx} k="duration" label={L('Test duration, t', 'Deney süresi, t')} unitKey="durationUnit" units={['s', 'min', 'h']} />
               </>}
         </>)}
 
         {group(L('Friction (optional)', 'Sürtünme (isteğe bağlı)'), (
-          <Field k="frictionForce" label={L('Measured friction force, Ft (N)', 'Ölçülen sürtünme kuvveti, Ft (N)')}
+          <Field ctx={ctx} k="frictionForce" label={L('Measured friction force, Ft (N)', 'Ölçülen sürtünme kuvveti, Ft (N)')}
             hint={L('Leave blank to skip. Uses the normal load above as Fn.', 'Atlamak için boş bırakın. Fn olarak yukarıdaki normal yük kullanılır.')} />
         ))}
 
