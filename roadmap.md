@@ -1,5 +1,10 @@
 # Quiz review pages
 
+# Coefficient of friction calculator
+- [ ] Add bilingual force, coefficient, angle and incline modes with validated pure calculations.
+- [ ] Integrate Lab, clean sitemap, metadata and contextual links.
+- [ ] Verify numerical examples, both languages and mobile layout; deliver report.
+
 # Surface roughness converter
 - [x] Add bilingual model-limited comparison tool and educational content.
 - [x] Integrate Lab, clean canonical sitemap, and contextual reciprocal links.
