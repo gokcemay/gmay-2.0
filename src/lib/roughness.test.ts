@@ -1,0 +1,18 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { compareRoughness, convertRoughnessUnit } from './roughness.logic';
+const near = (value: number | undefined, expected: number) => assert.ok(typeof value === 'number' && Math.abs(value - expected) < 1e-9);
+test('1 micrometre is 39.3700787 microinches to stated precision', () => assert.ok(Math.abs(convertRoughnessUnit(1, 'um', 'uin') - 39.3700787) < 1e-7));
+test('1 microinch is exactly 0.0254 micrometres', () => assert.equal(convertRoughnessUnit(1, 'uin', 'um'), 0.0254));
+test('Ra 0.8 uses sine and Gaussian model landmarks, not one universal factor', () => { const r = compareRoughness('Ra', 0.8, 'um'); near(r.values?.Rq?.[0], 0.888576587631673); near(r.values?.Rq?.[1], 1.0026513098524); });
+test('Rq 1 gives ordered inverse Ra model landmarks', () => { const r = compareRoughness('Rq', 1, 'um'); near(r.values?.Ra?.[0], 0.797884560802865); near(r.values?.Ra?.[1], 0.900316316157106); });
+test('Ra to Rz range is unavailable rather than invented', () => assert.equal(compareRoughness('Ra', 0.8, 'um').values?.Rz, null));
+test('Rz to Ra range is unavailable rather than invented', () => assert.equal(compareRoughness('Rz', 4, 'um').values?.Ra, null));
+test('Rt cannot reliably convert to any other parameter', () => assert.deepEqual(compareRoughness('Rt', 6, 'um').values, { Ra: null, Rq: null, Rz: null, Rt: [6,6] }));
+test('reject negative input', () => assert.equal(compareRoughness('Ra', -1, 'um').error, 'invalid'));
+test('reject nonfinite, blank and malformed input', () => { for (const v of [NaN, Infinity, -Infinity, '', 'abc', '0.8.2']) assert.equal(compareRoughness('Ra', v, 'um').error, 'invalid'); });
+test('accept zero with warning', () => { const r = compareRoughness('Ra', 0, 'um'); assert.equal(r.zero, true); assert.deepEqual(r.values?.Rq, [0,0]); });
+test('unit switching preserves physical roughness and comparison', () => { const microinch = convertRoughnessUnit(0.8, 'um', 'uin'); const r = compareRoughness('Ra', microinch, 'uin'); near(r.um, 0.8); near(r.values?.Rq?.[1], 1.0026513098524); });
+test('both model endpoints increase monotonically', () => { const a = compareRoughness('Ra', 0.8, 'um').values?.Rq; const b = compareRoughness('Ra', 1.6, 'um').values?.Rq; assert.ok(a && b && b[0] > a[0] && b[1] > a[1]); });
+test('comma decimal accepted', () => near(compareRoughness('Ra', '0,8', 'um').um, 0.8));
+test('overflow does not expose infinite results', () => assert.equal(compareRoughness('Ra', Number.MAX_VALUE, 'um').error, 'overflow'));

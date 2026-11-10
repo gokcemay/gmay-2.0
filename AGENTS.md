@@ -15,3 +15,4 @@
 - Keep the CAD gallery catalog/figure files at their original public URLs; use un-nested detail and legacy-link routes, a lazy Three.js viewer, locked vote tables and aggregate-only public RPCs to preserve links and private feedback.
 - Consolidate language/query views into each clean route canonical and sitemap URL; retain URL-based language selection but omit hreflang for noncanonical parameter views to avoid conflicting indexing signals.
 - Keep hardness conversion equations and domain checks in a pure browser-safe module; invert only inside documented brackets so empirical relationships cannot silently extrapolate.
+- Keep roughness comparisons in a pure browser-safe module with model-specific Ra/Rq bounds and explicit unavailable Rz/Rt outputs; unit changes preserve the physical input and never invent process multipliers.

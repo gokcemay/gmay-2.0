@@ -248,6 +248,7 @@ function WearRatePage() {
 
         <p className="mt-8 max-w-3xl border-l-2 border-accent bg-muted/50 px-5 py-4 text-sm leading-relaxed text-muted-foreground">
           {tx("Özgül aşınma oranlarının doğrudan karşılaştırılması için karşı cisim, yüzey pürüzlülüğü, yük, hız, kayma mesafesi, sıcaklık, nem, yağlama ve test geometrisi gibi tribolojik koşulların dikkate alınması gerekir.")}</p>
+        <p className="mt-4 text-sm"><Link to="/lab/surface-roughness-converter" className="text-foreground underline underline-offset-4">{tr ? 'Yüzey Pürüzlülüğü Dönüşüm Aracı — Ra, Rq, Rz ve Rt sınırlamaları' : 'Surface Roughness Converter — Ra, Rq, Rz and Rt limitations'}</Link></p>
       </Section>
 
       <Section>

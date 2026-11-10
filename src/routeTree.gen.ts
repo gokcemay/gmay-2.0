@@ -28,6 +28,7 @@ import { Route as LabHertzContactCalculatorRouteImport } from './routes/lab_.her
 import { Route as LabHertzLineContactCalculatorRouteImport } from './routes/lab_.hertz-line-contact-calculator'
 import { Route as LabPinOnDiscWearCalculatorRouteImport } from './routes/lab_.pin-on-disc-wear-calculator'
 import { Route as LabSlidingDistanceCalculatorRouteImport } from './routes/lab_.sliding-distance-calculator'
+import { Route as LabSurfaceRoughnessConverterRouteImport } from './routes/lab_.surface-roughness-converter'
 import { Route as LabWearRateCalculatorRouteImport } from './routes/lab_.wear-rate-calculator'
 import { Route as AraclarTeknikResimCadIdRouteImport } from './routes/araclar.teknik-resim-cad_.$id'
 import { Route as AraclarTeknikResimCadIndexDothtmlRouteImport } from './routes/araclar.teknik-resim-cad_.index[.]html'
@@ -133,6 +134,12 @@ const LabSlidingDistanceCalculatorRoute =
     path: '/lab/sliding-distance-calculator',
     getParentRoute: () => rootRouteImport,
   } as any)
+const LabSurfaceRoughnessConverterRoute =
+  LabSurfaceRoughnessConverterRouteImport.update({
+    id: '/lab_/surface-roughness-converter',
+    path: '/lab/surface-roughness-converter',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const LabWearRateCalculatorRoute = LabWearRateCalculatorRouteImport.update({
   id: '/lab_/wear-rate-calculator',
   path: '/lab/wear-rate-calculator',
@@ -170,6 +177,7 @@ export interface FileRoutesByFullPath {
   '/lab/hertz-line-contact-calculator': typeof LabHertzLineContactCalculatorRoute
   '/lab/pin-on-disc-wear-calculator': typeof LabPinOnDiscWearCalculatorRoute
   '/lab/sliding-distance-calculator': typeof LabSlidingDistanceCalculatorRoute
+  '/lab/surface-roughness-converter': typeof LabSurfaceRoughnessConverterRoute
   '/lab/wear-rate-calculator': typeof LabWearRateCalculatorRoute
   '/araclar/teknik-resim-cad/$id': typeof AraclarTeknikResimCadIdRoute
   '/araclar/teknik-resim-cad/index.html': typeof AraclarTeknikResimCadIndexDothtmlRoute
@@ -194,6 +202,7 @@ export interface FileRoutesByTo {
   '/lab/hertz-line-contact-calculator': typeof LabHertzLineContactCalculatorRoute
   '/lab/pin-on-disc-wear-calculator': typeof LabPinOnDiscWearCalculatorRoute
   '/lab/sliding-distance-calculator': typeof LabSlidingDistanceCalculatorRoute
+  '/lab/surface-roughness-converter': typeof LabSurfaceRoughnessConverterRoute
   '/lab/wear-rate-calculator': typeof LabWearRateCalculatorRoute
   '/araclar/teknik-resim-cad/$id': typeof AraclarTeknikResimCadIdRoute
   '/araclar/teknik-resim-cad/index.html': typeof AraclarTeknikResimCadIndexDothtmlRoute
@@ -219,6 +228,7 @@ export interface FileRoutesById {
   '/lab_/hertz-line-contact-calculator': typeof LabHertzLineContactCalculatorRoute
   '/lab_/pin-on-disc-wear-calculator': typeof LabPinOnDiscWearCalculatorRoute
   '/lab_/sliding-distance-calculator': typeof LabSlidingDistanceCalculatorRoute
+  '/lab_/surface-roughness-converter': typeof LabSurfaceRoughnessConverterRoute
   '/lab_/wear-rate-calculator': typeof LabWearRateCalculatorRoute
   '/araclar/teknik-resim-cad_/$id': typeof AraclarTeknikResimCadIdRoute
   '/araclar/teknik-resim-cad_/index.html': typeof AraclarTeknikResimCadIndexDothtmlRoute
@@ -245,6 +255,7 @@ export interface FileRouteTypes {
     | '/lab/hertz-line-contact-calculator'
     | '/lab/pin-on-disc-wear-calculator'
     | '/lab/sliding-distance-calculator'
+    | '/lab/surface-roughness-converter'
     | '/lab/wear-rate-calculator'
     | '/araclar/teknik-resim-cad/$id'
     | '/araclar/teknik-resim-cad/index.html'
@@ -269,6 +280,7 @@ export interface FileRouteTypes {
     | '/lab/hertz-line-contact-calculator'
     | '/lab/pin-on-disc-wear-calculator'
     | '/lab/sliding-distance-calculator'
+    | '/lab/surface-roughness-converter'
     | '/lab/wear-rate-calculator'
     | '/araclar/teknik-resim-cad/$id'
     | '/araclar/teknik-resim-cad/index.html'
@@ -293,6 +305,7 @@ export interface FileRouteTypes {
     | '/lab_/hertz-line-contact-calculator'
     | '/lab_/pin-on-disc-wear-calculator'
     | '/lab_/sliding-distance-calculator'
+    | '/lab_/surface-roughness-converter'
     | '/lab_/wear-rate-calculator'
     | '/araclar/teknik-resim-cad_/$id'
     | '/araclar/teknik-resim-cad_/index.html'
@@ -318,6 +331,7 @@ export interface RootRouteChildren {
   LabHertzLineContactCalculatorRoute: typeof LabHertzLineContactCalculatorRoute
   LabPinOnDiscWearCalculatorRoute: typeof LabPinOnDiscWearCalculatorRoute
   LabSlidingDistanceCalculatorRoute: typeof LabSlidingDistanceCalculatorRoute
+  LabSurfaceRoughnessConverterRoute: typeof LabSurfaceRoughnessConverterRoute
   LabWearRateCalculatorRoute: typeof LabWearRateCalculatorRoute
   AraclarTeknikResimCadIdRoute: typeof AraclarTeknikResimCadIdRoute
   AraclarTeknikResimCadIndexDothtmlRoute: typeof AraclarTeknikResimCadIndexDothtmlRoute
@@ -458,6 +472,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabSlidingDistanceCalculatorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lab_/surface-roughness-converter': {
+      id: '/lab_/surface-roughness-converter'
+      path: '/lab/surface-roughness-converter'
+      fullPath: '/lab/surface-roughness-converter'
+      preLoaderRoute: typeof LabSurfaceRoughnessConverterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lab_/wear-rate-calculator': {
       id: '/lab_/wear-rate-calculator'
       path: '/lab/wear-rate-calculator'
@@ -502,6 +523,7 @@ const rootRouteChildren: RootRouteChildren = {
   LabHertzLineContactCalculatorRoute: LabHertzLineContactCalculatorRoute,
   LabPinOnDiscWearCalculatorRoute: LabPinOnDiscWearCalculatorRoute,
   LabSlidingDistanceCalculatorRoute: LabSlidingDistanceCalculatorRoute,
+  LabSurfaceRoughnessConverterRoute: LabSurfaceRoughnessConverterRoute,
   LabWearRateCalculatorRoute: LabWearRateCalculatorRoute,
   AraclarTeknikResimCadIdRoute: AraclarTeknikResimCadIdRoute,
   AraclarTeknikResimCadIndexDothtmlRoute:
