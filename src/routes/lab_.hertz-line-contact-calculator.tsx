@@ -220,6 +220,8 @@ function HertzLinePage() {
           <Link to="/research" className={linkClass}>{L('tribology research', 'triboloji araştırmaları')}</Link>
           {L('. To normalise measured wear from a line-contact test such as block-on-ring, use the ', ' sayfasına bakın. Blok-halka gibi bir çizgisel temas deneyinde ölçülen aşınmayı normalize etmek için ')}
           <Link to="/lab/wear-rate-calculator" search={noSearch} className={linkClass}>{L('Wear Rate Calculator', 'Aşınma Oranı Hesaplayıcı')}</Link>
+          {L('. For spur-gear flanks modelled as pitch-point cylinders, use the ', ' aracını kullanın. Bölüm noktasında silindir olarak modellenen düz dişli yanakları için ')}
+          <Link to="/lab/gear-stress-calculator" className={linkClass}>{L('Gear Stress Calculator', 'Dişli Gerilme Hesaplayıcı')}</Link>
           {L('.', ' aracını kullanın.')}
         </p>
       </Section>
