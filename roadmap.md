@@ -1,7 +1,8 @@
 # Contact form and Resend setup
-- [ ] Read Resend setup instructions and connect the sending account.
-- [ ] Replace inactive notice with validated bilingual email-only contact form.
-- [ ] Verify domain, Reply-To, real delivery, errors and mobile layout.
+- [x] Read Resend setup instructions and connect the sending account.
+- [x] Replace inactive notice with validated bilingual email-only contact form.
+- [x] Verify input rules, outgoing Reply-To payload, safe errors and mobile layout (21 tests).
+- [ ] Verify real delivery and received Reply-To after owner adds Resend DNS records; domain pending.
 
 # Contact Stress Studio
 - [x] Preserve uploaded Hertz/stress-field logic in a tested pure module.
