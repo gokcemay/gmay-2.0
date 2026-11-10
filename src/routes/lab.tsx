@@ -29,6 +29,7 @@ export const Route = createFileRoute("/lab")({
 });
 
 type ToolHref =
+  | "/lab/surface-roughness-converter"
   | "/lab/hardness-conversion-calculator"
   | "/lab/engineering-prompt-builder"
   | "/lab/hertz-contact-calculator"
@@ -122,6 +123,11 @@ const groups: Group[] = [
         href: "/lab/wear-rate-calculator",
         purpose:
           "Aşınma hacmi veya kütle kaybından hacimsel ve özgül aşınma oranlarını hesaplayın.",
+      },
+      {
+        name: "Yüzey Pürüzlülüğü Dönüşüm Aracı",
+        href: "/lab/surface-roughness-converter",
+        purpose: "Ra, Rq, Rz ve Rt ilişkilerini yaklaşık olarak karşılaştırın ve µm ile µin arasında dönüşüm yapın.",
       },
       {
         name: "Pin-on-Disc Wear Test Calculator",

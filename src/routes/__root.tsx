@@ -37,6 +37,7 @@ const CASE_SENSITIVE_CONTENT_ROUTES = new Set([
   "/lab/hertz-line-contact-calculator",
   "/lab/gear-stress-calculator",
   "/lab/hardness-conversion-calculator",
+  "/lab/surface-roughness-converter",
   "/lab/pin-on-disc-wear-calculator",
   "/lab/wear-rate-calculator",
   "/lab/sliding-distance-calculator",

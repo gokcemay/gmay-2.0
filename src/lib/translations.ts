@@ -1,5 +1,7 @@
 // Source-language keys preserve saved tool choices and API values.
 export const english: Record<string, string> = {
+  "Yüzey Pürüzlülüğü Dönüşüm Aracı": "Surface Roughness Converter",
+  "Ra, Rq, Rz ve Rt ilişkilerini yaklaşık olarak karşılaştırın ve µm ile µin arasında dönüşüm yapın.": "Compare approximate Ra, Rq, Rz and Rt relationships and convert between µm and µin.",
   "Sertlik Dönüşüm Hesaplayıcı": "Hardness Conversion Calculator",
   "Östenitik olmayan çeliklerde Vickers, Brinell ve Rockwell ölçekleri arasında yaklaşık sertlik eşdeğerlerini hesaplayın.": "Convert approximate hardness equivalents between Vickers, Brinell and Rockwell scales for non-austenitic steels.",
   "Silindir-düzlem ve paralel silindir-silindir çizgisel temaslarında Hertz temas genişliğini ve maksimum basıncı hesaplayın.": "Calculate Hertzian contact width and maximum pressure for cylinder-flat and parallel cylinder-cylinder line contacts.",

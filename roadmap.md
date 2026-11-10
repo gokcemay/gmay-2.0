@@ -1,5 +1,10 @@
 # Quiz review pages
 
+# Surface roughness converter
+- [ ] Add bilingual model-limited comparison tool and educational content.
+- [ ] Integrate Lab, clean canonical sitemap, and contextual reciprocal links.
+- [ ] Verify calculations, both languages, unit changes and mobile layout; deliver report.
+
 # Organic search content phase
 - [x] Expand /egitim, Hertz, Wear content with FAQs; add /kitaplar related links; bilingual; report delivered.
 
