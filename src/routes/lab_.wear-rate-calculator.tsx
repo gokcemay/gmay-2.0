@@ -315,6 +315,7 @@ function WearRatePage() {
         <Link to="/lab" className="mt-6 inline-block text-sm text-foreground underline underline-offset-4">
           {tx("Engineering Lab'e dön")}</Link>
       </Section>
+      <Section><p className="max-w-3xl text-sm text-muted-foreground">{tr ? "Aşınma ve sürtünme farklı sistem yanıtlarıdır; kuvvet ölçümlerini değerlendirmek için " : "Wear and friction are different system responses; evaluate force measurements with the "}<Link to="/lab/coefficient-of-friction-calculator" className="text-foreground underline underline-offset-4">{tr ? "Sürtünme Katsayısı Hesaplayıcı" : "Coefficient of Friction Calculator"}</Link>{tr ? " aracını kullanın." : "."}</p></Section>
       <RelatedKnowledge />
     </>
   );

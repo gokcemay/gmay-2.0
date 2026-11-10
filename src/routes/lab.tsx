@@ -29,6 +29,7 @@ export const Route = createFileRoute("/lab")({
 });
 
 type ToolHref =
+  | "/lab/coefficient-of-friction-calculator"
   | "/lab/surface-roughness-converter"
   | "/lab/hardness-conversion-calculator"
   | "/lab/engineering-prompt-builder"
@@ -117,6 +118,11 @@ const groups: Group[] = [
         name: "Sertlik Dönüşüm Hesaplayıcı",
         href: "/lab/hardness-conversion-calculator",
         purpose: "Östenitik olmayan çeliklerde Vickers, Brinell ve Rockwell ölçekleri arasında yaklaşık sertlik eşdeğerlerini hesaplayın.",
+      },
+      {
+        name: "Sürtünme Katsayısı Hesaplayıcı",
+        href: "/lab/coefficient-of-friction-calculator",
+        purpose: "Mühendislik ve triboloji uygulamaları için sürtünme katsayısı, sürtünme kuvveti, normal yük ve sürtünme açısını hesaplayın.",
       },
       {
         name: "Wear Rate Calculator",
