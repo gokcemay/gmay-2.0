@@ -21,8 +21,8 @@ export const searchCopy: Record<string, Record<Language, SearchCopy>> = {
     tr: { title: 'Sertlik Dönüşüm Hesaplayıcı | HRC, HV, HBW ve HRB', description: 'Alaşımlı ve karbon çelikleri için Rockwell C, Rockwell B, Vickers ve Brinell sertlik değerleri arasında yaklaşık dönüşüm yapın.' },
   },
   '/': {
-    en: { title: 'Dr. Gökçe Mehmet Ay | Mechanical Engineering, AI & Tribology', description: 'Explore Dr. Gökçe Mehmet Ay’s work in mechanical engineering, tribology and AI: free engineering tools, academic research, books and training.' },
-    tr: { title: 'Dr. Gökçe Mehmet Ay | Makine Mühendisliği, Yapay Zekâ ve Triboloji', description: 'Dr. Gökçe Mehmet Ay’ın makine mühendisliği, triboloji ve yapay zekâ çalışmalarını keşfedin: ücretsiz mühendislik araçları, akademik araştırma ve eğitim.' },
+    en: { title: 'Gökçe Mehmet Ay | Engineering × AI × Research', description: 'Free engineering calculators, AI tools for engineers, tribology research, books and training by Dr. Gökçe Mehmet Ay — for engineers, researchers and R&D teams.' },
+    tr: { title: 'Gökçe Mehmet Ay | Mühendislik × Yapay Zekâ × Araştırma', description: 'Mühendisler, araştırmacılar ve Ar-Ge ekipleri için ücretsiz mühendislik hesaplayıcıları, yapay zekâ araçları, triboloji araştırmaları, kitaplar ve eğitimler.' },
   },
   '/egitim': {
     en: { title: 'AI & Engineering Training | Dr. Gökçe Mehmet Ay', description: 'Practical generative AI and prompt engineering training for engineers, academics and organizations. Explore corporate workshops and engineering consulting.' },
