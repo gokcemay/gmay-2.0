@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="151815361 Business Management and Entrepreneurship midterm class feedback.">
+<title>Midterm Class Feedback</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap">
+<style>
+/* Düzen: tek sütun, 1040px'lik okuma kolonu; grafikler satır içi SVG, kütüphane yok. */
+:root{
+  --paper:#F7F7F5; --surface:#FFFFFF; --ink:#15161A; --ink2:#5B5F66; --ink3:#878C94;
+  --line:#E4E4DF; --accent:#2A78D6; --accent-soft:#E7F0FB; --warn:#D2541F; --warn-soft:#FBE8DD;
+  --shadow:0 1px 2px rgba(20,22,26,.05);
+  --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#131416; --surface:#1B1D20; --ink:#ECEDEE; --ink2:#A3A7AD; --ink3:#7C8189;
+  --line:#2B2E33; --accent:#589BE8; --accent-soft:#17283C; --warn:#F0824F; --warn-soft:#3A2419;
+  --shadow:0 1px 2px rgba(0,0,0,.4); color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --paper:#131416; --surface:#1B1D20; --ink:#ECEDEE; --ink2:#A3A7AD; --ink3:#7C8189;
+  --line:#2B2E33; --accent:#589BE8; --accent-soft:#17283C; --warn:#F0824F; --warn-soft:#3A2419;
+  --shadow:0 1px 2px rgba(0,0,0,.4); color-scheme:dark;}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+     font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0}
+h1,h2,h3{font-family:var(--serif);text-wrap:balance;margin:0}
+h1{font-size:clamp(1.9rem,1.3rem + 2.4vw,3rem);font-weight:700;letter-spacing:-.01em;line-height:1.1}
+h2{font-size:clamp(1.3rem,1.05rem + 1vw,1.75rem);font-weight:600;line-height:1.2}
+h3{font-size:1.05rem;font-weight:600}
+p{margin:0}
+.eyebrow{font-family:var(--sans);font-size:.74rem;font-weight:600;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--ink3)}
+.lede{font-family:var(--serif);font-size:1.12rem;color:var(--ink2);max-width:62ch}
+header.top{padding-block:40px 28px;border-bottom:1px solid var(--line)}
+.stack{display:flex;flex-direction:column;gap:12px}
+section{padding-block:38px;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+.sechead{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;max-width:70ch}
+.sechead p{color:var(--ink2);font-size:.95rem}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:22px}
+.stat{background:var(--surface);padding:14px 16px;min-width:0}
+.stat .k{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+.stat .v{font-family:var(--serif);font-size:1.75rem;font-weight:700;line-height:1.1;
+  font-variant-numeric:tabular-nums;margin-top:2px}
+
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:18px}
+.toolbar .lbl{font-size:.78rem;color:var(--ink3);font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;margin-right:2px}
+.chip{font:inherit;font-size:.86rem;font-weight:500;padding:6px 13px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink2);cursor:pointer;
+  transition:background .14s,color .14s,border-color .14s}
+.chip:hover{border-color:var(--ink3)}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.qlist{display:flex;flex-direction:column;gap:3px}
+.qrow{display:grid;grid-template-columns:30px 1fr 52px;gap:10px;align-items:center;
+  width:100%;text-align:left;font:inherit;color:inherit;background:none;border:0;
+  padding:7px 8px;border-radius:7px;cursor:pointer}
+.qrow:hover{background:var(--surface)}
+.qrow[aria-expanded="true"]{background:var(--surface);box-shadow:var(--shadow)}
+.qrow:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.qnum{font-size:.82rem;font-weight:600;color:var(--ink3);font-variant-numeric:tabular-nums;text-align:right}
+.track{display:block;height:19px;background:var(--line);border-radius:4px;overflow:hidden;min-width:0}
+.fill{display:block;height:100%;background:var(--accent);border-radius:4px;transition:width .5s cubic-bezier(.2,.7,.3,1)}
+.fill.low{background:var(--warn)}
+.qpct{font-size:.86rem;font-weight:600;font-variant-numeric:tabular-nums;text-align:right}
+.qpct.low{color:var(--warn)}
+
+.detail{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:0 9px 9px 0;padding:16px 18px;margin:2px 0 8px 40px}
+.detail.low{border-left-color:var(--warn)}
+@media (max-width:560px){.detail{margin-left:0;border-radius:9px;border-left-width:3px}}
+.detail .meta{font-size:.76rem;color:var(--ink3);letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+.detail h3{margin:4px 0 12px;font-family:var(--sans);font-size:1rem;font-weight:600}
+.opt{display:grid;grid-template-columns:22px 1fr;gap:9px;align-items:start;padding:6px 0;
+  border-top:1px solid var(--line);min-width:0}
+.opt:first-of-type{border-top:0}
+.ltr{font-size:.8rem;font-weight:600;color:var(--ink3);width:22px;height:22px;display:grid;
+  place-items:center;border:1px solid var(--line);border-radius:5px;margin-top:1px}
+.opt.correct .ltr{background:var(--accent);border-color:var(--accent);color:#fff}
+.opt .txt{display:block;font-size:.9rem;min-width:0}
+.opt.correct .txt{font-weight:600}
+.obar{display:block;height:6px;background:var(--line);border-radius:3px;margin-top:5px;overflow:hidden;max-width:360px}
+.obar i{display:block;height:100%;background:var(--ink3);border-radius:3px}
+.opt.correct .obar i{background:var(--accent)}
+.opt.heavy:not(.correct) .obar i{background:var(--warn)}
+.cnt{display:block;font-size:.78rem;color:var(--ink3);font-variant-numeric:tabular-nums}
+.empty{color:var(--ink3);font-size:.92rem;padding:18px 0}
+
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:26px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;min-width:0}
+.panel h3{font-family:var(--sans);font-size:.95rem;margin-bottom:14px}
+.cmp{display:flex;flex-direction:column;gap:11px}
+.cmprow{display:grid;grid-template-columns:1fr;gap:4px;min-width:0}
+.cmptop{display:flex;justify-content:space-between;gap:10px;font-size:.87rem}
+.cmptop b{font-variant-numeric:tabular-nums}
+.cmptop .sub{color:var(--ink3);font-size:.78rem}
+
+figure{margin:0}
+figcaption{font-size:.8rem;color:var(--ink3);margin-top:8px}
+svg{display:block;max-width:100%;height:auto}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--warn);
+  border-radius:0 0 10px 10px;padding:17px 18px;min-width:0}
+.card .tag{font-size:.73rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--warn)}
+.card h3{margin:5px 0 8px}
+.card p{font-size:.92rem;color:var(--ink2)}
+.card p + p{margin-top:8px}
+.card .where{display:inline-block;margin-top:11px;font-size:.8rem;font-weight:600;color:var(--ink);
+  background:var(--accent-soft);border-radius:5px;padding:3px 9px}
+
+ol.todo{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:9px;max-width:68ch}
+ol.todo li{padding-left:4px}
+footer{padding-block:26px 40px;color:var(--ink3);font-size:.84rem}
+.themebtn{position:fixed;right:max(14px,env(safe-area-inset-right,0px));
+  top:calc(14px + env(safe-area-inset-top,0px));z-index:20;
+  width:36px;height:36px;border-radius:999px;border:1px solid var(--line);background:var(--surface);
+  color:var(--ink2);cursor:pointer;display:grid;place-items:center;font-size:15px;box-shadow:var(--shadow)}
+.themebtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<style>img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<button class="themebtn" id="themebtn" type="button" aria-label="Light / dark theme">◐</button>
+
+<div class="wrap">
+<header class="top">
+  <div class="stack">
+    <span class="eyebrow">151815361 · Business Management and Entrepreneurship (A)</span>
+    <h1>Midterm<br>Class Feedback</h1>
+    <p class="lede">This page does not show who scored what. It shows where the class as a whole was strong and where it was weak. There are no names and no student numbers; every figure covers the 47 students who sat the exam. The point is to make it concrete where your remaining study time should go.</p>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="k">Sat the exam</div><div class="v" id="s-n">47</div></div>
+    <div class="stat"><div class="k">Mean</div><div class="v" id="s-avg">62</div></div>
+    <div class="stat"><div class="k">Median</div><div class="v" id="s-med">60</div></div>
+    <div class="stat"><div class="k">Range</div><div class="v" id="s-rng">40–100</div></div>
+    <div class="stat"><div class="k">Questions</div><div class="v">40</div></div>
+  </div>
+</header>
+
+<section>
+  <div class="sechead">
+    <h2>Score distribution</h2>
+    <p>Twenty-four of the forty-seven scored 60 or below. The mean on the first quiz was 78; this paper was deliberately harder and the mean fell by 16 points. The bulk of the class sits between 50 and 65.</p>
+  </div>
+  <figure>
+    <div id="hist"></div>
+    <figcaption>Each bar is the number of students in a five-point band. The dashed line is the class mean.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="sechead">
+    <h2>Question by question</h2>
+    <p>Tap a question to open its topic, how many people chose each of the five options, and which one was correct. The orange rows are the questions fewer than 60% of the class answered correctly. Questions 1–12 are case-based, 13–30 are I–IV statement questions, 31–40 are concept questions.</p>
+  </div>
+
+  <div class="toolbar" role="group" aria-label="Week filter">
+    <span class="lbl">Week</span>
+    <button class="chip" type="button" data-w="all" aria-pressed="true">All</button>
+    <button class="chip" type="button" data-w="1" aria-pressed="false">1</button>
+    <button class="chip" type="button" data-w="2" aria-pressed="false">2</button>
+    <button class="chip" type="button" data-w="3" aria-pressed="false">3</button>
+    <button class="chip" type="button" data-w="4" aria-pressed="false">4</button>
+    <button class="chip" type="button" data-w="5" aria-pressed="false">5</button>
+    <button class="chip" type="button" data-w="6" aria-pressed="false">6</button>
+  </div>
+  <div class="toolbar" role="group" aria-label="Question type filter">
+    <span class="lbl">Type</span>
+    <button class="chip" type="button" data-t="all" aria-pressed="true">All</button>
+    <button class="chip" type="button" data-t="Case" aria-pressed="false">Case</button>
+    <button class="chip" type="button" data-t="Statement" aria-pressed="false">I–IV statement</button>
+    <button class="chip" type="button" data-t="Concept" aria-pressed="false">Concept</button>
+    <button class="chip" type="button" data-only="1" aria-pressed="false" id="onlyweak">Weak ones only</button>
+  </div>
+
+  <div class="qlist" id="qlist"></div>
+  <p class="empty" id="qempty" hidden>No question matches this filter.</p>
+</section>
+
+<section>
+  <div class="sechead">
+    <h2>The same gap, a second time</h2>
+    <p>On the first quiz there were thirty-seven points between case questions and I–IV statement questions. On this paper the gap is thirty-one. It narrowed; it did not close.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>By question type</h3>
+      <div class="cmp" id="cmp-type"></div>
+    </div>
+    <div class="panel">
+      <h3>By week</h3>
+      <div class="cmp" id="cmp-week"></div>
+    </div>
+  </div>
+  <p class="lede" style="margin-top:22px">Statement questions carried 54 of the 100 marks on this paper. What pulled the mean down is not subject knowledge but the habit of marking each of the four statements true or false on its own. Weeks 3 and 5 are also the two weakest weeks on content.</p>
+</section>
+
+<section>
+  <div class="sechead"><h2>Five things to work on</h2></div>
+  <div class="cards">
+    <article class="card">
+      <span class="tag">Q36 · 9% correct</span>
+      <h3>Owned, earned and paid channels</h3>
+      <p>Thirty-eight of forty-seven chose option A. Option A is the definition of an <strong>owned</strong> channel: one the firm controls, such as its own site or mailing list.</p>
+      <p>An <strong>earned</strong> channel is attention the firm receives without paying directly for the placement: press coverage, a user's own post, a referral. A <strong>paid</strong> channel is placement bought with money. Channel strategy does not work until the three are separated.</p>
+      <span class="where">Week 3 · Channels</span>
+    </article>
+    <article class="card">
+      <span class="tag">Q2 · 9% correct</span>
+      <h3>Maslow, a second time</h3>
+      <p>The service offers badges, rankings and an annual list, and offers no messaging, no groups and no way to find other users. No social bond is formed; what is offered is <strong>visibility and recognition</strong>. That is the esteem level.</p>
+      <p>Nineteen chose “belonging” and fourteen chose “self-actualisation”. The Maslow question on the first quiz also stopped at 18%. The same gap has now appeared twice: the order of the levels is memorised, but placing a concrete example on the right level is not.</p>
+      <span class="where">Week 1 · Maslow</span>
+    </article>
+    <article class="card">
+      <span class="tag">Q18 · 17% correct</span>
+      <h3>What a discovery interview is for</h3>
+      <p>“The purpose of a customer discovery interview is to persuade the customer of the idea” is <strong>false</strong>. The purpose is to learn, not to persuade; the moment you start persuading, what you hear is politeness rather than evidence.</p>
+      <p>The answers spread almost evenly across the five options (11/8/8/7/13), which means most of the class guessed. The other three statements were true: neutral prompts, a pattern across several conversations, a workaround the customer built.</p>
+      <span class="where">Week 3 · Customer discovery</span>
+    </article>
+    <article class="card">
+      <span class="tag">Q37 · 28% correct</span>
+      <h3>Sector tiers</h3>
+      <p>Knowledge-based services sit in the <strong>quaternary</strong> tier. The answers spread across four options, so the order of the terms is not known.</p>
+      <p>The sequence is: primary for raw materials, secondary for manufacturing, tertiary for services, quaternary for knowledge and R&amp;D, quinary for top-level decision-making.</p>
+      <span class="where">Week 4 · Sector classification</span>
+    </article>
+    <article class="card">
+      <span class="tag">Q24, Q28, Q29 · all three at 34%</span>
+      <h3>Failing to reject one false statement</h3>
+      <p>In Q24 the false statement was “for an SME, growth in headcount is a better health measure than gross margin”. Q28 and Q29 asked which statements were <strong>incorrect</strong> rather than correct, and two thirds of the class lost the thread on that reversal.</p>
+      <p>The error pattern is the same in all three: once three of the four statements are true, the fourth is treated as true too and “all of them” gets marked.</p>
+      <span class="where">Method · Weeks 5 and 6</span>
+    </article>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><h2>What to do before the final</h2></div>
+  <ol class="todo">
+    <li>On I–IV questions, mark each of the four statements T or F before you look at the options. Only then read the options. Most of the marks lost on this paper were lost here.</li>
+    <li>Read the stem twice to see whether it asks which statements are <strong>incorrect</strong>. Two questions on this paper were reversed and both stopped at 34%.</li>
+    <li>Stop at absolutes: “always”, “never”, “entirely”, “is sufficient on its own”. Most of the false statements on this paper used that pattern.</li>
+    <li>Go back through the Week 3 and Week 5 slides. They are the two weakest weeks on content, and three of the five points above come from them.</li>
+    <li>The class is in good shape on case questions (79%). Carry that method — work out what is being asked, then eliminate — across to the statement questions.</li>
+  </ol>
+</section>
+
+<footer>
+  Dr. Gökçe Mehmet Ay · Eskişehir Osmangazi University, Department of Mechanical Engineering · Compiled from the optical answer sheets of 47 students.
+</footer>
+</div>
+
+<script type="application/json" id="qdata">{"n": 47, "scores": [73, 50, 100, 62, 52, 63, 56, 59, 84, 82, 89, 47, 46, 53, 61, 56, 52, 53, 83, 68, 62, 60, 59, 60, 70, 53, 75, 74, 65, 72, 58, 70, 65, 43, 40, 71, 64, 73, 47, 43, 51, 61, 59, 53, 65, 54, 49], "weeks": {"1": 65.60283687943263, "2": 78.36879432624113, "3": 54.1033434650456, "4": 67.65957446808511, "5": 53.49544072948328, "6": 63.829787234042556}, "weekcount": {"1": 6, "2": 6, "3": 7, "4": 5, "5": 7, "6": 9}, "types": {"Case": 79.25531914893617, "Statement": 48.58156028368794, "Concept": 70.42553191489361}, "typecount": {"Case": 12, "Statement": 18, "Concept": 10}, "q": [{"n": 1, "w": 1, "t": "Case", "pts": 3, "topic": "Technology is a tool, not the opportunity itself", "p": 63.829787234042556, "c": 30, "b": 0, "o": [{"l": "A", "x": "A strong technology creates its own demand", "n": 8, "k": 0}, {"l": "B", "x": "The licence cost is the problem", "n": 0, "k": 0}, {"l": "C", "x": "Four months is too short to judge", "n": 3, "k": 0}, {"l": "D", "x": "Target every industry at once", "n": 6, "k": 0}, {"l": "E", "x": "Technology has replaced the identified need", "n": 30, "k": 1}]}, {"n": 2, "w": 1, "t": "Case", "pts": 3, "topic": "Maslow: the esteem level", "p": 8.51063829787234, "c": 4, "b": 1, "o": [{"l": "A", "x": "Physiological needs", "n": 7, "k": 0}, {"l": "B", "x": "Safety needs", "n": 2, "k": 0}, {"l": "C", "x": "Belonging (shared professional field)", "n": 19, "k": 0}, {"l": "D", "x": "Esteem needs", "n": 4, "k": 1}, {"l": "E", "x": "Self-actualisation (improving one's craft)", "n": 14, "k": 0}]}, {"n": 3, "w": 2, "t": "Case", "pts": 3, "topic": "Factors of production: entrepreneurship is the binding constraint", "p": 87.2340425531915, "c": 41, "b": 0, "o": [{"l": "A", "x": "Land (the building limits the layout)", "n": 1, "k": 0}, {"l": "B", "x": "Labour (nine operators cannot cover demand)", "n": 1, "k": 0}, {"l": "C", "x": "Capital (the machines are not new enough)", "n": 0, "k": 0}, {"l": "D", "x": "Entrepreneurship (nobody combines and coordinates)", "n": 41, "k": 1}, {"l": "E", "x": "None; the problem is the order book", "n": 4, "k": 0}]}, {"n": 4, "w": 2, "t": "Case", "pts": 3, "topic": "Entrepreneurial ethics: disclosing the defect", "p": 95.74468085106383, "c": 45, "b": 0, "o": [{"l": "A", "x": "No complaint, no harm yet — wait", "n": 1, "k": 0}, {"l": "B", "x": "Fix it quietly, say nothing about the delivered batch", "n": 1, "k": 0}, {"l": "C", "x": "Tell the customers, correct it, absorb the cost", "n": 45, "k": 1}, {"l": "D", "x": "Offer a discount, do not mention the defect", "n": 0, "k": 0}, {"l": "E", "x": "Pass the decision to the supplier", "n": 0, "k": 0}]}, {"n": 5, "w": 3, "t": "Case", "pts": 3, "topic": "Unit economics: growing while selling below cost", "p": 85.1063829787234, "c": 40, "b": 0, "o": [{"l": "A", "x": "Each extra visit increases the loss", "n": 40, "k": 1}, {"l": "B", "x": "The business is healthy; conversion and churn are good", "n": 3, "k": 0}, {"l": "C", "x": "The marketing spend is the problem — cut it", "n": 1, "k": 0}, {"l": "D", "x": "Low churn proves the price is right", "n": 1, "k": 0}, {"l": "E", "x": "Add a second service line", "n": 2, "k": 0}]}, {"n": 6, "w": 3, "t": "Case", "pts": 3, "topic": "Risk list: rank it, assign owners, review it", "p": 97.87234042553192, "c": 46, "b": 0, "o": [{"l": "A", "x": "Thirty risks is too few — expand the list", "n": 1, "k": 0}, {"l": "B", "x": "Risk lists are a formality — drop the practice", "n": 0, "k": 0}, {"l": "C", "x": "Hand the list to an external consultant", "n": 0, "k": 0}, {"l": "D", "x": "Only compliance risks need owners", "n": 0, "k": 0}, {"l": "E", "x": "Rank by impact and likelihood, assign owners, review at milestones", "n": 46, "k": 1}]}, {"n": 7, "w": 4, "t": "Case", "pts": 3, "topic": "Lifecycle stage: maturity and what it implies", "p": 95.74468085106383, "c": 45, "b": 0, "o": [{"l": "A", "x": "Startup: look for problem–solution fit", "n": 1, "k": 0}, {"l": "B", "x": "Growth: raise capital and hire quickly", "n": 0, "k": 0}, {"l": "C", "x": "Decline: the only option is to close", "n": 0, "k": 0}, {"l": "D", "x": "The stage cannot be determined without the legal form", "n": 1, "k": 0}, {"l": "E", "x": "Maturity: renewal or exit", "n": 45, "k": 1}]}, {"n": 8, "w": 4, "t": "Case", "pts": 3, "topic": "Compare on unit economics and scalability", "p": 93.61702127659575, "c": 44, "b": 0, "o": [{"l": "A", "x": "The revenue projection alone; both promise the same", "n": 1, "k": 0}, {"l": "B", "x": "Unit economics and scalability of each option", "n": 44, "k": 1}, {"l": "C", "x": "The legal form, which must change first", "n": 0, "k": 0}, {"l": "D", "x": "The sector classification, which permits online trade", "n": 1, "k": 0}, {"l": "E", "x": "The competition structure, identical for both", "n": 1, "k": 0}]}, {"n": 9, "w": 5, "t": "Case", "pts": 3, "topic": "Key-person dependency and a proportionate response", "p": 38.297872340425535, "c": 18, "b": 0, "o": [{"l": "A", "x": "Access to finance; apply for a grant", "n": 1, "k": 0}, {"l": "B", "x": "Key-person dependency; delegate + document the minimum viable process", "n": 18, "k": 1}, {"l": "C", "x": "Key-person dependency; build a full management layer", "n": 28, "k": 0}, {"l": "D", "x": "Resource constraints; buy more equipment", "n": 0, "k": 0}, {"l": "E", "x": "Quality variability; audit the whole firm", "n": 0, "k": 0}]}, {"n": 10, "w": 5, "t": "Case", "pts": 3, "topic": "SME promotion: focused channels and a clear value", "p": 97.87234042553192, "c": 46, "b": 0, "o": [{"l": "A", "x": "The conclusion is right — stop promoting altogether", "n": 1, "k": 0}, {"l": "B", "x": "Repeat the campaign; brand messages need repetition", "n": 0, "k": 0}, {"l": "C", "x": "Relationship-driven selling through a few focused channels", "n": 46, "k": 1}, {"l": "D", "x": "Hire an agency for a better slogan on the same billboard", "n": 0, "k": 0}, {"l": "E", "x": "Cut prices until enquiries rise", "n": 0, "k": 0}]}, {"n": 11, "w": 6, "t": "Case", "pts": 3, "topic": "Management functions: controlling failed", "p": 87.2340425531915, "c": 41, "b": 0, "o": [{"l": "A", "x": "Planning (the quarter's goals were too ambitious)", "n": 2, "k": 0}, {"l": "B", "x": "Organizing (roles were assigned incorrectly)", "n": 1, "k": 0}, {"l": "C", "x": "Controlling (outcomes were not compared with the plan)", "n": 41, "k": 1}, {"l": "D", "x": "Leading (the team was not motivated to raise it)", "n": 1, "k": 0}, {"l": "E", "x": "None; supplier behaviour is outside management", "n": 2, "k": 0}]}, {"n": 12, "w": 6, "t": "Case", "pts": 3, "topic": "Over-commitment: prioritise and leave buffer", "p": 100.0, "c": 47, "b": 0, "o": [{"l": "A", "x": "Fund the priorities, sequence by dependency, leave buffer", "n": 47, "k": 1}, {"l": "B", "x": "Longer hours and a stricter attendance policy", "n": 0, "k": 0}, {"l": "C", "x": "A more detailed Gantt chart for every task", "n": 0, "k": 0}, {"l": "D", "x": "Move every project to one milestone at quarter end", "n": 0, "k": 0}, {"l": "E", "x": "Add a second review meeting each week", "n": 0, "k": 0}]}, {"n": 13, "w": 1, "t": "Statement", "pts": 3, "topic": "Needs and opportunities (I–IV)", "p": 76.59574468085107, "c": 36, "b": 0, "o": [{"l": "A", "x": "I and II only", "n": 0, "k": 0}, {"l": "B", "x": "II and IV only", "n": 0, "k": 0}, {"l": "C", "x": "I, III and IV only", "n": 2, "k": 0}, {"l": "D", "x": "I, II and IV only", "n": 36, "k": 1}, {"l": "E", "x": "I, II, III and IV", "n": 9, "k": 0}]}, {"n": 14, "w": 1, "t": "Statement", "pts": 3, "topic": "Creativity in idea generation (I–IV)", "p": 55.319148936170215, "c": 26, "b": 0, "o": [{"l": "A", "x": "I, II and III only", "n": 6, "k": 0}, {"l": "B", "x": "II and IV only", "n": 2, "k": 0}, {"l": "C", "x": "I and II only", "n": 26, "k": 1}, {"l": "D", "x": "I and IV only", "n": 4, "k": 0}, {"l": "E", "x": "I, II, III and IV", "n": 9, "k": 0}]}, {"n": 15, "w": 2, "t": "Statement", "pts": 3, "topic": "The entrepreneurial process (I–IV)", "p": 78.72340425531915, "c": 37, "b": 0, "o": [{"l": "A", "x": "I, II and IV only", "n": 37, "k": 1}, {"l": "B", "x": "I and III only", "n": 0, "k": 0}, {"l": "C", "x": "II and III only", "n": 0, "k": 0}, {"l": "D", "x": "I, II and III only", "n": 1, "k": 0}, {"l": "E", "x": "I, II, III and IV", "n": 9, "k": 0}]}, {"n": 16, "w": 2, "t": "Statement", "pts": 3, "topic": "Causes of failure in new ventures (I–IV)", "p": 44.680851063829785, "c": 21, "b": 0, "o": [{"l": "A", "x": "I and II only", "n": 0, "k": 0}, {"l": "B", "x": "I, II and III only", "n": 21, "k": 1}, {"l": "C", "x": "II, III and IV only", "n": 4, "k": 0}, {"l": "D", "x": "I and IV only", "n": 5, "k": 0}, {"l": "E", "x": "I, II, III and IV", "n": 17, "k": 0}]}, {"n": 17, "w": 3, "t": "Statement", "pts": 3, "topic": "Feasibility assessment (I–IV)", "p": 48.93617021276596, "c": 23, "b": 0, "o": [{"l": "A", "x": "I and II only", "n": 2, "k": 0}, {"l": "B", "x": "I, II and IV only", "n": 4, "k": 0}, {"l": "C", "x": "II, III and IV only", "n": 5, "k": 0}, {"l": "D", "x": "I, III and IV only", "n": 23, "k": 1}, {"l": "E", "x": "I, II, III and IV", "n": 13, "k": 0}]}, {"n": 18, "w": 3, "t": "Statement", "pts": 3, "topic": "Customer discovery interviews (I–IV)", "p": 17.02127659574468, "c": 8, "b": 0, "o": [{"l": "A", "x": "I, II and III only", "n": 11, "k": 0}, {"l": "B", "x": "II, III and IV only", "n": 8, "k": 1}, {"l": "C", "x": "I and IV only", "n": 8, "k": 0}, {"l": "D", "x": "III and IV only", "n": 7, "k": 0}, {"l": "E", "x": "I, II, III and IV", "n": 13, "k": 0}]}, {"n": 19, "w": 3, "t": "Statement", "pts": 3, "topic": "Financing and milestones (I–IV)", "p": 40.42553191489361, "c": 19, "b": 0, "o": [{"l": "A", "x": "I and III only", "n": 2, "k": 0}, {"l": "B", "x": "II and IV only", "n": 4, "k": 0}, {"l": "C", "x": "I, II and IV only", "n": 10, "k": 0}, {"l": "D", "x": "I, II, III and IV", "n": 12, "k": 0}, {"l": "E", "x": "I, II and III only", "n": 19, "k": 1}]}, {"n": 20, "w": 4, "t": "Statement", "pts": 3, "topic": "Legal form, tax and liability (I–IV)", "p": 63.829787234042556, "c": 30, "b": 0, "o": [{"l": "A", "x": "I, II and III only", "n": 8, "k": 0}, {"l": "B", "x": "II and IV only", "n": 2, "k": 0}, {"l": "C", "x": "I and III only", "n": 30, "k": 1}, {"l": "D", "x": "I and IV only", "n": 3, "k": 0}, {"l": "E", "x": "III and IV only", "n": 4, "k": 0}]}, {"n": 21, "w": 4, "t": "Statement", "pts": 3, "topic": "Competition structure and market focus (I–IV)", "p": 57.446808510638306, "c": 27, "b": 0, "o": [{"l": "A", "x": "I and II only", "n": 1, "k": 0}, {"l": "B", "x": "II, III and IV only", "n": 1, "k": 0}, {"l": "C", "x": "I, III and IV only", "n": 27, "k": 1}, {"l": "D", "x": "I, II and IV only", "n": 2, "k": 0}, {"l": "E", "x": "I, II, III and IV", "n": 16, "k": 0}]}, {"n": 22, "w": 5, "t": "Statement", "pts": 3, "topic": "Common features of SMEs (I–IV)", "p": 57.446808510638306, "c": 27, "b": 0, "o": [{"l": "A", "x": "I and II only", "n": 5, "k": 0}, {"l": "B", "x": "II and III only", "n": 5, "k": 0}, {"l": "C", "x": "II, III and IV only", "n": 6, "k": 0}, {"l": "D", "x": "I, III and IV only", "n": 27, "k": 1}, {"l": "E", "x": "I, II, III and IV", "n": 4, "k": 0}]}, {"n": 23, "w": 5, "t": "Statement", "pts": 3, "topic": "Strengths and weaknesses of SMEs (I–IV)", "p": 36.17021276595745, "c": 17, "b": 0, "o": [{"l": "A", "x": "I and III only", "n": 1, "k": 0}, {"l": "B", "x": "I, II and IV only", "n": 17, "k": 1}, {"l": "C", "x": "II and III only", "n": 6, "k": 0}, {"l": "D", "x": "I, III and IV only", "n": 9, "k": 0}, {"l": "E", "x": "I, II, III and IV", "n": 14, "k": 0}]}, {"n": 24, "w": 5, "t": "Statement", "pts": 3, "topic": "Finance and performance measures in SMEs (I–IV)", "p": 34.04255319148936, "c": 16, "b": 0, "o": [{"l": "A", "x": "I and IV only", "n": 2, "k": 0}, {"l": "B", "x": "II and IV only", "n": 8, "k": 0}, {"l": "C", "x": "I, III and IV only", "n": 5, "k": 0}, {"l": "D", "x": "I, II and III only", "n": 16, "k": 1}, {"l": "E", "x": "I, II, III and IV", "n": 16, "k": 0}]}, {"n": 25, "w": 5, "t": "Statement", "pts": 3, "topic": "Growth and internationalisation (I–IV)", "p": 40.42553191489361, "c": 19, "b": 0, "o": [{"l": "A", "x": "I and II only", "n": 11, "k": 0}, {"l": "B", "x": "I, II and III only", "n": 19, "k": 1}, {"l": "C", "x": "II, III and IV only", "n": 6, "k": 0}, {"l": "D", "x": "I and IV only", "n": 2, "k": 0}, {"l": "E", "x": "I, II, III and IV", "n": 9, "k": 0}]}, {"n": 26, "w": 6, "t": "Statement", "pts": 3, "topic": "Planning and organizing (I–IV)", "p": 48.93617021276596, "c": 23, "b": 0, "o": [{"l": "A", "x": "I and III only", "n": 12, "k": 0}, {"l": "B", "x": "II, III and IV only", "n": 1, "k": 0}, {"l": "C", "x": "I, II and IV only", "n": 2, "k": 0}, {"l": "D", "x": "I, II and III only", "n": 23, "k": 1}, {"l": "E", "x": "I, II, III and IV", "n": 9, "k": 0}]}, {"n": 27, "w": 6, "t": "Statement", "pts": 3, "topic": "Leading and motivation (I–IV)", "p": 55.319148936170215, "c": 26, "b": 0, "o": [{"l": "A", "x": "I, II and IV only", "n": 26, "k": 1}, {"l": "B", "x": "I and III only", "n": 3, "k": 0}, {"l": "C", "x": "II, III and IV only", "n": 1, "k": 0}, {"l": "D", "x": "I and II only", "n": 6, "k": 0}, {"l": "E", "x": "I, II, III and IV", "n": 11, "k": 0}]}, {"n": 28, "w": 6, "t": "Statement", "pts": 3, "topic": "The controlling function — which are INCORRECT (I–IV)", "p": 34.04255319148936, "c": 16, "b": 1, "o": [{"l": "A", "x": "I and III", "n": 8, "k": 0}, {"l": "B", "x": "II only", "n": 11, "k": 0}, {"l": "C", "x": "IV only", "n": 6, "k": 0}, {"l": "D", "x": "II and IV", "n": 16, "k": 1}, {"l": "E", "x": "I, II and IV", "n": 5, "k": 0}]}, {"n": 29, "w": 6, "t": "Statement", "pts": 3, "topic": "Quality and process improvement — which are INCORRECT (I–IV)", "p": 34.04255319148936, "c": 16, "b": 0, "o": [{"l": "A", "x": "III and IV", "n": 16, "k": 1}, {"l": "B", "x": "I and II", "n": 5, "k": 0}, {"l": "C", "x": "III only", "n": 10, "k": 0}, {"l": "D", "x": "II and IV", "n": 10, "k": 0}, {"l": "E", "x": "I, III and IV", "n": 6, "k": 0}]}, {"n": 30, "w": 6, "t": "Statement", "pts": 3, "topic": "Meetings, written procedures, continuous improvement (I–IV)", "p": 51.06382978723404, "c": 24, "b": 0, "o": [{"l": "A", "x": "I and III only", "n": 3, "k": 0}, {"l": "B", "x": "I, II and III only", "n": 24, "k": 1}, {"l": "C", "x": "II, III and IV only", "n": 7, "k": 0}, {"l": "D", "x": "I, II and IV only", "n": 3, "k": 0}, {"l": "E", "x": "I, II, III and IV", "n": 10, "k": 0}]}, {"n": 31, "w": 1, "t": "Concept", "pts": 1, "topic": "The Pilot Your Purpose activity", "p": 93.61702127659575, "c": 44, "b": 0, "o": [{"l": "A", "x": "A full business plan with financial projections", "n": 1, "k": 0}, {"l": "B", "x": "A choice of legal form for the venture", "n": 1, "k": 0}, {"l": "C", "x": "Personal motivation + a one-sentence vision + long-term direction", "n": 44, "k": 1}, {"l": "D", "x": "A list of competitors in the chosen market", "n": 0, "k": 0}, {"l": "E", "x": "A record of three well-known entrepreneurs' failures", "n": 1, "k": 0}]}, {"n": 32, "w": 1, "t": "Concept", "pts": 1, "topic": "The Failure Resume exercise", "p": 95.74468085106383, "c": 45, "b": 0, "o": [{"l": "A", "x": "Hide the failure, move on, start again", "n": 1, "k": 0}, {"l": "B", "x": "Compare and rank your failures against classmates'", "n": 0, "k": 0}, {"l": "C", "x": "Report it to the team and assign responsibility", "n": 1, "k": 0}, {"l": "D", "x": "Record only failures caused by other people", "n": 0, "k": 0}, {"l": "E", "x": "List it honestly, extract the lesson, make the mistake usable", "n": 45, "k": 1}]}, {"n": 33, "w": 2, "t": "Concept", "pts": 1, "topic": "Business Model Canvas: key resources", "p": 78.72340425531915, "c": 37, "b": 0, "o": [{"l": "A", "x": "Advertising, discounts, sponsorship, press relations", "n": 1, "k": 0}, {"l": "B", "x": "Fixed costs, variable costs, gross margin, runway", "n": 1, "k": 0}, {"l": "C", "x": "People, capital, technology, IP, data, relationships", "n": 37, "k": 1}, {"l": "D", "x": "Suppliers, distributors, retailers, agents", "n": 1, "k": 0}, {"l": "E", "x": "Mission, vision, objectives, key results", "n": 7, "k": 0}]}, {"n": 34, "w": 2, "t": "Concept", "pts": 1, "topic": "Opportunity alertness", "p": 85.1063829787234, "c": 40, "b": 0, "o": [{"l": "A", "x": "Speed of reacting to a competitor's price change", "n": 0, "k": 0}, {"l": "B", "x": "A legal duty to report opportunities to shareholders", "n": 1, "k": 0}, {"l": "C", "x": "Time between spotting an opportunity and registering", "n": 5, "k": 0}, {"l": "D", "x": "Share of the working day spent on new ideas", "n": 1, "k": 0}, {"l": "E", "x": "Noticing complaints, delays and workarounds as signals", "n": 40, "k": 1}]}, {"n": 35, "w": 3, "t": "Concept", "pts": 1, "topic": "Model–market mismatch", "p": 80.85106382978722, "c": 38, "b": 0, "o": [{"l": "A", "x": "High acquisition cost + low lifetime value", "n": 38, "k": 1}, {"l": "B", "x": "Quality higher than the segment requires", "n": 3, "k": 0}, {"l": "C", "x": "Founding team skills not matching the technology", "n": 0, "k": 0}, {"l": "D", "x": "A legal form barring foreign shareholders", "n": 1, "k": 0}, {"l": "E", "x": "A supplier in a different country from customers", "n": 5, "k": 0}]}, {"n": 36, "w": 3, "t": "Concept", "pts": 1, "topic": "Channels: the earned channel", "p": 8.51063829787234, "c": 4, "b": 0, "o": [{"l": "A", "x": "A channel the firm owns and controls: its site, mailing list", "n": 38, "k": 0}, {"l": "B", "x": "Any channel whose cost is recovered in the first month", "n": 3, "k": 0}, {"l": "C", "x": "A channel run under a paid partnership", "n": 0, "k": 0}, {"l": "D", "x": "A distribution channel bought from a competitor", "n": 2, "k": 0}, {"l": "E", "x": "Attention received without paying directly for the placement", "n": 4, "k": 1}]}, {"n": 37, "w": 4, "t": "Concept", "pts": 1, "topic": "Sector tiers: knowledge-based services", "p": 27.659574468085108, "c": 13, "b": 0, "o": [{"l": "A", "x": "Primary", "n": 12, "k": 0}, {"l": "B", "x": "Secondary", "n": 10, "k": 0}, {"l": "C", "x": "Tertiary", "n": 9, "k": 0}, {"l": "D", "x": "Quaternary", "n": 13, "k": 1}, {"l": "E", "x": "Quinary", "n": 3, "k": 0}]}, {"n": 38, "w": 5, "t": "Concept", "pts": 1, "topic": "The minimum viable process", "p": 70.2127659574468, "c": 33, "b": 0, "o": [{"l": "A", "x": "Formal documentation is a legal requirement for small firms", "n": 2, "k": 0}, {"l": "B", "x": "Even simple processes carry a quality risk from variability", "n": 33, "k": 1}, {"l": "C", "x": "Documentation replaces the need for quality checks", "n": 0, "k": 0}, {"l": "D", "x": "Investors require a process manual before funding", "n": 4, "k": 0}, {"l": "E", "x": "It lets the owner approve every step personally", "n": 8, "k": 0}]}, {"n": 39, "w": 6, "t": "Concept", "pts": 1, "topic": "What performance management focuses on", "p": 74.46808510638297, "c": 35, "b": 0, "o": [{"l": "A", "x": "Hours logged and activity recorded", "n": 1, "k": 0}, {"l": "B", "x": "Behaviours and outcomes, reviewed as a learning loop", "n": 35, "k": 1}, {"l": "C", "x": "Annual ranking of employees against one another", "n": 3, "k": 0}, {"l": "D", "x": "The number of tasks completed each week", "n": 6, "k": 0}, {"l": "E", "x": "Attendance and punctuality records", "n": 2, "k": 0}]}, {"n": 40, "w": 6, "t": "Concept", "pts": 1, "topic": "Change management: balancing speed with adoption", "p": 89.36170212765957, "c": 42, "b": 0, "o": [{"l": "A", "x": "Announce once, enforce immediately, measure compliance", "n": 1, "k": 0}, {"l": "B", "x": "Delegate to a consultant and review after a year", "n": 0, "k": 0}, {"l": "C", "x": "Introduce it quietly so nobody resists", "n": 0, "k": 0}, {"l": "D", "x": "Postpone until every stakeholder agrees", "n": 4, "k": 0}, {"l": "E", "x": "Explain why, involve the right people, stage the rollout", "n": 42, "k": 1}]}]}</script>
+<script type="application/json" id="wlabels">{"1": "Week 1 · Needs and creativity", "2": "Week 2 · Process and business model", "3": "Week 3 · Feasibility and discovery", "4": "Week 4 · Classification and legal form", "5": "Week 5 · SMEs", "6": "Week 6 · Management functions"}</script>
+<script>
+(function(){
+  var D = JSON.parse(document.getElementById('qdata').textContent);
+  var TYPE_LABEL = {"Case":"Case-based","Statement":"I–IV statement evaluation","Concept":"Concept"};
+  var WEEK_LABEL = JSON.parse(document.getElementById('wlabels').textContent);
+
+  var sc = D.scores.slice().sort(function(a,b){return a-b;});
+  var avg = sc.reduce(function(a,b){return a+b;},0)/sc.length;
+  var med = sc.length%2 ? sc[(sc.length-1)/2] : (sc[sc.length/2-1]+sc[sc.length/2])/2;
+  document.getElementById('s-n').textContent   = D.n;
+  document.getElementById('s-avg').textContent = Math.round(avg);
+  document.getElementById('s-med').textContent = Math.round(med);
+  document.getElementById('s-rng').textContent = sc[0] + '–' + sc[sc.length-1];
+
+  (function(){
+    var lo=40, hi=100, step=5, bins=[];
+    for(var s=lo;s<hi;s+=step) bins.push({a:s,b:s+step,n:0});
+    sc.forEach(function(v){
+      var i = Math.min(bins.length-1, Math.max(0, Math.floor((v-lo)/step)));
+      bins[i].n++;
+    });
+    var W=760,H=240, mL=34,mR=14,mT=16,mB=44;
+    var pw=W-mL-mR, ph=H-mT-mB;
+    var maxN=Math.max.apply(null,bins.map(function(d){return d.n;}));
+    var yTicks=[0, Math.ceil(maxN/2), maxN];
+    var x=function(v){return mL + (v-lo)/(hi-lo)*pw;};
+    var y=function(v){return mT + ph - v/maxN*ph;};
+    var p=[];
+    p.push('<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Puan dağılımı histogramı">');
+    yTicks.forEach(function(t){
+      p.push('<line x1="'+mL+'" x2="'+(W-mR)+'" y1="'+y(t)+'" y2="'+y(t)+'" stroke="var(--line)" stroke-width="1"/>');
+      p.push('<text x="'+(mL-7)+'" y="'+(y(t)+4)+'" text-anchor="end" font-size="11" fill="var(--ink3)" font-family="var(--sans)">'+t+'</text>');
+    });
+    bins.forEach(function(d){
+      if(!d.n) return;
+      var bx=x(d.a)+1.5, bw=x(d.b)-x(d.a)-3;
+      p.push('<rect x="'+bx+'" y="'+y(d.n)+'" width="'+bw+'" height="'+(y(0)-y(d.n))+'" rx="3" fill="var(--accent)"><title>'+d.a+'–'+d.b+' points: '+d.n+' students</title></rect>');
+      p.push('<text x="'+(bx+bw/2)+'" y="'+(y(d.n)-6)+'" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink2)" font-family="var(--sans)">'+d.n+'</text>');
+    });
+    for(var t2=lo;t2<=hi;t2+=10)
+      p.push('<text x="'+x(t2)+'" y="'+(mT+ph+18)+'" text-anchor="middle" font-size="11" fill="var(--ink3)" font-family="var(--sans)">'+t2+'</text>');
+    p.push('<line x1="'+x(avg)+'" x2="'+x(avg)+'" y1="'+mT+'" y2="'+(mT+ph)+'" stroke="var(--ink2)" stroke-width="1.2" stroke-dasharray="4 3"/>');
+    p.push('<text x="'+(x(avg)+6)+'" y="'+(mT+12)+'" font-size="11" fill="var(--ink2)" font-family="var(--sans)">mean '+Math.round(avg)+'</text>');
+    p.push('<text x="'+(mL+pw/2)+'" y="'+(H-6)+'" text-anchor="middle" font-size="11" fill="var(--ink3)" font-family="var(--sans)">Puan (100 üzerinden)</text>');
+    p.push('</svg>');
+    document.getElementById('hist').innerHTML = p.join('');
+  })();
+
+  function cmp(el, rows){
+    el.innerHTML = rows.map(function(r){
+      var low = r.v < 60;
+      return '<div class="cmprow">'
+        + '<div class="cmptop"><span>'+r.label+' <span class="sub">('+r.sub+')</span></span><b>'+Math.round(r.v)+'%</b></div>'
+        + '<div class="track"><div class="fill'+(low?' low':'')+'" style="width:'+r.v+'%"></div></div>'
+        + '</div>';
+    }).join('');
+  }
+  cmp(document.getElementById('cmp-type'), ["Case","Concept","Statement"].map(function(k){
+    return {label:TYPE_LABEL[k], sub:D.typecount[k]+' questions', v:D.types[k]};
+  }));
+  cmp(document.getElementById('cmp-week'), Object.keys(D.weeks).sort().map(function(k){
+    return {label:WEEK_LABEL[k], sub:D.weekcount[k]+' questions', v:D.weeks[k]};
+  }));
+
+  var state = {w:'all', t:'all', only:false, open:null};
+  var list = document.getElementById('qlist');
+  var empty = document.getElementById('qempty');
+
+  function detailHTML(q){
+    var max = Math.max.apply(null, q.o.map(function(o){return o.n;}));
+    var opts = q.o.map(function(o){
+      var heavy = (!o.k && o.n === max && o.n > 0);
+      var w = max ? (o.n/max*100) : 0;
+      return '<div class="opt'+(o.k?' correct':'')+(heavy?' heavy':'')+'">'
+        + '<span class="ltr">'+o.l+'</span>'
+        + '<span class="txt">'+o.x
+        + '<span class="obar"><i style="width:'+w+'%"></i></span>'
+        + '<span class="cnt">'+o.n+' students'+(o.k?' · correct answer':'')+'</span>'
+        + '</span></div>';
+    }).join('');
+    return '<div class="detail'+(q.p<60?' low':'')+'" id="det-'+q.n+'">'
+      + '<div class="meta">'+'Week '+q.w+' · '+TYPE_LABEL[q.t]+' · '+q.pts+(q.pts===1?' point · ':' points · ')+q.c+'/'+D.n+' correct'+(q.b?' · '+q.b+' blank':'')+'</div>'
+      + '<h3>'+q.topic+'</h3>' + opts + '</div>';
+  }
+
+  function render(){
+    var shown = D.q.filter(function(q){
+      if(state.w !== 'all' && String(q.w) !== state.w) return false;
+      if(state.t !== 'all' && q.t !== state.t) return false;
+      if(state.only && q.p >= 60) return false;
+      return true;
+    });
+    empty.hidden = shown.length > 0;
+    list.innerHTML = shown.map(function(q){
+      var low = q.p < 60, op = state.open === q.n;
+      return '<button class="qrow" type="button" data-q="'+q.n+'" aria-expanded="'+op+'" aria-controls="det-'+q.n+'">'
+        + '<span class="qnum">'+q.n+'</span>'
+        + '<span class="track"><span class="fill'+(low?' low':'')+'" style="width:'+q.p+'%"></span></span>'
+        + '<span class="qpct'+(low?' low':'')+'">'+Math.round(q.p)+'%</span>'
+        + '</button>'
+        + (op ? detailHTML(q) : '');
+    }).join('');
+  }
+
+  list.addEventListener('click', function(e){
+    var b = e.target.closest('.qrow'); if(!b) return;
+    var n = parseInt(b.dataset.q,10);
+    state.open = (state.open === n) ? null : n;
+    render();
+    var again = list.querySelector('.qrow[data-q="'+n+'"]');
+    if(again) again.focus();
+  });
+
+  document.querySelectorAll('.toolbar .chip').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if(btn.dataset.only){
+        state.only = !state.only;
+        btn.setAttribute('aria-pressed', String(state.only));
+      } else {
+        var key = btn.dataset.w ? 'w' : 't';
+        var val = btn.dataset.w || btn.dataset.t;
+        state[key] = val;
+        btn.parentNode.querySelectorAll('.chip').forEach(function(o){
+          if(o.dataset.only) return;
+          o.setAttribute('aria-pressed', String(o === btn));
+        });
+      }
+      state.open = null;
+      render();
+    });
+  });
+  render();
+
+  var root = document.documentElement, tb = document.getElementById('themebtn');
+  try { var saved = localStorage.getItem('bme-theme'); if(saved) root.setAttribute('data-theme', saved); } catch(e){}
+  tb.addEventListener('click', function(){
+    var dark = root.getAttribute('data-theme') === 'dark'
+      || (!root.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches);
+    var next = dark ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('bme-theme', next); } catch(e){}
+  });
+})();
+</script>
+
+</body>
+</html>
