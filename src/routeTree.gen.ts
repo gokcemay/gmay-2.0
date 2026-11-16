@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShortCodeRouteImport } from './routes/$shortCode'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AiStepRouteImport } from './routes/ai-step'
 import { Route as ArticlesRouteImport } from './routes/articles'
 import { Route as EgitimRouteImport } from './routes/egitim'
 import { Route as IletisimRouteImport } from './routes/iletisim'
@@ -49,6 +50,11 @@ const ShortCodeRoute = ShortCodeRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiStepRoute = AiStepRouteImport.update({
+  id: '/ai-step',
+  path: '/ai-step',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ArticlesRoute = ArticlesRouteImport.update({
@@ -180,6 +186,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$shortCode': typeof ShortCodeRoute
   '/about': typeof AboutRoute
+  '/ai-step': typeof AiStepRoute
   '/articles': typeof ArticlesRoute
   '/egitim': typeof EgitimRoute
   '/iletisim': typeof IletisimRoute
@@ -208,6 +215,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$shortCode': typeof ShortCodeRoute
   '/about': typeof AboutRoute
+  '/ai-step': typeof AiStepRoute
   '/articles': typeof ArticlesRoute
   '/egitim': typeof EgitimRoute
   '/iletisim': typeof IletisimRoute
@@ -237,6 +245,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/$shortCode': typeof ShortCodeRoute
   '/about': typeof AboutRoute
+  '/ai-step': typeof AiStepRoute
   '/articles': typeof ArticlesRoute
   '/egitim': typeof EgitimRoute
   '/iletisim': typeof IletisimRoute
@@ -267,6 +276,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$shortCode'
     | '/about'
+    | '/ai-step'
     | '/articles'
     | '/egitim'
     | '/iletisim'
@@ -295,6 +305,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$shortCode'
     | '/about'
+    | '/ai-step'
     | '/articles'
     | '/egitim'
     | '/iletisim'
@@ -323,6 +334,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$shortCode'
     | '/about'
+    | '/ai-step'
     | '/articles'
     | '/egitim'
     | '/iletisim'
@@ -352,6 +364,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ShortCodeRoute: typeof ShortCodeRoute
   AboutRoute: typeof AboutRoute
+  AiStepRoute: typeof AiStepRoute
   ArticlesRoute: typeof ArticlesRoute
   EgitimRoute: typeof EgitimRoute
   IletisimRoute: typeof IletisimRoute
@@ -398,6 +411,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-step': {
+      id: '/ai-step'
+      path: '/ai-step'
+      fullPath: '/ai-step'
+      preLoaderRoute: typeof AiStepRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/articles': {
@@ -568,6 +588,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ShortCodeRoute: ShortCodeRoute,
   AboutRoute: AboutRoute,
+  AiStepRoute: AiStepRoute,
   ArticlesRoute: ArticlesRoute,
   EgitimRoute: EgitimRoute,
   IletisimRoute: IletisimRoute,
