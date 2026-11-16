@@ -21,4 +21,4 @@
 
 - Keep Contact Stress Studio equations and axial sampling in a pure browser-safe module, with an independent canvas renderer; preserve uploaded numerical behavior and label coating/yield plots as homogeneous elastic screening.
 - Keep contact submissions email-only through a dedicated same-origin POST handler with shared validation and server-only Resend credentials; never store messages or expose a generic send endpoint.
-- Keep product-concept landing pages in dedicated TanStack routes with scoped themes and a separate page shell; explicitly distinguish illustrative interactions from working CAD functionality.
+- Keep product-concept landing pages in dedicated TanStack routes with scoped themes and a separate page shell; reuse the STEP page for its localized address and resolve address-specific language defaults through the shared locale resolver so SSR and hydration agree; explicitly distinguish illustrative interactions from working CAD functionality.

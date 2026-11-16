@@ -33,6 +33,7 @@ const CASE_SENSITIVE_CONTENT_ROUTES = new Set([
   "/research",
   "/about",
   "/ai-step",
+  "/yz-step",
   "/iletisim",
   "/lab/hertz-contact-calculator",
   "/lab/hertz-line-contact-calculator",
@@ -122,7 +123,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient; lang
     if (lower !== location.pathname && CASE_SENSITIVE_CONTENT_ROUTES.has(lower)) {
       throw redirect({ href: `${lower}${location.searchStr}`, statusCode: 301 });
     }
-    return { language: resolveLanguage(search.lang) };
+    return { language: resolveLanguage(search.lang, location.pathname) };
   },
   head: ({ match }) => (localizeHead({
     meta: [
@@ -223,7 +224,7 @@ function RootComponent() {
   const location = useLocation();
   const analyticsInitialized = useRef(false);
   const standalone = location.pathname.replace(/\/$/, '') === '/lab/cadquery-prompt';
-  const isolatedLayout = standalone || location.pathname.replace(/\/$/, '') === '/ai-step';
+  const isolatedLayout = standalone || ['/ai-step', '/yz-step'].includes(location.pathname.replace(/\/$/, ''));
 
   useEffect(() => {
     if (standalone) return;

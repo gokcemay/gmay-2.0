@@ -13,6 +13,17 @@ test('Turkish remains an explicit alternative', () => {
   assert.equal(resolveLanguage('en'), 'en');
 });
 
+test('the Turkish STEP address opens in Turkish without changing the site default', () => {
+  assert.equal(resolveLanguage(undefined, '/yz-step'), 'tr');
+  assert.equal(resolveLanguage(undefined, '/ai-step'), 'en');
+  assert.equal(resolveLanguage(undefined, '/'), 'en');
+});
+
+test('the STEP language selector overrides the address default', () => {
+  assert.equal(resolveLanguage('en', '/yz-step'), 'en');
+  assert.equal(resolveLanguage('tr', '/ai-step'), 'tr');
+});
+
 test('CadQuery generates English specifications without changing dimensions or hole counts', () => {
   const form = exampleForm('en');
   const prompt = buildCadPrompt(form, 'en');

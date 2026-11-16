@@ -1,4 +1,4 @@
-import { useSearch } from '@tanstack/react-router';
+import { useLocation, useSearch } from '@tanstack/react-router';
 import { resolveLanguage, type Language } from './language';
 import { breadcrumbSchema, pageUrl, searchCopy } from './seo';
 
@@ -7,7 +7,8 @@ import { translate } from './translate';
 
 export function useLanguage(): Language {
   const search = useSearch({ strict: false });
-  return resolveLanguage(search['lang']);
+  const location = useLocation();
+  return resolveLanguage(search['lang'], location.pathname);
 }
 
 export function useT() {
