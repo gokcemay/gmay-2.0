@@ -19,6 +19,7 @@ import { Route as IletisimRouteImport } from './routes/iletisim'
 import { Route as KitaplarRouteImport } from './routes/kitaplar'
 import { Route as LabRouteImport } from './routes/lab'
 import { Route as ResearchRouteImport } from './routes/research'
+import { Route as YzStepRouteImport } from './routes/yz-step'
 import { Route as AraclarTeknikRaporStiliRouteImport } from './routes/araclar.teknik-rapor-stili'
 import { Route as AraclarTeknikResimCadRouteImport } from './routes/araclar.teknik-resim-cad'
 import { Route as LabCadqueryPromptRouteImport } from './routes/lab_.cadquery-prompt'
@@ -85,6 +86,11 @@ const LabRoute = LabRouteImport.update({
 const ResearchRoute = ResearchRouteImport.update({
   id: '/research',
   path: '/research',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const YzStepRoute = YzStepRouteImport.update({
+  id: '/yz-step',
+  path: '/yz-step',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AraclarTeknikRaporStiliRoute = AraclarTeknikRaporStiliRouteImport.update({
@@ -193,6 +199,7 @@ export interface FileRoutesByFullPath {
   '/kitaplar': typeof KitaplarRoute
   '/lab': typeof LabRoute
   '/research': typeof ResearchRoute
+  '/yz-step': typeof YzStepRoute
   '/araclar/teknik-rapor-stili': typeof AraclarTeknikRaporStiliRoute
   '/araclar/teknik-resim-cad': typeof AraclarTeknikResimCadRoute
   '/lab/cadquery-prompt': typeof LabCadqueryPromptRoute
@@ -222,6 +229,7 @@ export interface FileRoutesByTo {
   '/kitaplar': typeof KitaplarRoute
   '/lab': typeof LabRoute
   '/research': typeof ResearchRoute
+  '/yz-step': typeof YzStepRoute
   '/araclar/teknik-rapor-stili': typeof AraclarTeknikRaporStiliRoute
   '/araclar/teknik-resim-cad': typeof AraclarTeknikResimCadRoute
   '/lab/cadquery-prompt': typeof LabCadqueryPromptRoute
@@ -252,6 +260,7 @@ export interface FileRoutesById {
   '/kitaplar': typeof KitaplarRoute
   '/lab': typeof LabRoute
   '/research': typeof ResearchRoute
+  '/yz-step': typeof YzStepRoute
   '/araclar/teknik-rapor-stili': typeof AraclarTeknikRaporStiliRoute
   '/araclar/teknik-resim-cad': typeof AraclarTeknikResimCadRoute
   '/lab_/cadquery-prompt': typeof LabCadqueryPromptRoute
@@ -283,6 +292,7 @@ export interface FileRouteTypes {
     | '/kitaplar'
     | '/lab'
     | '/research'
+    | '/yz-step'
     | '/araclar/teknik-rapor-stili'
     | '/araclar/teknik-resim-cad'
     | '/lab/cadquery-prompt'
@@ -312,6 +322,7 @@ export interface FileRouteTypes {
     | '/kitaplar'
     | '/lab'
     | '/research'
+    | '/yz-step'
     | '/araclar/teknik-rapor-stili'
     | '/araclar/teknik-resim-cad'
     | '/lab/cadquery-prompt'
@@ -341,6 +352,7 @@ export interface FileRouteTypes {
     | '/kitaplar'
     | '/lab'
     | '/research'
+    | '/yz-step'
     | '/araclar/teknik-rapor-stili'
     | '/araclar/teknik-resim-cad'
     | '/lab_/cadquery-prompt'
@@ -371,6 +383,7 @@ export interface RootRouteChildren {
   KitaplarRoute: typeof KitaplarRoute
   LabRoute: typeof LabRoute
   ResearchRoute: typeof ResearchRoute
+  YzStepRoute: typeof YzStepRoute
   AraclarTeknikRaporStiliRoute: typeof AraclarTeknikRaporStiliRoute
   AraclarTeknikResimCadRoute: typeof AraclarTeknikResimCadRoute
   LabCadqueryPromptRoute: typeof LabCadqueryPromptRoute
@@ -460,6 +473,13 @@ declare module '@tanstack/react-router' {
       path: '/research'
       fullPath: '/research'
       preLoaderRoute: typeof ResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/yz-step': {
+      id: '/yz-step'
+      path: '/yz-step'
+      fullPath: '/yz-step'
+      preLoaderRoute: typeof YzStepRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/araclar/teknik-rapor-stili': {
@@ -595,6 +615,7 @@ const rootRouteChildren: RootRouteChildren = {
   KitaplarRoute: KitaplarRoute,
   LabRoute: LabRoute,
   ResearchRoute: ResearchRoute,
+  YzStepRoute: YzStepRoute,
   AraclarTeknikRaporStiliRoute: AraclarTeknikRaporStiliRoute,
   AraclarTeknikResimCadRoute: AraclarTeknikResimCadRoute,
   LabCadqueryPromptRoute: LabCadqueryPromptRoute,
