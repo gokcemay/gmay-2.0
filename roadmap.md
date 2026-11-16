@@ -1,3 +1,7 @@
+# AI STEP concept landing page
+- [x] Turn the uploaded presentation into a bilingual interactive product-concept page at /ai-step, with no homepage link.
+- [x] Verify scenario controls, pilot email, mobile layout and metadata.
+
 # Contact form and Resend setup
 - [x] Read Resend setup instructions and connect the sending account.
 - [x] Replace inactive notice with validated bilingual email-only contact form.

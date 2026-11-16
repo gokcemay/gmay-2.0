@@ -32,6 +32,7 @@ const CASE_SENSITIVE_CONTENT_ROUTES = new Set([
   "/articles",
   "/research",
   "/about",
+  "/ai-step",
   "/iletisim",
   "/lab/hertz-contact-calculator",
   "/lab/hertz-line-contact-calculator",
@@ -222,6 +223,7 @@ function RootComponent() {
   const location = useLocation();
   const analyticsInitialized = useRef(false);
   const standalone = location.pathname.replace(/\/$/, '') === '/lab/cadquery-prompt';
+  const isolatedLayout = standalone || location.pathname.replace(/\/$/, '') === '/ai-step';
 
   useEffect(() => {
     if (standalone) return;
@@ -236,7 +238,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {tx(standalone ? <Outlet /> : (
+      {tx(isolatedLayout ? <Outlet /> : (
       <div className="flex min-h-screen flex-col bg-background">
         <SiteHeader />
         <main className="flex-1">
