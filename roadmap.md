@@ -1,3 +1,8 @@
+# Agenda subdomain
+- [x] Install the supplied HTML unchanged and serve only the agenda host's root independently of the existing site.
+- [x] Verify Kobo Libra Colour preview, downloaded PDF (743 pages, matching aspect ratio and internal links), and unchanged site home/routes; three host-routing tests pass.
+- [ ] Complete live domain routing: DNS verification pending, owner must unset gmay.me as primary to stop cross-domain redirects and publish changes.
+
 # AI STEP concept landing page
 - [x] Turn the uploaded presentation into a bilingual interactive product-concept page at /ai-step, with no homepage link.
 - [x] Verify scenario controls, pilot email, mobile layout and metadata.
