@@ -200,7 +200,12 @@
   .row2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .row3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .row2 .field, .row3 .field { margin-bottom: 0; }
-  .theme-field, .holiday-field { padding: 0; border: 0; margin: 0; min-width: 0; }
+  .theme-field, .holiday-field, .month-field { padding: 0; border: 0; margin: 0; min-width: 0; }
+  .month-field { margin-bottom: 15px; }
+  .month-field legend { padding: 0; font-size: 0.9rem; font-weight: 660; }
+  .month-field .field-hint { margin: 4px 0 6px; }
+  .month-selection { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px 10px; }
+  .month-selection label { font-size: 0.875rem; cursor: pointer; }
   .holiday-field { margin-top: 16px; }
   .holiday-field legend {
     padding: 0;
@@ -297,6 +302,7 @@
     background-image: radial-gradient(#8474a849 0.9px, transparent 0.9px);
     background-size: 10px 10px;
   }
+  .preview-stage[hidden] { display: none; }
   .pv-page {
     flex: none;
     zoom: var(--preview-zoom, 1);
@@ -313,7 +319,7 @@
   }
   .pv-months { display: flex; gap: 1.5px; justify-content: center; margin-bottom: 8px; }
   .pv-months span {
-    flex: 1; text-align: center; padding: 2.5px 0;
+    flex: 0 1 calc((100% - 16.5px) / 12); text-align: center; padding: 2.5px 0;
     background: var(--paper-tab); color: var(--paper-muted);
     font-weight: 700; letter-spacing: 0.5px; font-size: 5.5px;
     border-radius: 1.5px;
@@ -381,7 +387,7 @@
   @media (max-width: 440px) {
     .header-nav { gap: 12px; }
     .intro h1 { letter-spacing: -0.05em; }
-    .row3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .row3, .month-selection { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .row3 .field:last-child { grid-column: 1 / -1; }
     .theme-label { gap: 5px; padding-inline: 6px; }
     .theme-label::before { flex-basis: 15px; height: 15px; }
@@ -429,6 +435,11 @@
           <label for="calYear">Takvim yılı</label>
           <select id="calYear"></select>
         </div>
+        <fieldset class="month-field" aria-describedby="monthHint">
+          <legend>PDF’ye eklenecek aylar</legend>
+          <p class="field-hint" id="monthHint">Çıkarmak istediğin ayların işaretini kaldır.</p>
+          <div class="month-selection" id="monthSelection"></div>
+        </fieldset>
         <div class="row2">
           <div class="field">
             <label for="weekStart">Haftanın ilk günü</label>
@@ -540,6 +551,7 @@
     <a href="https://github.com/gokcemay/Gunluk_Ajanda">Türkçe sürüm · Gunluk_Ajanda</a>
     <a href="https://github.com/Cosmo-NZ/Daily_Planner">Özgün proje · Daily Planner</a>
     <a href="https://github.com/gokcemay">GitHub profili · @gokcemay</a>
+    <a href="https://gmay.me/">Kişisel site · gmay.me</a>
     <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">Lisans · CC BY-NC 4.0</a>
   </nav>
 </footer>
@@ -1049,6 +1061,21 @@ fillTimeSelect(document.getElementById('schedEnd'), 360, 1200, 1020);   // 06:00
   }
 })();
 
+(function fillMonthSelection() {
+  const selection = document.getElementById('monthSelection');
+  MONTHS.forEach((name, month) => {
+    const label = document.createElement('label');
+    label.className = 'check';
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.name = 'plannerMonth';
+    input.value = month;
+    input.checked = true;
+    label.append(input, name[0] + name.slice(1).toLocaleLowerCase('tr-TR'));
+    selection.appendChild(label);
+  });
+})();
+
 /* ============================== fonts ============================== */
 // Each entry: family name (used for both the CSS @font-face and the jsPDF font), a CSS
 // fallback stack, the dropdown group, and a Latin and Turkish subset of a bold (700) TTF as base64. The whole
@@ -1161,6 +1188,7 @@ function readOptions() {
     pageShape: PAGE_SHAPES[document.getElementById('pageShape').value] ? document.getElementById('pageShape').value : DEFAULT_SHAPE,
     name: document.getElementById('docName').value.trim() || 'Günlük Ajanda',
     year: parseInt(document.getElementById('calYear').value, 10),
+    months: Array.from(document.querySelectorAll('input[name="plannerMonth"]:checked'), input => Number(input.value)),
     weekStart: parseInt(document.getElementById('weekStart').value, 10), // 1 = Mon, 0 = Sun
     leftHanded: document.getElementById('handedness').value === 'left',
     schedStart: parseInt(document.getElementById('schedStart').value, 10),
@@ -1174,14 +1202,10 @@ function readOptions() {
 }
 
 /* ============================== date helpers ============================== */
-function daysInYear(year) {
-  const days = [];
-  const d = new Date(year, 0, 1);
-  while (d.getFullYear() === year) {
-    days.push(new Date(d));
-    d.setDate(d.getDate() + 1);
-  }
-  return days;
+function daysInMonths(year, months) {
+  return months.flatMap(month =>
+    Array.from({ length: new Date(year, month + 1, 0).getDate() }, (_, day) => new Date(year, month, day + 1))
+  );
 }
 function dateKey(d) {
   return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
@@ -1341,12 +1365,12 @@ function usFederalHolidays(year) {
   });
 }
 
-function holidaysForYear(year, codes) {
+function holidaysForYear(year, codes, months) {
   const calendar = new Map();
   for (const code of codes) {
     for (const holiday of HOLIDAY_CALENDARS[code].dates(year)) {
       const { date } = holiday;
-      if (date.getUTCFullYear() !== year) continue;
+      if (date.getUTCFullYear() !== year || (months && !months.includes(date.getUTCMonth()))) continue;
       const key = year + '-' + (date.getUTCMonth() + 1) + '-' + date.getUTCDate();
       if (!calendar.has(key)) calendar.set(key, []);
       calendar.get(key).push({ code, ...holiday });
@@ -1360,11 +1384,14 @@ function holidayLabel({ code, title, observed, projected }) {
 }
 
 /* ============================== page estimate ============================== */
-function updateEstimate() {
-  const o = readOptions();
-  const n = daysInYear(o.year).length;
-  const total = (o.cover ? 1 : 0) + 12 + n * (1 + o.notesPages);   // cover + 12 month pages + days
-  document.getElementById('pageEstimate').textContent = total.toLocaleString('tr-TR') + ' sayfa · ' + n + ' gün';
+let generatingPdf = false;
+
+function updateEstimate(o, dayCount) {
+  const empty = o.months.length === 0;
+  document.getElementById('generateBtn').disabled = generatingPdf || empty;
+  const total = (o.cover ? 1 : 0) + o.months.length + dayCount * (1 + o.notesPages);
+  document.getElementById('pageEstimate').textContent = empty ? 'PDF için en az bir ay seç.' :
+    total.toLocaleString('tr-TR') + ' sayfa · ' + dayCount + ' gün';
 }
 
 /* ============================== PDF drawing ============================== */
@@ -1394,16 +1421,17 @@ function triangle(doc, cx, cy, size, dir, color) {
   else doc.triangle(cx - s/2, cy - s*0.6, cx - s/2, cy + s*0.6, cx + s/2, cy, 'F');
 }
 
-function drawMonthTabs(doc, theme, monthIdx, monthPage) {
+function drawMonthTabs(doc, theme, monthIdx, months, monthPage) {
   const tabW = CW / 12, tabH = 20, y = 14;
-  for (let i = 0; i < 12; i++) {
-    const x = CL + i * tabW;
-    doc.setFillColor(i === monthIdx ? theme.selected : theme.tab);
+  const start = (PW - months.length * tabW) / 2;
+  months.forEach((month, i) => {
+    const x = start + i * tabW;
+    doc.setFillColor(month === monthIdx ? theme.selected : theme.tab);
     doc.roundedRect(x + 0.75, y, tabW - 1.5, tabH, 3, 3, 'F');
-    capsText(doc, theme, MONTHS_ABBR[i], x + tabW / 2, y + 13, 7.5,
-      { color: i === monthIdx ? theme.ink : theme.muted, align: 'center', charSpace: 0.7 });
-    doc.link(x, y, tabW, tabH, { pageNumber: monthPage[i] });
-  }
+    capsText(doc, theme, MONTHS_ABBR[month], x + tabW / 2, y + 13, 7.5,
+      { color: month === monthIdx ? theme.ink : theme.muted, align: 'center', charSpace: 0.7 });
+    doc.link(x, y, tabW, tabH, { pageNumber: monthPage[month] });
+  });
 }
 
 // ◀ ▶ buttons in the header (right edge, or left edge for left-handed users).
@@ -1424,11 +1452,12 @@ function drawNavButtons(doc, theme, LH, prevPg, nextPg) {
 function drawMonthPage(doc, theme, ctx) {
   const { month, o, pageOf, monthPage, holidays } = ctx;
   const LH = o.leftHanded;
-  drawMonthTabs(doc, theme, month, monthPage);
+  drawMonthTabs(doc, theme, month, o.months, monthPage);
 
-  // ◀ previous month (January's goes to the cover, if there is one) / next month ▶
-  drawNavButtons(doc, theme, LH, month > 0 ? monthPage[month - 1] : (o.cover ? 1 : null),
-                          month < 11 ? monthPage[month + 1] : null);
+  const position = o.months.indexOf(month);
+  const previous = position > 0 ? monthPage[o.months[position - 1]] : (o.cover ? 1 : null);
+  const next = monthPage[o.months[position + 1]];
+  drawNavButtons(doc, theme, LH, previous, next);
   capsText(doc, theme, MONTHS[month] + ' ' + o.year, LH ? CR : CL, 60, 14.5, { charSpace: 1.8, align: LH ? 'right' : 'left' });
 
   if (holidays.size) {
@@ -1485,18 +1514,33 @@ function drawMonthPage(doc, theme, ctx) {
   for (let y = notesTop + 5 + 24; y <= PH - M; y += 24) doc.line(CL, y, CR, y);
 }
 
+function weekTargetPage(date, offset, months, pageOf) {
+  const year = date.getFullYear();
+  const target = new Date(year, date.getMonth(), date.getDate() + offset);
+  const exact = pageOf[dateKey(target)];
+  if (exact) return exact;
+
+  const first = new Date(year, months[0], 1);
+  const last = new Date(year, months[months.length - 1] + 1, 0);
+  if (target < first) return pageOf[dateKey(first)];
+  if (target > last) return pageOf[dateKey(last)];
+
+  // If the target falls in an omitted month, continue in the same direction.
+  const targetMonth = target.getMonth();
+  const boundary = offset < 0 ?
+    new Date(year, months.filter(month => month < targetMonth).pop() + 1, 0) :
+    new Date(year, months.find(month => month > targetMonth), 1);
+  return pageOf[dateKey(boundary)];
+}
+
 function drawDayHeader(doc, theme, ctx) {
   // ctx: { date, o, pageOf, monthPage, mode ('plan'|'notes'), noteIdx }
   const { date, o, pageOf, monthPage, mode } = ctx;
   const LH = o.leftHanded;
-  drawMonthTabs(doc, theme, date.getMonth(), monthPage);
+  drawMonthTabs(doc, theme, date.getMonth(), o.months, monthPage);
 
-  // prev / next week buttons
-  const prev = new Date(date); prev.setDate(date.getDate() - 7);
-  const next = new Date(date); next.setDate(date.getDate() + 7);
-  // jump a full week; clamp to first/last day of the year at the boundaries
-  const prevPg = pageOf[dateKey(prev)] || pageOf[dateKey(new Date(date.getFullYear(), 0, 1))];
-  const nextPg = pageOf[dateKey(next)] || pageOf[dateKey(new Date(date.getFullYear(), 11, 31))];
+  const prevPg = weekTargetPage(date, -7, o.months, pageOf);
+  const nextPg = weekTargetPage(date, 7, o.months, pageOf);
   drawNavButtons(doc, theme, LH, prevPg, nextPg);
 
   // title
@@ -1709,20 +1753,23 @@ function drawCover(doc, theme, o, monthPage) {
       { color: theme.muted, charSpace: 0, align: 'center' });
   }
 
-  // month grid 4 x 3
+  // Up to four selected months per row.
   const bw = 92, bh = 46, gx = 14, gy = 16;
-  const gridW = 4 * bw + 3 * gx;
-  const x0 = (PW - gridW) / 2, y0 = 392 + dy;
-  for (let i = 0; i < 12; i++) {
-    const x = x0 + (i % 4) * (bw + gx);
+  const y0 = 392 + dy;
+  o.months.forEach((month, i) => {
+    const column = i % 4;
+    const rowCount = Math.min(4, o.months.length - (i - column));
+    const rowWidth = rowCount * bw + (rowCount - 1) * gx;
+    const x = (PW - rowWidth) / 2 + column * (bw + gx);
     const y = y0 + Math.floor(i / 4) * (bh + gy);
     doc.setFillColor('#ffffff');
     doc.setDrawColor(theme.rule); doc.setLineWidth(0.8);
     doc.roundedRect(x, y, bw, bh, 5, 5, 'FD');
-    capsText(doc, theme, MONTHS_ABBR[i], x + bw / 2, y + bh / 2 + 4, 11, { charSpace: 2, align: 'center' });
-    doc.link(x, y, bw, bh, { pageNumber: monthPage[i] });
-  }
-  capsText(doc, theme, 'BAŞLAMAK İÇİN BİR AYA DOKUNUN', PW / 2, y0 + 3 * (bh + gy) + 18, 7.5, { color: theme.muted, charSpace: 2, align: 'center' });
+    capsText(doc, theme, MONTHS_ABBR[month], x + bw / 2, y + bh / 2 + 4, 11, { charSpace: 2, align: 'center' });
+    doc.link(x, y, bw, bh, { pageNumber: monthPage[month] });
+  });
+  const rows = Math.ceil(o.months.length / 4);
+  capsText(doc, theme, 'BAŞLAMAK İÇİN BİR AYA DOKUNUN', PW / 2, y0 + rows * (bh + gy) + 18, 7.5, { color: theme.muted, charSpace: 2, align: 'center' });
 }
 
 /* ============================== jsPDF loader (CDN-first, embedded fallback) ============================== */
@@ -1782,8 +1829,8 @@ function buildPdf(o, onProgress) {
         PDF_FONT = fdef.name;
       } catch (e) { console.warn('Font embed failed; using Helvetica.', e); }
 
-      const days = daysInYear(o.year);
-      const holidays = holidaysForYear(o.year, o.holidayCountries || []);
+      const days = daysInMonths(o.year, o.months);
+      const holidays = holidaysForYear(o.year, o.holidayCountries || [], o.months);
 
       // Page map (1-based): [cover], then for each month its calendar page followed by
       // each day's Daily Plan page and that day's Daily Notes pages.
@@ -1846,6 +1893,8 @@ async function generate() {
   const fill = document.getElementById('progressFill');
   const label = document.getElementById('progressLabel');
   const o = readOptions();
+  if (generatingPdf || !o.months.length) return;
+  generatingPdf = true;
   btn.disabled = true;
   wrap.style.display = 'block';
   fill.style.width = '0%';
@@ -1869,7 +1918,9 @@ async function generate() {
     label.textContent = 'PDF oluşturulamadı. Lütfen tekrar deneyin.';
     console.error(err);
   } finally {
-    btn.disabled = false;
+    generatingPdf = false;
+    const current = readOptions();
+    updateEstimate(current, daysInMonths(current.year, current.months).length);
   }
 }
 document.getElementById('generateBtn').addEventListener('click', generate);
@@ -1878,6 +1929,16 @@ document.getElementById('generateBtn').addEventListener('click', generate);
 function renderPreview() {
   const o = readOptions();
   const pv = document.getElementById('pvPage');
+  const caption = document.getElementById('pvCaption');
+  const days = daysInMonths(o.year, o.months);
+  updateEstimate(o, days.length);
+  updateShapeHint();
+  pv.parentElement.hidden = days.length === 0;
+  if (!days.length) {
+    caption.textContent = 'Önizleme için en az bir ay seç.';
+    return;
+  }
+
   const theme = PDF_THEMES[o.theme];
   for (const role of ['ink', 'muted', 'rule', 'tab', 'selected', 'faint']) {
     pv.style.setProperty('--paper-' + role, theme[role]);
@@ -1886,18 +1947,16 @@ function renderPreview() {
   // Match the chosen page shape: the preview is 318 px wide, and extra height goes to the body.
   const shape = PAGE_SHAPES[o.pageShape];
   const pvH = 318 * shape.height / PW;
-  const holidays = holidaysForYear(o.year, o.holidayCountries);
-  const sample = (holidays.size && daysInYear(o.year).find(date => holidays.has(dateKey(date)))) ||
-    new Date(o.year, 0, 1);
+  const holidays = holidaysForYear(o.year, o.holidayCountries, o.months);
+  const sample = days.find(date => holidays.has(dateKey(date))) || days[0];
   const dayHolidays = holidays.get(dateKey(sample)) || [];
   const holidayHeight = dayHolidays.length ? dayHolidays.length * 9 + 8 : 0;
   const extra = pvH - 424 - (o.stoic ? 318 * STOIC_SECTION_HEIGHT / PW : 0) - holidayHeight;
   pv.style.height = pvH.toFixed(1) + 'px';
-  updateShapeHint();
   const ws = startOfWeek(sample, o.weekStart);
 
-  let months = '<div class="pv-months">' + MONTHS_ABBR.map((m, i) =>
-    '<span class="' + (i === sample.getMonth() ? 'on' : '') + '">' + m + '</span>').join('') + '</div>';
+  const months = '<div class="pv-months">' + o.months.map(month =>
+    '<span class="' + (month === sample.getMonth() ? 'on' : '') + '">' + MONTHS_ABBR[month] + '</span>').join('') + '</div>';
 
   const title = dayTitle(sample);
   const nav = '<div class="pv-nav"><i>&#9665;</i><i>&#9655;</i></div>';
@@ -1954,10 +2013,9 @@ function renderPreview() {
     pv.querySelector('.pv-stoic small').textContent = citation;
   }
 
-  document.getElementById('pvCaption').textContent =
+  caption.textContent =
     (o.stoic ? 'Stoacı Günlük Plan · ' : 'Günlük Plan · ') + shape.short + ' · ' + (o.leftHanded ? 'Sol el' : 'Sağ el') + ' · ' +
     (o.weekStart === 1 ? 'Pazartesi başlangıçlı' : 'Pazar başlangıçlı') + ' · ' + o.year + ' · ' + theme.label;
-  updateEstimate();
 }
 document.querySelectorAll('input, select').forEach(el => {
   el.addEventListener('input', renderPreview);
