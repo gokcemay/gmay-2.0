@@ -206,6 +206,8 @@
   .month-field .field-hint { margin: 4px 0 6px; }
   .month-selection { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px 10px; }
   .month-selection label { font-size: 0.875rem; cursor: pointer; }
+  .month-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 8px; }
+  .month-actions button { font: inherit; font-size: 0.85rem; min-height: 36px; padding: 4px 12px; border: 1px solid currentColor; border-radius: 6px; background: transparent; color: inherit; cursor: pointer; }
   .holiday-field { margin-top: 16px; }
   .holiday-field legend {
     padding: 0;
@@ -438,6 +440,7 @@
         <fieldset class="month-field" aria-describedby="monthHint">
           <legend>PDF’ye eklenecek aylar</legend>
           <p class="field-hint" id="monthHint">Çıkarmak istediğin ayların işaretini kaldır.</p>
+          <div class="month-actions"><button type="button" id="monthsAll">Tüm ayları seç</button><button type="button" id="monthsNone">Seçimleri temizle</button></div>
           <div class="month-selection" id="monthSelection"></div>
         </fieldset>
         <div class="row2">
@@ -1074,6 +1077,14 @@ fillTimeSelect(document.getElementById('schedEnd'), 360, 1200, 1020);   // 06:00
     label.append(input, name[0] + name.slice(1).toLocaleLowerCase('tr-TR'));
     selection.appendChild(label);
   });
+
+  const setAll = on => {
+    const boxes = selection.querySelectorAll('input[name="plannerMonth"]');
+    boxes.forEach(box => { box.checked = on; });
+    boxes[0].dispatchEvent(new Event('change', { bubbles: true }));
+  };
+  document.getElementById('monthsAll').addEventListener('click', () => setAll(true));
+  document.getElementById('monthsNone').addEventListener('click', () => setAll(false));
 })();
 
 /* ============================== fonts ============================== */
