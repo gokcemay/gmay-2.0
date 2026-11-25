@@ -25,11 +25,6 @@
     --outline: #dfd7eb;
     --surface: #ffffff;
     --canvas: #f7f5fb;
-    --paper-ink: #212a52;
-    --paper-muted: #596278;
-    --paper-rule: #c5cdd9;
-    --paper-tab: #e8edf4;
-    --paper-selected: #c7d9ee;
     --shell: 1184px;
     --gutter: clamp(16px, 4vw, 48px);
   }
@@ -203,6 +198,56 @@
   .row2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .row3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .row2 .field, .row3 .field { margin-bottom: 0; }
+  .theme-field { padding: 0; border: 0; margin: 0; min-width: 0; }
+  .theme-field legend { padding: 0; font-size: 0.9rem; font-weight: 660; margin-bottom: 7px; }
+  .theme-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .theme-choice { position: relative; cursor: pointer; }
+  .theme-choice input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .theme-label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 44px;
+    padding: 6px 8px;
+    background: #faf8fd;
+    border: 1px solid var(--outline);
+    border-radius: 9px;
+    font-size: 0.875rem;
+    font-weight: 650;
+  }
+  .theme-label::before {
+    content: '';
+    flex: 0 0 18px;
+    height: 18px;
+    border: 1px solid #211b3633;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--swatch-ink) 50%, var(--swatch-selected) 50%);
+  }
+  .theme-label::after {
+    content: '';
+    flex: 0 0 12px;
+    height: 12px;
+    margin-inline-start: auto;
+    border: 1px solid #8c7d9e;
+    border-radius: 50%;
+    background: var(--surface);
+  }
+  .theme-choice input:checked + .theme-label { border-color: var(--accent); background: #f3ecff; }
+  .theme-choice input:checked + .theme-label::after { border: 4px solid var(--accent); }
+  .theme-choice input:focus-visible + .theme-label { outline: 3px solid #7957d6; outline-offset: 2px; }
+  @media (forced-colors: active) {
+    .theme-choice input:checked + .theme-label { border-color: Highlight; }
+    .theme-choice input:checked + .theme-label::after { border-color: Highlight; }
+  }
+
   .check { display: flex; align-items: center; gap: 10px; min-height: 44px; }
   .check label { margin: 0; font-weight: 500; }
   .check input { flex: 0 0 18px; height: 18px; margin: 0; accent-color: var(--accent); }
@@ -270,6 +315,7 @@
   .pv-weekrow { display: flex; align-items: flex-start; gap: 4px; margin-bottom: 8px; }
   .pv-day { text-align: center; color: var(--paper-muted); }
   .pv-day b { display: block; border: 0.7px solid var(--paper-rule); border-radius: 1.5px; color: var(--paper-muted); padding: 2px 4.5px; font-size: 6px; margin-bottom: 1.5px; }
+  .pv-day:not(.in):not(.on), .pv-day:not(.in):not(.on) b { color: var(--paper-faint); }
   .pv-day.in b { border-color: var(--paper-ink); color: var(--paper-ink); }
   .pv-day.on b { background: var(--paper-selected); border-color: var(--paper-selected); color: var(--paper-ink); }
   .pv-toggle { margin-left: auto; border: 0.8px solid var(--paper-ink); border-radius: 2px; padding: 2.5px 7px; font-weight: 700; letter-spacing: 0.8px; font-size: 5.5px; align-self: flex-start; }
@@ -316,7 +362,14 @@
     .intro h1 { letter-spacing: -0.05em; }
     .row3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .row3 .field:last-child { grid-column: 1 / -1; }
+    .theme-label { gap: 5px; padding-inline: 6px; }
+    .theme-label::before { flex-basis: 15px; height: 15px; }
+    .theme-label::after { flex-basis: 10px; height: 10px; }
+    .theme-choice input:checked + .theme-label::after { border-width: 3px; }
     button.generate { flex: 1 0 100%; }
+  }
+  @media (max-width: 360px) {
+    .theme-choices { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -380,6 +433,10 @@
           <select id="pageShape" aria-describedby="pageShapeHint"></select>
           <p class="field-hint" id="pageShapeHint"></p>
         </div>
+        <fieldset class="theme-field">
+          <legend>PDF renk teması</legend>
+          <div class="theme-choices" id="themeChoices"></div>
+        </fieldset>
       </div>
 
       <div class="card">
@@ -463,13 +520,25 @@
 <script>
 /* ============================== constants ============================== */
 
-const NAVY = '#212a52';
-const TEXT_MUTED = '#6b7488';
-const GREYED = '#b0b7c3';
-const LINE_LIGHT = '#c5cdd9';
-const HILITE = '#c7d9ee';
-const TAB_IDLE = '#e8edf4';
-const COVER_BG = '#e9eef5';
+const PDF_THEMES = {
+  'klasik-mavi': {
+    label: 'Klasik mavi', ink: '#212a52', muted: '#6b7488', faint: '#b0b7c3',
+    rule: '#c5cdd9', selected: '#c7d9ee', tab: '#e8edf4', cover: '#e9eef5', accent: '#9fbedd'
+  },
+  lavanta: {
+    label: 'Lavanta', ink: '#443160', muted: '#655577', faint: '#a89bb7',
+    rule: '#cbbfda', selected: '#d8c2f3', tab: '#f0e8f8', cover: '#eee5f6', accent: '#9d7acb'
+  },
+  adacayi: {
+    label: 'Adaçayı', ink: '#284735', muted: '#4f6455', faint: '#95a79a',
+    rule: '#b7cabc', selected: '#c1dbc5', tab: '#e6f0e7', cover: '#e9f0e6', accent: '#72967a'
+  },
+  kiremit: {
+    label: 'Kiremit', ink: '#663627', muted: '#754f43', faint: '#b09b90',
+    rule: '#d6beb3', selected: '#edc2ad', tab: '#f8ede5', cover: '#f8e9df', accent: '#c48065'
+  }
+};
+const DEFAULT_THEME = 'klasik-mavi';
 
 const MONTHS = ['OCAK','ŞUBAT','MART','NİSAN','MAYIS','HAZİRAN','TEMMUZ','AĞUSTOS','EYLÜL','EKİM','KASIM','ARALIK'];
 const MONTHS_ABBR = ['OCA','ŞUB','MAR','NİS','MAY','HAZ','TEM','AĞU','EYL','EKİ','KAS','ARA'];
@@ -964,6 +1033,28 @@ const DEFAULT_FONT = 'ptsans';
   });
 })();
 
+(function fillThemeChoices() {
+  const choices = document.getElementById('themeChoices');
+  for (const [key, theme] of Object.entries(PDF_THEMES)) {
+    const label = document.createElement('label');
+    label.className = 'theme-choice';
+
+    const input = document.createElement('input');
+    input.type = 'radio';
+    input.name = 'pdfTheme';
+    input.value = key;
+    input.checked = key === DEFAULT_THEME;
+
+    const name = document.createElement('span');
+    name.className = 'theme-label';
+    name.textContent = theme.label;
+    name.style.setProperty('--swatch-ink', theme.ink);
+    name.style.setProperty('--swatch-selected', theme.selected);
+    label.append(input, name);
+    choices.appendChild(label);
+  }
+})();
+
 function updateShapeHint() {
   const s = PAGE_SHAPES[document.getElementById('pageShape').value] || PAGE_SHAPES[DEFAULT_SHAPE];
   document.getElementById('pageShapeHint').textContent =
@@ -971,7 +1062,9 @@ function updateShapeHint() {
 }
 
 function readOptions() {
+  const theme = document.querySelector('input[name="pdfTheme"]:checked');
   return {
+    theme: theme ? theme.value : DEFAULT_THEME,
     pageShape: PAGE_SHAPES[document.getElementById('pageShape').value] ? document.getElementById('pageShape').value : DEFAULT_SHAPE,
     name: document.getElementById('docName').value.trim() || 'Günlük Ajanda',
     year: parseInt(document.getElementById('calYear').value, 10),
@@ -1032,13 +1125,13 @@ function updateEstimate() {
 /* ============================== PDF drawing ============================== */
 let PDF_FONT = 'helvetica';   // jsPDF font name for the current build; set in buildPdf()
 
-function capsText(doc, str, x, y, size, opts = {}) {
+function capsText(doc, theme, str, x, y, size, opts = {}) {
   str = String(str);
   const cs = opts.charSpace ?? 1;
   const align = opts.align || 'left';
   doc.setFont(PDF_FONT, opts.weight || 'bold');
   doc.setFontSize(size);
-  doc.setTextColor(opts.color || NAVY);
+  doc.setTextColor(opts.color || theme.ink);
   // jsPDF's built-in center/right alignment mishandles letter-spacing, so compute
   // the true visible width (glyphs + gaps between them) and place left-aligned.
   let drawX = x;
@@ -1050,55 +1143,55 @@ function capsText(doc, str, x, y, size, opts = {}) {
 }
 
 function triangle(doc, cx, cy, size, dir, color) {
-  doc.setFillColor(color || NAVY);
+  doc.setFillColor(color);
   const s = size;
   if (dir === 'left') doc.triangle(cx + s/2, cy - s*0.6, cx + s/2, cy + s*0.6, cx - s/2, cy, 'F');
   else doc.triangle(cx - s/2, cy - s*0.6, cx - s/2, cy + s*0.6, cx + s/2, cy, 'F');
 }
 
-function drawMonthTabs(doc, monthIdx, monthPage) {
+function drawMonthTabs(doc, theme, monthIdx, monthPage) {
   const tabW = CW / 12, tabH = 20, y = 14;
   for (let i = 0; i < 12; i++) {
     const x = CL + i * tabW;
-    doc.setFillColor(i === monthIdx ? HILITE : TAB_IDLE);
+    doc.setFillColor(i === monthIdx ? theme.selected : theme.tab);
     doc.roundedRect(x + 0.75, y, tabW - 1.5, tabH, 3, 3, 'F');
-    capsText(doc, MONTHS_ABBR[i], x + tabW / 2, y + 13, 7.5,
-      { color: i === monthIdx ? NAVY : TEXT_MUTED, align: 'center', charSpace: 0.7 });
+    capsText(doc, theme, MONTHS_ABBR[i], x + tabW / 2, y + 13, 7.5,
+      { color: i === monthIdx ? theme.ink : theme.muted, align: 'center', charSpace: 0.7 });
     doc.link(x, y, tabW, tabH, { pageNumber: monthPage[i] });
   }
 }
 
 // ◀ ▶ buttons in the header (right edge, or left edge for left-handed users).
 // A null/undefined page leaves that button unlinked.
-function drawNavButtons(doc, LH, prevPg, nextPg) {
+function drawNavButtons(doc, theme, LH, prevPg, nextPg) {
   const navY = 46, navW = 36, navH = 18;
   const navX1 = LH ? CL : CR - navW * 2 - 4;
   const navX2 = navX1 + navW + 4;
-  doc.setDrawColor(NAVY); doc.setLineWidth(0.8);
+  doc.setDrawColor(theme.ink); doc.setLineWidth(0.8);
   doc.roundedRect(navX1, navY, navW, navH, 3, 3); doc.roundedRect(navX2, navY, navW, navH, 3, 3);
-  triangle(doc, navX1 + navW / 2, navY + navH / 2, 6, 'left');
-  triangle(doc, navX2 + navW / 2, navY + navH / 2, 6, 'right');
+  triangle(doc, navX1 + navW / 2, navY + navH / 2, 6, 'left', theme.ink);
+  triangle(doc, navX2 + navW / 2, navY + navH / 2, 6, 'right', theme.ink);
   if (prevPg) doc.link(navX1, navY, navW, navH, { pageNumber: prevPg });
   if (nextPg) doc.link(navX2, navY, navW, navH, { pageNumber: nextPg });
 }
 
 // Month calendar page: grid of days (each linking to its Daily Plan page) plus a notes area.
-function drawMonthPage(doc, ctx) {
+function drawMonthPage(doc, theme, ctx) {
   const { month, o, pageOf, monthPage } = ctx;
   const LH = o.leftHanded;
-  drawMonthTabs(doc, month, monthPage);
+  drawMonthTabs(doc, theme, month, monthPage);
 
   // ◀ previous month (January's goes to the cover, if there is one) / next month ▶
-  drawNavButtons(doc, LH, month > 0 ? monthPage[month - 1] : (o.cover ? 1 : null),
+  drawNavButtons(doc, theme, LH, month > 0 ? monthPage[month - 1] : (o.cover ? 1 : null),
                           month < 11 ? monthPage[month + 1] : null);
-  capsText(doc, MONTHS[month] + ' ' + o.year, LH ? CR : CL, 60, 14.5, { charSpace: 1.8, align: LH ? 'right' : 'left' });
+  capsText(doc, theme, MONTHS[month] + ' ' + o.year, LH ? CR : CL, 60, 14.5, { charSpace: 1.8, align: LH ? 'right' : 'left' });
 
   // weekday header, honouring the Monday/Sunday start
   const gap = 4, cellW = (CW - 6 * gap) / 7, cellH = 58 * PH / 720;   // scale boxes to the selected page height
   const headY = 96, gridTop = 104;
   for (let c = 0; c < 7; c++) {
-    capsText(doc, DAYS_ABBR[(o.weekStart + c) % 7], CL + c * (cellW + gap) + cellW / 2, headY, 6.5,
-      { color: TEXT_MUTED, align: 'center', charSpace: 1 });
+    capsText(doc, theme, DAYS_ABBR[(o.weekStart + c) % 7], CL + c * (cellW + gap) + cellW / 2, headY, 6.5,
+      { color: theme.muted, align: 'center', charSpace: 1 });
   }
 
   // day cells
@@ -1111,28 +1204,28 @@ function drawMonthPage(doc, ctx) {
     const x = CL + (idx % 7) * (cellW + gap);
     const y = gridTop + Math.floor(idx / 7) * (cellH + gap);
     const dow = new Date(o.year, month, d).getDay();
-    if (dow === 0 || dow === 6) { doc.setFillColor(TAB_IDLE); doc.roundedRect(x, y, cellW, cellH, 3, 3, 'F'); }
-    doc.setDrawColor(NAVY); doc.setLineWidth(0.7);
+    if (dow === 0 || dow === 6) { doc.setFillColor(theme.tab); doc.roundedRect(x, y, cellW, cellH, 3, 3, 'F'); }
+    doc.setDrawColor(theme.ink); doc.setLineWidth(0.7);
     doc.roundedRect(x, y, cellW, cellH, 3, 3);
-    capsText(doc, String(d).padStart(2, '0'), x + 6, y + 13, 9, { charSpace: 1 });
+    capsText(doc, theme, String(d).padStart(2, '0'), x + 6, y + 13, 9, { charSpace: 1 });
     const pg = pageOf[dateKey(new Date(o.year, month, d))];
     if (pg) doc.link(x, y, cellW, cellH, { pageNumber: pg });
   }
 
   // notes area under the grid
   const notesTop = gridTop + rows * (cellH + gap) + 18;
-  capsText(doc, 'NOTLAR', CL, notesTop, 9, { charSpace: 1.8 });
-  doc.setDrawColor(NAVY); doc.setLineWidth(0.9);
+  capsText(doc, theme, 'NOTLAR', CL, notesTop, 9, { charSpace: 1.8 });
+  doc.setDrawColor(theme.ink); doc.setLineWidth(0.9);
   doc.line(CL, notesTop + 5, CR, notesTop + 5);
-  doc.setDrawColor(LINE_LIGHT); doc.setLineWidth(0.6);
+  doc.setDrawColor(theme.rule); doc.setLineWidth(0.6);
   for (let y = notesTop + 5 + 24; y <= PH - M; y += 24) doc.line(CL, y, CR, y);
 }
 
-function drawDayHeader(doc, ctx) {
+function drawDayHeader(doc, theme, ctx) {
   // ctx: { date, o, pageOf, monthPage, mode ('plan'|'notes'), noteIdx }
   const { date, o, pageOf, monthPage, mode } = ctx;
   const LH = o.leftHanded;
-  drawMonthTabs(doc, date.getMonth(), monthPage);
+  drawMonthTabs(doc, theme, date.getMonth(), monthPage);
 
   // prev / next week buttons
   const prev = new Date(date); prev.setDate(date.getDate() - 7);
@@ -1140,11 +1233,11 @@ function drawDayHeader(doc, ctx) {
   // jump a full week; clamp to first/last day of the year at the boundaries
   const prevPg = pageOf[dateKey(prev)] || pageOf[dateKey(new Date(date.getFullYear(), 0, 1))];
   const nextPg = pageOf[dateKey(next)] || pageOf[dateKey(new Date(date.getFullYear(), 11, 31))];
-  drawNavButtons(doc, LH, prevPg, nextPg);
+  drawNavButtons(doc, theme, LH, prevPg, nextPg);
 
   // title
   const title = dayTitle(date);
-  capsText(doc, title, LH ? CR : CL, 60, 14.5, { charSpace: 1.8, align: LH ? 'right' : 'left' });
+  capsText(doc, theme, title, LH ? CR : CL, 60, 14.5, { charSpace: 1.8, align: LH ? 'right' : 'left' });
 
   // week strip (aligned to the outer margin; mirrored for left-handed users)
   const wy = 80, cellW = 34, gap = 4;
@@ -1156,14 +1249,14 @@ function drawDayHeader(doc, ctx) {
     const x = stripX + i * (cellW + gap);
     const isToday = d.getTime() === date.getTime();
     const inMonth = d.getMonth() === date.getMonth() && d.getFullYear() === date.getFullYear();
-    if (isToday) { doc.setFillColor(HILITE); doc.roundedRect(x, wy, cellW, 15, 2.5, 2.5, 'F'); }
-    doc.setDrawColor(inMonth ? NAVY : LINE_LIGHT);
+    if (isToday) { doc.setFillColor(theme.selected); doc.roundedRect(x, wy, cellW, 15, 2.5, 2.5, 'F'); }
+    doc.setDrawColor(inMonth ? theme.ink : theme.rule);
     doc.setLineWidth(0.7);
     doc.roundedRect(x, wy, cellW, 15, 2.5, 2.5);
-    capsText(doc, String(d.getDate()).padStart(2, '0'), x + cellW / 2, wy + 10.5, 8,
-      { color: inMonth ? NAVY : GREYED, align: 'center', charSpace: 1.2 });
-    capsText(doc, DAYS_ABBR[d.getDay()], x + cellW / 2, wy + 22.5, 5.5,
-      { color: inMonth ? TEXT_MUTED : GREYED, align: 'center', charSpace: 0.8 });
+    capsText(doc, theme, String(d.getDate()).padStart(2, '0'), x + cellW / 2, wy + 10.5, 8,
+      { color: inMonth ? theme.ink : theme.faint, align: 'center', charSpace: 1.2 });
+    capsText(doc, theme, DAYS_ABBR[d.getDay()], x + cellW / 2, wy + 22.5, 5.5,
+      { color: inMonth ? theme.muted : theme.faint, align: 'center', charSpace: 0.8 });
     const pg = pageOf[dateKey(d)];
     if (pg) doc.link(x, wy, cellW, 24, { pageNumber: pg });
   }
@@ -1171,33 +1264,33 @@ function drawDayHeader(doc, ctx) {
   // Daily Plan <-> Daily Notes toggle
   const togW = 122, togH = 19, togY = wy;
   const togX = LH ? CL : CR - togW;
-  doc.setDrawColor(NAVY); doc.setLineWidth(0.9);
+  doc.setDrawColor(theme.ink); doc.setLineWidth(0.9);
   doc.roundedRect(togX, togY, togW, togH, 3, 3);
   const planPg = ctx.planPage, firstNotesPg = ctx.planPage + 1;
   if (mode === 'plan') {
-    capsText(doc, 'GÜNLÜK NOTLAR', togX + 12, togY + 13, 8, { charSpace: 1.4 });
-    triangle(doc, togX + togW - 13, togY + togH / 2, 6, 'right');
+    capsText(doc, theme, 'GÜNLÜK NOTLAR', togX + 12, togY + 13, 8, { charSpace: 1.4 });
+    triangle(doc, togX + togW - 13, togY + togH / 2, 6, 'right', theme.ink);
     doc.link(togX, togY, togW, togH, { pageNumber: firstNotesPg });
   } else {
-    triangle(doc, togX + 13, togY + togH / 2, 6, 'left');
-    capsText(doc, 'GÜNLÜK PLAN', togX + 26, togY + 13, 8, { charSpace: 1.4 });
+    triangle(doc, togX + 13, togY + togH / 2, 6, 'left', theme.ink);
+    capsText(doc, theme, 'GÜNLÜK PLAN', togX + 26, togY + 13, 8, { charSpace: 1.4 });
     doc.link(togX, togY, togW, togH, { pageNumber: planPg });
     if (o.notesPages > 1) {
       // notes page index tabs
       const tW = 30, tH = 14, tGap = 4, tY = togY + togH + 6;
       for (let k = 0; k < o.notesPages; k++) {
         const tX = LH ? CL + k * (tW + tGap) : CR - (o.notesPages - k) * (tW + tGap) + tGap;
-        if (k === ctx.noteIdx) { doc.setFillColor(HILITE); doc.roundedRect(tX, tY, tW, tH, 2.5, 2.5, 'F'); }
-        doc.setDrawColor(NAVY); doc.setLineWidth(0.7);
+        if (k === ctx.noteIdx) { doc.setFillColor(theme.selected); doc.roundedRect(tX, tY, tW, tH, 2.5, 2.5, 'F'); }
+        doc.setDrawColor(theme.ink); doc.setLineWidth(0.7);
         doc.roundedRect(tX, tY, tW, tH, 2.5, 2.5);
-        capsText(doc, String(k + 1), tX + tW / 2, tY + 10, 7.5, { align: 'center' });
+        capsText(doc, theme, String(k + 1), tX + tW / 2, tY + 10, 7.5, { align: 'center' });
         doc.link(tX, tY, tW, tH, { pageNumber: firstNotesPg + k });
       }
     }
   }
 }
 
-function drawPlanBody(doc, o) {
+function drawPlanBody(doc, theme, o) {
   const top = 132, bodyTop = 152;
   const bottom = PH - M - (o.stoic ? STOIC_SECTION_HEIGHT : 0);
   const colGap = 16;
@@ -1206,100 +1299,101 @@ function drawPlanBody(doc, o) {
   const schedX = o.leftHanded ? CL : CR - schedW;
 
   // TASKS column
-  capsText(doc, 'GÖREVLER', tasksX, top + 6, 9, { charSpace: 1.8 });
-  doc.setDrawColor(NAVY); doc.setLineWidth(0.9);
+  capsText(doc, theme, 'GÖREVLER', tasksX, top + 6, 9, { charSpace: 1.8 });
+  doc.setDrawColor(theme.ink); doc.setLineWidth(0.9);
   doc.line(tasksX, top + 11, tasksX + tasksW, top + 11);
   const remH = 96, remLabelH = 18;
   const taskBottom = bottom - remH - remLabelH - 10;
   const step = 22;
   doc.setLineWidth(0.6);
   for (let y = bodyTop + step; y <= taskBottom; y += step) {
-    doc.setDrawColor(NAVY); doc.setLineWidth(0.7);
+    doc.setDrawColor(theme.ink); doc.setLineWidth(0.7);
     doc.rect(tasksX, y - 10, 10, 10);
-    doc.setDrawColor(LINE_LIGHT); doc.setLineWidth(0.6);
+    doc.setDrawColor(theme.rule); doc.setLineWidth(0.6);
     doc.line(tasksX + 15, y, tasksX + tasksW, y);
   }
   // REMINDERS
-  capsText(doc, 'HATIRLATMALAR', tasksX, bottom - remH - 6, 9, { charSpace: 1.8 });
-  doc.setDrawColor(LINE_LIGHT); doc.setLineWidth(0.7);
+  capsText(doc, theme, 'HATIRLATMALAR', tasksX, bottom - remH - 6, 9, { charSpace: 1.8 });
+  doc.setDrawColor(theme.rule); doc.setLineWidth(0.7);
   doc.rect(tasksX, bottom - remH, tasksW, remH);
 
   // SCHEDULE column
-  capsText(doc, 'PROGRAM', schedX, top + 6, 9, { charSpace: 1.8 });
-  doc.setDrawColor(NAVY); doc.setLineWidth(0.9);
+  capsText(doc, theme, 'PROGRAM', schedX, top + 6, 9, { charSpace: 1.8 });
+  doc.setDrawColor(theme.ink); doc.setLineWidth(0.9);
   doc.line(schedX, top + 11, schedX + schedW, top + 11);
   const slots = Math.max(1, Math.round((o.schedEnd - o.schedStart) / o.interval));
   const areaTop = bodyTop, areaBot = bottom;
   const slotH = (areaBot - areaTop) / slots;
   for (let i = 0; i <= slots; i++) {
     const y = areaTop + i * slotH;
-    doc.setDrawColor(LINE_LIGHT); doc.setLineWidth(0.6);
+    doc.setDrawColor(theme.rule); doc.setLineWidth(0.6);
     doc.setLineDashPattern([], 0);
     doc.line(schedX, y, schedX + schedW, y);
     if (i < slots) {
       const mins = o.schedStart + i * o.interval;
       const label = fmtMins(mins);
-      capsText(doc, label, schedX, y + 11, 7.5, { color: TEXT_MUTED, charSpace: 1.2 });
-      doc.setDrawColor(LINE_LIGHT); doc.setLineWidth(0.5);
+      capsText(doc, theme, label, schedX, y + 11, 7.5, { color: theme.muted, charSpace: 1.2 });
+      doc.setDrawColor(theme.rule); doc.setLineWidth(0.5);
       doc.setLineDashPattern([2, 2], 0);
       doc.line(schedX + 42, y + slotH / 2, schedX + schedW, y + slotH / 2);
       doc.setLineDashPattern([], 0);
     }
   }
   // dashed vertical guides
-  doc.setDrawColor(LINE_LIGHT); doc.setLineWidth(0.5);
+  doc.setDrawColor(theme.rule); doc.setLineWidth(0.5);
   doc.setLineDashPattern([2, 2], 0);
   doc.line(schedX + 36, areaTop, schedX + 36, areaBot);
   doc.line(schedX + 40, areaTop, schedX + 40, areaBot);
   doc.setLineDashPattern([], 0);
 }
 
-function drawStoicSection(doc, date) {
+function drawStoicSection(doc, theme, date) {
   const { text, citation, url } = quoteForDate(date);
   const top = PH - M - STOIC_SECTION_HEIGHT + 17;
-  capsText(doc, STOIC_SECTION_TITLES[0], CL, top, 9, { charSpace: 1.2 });
-  doc.setDrawColor(NAVY); doc.setLineWidth(0.7);
+  capsText(doc, theme, STOIC_SECTION_TITLES[0], CL, top, 9, { charSpace: 1.2 });
+  doc.setDrawColor(theme.ink); doc.setLineWidth(0.7);
   doc.line(CL, top + 5, CR, top + 5);
 
   doc.setFont(PDF_FONT, 'bold');
   doc.setFontSize(10);
+  doc.setTextColor(theme.ink);
   doc.setCharSpace(0);
   const lines = doc.splitTextToSize('“' + text + '”', CW);
   doc.text(lines, CL, top + 18, { lineHeightFactor: 1.2 });
   const citationY = top + 18 + lines.length * 12;
-  capsText(doc, citation, CL, citationY, 7.5, { color: TEXT_MUTED, charSpace: 0 });
+  capsText(doc, theme, citation, CL, citationY, 7.5, { color: theme.muted, charSpace: 0 });
   doc.link(CL, citationY - 8, doc.getTextWidth(citation), 10, { url });
 
   const gratitudeY = top + 54;
-  capsText(doc, STOIC_SECTION_TITLES[1], CL, gratitudeY, 9, { charSpace: 1.2 });
-  doc.setDrawColor(LINE_LIGHT); doc.setLineWidth(0.6);
+  capsText(doc, theme, STOIC_SECTION_TITLES[1], CL, gratitudeY, 9, { charSpace: 1.2 });
+  doc.setDrawColor(theme.rule); doc.setLineWidth(0.6);
   for (let i = 1; i <= 3; i++) {
     const y = gratitudeY + i * 18;
-    capsText(doc, i + '.', CL, y - 2, 8, { color: TEXT_MUTED, charSpace: 0 });
+    capsText(doc, theme, i + '.', CL, y - 2, 8, { color: theme.muted, charSpace: 0 });
     doc.line(CL + 14, y, CR, y);
   }
 }
 
-function drawNotesBody(doc) {
+function drawNotesBody(doc, theme) {
   const top = 138, bottom = PH - M, step = 24;
-  doc.setDrawColor(LINE_LIGHT); doc.setLineWidth(0.6);
+  doc.setDrawColor(theme.rule); doc.setLineWidth(0.6);
   for (let y = top + step; y <= bottom; y += step) {
     doc.line(CL, y, CR, y);
   }
 }
 
-function drawCover(doc, o, monthPage) {
-  doc.setFillColor(COVER_BG);
+function drawCover(doc, theme, o, monthPage) {
+  doc.setFillColor(theme.cover);
   doc.rect(0, 0, PW, PH, 'F');
   const dy = (PH - 720) / 2;   // keep the layout vertically centred on taller page shapes
-  capsText(doc, o.name.toLocaleUpperCase('tr-TR'), PW / 2, 240 + dy, 30, { charSpace: 4, align: 'center' });
-  doc.setDrawColor('#9fbedd'); doc.setLineWidth(2.5);
+  capsText(doc, theme, o.name.toLocaleUpperCase('tr-TR'), PW / 2, 240 + dy, 30, { charSpace: 4, align: 'center' });
+  doc.setDrawColor(theme.accent); doc.setLineWidth(2.5);
   doc.line(PW / 2 - 26, 258 + dy, PW / 2 + 26, 258 + dy);
   const edition = o.stoic ? ' STOACI GÜNLÜK AJANDA' : ' GÜNLÜK AJANDA';
-  capsText(doc, o.year + edition, PW / 2, 284 + dy, 11, { color: TEXT_MUTED, charSpace: 2.4, align: 'center' });
+  capsText(doc, theme, o.year + edition, PW / 2, 284 + dy, 11, { color: theme.muted, charSpace: 2.4, align: 'center' });
   if (o.stoic) {
-    capsText(doc, 'Sözler kamu malı çevirilerden Türkçeye aktarıldı.', PW / 2, 307 + dy, 8,
-      { color: TEXT_MUTED, charSpace: 0, align: 'center' });
+    capsText(doc, theme, 'Sözler kamu malı çevirilerden Türkçeye aktarıldı.', PW / 2, 307 + dy, 8,
+      { color: theme.muted, charSpace: 0, align: 'center' });
   }
 
   // month grid 4 x 3
@@ -1310,12 +1404,12 @@ function drawCover(doc, o, monthPage) {
     const x = x0 + (i % 4) * (bw + gx);
     const y = y0 + Math.floor(i / 4) * (bh + gy);
     doc.setFillColor('#ffffff');
-    doc.setDrawColor(LINE_LIGHT); doc.setLineWidth(0.8);
+    doc.setDrawColor(theme.rule); doc.setLineWidth(0.8);
     doc.roundedRect(x, y, bw, bh, 5, 5, 'FD');
-    capsText(doc, MONTHS_ABBR[i], x + bw / 2, y + bh / 2 + 4, 11, { charSpace: 2, align: 'center' });
+    capsText(doc, theme, MONTHS_ABBR[i], x + bw / 2, y + bh / 2 + 4, 11, { charSpace: 2, align: 'center' });
     doc.link(x, y, bw, bh, { pageNumber: monthPage[i] });
   }
-  capsText(doc, 'BAŞLAMAK İÇİN BİR AYA DOKUNUN', PW / 2, y0 + 3 * (bh + gy) + 18, 7.5, { color: TEXT_MUTED, charSpace: 2, align: 'center' });
+  capsText(doc, theme, 'BAŞLAMAK İÇİN BİR AYA DOKUNUN', PW / 2, y0 + 3 * (bh + gy) + 18, 7.5, { color: theme.muted, charSpace: 2, align: 'center' });
 }
 
 /* ============================== jsPDF loader (CDN-first, embedded fallback) ============================== */
@@ -1360,6 +1454,7 @@ function buildPdf(o, onProgress) {
   return new Promise((resolve, reject) => {
     try {
       const { jsPDF } = window.jspdf;
+      const theme = PDF_THEMES[o.theme] || PDF_THEMES[DEFAULT_THEME];
       PH = (PAGE_SHAPES[o.pageShape] || PAGE_SHAPES[DEFAULT_SHAPE]).height;
       const doc = new jsPDF({ unit: 'pt', format: [PW, PH], compress: true });
 
@@ -1390,7 +1485,7 @@ function buildPdf(o, onProgress) {
       let firstPage = !o.cover;
       const newPage = () => { if (firstPage) firstPage = false; else doc.addPage([PW, PH]); };
 
-      if (o.cover) drawCover(doc, o, monthPage);
+      if (o.cover) drawCover(doc, theme, o, monthPage);
 
       const total = days.length;
       let i = 0;
@@ -1405,18 +1500,18 @@ function buildPdf(o, onProgress) {
             // Month calendar page, just before the 1st
             if (date.getDate() === 1) {
               newPage();
-              drawMonthPage(doc, { month: date.getMonth(), o, pageOf, monthPage });
+              drawMonthPage(doc, theme, { month: date.getMonth(), o, pageOf, monthPage });
             }
             // Daily Plan page
             newPage();
-            drawDayHeader(doc, { date, o, pageOf, monthPage, mode: 'plan', planPage, noteIdx: -1 });
-            drawPlanBody(doc, o);
-            if (o.stoic) drawStoicSection(doc, date);
+            drawDayHeader(doc, theme, { date, o, pageOf, monthPage, mode: 'plan', planPage, noteIdx: -1 });
+            drawPlanBody(doc, theme, o);
+            if (o.stoic) drawStoicSection(doc, theme, date);
             // Daily Notes pages
             for (let k = 0; k < o.notesPages; k++) {
               newPage();
-              drawDayHeader(doc, { date, o, pageOf, monthPage, mode: 'notes', planPage, noteIdx: k });
-              drawNotesBody(doc);
+              drawDayHeader(doc, theme, { date, o, pageOf, monthPage, mode: 'notes', planPage, noteIdx: k });
+              drawNotesBody(doc, theme);
             }
           }
           onProgress && onProgress(i / total);
@@ -1450,8 +1545,9 @@ async function generate() {
     fill.style.width = '100%';
     await new Promise(r => setTimeout(r, 30));
     const safe = o.name.normalize().replace(/[^\p{L}\p{M}\p{N}_\s-]+/gu, '').trim().replace(/\s+/g, '-') || 'ajanda';
-    const suffix = o.stoic ? '-stoacı-günlük-ajanda.pdf' : '-günlük-ajanda.pdf';
-    doc.save(safe + '-' + o.year + suffix);
+    const edition = o.stoic ? '-stoacı-günlük-ajanda' : '-günlük-ajanda';
+    const themeSuffix = o.theme === DEFAULT_THEME ? '' : '-' + o.theme;
+    doc.save(safe + '-' + o.year + edition + themeSuffix + '.pdf');
     label.textContent = doc.internal.getNumberOfPages().toLocaleString('tr-TR') + ' sayfalık PDF hazır.';
   } catch (err) {
     label.textContent = 'PDF oluşturulamadı. Lütfen tekrar deneyin.';
@@ -1466,6 +1562,10 @@ document.getElementById('generateBtn').addEventListener('click', generate);
 function renderPreview() {
   const o = readOptions();
   const pv = document.getElementById('pvPage');
+  const theme = PDF_THEMES[o.theme];
+  for (const role of ['ink', 'muted', 'rule', 'tab', 'selected', 'faint']) {
+    pv.style.setProperty('--paper-' + role, theme[role]);
+  }
   pv.style.fontFamily = (PDF_FONTS[o.font] || PDF_FONTS[DEFAULT_FONT]).stack;  // WYSIWYG with chosen font
   // Match the chosen page shape: the preview is 318 px wide, and extra height goes to the body.
   const shape = PAGE_SHAPES[o.pageShape];
@@ -1527,7 +1627,7 @@ function renderPreview() {
 
   document.getElementById('pvCaption').textContent =
     (o.stoic ? 'Stoacı Günlük Plan · ' : 'Günlük Plan · ') + shape.short + ' · ' + (o.leftHanded ? 'Sol el' : 'Sağ el') + ' · ' +
-    (o.weekStart === 1 ? 'Pazartesi başlangıçlı' : 'Pazar başlangıçlı') + ' · ' + o.year;
+    (o.weekStart === 1 ? 'Pazartesi başlangıçlı' : 'Pazar başlangıçlı') + ' · ' + o.year + ' · ' + theme.label;
   updateEstimate();
 }
 document.querySelectorAll('input, select').forEach(el => {
