@@ -52,10 +52,29 @@
     gap: 26px;
     max-width: 1180px;
     margin: 26px auto;
-    padding: 0 24px 60px;
+    padding: 0 24px;
     align-items: start;
   }
   @media (max-width: 880px) { .layout { grid-template-columns: 1fr; } }
+
+  .site-footer {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px 32px;
+  }
+  .site-footer nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 24px;
+    border-top: 1px solid var(--card-border);
+    padding-top: 16px;
+    font-size: 14px;
+  }
+  .site-footer a {
+    color: var(--navy);
+    text-underline-offset: 0.2em;
+  }
 
   .card {
     background: #ffffff;
@@ -288,7 +307,6 @@
         <button class="generate" id="generateBtn">PDF OLUŞTUR</button>
         <span id="pageEstimate"></span>
       </div>
-      <p class="note"><a href="https://raw.githubusercontent.com/gokcemay/Gunluk_Ajanda/3199dc76d1303d4b135e95f6ff3ea4b3484a3a64/downloads/2027-stoaci-ajanda-kobo.pdf" target="_blank" rel="noopener noreferrer" style="color:var(--navy); font-weight:700;">2027 Stoacı PDF’yi indir — Kobo Libra Colour</a></p>
       <div class="progress-wrap" id="progressWrap">
         <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
         <div class="progress-label" id="progressLabel">Hazırlanıyor&hellip;</div>
@@ -311,6 +329,14 @@
     <div class="pv-caption" id="pvCaption"></div>
   </div>
 </div>
+
+<footer class="site-footer">
+  <nav aria-label="Proje bağlantıları">
+    <a href="https://github.com/gokcemay/Gunluk_Ajanda">Türkçe sürüm · Gunluk_Ajanda</a>
+    <a href="https://github.com/Cosmo-NZ/Daily_Planner">Özgün proje · Daily Planner</a>
+    <a href="https://github.com/gokcemay">GitHub profili · @gokcemay</a>
+  </nav>
+</footer>
 
 <script>
 /* ============================== constants ============================== */

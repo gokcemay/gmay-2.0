@@ -1,7 +1,7 @@
 # Agenda subdomain
-- [x] Replace the static agenda with pinned GitHub version 3199dc76 and add the direct 2027 Stoacı Kobo PDF link.
-- [x] Verify Turkish UI, Kobo preview, distinct 743-page Standard/Stoacı downloads, all 365 sourced Stoacı quotes and gratitude lines.
-- [x] Confirm the regular preview homepage and seven sections remain unchanged; await owner approval before publishing.
+- [x] Replace the static agenda byte-for-byte with pinned GitHub version ddfd27d7; preserve domain settings and other pages.
+- [x] Verify all three footer links open; generate and inspect eight 743-page PDFs (Standard/Stoacı × four sizes); check agenda host and eight existing routes.
+- [x] Prepare the updated preview; do not publish without owner approval.
 
 # AI STEP concept landing page
 - [x] Turn the uploaded presentation into a bilingual interactive product-concept page at /ai-step, with no homepage link.
