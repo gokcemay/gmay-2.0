@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Günlük Ajanda Oluşturucu</title>
+<link rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+<!-- Daily Planner by Cosmo-NZ, adapted into Turkish by gokcemay. See LICENSE and README.md for scope and third-party notices. -->
 <!-- jsPDF: pinned to 4.2.1 from CDN; an embedded copy (see #jspdfFallback) is used automatically if the CDN is unavailable (e.g. offline). -->
 <script src="https://cdn.jsdelivr.net/npm/jspdf@4.2.1/dist/jspdf.umd.min.js" crossorigin="anonymous"></script>
 <style>
@@ -198,7 +200,16 @@
   .row2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .row3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .row2 .field, .row3 .field { margin-bottom: 0; }
-  .theme-field { padding: 0; border: 0; margin: 0; min-width: 0; }
+  .theme-field, .holiday-field { padding: 0; border: 0; margin: 0; min-width: 0; }
+  .holiday-field { margin-top: 16px; }
+  .holiday-field legend {
+    padding: 0;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    font-weight: 660;
+  }
+  .holiday-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; }
+  .holiday-choices label { font-size: 0.875rem; cursor: pointer; }
   .theme-field legend { padding: 0; font-size: 0.9rem; font-weight: 660; margin-bottom: 7px; }
   .theme-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .theme-choice { position: relative; cursor: pointer; }
@@ -319,6 +330,16 @@
   .pv-day.in b { border-color: var(--paper-ink); color: var(--paper-ink); }
   .pv-day.on b { background: var(--paper-selected); border-color: var(--paper-selected); color: var(--paper-ink); }
   .pv-toggle { margin-left: auto; border: 0.8px solid var(--paper-ink); border-radius: 2px; padding: 2.5px 7px; font-weight: 700; letter-spacing: 0.8px; font-size: 5.5px; align-self: flex-start; }
+  .pv-holidays {
+    margin-bottom: 4px;
+    padding: 2px 6px;
+    border-radius: 2px;
+    background: var(--paper-selected);
+    color: var(--paper-ink);
+    font-size: 6.5px;
+    line-height: 9px;
+    font-weight: 700;
+  }
   .pv-body { display: flex; gap: 10px; height: 300px; }
   .pv-col { flex: 1; }
   .pv-col h4 { font-size: 6.5px; letter-spacing: 1.2px; border-bottom: 0.8px solid var(--paper-ink); padding-bottom: 2.5px; margin-bottom: 4px; font-weight: 700; }
@@ -437,6 +458,11 @@
           <legend>PDF renk teması</legend>
           <div class="theme-choices" id="themeChoices"></div>
         </fieldset>
+        <fieldset class="holiday-field" aria-describedby="holidayHint">
+          <legend>Resmî tatil takvimleri</legend>
+          <div class="holiday-choices" id="holidayChoices"></div>
+          <p class="field-hint" id="holidayHint">Birden fazla ülke seçebilirsin. Resmî listesi henüz yayımlanmamış tarihler yıldızla işaretlenir.</p>
+        </fieldset>
       </div>
 
       <div class="card">
@@ -514,6 +540,7 @@
     <a href="https://github.com/gokcemay/Gunluk_Ajanda">Türkçe sürüm · Gunluk_Ajanda</a>
     <a href="https://github.com/Cosmo-NZ/Daily_Planner">Özgün proje · Daily Planner</a>
     <a href="https://github.com/gokcemay">GitHub profili · @gokcemay</a>
+    <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">Lisans · CC BY-NC 4.0</a>
   </nav>
 </footer>
 
@@ -539,6 +566,57 @@ const PDF_THEMES = {
   }
 };
 const DEFAULT_THEME = 'klasik-mavi';
+
+/* ============================== official holidays ============================== */
+
+const HOLIDAY_CALENDARS = {
+  TR: { label: 'Türkiye', dates: turkishHolidays },
+  DE: { label: 'Almanya', dates: germanHolidays },
+  UK: { label: 'İngiltere ve Galler', dates: englishWelshHolidays },
+  US: { label: 'ABD (federal)', dates: usFederalHolidays }
+};
+
+// First days from Diyanet's annual official-holiday tables through 2035.
+const TR_FEASTS = {
+  2026: [[3, 20], [5, 27]],
+  2027: [[3, 9], [5, 16]],
+  2028: [[2, 26], [5, 5]],
+  2029: [[2, 14], [4, 24]],
+  2030: [[2, 4], [4, 13]],
+  2031: [[1, 24], [4, 2]],
+  2032: [[1, 14], [3, 22]],
+  2033: [[1, 2], [3, 11], [12, 23]],
+  2034: [[12, 12], [3, 1]],
+  2035: [[12, 1], [2, 18]]
+};
+
+const UK_HOLIDAY_NAMES = {
+  newYear: 'Yılbaşı',
+  goodFriday: 'Kutsal Cuma',
+  easterMonday: 'Paskalya Pazartesisi',
+  earlyMay: 'Mayıs Başı Tatili',
+  spring: 'Bahar Tatili',
+  summer: 'Yaz Tatili',
+  christmas: 'Noel Günü',
+  boxingDay: 'Boxing Day (Noel’in ikinci günü)'
+};
+
+// England and Wales only, from GOV.UK bank-holidays.json.
+const UK_PUBLISHED_HOLIDAYS = {
+  2026: [
+    [1, 1, 'newYear'], [4, 3, 'goodFriday'], [4, 6, 'easterMonday'], [5, 4, 'earlyMay'], [5, 25, 'spring'], [8, 31, 'summer'],
+    [12, 25, 'christmas'], [12, 28, 'boxingDay', 1]
+  ],
+  2027: [
+    [1, 1, 'newYear'], [3, 26, 'goodFriday'], [3, 29, 'easterMonday'], [5, 3, 'earlyMay'], [5, 31, 'spring'], [8, 30, 'summer'],
+    [12, 27, 'christmas', 1], [12, 28, 'boxingDay', 1]
+  ],
+  2028: [
+    [1, 3, 'newYear', 1], [4, 14, 'goodFriday'], [4, 17, 'easterMonday'], [5, 1, 'earlyMay'], [5, 29, 'spring'], [8, 28, 'summer'],
+    [12, 25, 'christmas'], [12, 26, 'boxingDay']
+  ]
+};
+const LAST_OPM_YEAR = 2030;
 
 const MONTHS = ['OCAK','ŞUBAT','MART','NİSAN','MAYIS','HAZİRAN','TEMMUZ','AĞUSTOS','EYLÜL','EKİM','KASIM','ARALIK'];
 const MONTHS_ABBR = ['OCA','ŞUB','MAR','NİS','MAY','HAZ','TEM','AĞU','EYL','EKİ','KAS','ARA'];
@@ -1061,10 +1139,25 @@ function updateShapeHint() {
     s.desc + ' Sayfa ölçüsü ' + PW + ' × ' + formatMeasure(s.height) + ' pt (' + formatMeasure(PW / 72) + ' × ' + formatMeasure(s.height / 72) + ' inç).';
 }
 
+(function fillHolidayChoices() {
+  const choices = document.getElementById('holidayChoices');
+  for (const [code, country] of Object.entries(HOLIDAY_CALENDARS)) {
+    const label = document.createElement('label');
+    label.className = 'check';
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.name = 'holidayCalendar';
+    input.value = code;
+    label.append(input, country.label);
+    choices.appendChild(label);
+  }
+})();
+
 function readOptions() {
   const theme = document.querySelector('input[name="pdfTheme"]:checked');
   return {
     theme: theme ? theme.value : DEFAULT_THEME,
+    holidayCountries: Array.from(document.querySelectorAll('input[name="holidayCalendar"]:checked'), input => input.value),
     pageShape: PAGE_SHAPES[document.getElementById('pageShape').value] ? document.getElementById('pageShape').value : DEFAULT_SHAPE,
     name: document.getElementById('docName').value.trim() || 'Günlük Ajanda',
     year: parseInt(document.getElementById('calYear').value, 10),
@@ -1112,6 +1205,158 @@ function startOfWeek(d, weekStart) {
   const diff = (d.getDay() - weekStart + 7) % 7;
   r.setDate(d.getDate() - diff);
   return r;
+}
+
+// UTC keeps the calculation independent of where the PDF is generated.
+function utcDate(year, month, day) {
+  return new Date(Date.UTC(year, month - 1, day));
+}
+
+function offsetDay(date, days) {
+  return new Date(date.getTime() + days * 86400000);
+}
+
+function weekdayInMonth(year, month, weekday, occurrence) {
+  if (occurrence > 0) {
+    const day = utcDate(year, month, 1);
+    return offsetDay(day, (weekday - day.getUTCDay() + 7) % 7 + (occurrence - 1) * 7);
+  }
+  const end = utcDate(year, month + 1, 0);
+  return offsetDay(end, -((end.getUTCDay() - weekday + 7) % 7));
+}
+
+function easterSunday(year) {
+  // Gregorian computus (Meeus/Jones/Butcher).
+  const a = year % 19;
+  const century = Math.floor(year / 100);
+  const withinCentury = year % 100;
+  const lunar = (19 * a + century - Math.floor(century / 4) -
+    Math.floor((century - Math.floor((century + 8) / 25) + 1) / 3) + 15) % 30;
+  const weekday = (32 + 2 * (century % 4) + 2 * Math.floor(withinCentury / 4) -
+    lunar - withinCentury % 4) % 7;
+  const adjustment = Math.floor((a + 11 * lunar + 22 * weekday) / 451);
+  const date = lunar + weekday - 7 * adjustment + 114;
+  return utcDate(year, Math.floor(date / 31), date % 31 + 1);
+}
+
+function turkishHolidays(year) {
+  const rows = [
+    [1, 1, 'Yılbaşı'],
+    [4, 23, 'Ulusal Egemenlik ve Çocuk Bayramı'],
+    [5, 1, 'Emek ve Dayanışma Günü'],
+    [5, 19, 'Atatürk’ü Anma, Gençlik ve Spor Bayramı'],
+    [7, 15, 'Demokrasi ve Millî Birlik Günü'],
+    [8, 30, 'Zafer Bayramı'],
+    [10, 28, 'Cumhuriyet Bayramı (13.00’ten itibaren yarım gün)'],
+    [10, 29, 'Cumhuriyet Bayramı']
+  ].map(([month, day, title]) => ({ date: utcDate(year, month, day), title }));
+  const [ramazan, kurban, secondRamazan] = TR_FEASTS[year] || [];
+  const feasts = [
+    [ramazan, 'Ramazan Bayramı', 3],
+    [kurban, 'Kurban Bayramı', 4],
+    [secondRamazan, 'Ramazan Bayramı', 3]
+  ];
+  for (const [start, name, duration] of feasts) {
+    if (!start) continue;
+    const first = utcDate(year, ...start);
+    rows.push({ date: offsetDay(first, -1), title: name + ' arifesi (13.00’ten itibaren yarım gün)' });
+    for (let i = 0; i < duration; i++) {
+      rows.push({ date: offsetDay(first, i), title: name + ' (' + (i + 1) + '. gün)' });
+    }
+  }
+  return rows;
+}
+
+function germanHolidays(year) {
+  const easter = easterSunday(year);
+  return [
+    [utcDate(year, 1, 1), 'Yılbaşı'],
+    [offsetDay(easter, -2), 'Kutsal Cuma'],
+    [offsetDay(easter, 1), 'Paskalya Pazartesisi'],
+    [utcDate(year, 5, 1), 'İşçi Bayramı'],
+    [offsetDay(easter, 39), 'İsa’nın Göğe Yükseliş Günü'],
+    [offsetDay(easter, 50), 'Pentekost Pazartesisi'],
+    [utcDate(year, 10, 3), 'Alman Birliği Günü'],
+    [utcDate(year, 12, 25), 'Noel Günü'],
+    [utcDate(year, 12, 26), 'Noel’in ikinci günü']
+  ].map(([date, title]) => ({ date, title }));
+}
+
+function englishWelshHolidays(year) {
+  const published = UK_PUBLISHED_HOLIDAYS[year];
+  if (published) {
+    return published.map(([month, day, key, observed]) => ({
+      date: utcDate(year, month, day), title: UK_HOLIDAY_NAMES[key], observed: Boolean(observed)
+    }));
+  }
+
+  const easter = easterSunday(year);
+  const regular = [
+    [offsetDay(easter, -2), 'goodFriday'],
+    [offsetDay(easter, 1), 'easterMonday'],
+    [weekdayInMonth(year, 5, 1, 1), 'earlyMay'],
+    [weekdayInMonth(year, 5, 1, -1), 'spring'],
+    [weekdayInMonth(year, 8, 1, -1), 'summer']
+  ].map(([date, key]) => ({ date, title: UK_HOLIDAY_NAMES[key], projected: true }));
+
+  const fixed = [
+    [utcDate(year, 1, 1), 'newYear'],
+    [utcDate(year, 12, 25), 'christmas'],
+    [utcDate(year, 12, 26), 'boxingDay']
+  ];
+  const isWeekend = date => date.getUTCDay() === 0 || date.getUTCDay() === 6;
+  // Reserve weekday holidays before assigning substitute days such as 27–28 December.
+  const reserved = new Set(fixed.filter(([date]) => !isWeekend(date)).map(([date]) => date.getTime()));
+  for (const [actual, key] of fixed) {
+    let date = actual;
+    if (isWeekend(actual)) {
+      do { date = offsetDay(date, 1); } while (isWeekend(date) || reserved.has(date.getTime()));
+      reserved.add(date.getTime());
+    }
+    regular.push({ date, title: UK_HOLIDAY_NAMES[key], observed: date !== actual, projected: true });
+  }
+  return regular;
+}
+
+function usFederalHolidays(year) {
+  const civilHolidays = [
+    [utcDate(year, 1, 1), 'Yılbaşı'],
+    [weekdayInMonth(year, 1, 1, 3), 'Martin Luther King Jr. Günü'],
+    [weekdayInMonth(year, 2, 1, 3), 'George Washington’ın Doğum Günü'],
+    [weekdayInMonth(year, 5, 1, -1), 'Anma Günü (Memorial Day)'],
+    [utcDate(year, 6, 19), 'Juneteenth Ulusal Bağımsızlık Günü'],
+    [utcDate(year, 7, 4), 'Bağımsızlık Günü'],
+    [weekdayInMonth(year, 9, 1, 1), 'İşçi Bayramı'],
+    [weekdayInMonth(year, 10, 1, 2), 'Kolomb Günü'],
+    [utcDate(year, 11, 11), 'Gaziler Günü'],
+    [weekdayInMonth(year, 11, 4, 4), 'Şükran Günü'],
+    [utcDate(year, 12, 25), 'Noel Günü'],
+    // New Year's Day can be observed on December 31 of the previous calendar year.
+    [utcDate(year + 1, 1, 1), 'Yılbaşı']
+  ];
+  return civilHolidays.map(([actual, title]) => {
+    const weekday = actual.getUTCDay();
+    const date = weekday === 6 ? offsetDay(actual, -1) : weekday === 0 ? offsetDay(actual, 1) : actual;
+    return { date, title, observed: date !== actual, projected: actual.getUTCFullYear() > LAST_OPM_YEAR };
+  });
+}
+
+function holidaysForYear(year, codes) {
+  const calendar = new Map();
+  for (const code of codes) {
+    for (const holiday of HOLIDAY_CALENDARS[code].dates(year)) {
+      const { date } = holiday;
+      if (date.getUTCFullYear() !== year) continue;
+      const key = year + '-' + (date.getUTCMonth() + 1) + '-' + date.getUTCDate();
+      if (!calendar.has(key)) calendar.set(key, []);
+      calendar.get(key).push({ code, ...holiday });
+    }
+  }
+  return calendar;
+}
+
+function holidayLabel({ code, title, observed, projected }) {
+  return code + ' · ' + title + (observed ? ' (telafi günü)' : '') + (projected ? ' *' : '');
 }
 
 /* ============================== page estimate ============================== */
@@ -1177,7 +1422,7 @@ function drawNavButtons(doc, theme, LH, prevPg, nextPg) {
 
 // Month calendar page: grid of days (each linking to its Daily Plan page) plus a notes area.
 function drawMonthPage(doc, theme, ctx) {
-  const { month, o, pageOf, monthPage } = ctx;
+  const { month, o, pageOf, monthPage, holidays } = ctx;
   const LH = o.leftHanded;
   drawMonthTabs(doc, theme, month, monthPage);
 
@@ -1185,6 +1430,14 @@ function drawMonthPage(doc, theme, ctx) {
   drawNavButtons(doc, theme, LH, month > 0 ? monthPage[month - 1] : (o.cover ? 1 : null),
                           month < 11 ? monthPage[month + 1] : null);
   capsText(doc, theme, MONTHS[month] + ' ' + o.year, LH ? CR : CL, 60, 14.5, { charSpace: 1.8, align: LH ? 'right' : 'left' });
+
+  if (holidays.size) {
+    const legend = o.holidayCountries.map(code => code + ' ' + HOLIDAY_CALENDARS[code].label).join(' / ');
+    capsText(doc, theme, legend, CL, 78, 7, { color: theme.muted, charSpace: 0 });
+    if (Array.from(holidays.values()).some(day => day.some(holiday => holiday.projected))) {
+      capsText(doc, theme, '* Hesaplanan tarih', CR, 78, 7, { color: theme.muted, align: 'right', charSpace: 0 });
+    }
+  }
 
   // weekday header, honouring the Monday/Sunday start
   const gap = 4, cellW = (CW - 6 * gap) / 7, cellH = 58 * PH / 720;   // scale boxes to the selected page height
@@ -1203,12 +1456,23 @@ function drawMonthPage(doc, theme, ctx) {
     const idx = offset + d - 1;
     const x = CL + (idx % 7) * (cellW + gap);
     const y = gridTop + Math.floor(idx / 7) * (cellH + gap);
-    const dow = new Date(o.year, month, d).getDay();
-    if (dow === 0 || dow === 6) { doc.setFillColor(theme.tab); doc.roundedRect(x, y, cellW, cellH, 3, 3, 'F'); }
+    const date = new Date(o.year, month, d);
+    const key = dateKey(date);
+    const dow = date.getDay();
+    const dayHolidays = holidays.get(key);
+    if (dayHolidays || dow === 0 || dow === 6) {
+      doc.setFillColor(dayHolidays ? theme.selected : theme.tab);
+      doc.roundedRect(x, y, cellW, cellH, 3, 3, 'F');
+    }
     doc.setDrawColor(theme.ink); doc.setLineWidth(0.7);
     doc.roundedRect(x, y, cellW, cellH, 3, 3);
     capsText(doc, theme, String(d).padStart(2, '0'), x + 6, y + 13, 9, { charSpace: 1 });
-    const pg = pageOf[dateKey(new Date(o.year, month, d))];
+    if (dayHolidays) {
+      const codes = [...new Set(dayHolidays.map(holiday => holiday.code))].join(' ');
+      const marker = codes + (dayHolidays.some(holiday => holiday.projected) ? '*' : '');
+      capsText(doc, theme, marker, x + 6, y + 25, 6.5, { charSpace: 0 });
+    }
+    const pg = pageOf[key];
     if (pg) doc.link(x, y, cellW, cellH, { pageNumber: pg });
   }
 
@@ -1290,8 +1554,20 @@ function drawDayHeader(doc, theme, ctx) {
   }
 }
 
-function drawPlanBody(doc, theme, o) {
-  const top = 132, bodyTop = 152;
+function drawHolidayBlock(doc, theme, dayHolidays) {
+  if (!dayHolidays) return 0;
+  const lineHeight = 11;
+  const height = 8 + dayHolidays.length * lineHeight;
+  doc.setFillColor(theme.selected);
+  doc.roundedRect(CL, 107, CW, height, 3, 3, 'F');
+  dayHolidays.forEach((holiday, i) => {
+    capsText(doc, theme, holidayLabel(holiday), CL + 8, 119 + i * lineHeight, 8.5, { charSpace: 0 });
+  });
+  return 7 + (dayHolidays.length - 1) * lineHeight;
+}
+
+function drawPlanBody(doc, theme, o, holidayOffset) {
+  const top = 132 + holidayOffset, bodyTop = 152 + holidayOffset;
   const bottom = PH - M - (o.stoic ? STOIC_SECTION_HEIGHT : 0);
   const colGap = 16;
   const tasksW = 200, schedW = CW - tasksW - colGap;
@@ -1382,6 +1658,26 @@ function drawNotesBody(doc, theme) {
   }
 }
 
+function drawLicenseNotice(doc, theme) {
+  const entries = [
+    ['Özgün proje: Cosmo-NZ', 'https://github.com/Cosmo-NZ/Daily_Planner'],
+    ['Türkçe uyarlama: @gokcemay', 'https://github.com/gokcemay/Gunluk_Ajanda'],
+    ['Ajanda düzeni: CC BY-NC 4.0', 'https://creativecommons.org/licenses/by-nc/4.0/']
+  ];
+  const size = 7, gap = 12, y = PH - 17;
+  doc.setFont(PDF_FONT, 'bold');
+  doc.setFontSize(size);
+  doc.setCharSpace(0);
+  const widths = entries.map(([text]) => doc.getTextWidth(text));
+  const totalWidth = widths.reduce((sum, width) => sum + width, gap * (entries.length - 1));
+  let x = (PW - totalWidth) / 2;
+  entries.forEach(([text, url], i) => {
+    capsText(doc, theme, text, x, y, size, { color: theme.muted, charSpace: 0 });
+    doc.link(x, y - 8, widths[i], 10, { url });
+    x += widths[i] + gap;
+  });
+}
+
 function drawCover(doc, theme, o, monthPage) {
   doc.setFillColor(theme.cover);
   doc.rect(0, 0, PW, PH, 'F');
@@ -1470,6 +1766,7 @@ function buildPdf(o, onProgress) {
       } catch (e) { console.warn('Font embed failed; using Helvetica.', e); }
 
       const days = daysInYear(o.year);
+      const holidays = holidaysForYear(o.year, o.holidayCountries || []);
 
       // Page map (1-based): [cover], then for each month its calendar page followed by
       // each day's Daily Plan page and that day's Daily Notes pages.
@@ -1486,6 +1783,7 @@ function buildPdf(o, onProgress) {
       const newPage = () => { if (firstPage) firstPage = false; else doc.addPage([PW, PH]); };
 
       if (o.cover) drawCover(doc, theme, o, monthPage);
+      drawLicenseNotice(doc, theme);
 
       const total = days.length;
       let i = 0;
@@ -1500,12 +1798,13 @@ function buildPdf(o, onProgress) {
             // Month calendar page, just before the 1st
             if (date.getDate() === 1) {
               newPage();
-              drawMonthPage(doc, theme, { month: date.getMonth(), o, pageOf, monthPage });
+              drawMonthPage(doc, theme, { month: date.getMonth(), o, pageOf, monthPage, holidays });
             }
             // Daily Plan page
             newPage();
             drawDayHeader(doc, theme, { date, o, pageOf, monthPage, mode: 'plan', planPage, noteIdx: -1 });
-            drawPlanBody(doc, theme, o);
+            const holidayOffset = drawHolidayBlock(doc, theme, holidays.get(dateKey(date)));
+            drawPlanBody(doc, theme, o, holidayOffset);
             if (o.stoic) drawStoicSection(doc, theme, date);
             // Daily Notes pages
             for (let k = 0; k < o.notesPages; k++) {
@@ -1570,14 +1869,18 @@ function renderPreview() {
   // Match the chosen page shape: the preview is 318 px wide, and extra height goes to the body.
   const shape = PAGE_SHAPES[o.pageShape];
   const pvH = 318 * shape.height / PW;
-  const extra = pvH - 424 - (o.stoic ? 318 * STOIC_SECTION_HEIGHT / PW : 0);
+  const holidays = holidaysForYear(o.year, o.holidayCountries);
+  const sample = (holidays.size && daysInYear(o.year).find(date => holidays.has(dateKey(date)))) ||
+    new Date(o.year, 0, 1);
+  const dayHolidays = holidays.get(dateKey(sample)) || [];
+  const holidayHeight = dayHolidays.length ? dayHolidays.length * 9 + 8 : 0;
+  const extra = pvH - 424 - (o.stoic ? 318 * STOIC_SECTION_HEIGHT / PW : 0) - holidayHeight;
   pv.style.height = pvH.toFixed(1) + 'px';
   updateShapeHint();
-  const sample = new Date(o.year, 0, 1);
   const ws = startOfWeek(sample, o.weekStart);
 
   let months = '<div class="pv-months">' + MONTHS_ABBR.map((m, i) =>
-    '<span class="' + (i === 0 ? 'on' : '') + '">' + m + '</span>').join('') + '</div>';
+    '<span class="' + (i === sample.getMonth() ? 'on' : '') + '">' + m + '</span>').join('') + '</div>';
 
   const title = dayTitle(sample);
   const nav = '<div class="pv-nav"><i>&#9665;</i><i>&#9655;</i></div>';
@@ -1589,7 +1892,7 @@ function renderPreview() {
   for (let i = 0; i < 7; i++) {
     const d = new Date(ws); d.setDate(ws.getDate() + i);
     const isToday = d.getTime() === sample.getTime();
-    const inMonth = d.getMonth() === 0 && d.getFullYear() === o.year;
+    const inMonth = d.getMonth() === sample.getMonth() && d.getFullYear() === o.year;
     cells += '<div class="pv-day ' + (isToday ? 'on' : inMonth ? 'in' : '') + '"><b>' +
       String(d.getDate()).padStart(2, '0') + '</b>' + DAYS_ABBR[d.getDay()] + '</div>';
   }
@@ -1618,7 +1921,16 @@ function renderPreview() {
   const stoic = o.stoic ?
     '<div class="pv-stoic"><h4>' + STOIC_SECTION_TITLES[0] + '</h4><p></p><small></small><h4>' +
     STOIC_SECTION_TITLES[1] + '</h4><ol><li></li><li></li><li></li></ol></div>' : '';
-  pv.innerHTML = months + titleRow + weekRow + body + stoic;
+  const holidayBand = dayHolidays.length ? '<div class="pv-holidays"></div>' : '';
+  pv.innerHTML = months + titleRow + weekRow + holidayBand + body + stoic;
+  if (dayHolidays.length) {
+    const band = pv.querySelector('.pv-holidays');
+    for (const holiday of dayHolidays) {
+      const line = document.createElement('p');
+      line.textContent = holidayLabel(holiday);
+      band.appendChild(line);
+    }
+  }
   if (o.stoic) {
     const { text, citation } = quoteForDate(sample);
     pv.querySelector('.pv-stoic p').textContent = '“' + text + '”';
