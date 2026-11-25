@@ -1,7 +1,7 @@
 # Agenda subdomain
-- [x] Install the supplied HTML unchanged and serve only the agenda host's root independently of the existing site.
-- [x] Verify Kobo Libra Colour preview, downloaded PDF (743 pages, matching aspect ratio and internal links), and unchanged site home/routes; three host-routing tests pass.
-- [ ] Complete live domain routing: DNS verification pending, owner must unset gmay.me as primary to stop cross-domain redirects and publish changes.
+- [x] Replace the static agenda with pinned GitHub version 3199dc76 and add the direct 2027 Stoacı Kobo PDF link.
+- [x] Verify Turkish UI, Kobo preview, distinct 743-page Standard/Stoacı downloads, all 365 sourced Stoacı quotes and gratitude lines.
+- [x] Confirm the regular preview homepage and seven sections remain unchanged; await owner approval before publishing.
 
 # AI STEP concept landing page
 - [x] Turn the uploaded presentation into a bilingual interactive product-concept page at /ai-step, with no homepage link.

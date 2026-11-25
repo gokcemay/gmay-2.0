@@ -169,6 +169,12 @@
   .pv-rem { margin-top: 6px; }
   .pv-rem h4 { font-size: 6.5px; letter-spacing: 1.2px; font-weight: 700; margin-bottom: 3px; }
   .pv-rem div { border: 0.7px solid var(--line-light); height: 34px; }
+  .pv-stoic { border-top: 0.8px solid var(--navy); margin-top: 6px; padding-top: 5px; line-height: 1.3; }
+  .pv-stoic h4 { font-size: 6.5px; letter-spacing: 0.6px; }
+  .pv-stoic p { font-size: 6.8px; margin: 2px 0; }
+  .pv-stoic small { display: block; font-size: 5.5px; color: var(--text-muted); margin-bottom: 5px; }
+  .pv-stoic ol { padding-left: 9px; }
+  .pv-stoic li { height: 9px; border-bottom: 0.6px solid var(--line-light); color: var(--text-muted); }
   .pv-caption { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 12px; }
 
   .note {
@@ -270,10 +276,19 @@
     </div>
 
     <div class="card">
+      <div class="field">
+        <label for="pdfEdition">PDF Sürümü</label>
+        <select id="pdfEdition">
+          <option value="standard">Günlük Ajanda</option>
+          <option value="stoic">Stoacı Günlük Ajanda</option>
+        </select>
+        <p class="field-hint">Stoacı sürüm, her günlük plana kaynaklı bir söz ve üç şükür satırı ekler.</p>
+      </div>
       <div class="generate-bar">
         <button class="generate" id="generateBtn">PDF OLUŞTUR</button>
         <span id="pageEstimate"></span>
       </div>
+      <p class="note"><a href="https://raw.githubusercontent.com/gokcemay/Gunluk_Ajanda/3199dc76d1303d4b135e95f6ff3ea4b3484a3a64/downloads/2027-stoaci-ajanda-kobo.pdf" target="_blank" rel="noopener noreferrer" style="color:var(--navy); font-weight:700;">2027 Stoacı PDF’yi indir — Kobo Libra Colour</a></p>
       <div class="progress-wrap" id="progressWrap">
         <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
         <div class="progress-label" id="progressLabel">Hazırlanıyor&hellip;</div>
@@ -334,6 +349,385 @@ const PAGE_SHAPES = {
              desc: 'Kobo Libra Colour ekranının dikey en-boy oranına uygun.' }
 };
 const DEFAULT_SHAPE = '3x4';
+
+const STOIC_SOURCES = {
+  M: ['Marcus Aurelius', 'Kendime Düşünceler', 'https://en.wikisource.org/wiki/The_Thoughts_of_the_Emperor_Marcus_Aurelius_Antoninus'],
+  E: ['Epiktetos', 'El Kitabı', 'https://classics.mit.edu/Epictetus/epicench.html'],
+  S: ['Seneca', 'Lucilius’a Mektuplar', 'https://en.wikisource.org/wiki/Moral_letters_to_Lucilius']
+};
+
+// One entry per date of a leap year, starting on January 1.
+const STOIC_QUOTES = [
+  ["E", "1", "Bazı şeyler bizim elimizdedir, bazıları değildir."],
+  ["S", "1", "Kendini kendin için özgür kıl. Elinden alınan veya avucundan kayıp giden zamanını biriktir ve koru."],
+  ["M", "1.1", "Dedem Verus’tan güzel ahlakı ve öfkeme hâkim olmayı öğrendim."],
+  ["M", "1.3", "Annemden kötülükten, hatta kötü düşünceden kaçınmayı ve sade yaşamayı öğrendim."],
+  ["M", "1.7", "Rusticus bana karakterimin gelişmeye ve disipline ihtiyacı olduğunu gösterdi."],
+  ["M", "1.8", "Apollonius’tan irade özgürlüğünü ve amacımda sarsılmadan durmayı öğrendim."],
+  ["M", "1.9", "Sextus’tan gösterişsiz bir ağırbaşlılık ve doğaya uygun yaşama düşüncesini öğrendim."],
+  ["S", "2", "Düzenli bir zihnin ilk belirtisi, yerinde durabilmek ve kendisiyle kalabilmektir."],
+  ["M", "1.10", "Dilbilgisi öğretmeni Aleksandros’tan insanların sözlerini kınamamayı öğrendim."],
+  ["E", "2", "Elinde olmayan şeylerden kaçınmaya çalışırsan, kaçındığın şeye rastladığında mutsuz olursun."],
+  ["M", "1.12", "İnsanlara karşı görevlerini ihmal etmene sürekli meşguliyetini bahane etme."],
+  ["M", "1.13", "Bir dostun sitemini, temelsiz görünse bile, umursamazlıkla karşılama."],
+  ["M", "1.14", "Kardeşim Severus’tan yakınlarımı, hakikati ve adaleti sevmeyi öğrendim."],
+  ["M", "1.15", "Maximus’tan kendime hâkim olmayı ve hastalıkta bile neşeyi korumayı öğrendim."],
+  ["S", "3", "Dostluk kurmadan önce yargını kullan. Dostluğu kurduktan sonra güven."],
+  ["M", "1.16", "Babamda yumuşak huyluluk ve iyice düşünerek aldığı kararlarda sebat gördüm."],
+  ["E", "3", "Sevdiğin şeyin ne türden bir şey olduğunu kendine hatırlat. En küçük şeylerden başla."],
+  ["M", "2.4", "Ne zamandır ertelediğini ve önüne çıkan fırsatları kaç kez kullanmadığını hatırla."],
+  ["M", "2.5", "Elindeki işi sade bir vakar, sevgi, özgürlük ve adaletle yap."],
+  ["M", "2.7", "Kendine yeni ve iyi bir şey öğrenmek için zaman tanı."],
+  ["M", "2.8", "Kendi zihninin hareketlerini izlemeyenler mutsuz olmaktan kaçamaz."],
+  ["S", "4", "Başladığın gibi devam et ve huzura ermiş bir zihnin tadını daha uzun süre çıkarmaya bak."],
+  ["M", "2.9", "Bütünün doğasını, kendi doğanı ve ikisinin birbirine nasıl bağlandığını aklında tut."],
+  ["E", "4", "Bir işe girişeceğin zaman, o işte nelerle karşılaşabileceğini kendine hatırlat."],
+  ["M", "2.11", "Hayattan bu an ayrılabilirsin. Her davranışını ve düşünceni buna göre düzenle."],
+  ["M", "2.12", "Varlıklar dünyadan, hatıraları da zamandan ne çabuk siliniyor."],
+  ["M", "2.14", "İnsan, şu anda yaşadığı hayattan başka bir hayatı yitirmez."],
+  ["S", "5", "Her gün daha iyi bir insan olmaya çalışmana seviniyorum."],
+  ["M", "2.15", "Unutma, her şey yargıya bağlıdır."],
+  ["M", "3.2", "Doğal süreçlerin ardından gelen şeylerde bile hoş ve çekici bir yan vardır."],
+  ["E", "5", "İnsanları sarsan şeylerin kendisi değil, onlar hakkında edindikleri yargılardır."],
+  ["M", "3.4", "Ortak bir yararı yoksa ömrünün kalanını başkalarını düşünerek harcama."],
+  ["M", "3.5", "Düşünmeden, dikkatin dağılmışken ya da ortak yararı gözetmeden işe girişme."],
+  ["M", "3.7", "Sözünü bozmaya veya özsaygını yitirmeye zorlayan hiçbir şeyi çıkarın sayma."],
+  ["S", "6", "Sevgili Lucilius, yalnızca düzelmediğimi, dönüşmekte olduğumu hissediyorum."],
+  ["M", "3.9", "Yargı oluşturma yetine saygı göster."],
+  ["M", "3.10", "Her insan yalnızca şu anı yaşar. O an, bölünmez bir noktadır."],
+  ["M", "3.11", "Karşına çıkan şeyin ne olduğunu, bütün çıplaklığıyla görecek biçimde tanımla."],
+  ["E", "6", "Sana ait olmayan bir üstünlükle övünme."],
+  ["M", "3.12", "Önündeki işi doğru akla uyarak ciddiyetle, gayretle ve sükûnetle yap."],
+  ["M", "3.13", "Hekim araçlarını nasıl hazır tutarsa sen de ilkelerini öyle hazır tut."],
+  ["S", "7", "İçimde yatıştırdığım kimi şeyler, kalabalıktan döndüğümde yeniden huzursuz olur."],
+  ["M", "3.16", "Bedene duyumlar, ruha arzular, akla ilkeler aittir."],
+  ["M", "4.1", "Güçlü bir ateş önüne atılanı kendi yakıtına çevirir."],
+  ["M", "4.2", "Hiçbir işi amaçsız yapma."],
+  ["E", "7", "Yolculukta kıyıda oyalanabilirsin. Ama gözün hep gemide olsun."],
+  ["M", "4.3", "İnsan hiçbir yerde kendi ruhundaki kadar sessiz bir sığınak bulamaz."],
+  ["M", "4.3", "Evren değişimdir. Hayat, yargıdan ibarettir."],
+  ["S", "8", "Bedene sağlıklı kalması için gerektiği kadar özen göster."],
+  ["M", "4.4", "Akıl hepimizde ortaksa, neyi yapıp yapmayacağımızı söyleyen akıl da ortaktır."],
+  ["M", "4.5", "Doğum gibi ölüm de doğanın bir sırrıdır."],
+  ["M", "4.7", "Zarar gördüğün yargısını kaldırırsan, zarar gördüğüne dair şikâyet de kalkar."],
+  ["E", "8", "Olayların dilediğin gibi olmasını isteme. Oldukları gibi olmalarını dile."],
+  ["M", "4.8", "Bir insanı olduğundan daha kötü yapmayan şey, onun hayatını da kötüleştirmez."],
+  ["S", "9", "Bilge insan kendine yetse bile dostluk edebilmek için dost ister."],
+  ["M", "4.11", "Sana haksızlık edenin gözünden bakma. Şeyleri oldukları gibi gör."],
+  ["M", "4.12", "Biri sana işin doğrusunu gösterdiğinde fikrini değiştirmeye hazır ol."],
+  ["M", "4.13", "Aklın var. Öyleyse neden onu kullanmıyorsun?"],
+  ["M", "4.14", "Bütünün bir parçası olarak vardın. Değişerek seni meydana getiren bütüne döneceksin."],
+  ["E", "9", "Hastalık bedene engeldir. Sen öyle seçmedikçe seçme yetine engel değildir."],
+  ["M", "4.15", "Aynı sunaktaki tütsü tanelerinin kimi önce, kimi sonra düşer. Bunun bir farkı yoktur."],
+  ["S", "10", "Seni kendine emanet etmeye cesaret ediyorum."],
+  ["M", "4.17", "On bin yıl yaşayacakmış gibi davranma. Elinden geliyorken iyi ol."],
+  ["M", "4.18", "Komşunun ne yaptığına değil, yaptığının adil olup olmadığına bak."],
+  ["M", "4.19", "Seni hatırlayanların da bir gün öleceğini unutma."],
+  ["M", "4.20", "Güzel olan, kendi başına güzeldir. Övgü onu ne daha güzel ne daha çirkin yapar."],
+  ["E", "10", "Başına gelen her şeyde, ondan iyi yararlanmak için hangi yeteneğin olduğunu sor."],
+  ["M", "4.22", "Her davranışında adaleti, her izlenim karşısında kavrayışını koru."],
+  ["S", "11", "Doğanın bize verdiği kimi özellikler, bilgelikle bile tamamen silinmez."],
+  ["M", "4.23", "Ey doğa, her şey senden gelir, sende bulunur ve sana döner."],
+  ["M", "4.24", "Her fırsatta kendine sor: Bu, gereksiz şeylerden biri mi?"],
+  ["M", "4.25", "Payına düşenle, adil davranışlarınla ve iyi niyetinle yetinmenin nasıl olduğunu dene."],
+  ["M", "4.26", "Kendini tedirgin etme. Büsbütün sade ol."],
+  ["M", "4.31", "Öğrendiğin uğraş ne kadar mütevazı olursa olsun, onu sev ve onunla yetin."],
+  ["E", "11", "Bir şey için onu kaybettim deme. Onu geri verdim de."],
+  ["S", "12", "Bize bir gün daha verilirse, onu sevinçle karşılayalım."],
+  ["M", "4.33", "Bir zamanlar herkesin dilinde olan sözcükler eskir. Ünlü adlar da öyle."],
+  ["M", "4.34", "Bırak, Klotho hayatının ipliğini dilediği gibi eğirsin."],
+  ["M", "4.35", "Hatırlayan da hatırlanan da bir günlüktür."],
+  ["M", "4.36", "Her şeyin değişim yoluyla meydana geldiğini sürekli gözle."],
+  ["S", "13", "Gerçekte olduğundan daha çok, hayalimizde acı çekeriz."],
+  ["M", "4.38", "İnsanların hangi şeylerden kaçtıklarına ve hangilerinin peşinden gittiklerine bak."],
+  ["E", "12", "Kaygı içinde bolluk yaşamaktansa huzur içinde aç kalmak daha iyidir."],
+  ["M", "4.39", "Senin için kötü olan, başka birinin zihninde bulunmaz."],
+  ["M", "4.40", "Evreni tek bir canlı varlık olarak düşün, tek bir maddesi ve tek bir ruhu olan."],
+  ["M", "4.42", "Bir şeyin değişmesi kendi başına kötülük, değişmeden kalması da iyilik değildir."],
+  ["M", "4.43", "Zaman, olup bitenlerin oluşturduğu bir ırmaktır."],
+  ["S", "14", "Bedenini efendin yapan kişi, sonunda birçok efendinin buyruğuna girer."],
+  ["M", "4.44", "Olup bitenler, ilkbaharda gülün açması ve yazın meyvenin olgunlaşması kadar doğaldır."],
+  ["E", "13", "İlerlemek istiyorsan, dış meselelerde bilgisiz ve akılsız sayılmaya razı ol."],
+  ["M", "4.45", "Olayların dizisinde, sonra gelenler öncekilere uygun biçimde bağlanır."],
+  ["M", "4.49", "Dalgaların durmadan vurduğu, ama sarsılmadan duran burun gibi ol."],
+  ["M", "4.51", "En kısa yol doğaya uygun olandır. Her şeyi sağduyuya uyarak söyle ve yap."],
+  ["M", "5.1", "Sabah kalkmak istemediğinde düşün: Bir insanın işini yapmak üzere kalkıyorum."],
+  ["S", "15", "Felsefe olmadan zihin hastadır. Güçlü bir beden bile bu hastalığı gideremez."],
+  ["M", "5.3", "Bir söz ya da iş doğaya uygunsa, insanların kınaması seni ondan alıkoymasın."],
+  ["E", "14", "Elinde olmayanı yönetmek isteme."],
+  ["M", "5.5", "Zekân beğenilmese de dürüstlük ve sadelik göstermek elindedir."],
+  ["M", "5.6", "Asmanın üzüm vermesi gibi, iyiliği yaptıktan sonra karşılığını arama."],
+  ["M", "5.9", "İlkelerine uymakta tökezlediğinde yılma. Yeniden onlara dön."],
+  ["M", "5.11", "Şu anda zihnimi neyle meşgul ediyorum?"],
+  ["S", "16", "Felsefe halka gösteri yapmak için kullanılacak bir hüner değildir."],
+  ["M", "5.13", "Hiçlikten doğmadığımız gibi, hiçliğe de karışmayız."],
+  ["M", "5.14", "Akıl ve düşünme sanatı, kendi işleri için kendilerine yeter."],
+  ["E", "15", "Hayatta bir ziyafetteki gibi davran. Payın önüne gelince onu ölçülüce al."],
+  ["M", "5.16", "Ruh, düşüncelerin rengini alır."],
+  ["M", "5.17", "İmkânsız olanı aramak akılsızlıktır."],
+  ["S", "17", "Sağlam bir zihne erişmek için bütün gücünle çalış. Seni tutan bağı çöz ya da kopar."],
+  ["M", "5.19", "Dışarıdaki şeyler ruhu kendiliğinden yönlendiremez. Ruh kendi yönünü belirler."],
+  ["M", "5.20", "İnsanlara iyilik etmek ve onlara sabretmek bana düşer."],
+  ["M", "5.21", "Evrende en iyi olana saygı duy. Kendinde de en iyi olana saygı duy."],
+  ["E", "16", "Kederli biriyle sözlerinle duygudaş olabilirsin. Kederin kendi içine de yerleşmesine izin verme."],
+  ["M", "5.22", "Topluma zarar vermeyen şey, yurttaşa da zarar vermez."],
+  ["M", "5.23", "Var olanların ve yeni meydana gelenlerin ne hızla akıp gittiğini sık sık düşün."],
+  ["S", "18", "Bazı günleri ayırıp en sade yiyecekler ve en kaba giysilerle yetinmeyi dene."],
+  ["M", "5.24", "Sana ayrılan zamanın, bütün zamanın ne küçük bir parçası olduğunu düşün."],
+  ["M", "5.25", "Başkası bana haksızlık mı etti? Bu onun işi. Ben doğamın gerektirdiğini yaparım."],
+  ["M", "5.26", "Zihninin yönetici yanı bedensel haz ve acının hareketleriyle sarsılmasın."],
+  ["E", "17", "Bir oyunun oyuncusu olduğunu hatırla. Sana düşen, verilen rolü iyi oynamaktır."],
+  ["M", "5.31", "Bugüne dek ailene, öğretmenlerine ve dostlarına nasıl davrandığını düşün."],
+  ["M", "5.31", "Bugüne dek nelerden geçtiğini ve nelere dayanabildiğini hatırla."],
+  ["S", "19", "Para uğruna göze aldığın tehlikeleri ve katlandığın zahmetleri düşün."],
+  ["M", "5.33", "Bir ad dediğin, bir ses ve bir yankıdır."],
+  ["M", "5.34", "Doğru düşünüp doğru davranabilirsen, ömrünü sükûnet içinde geçirebilirsin."],
+  ["M", "5.36", "İlk izlenime düşünmeden kapılma. Elinden geldiğince herkese yardım et."],
+  ["E", "18", "Başıma ne gelirse gelsin, ondan iyi yararlanmak benim elimdedir."],
+  ["M", "6.2", "Görevini yapıyorsan, üşümen veya sıcaklaman, övülmen veya yerilmen fark etmesin."],
+  ["M", "6.3", "İçine bak. Hiçbir şeyin kendine özgü niteliği ve değeri gözünden kaçmasın."],
+  ["S", "20", "Sözlerinle yaptıkların uyuşsun."],
+  ["M", "6.4", "Var olan her şey yakında değişir."],
+  ["M", "6.5", "Yöneten akıl kendi eğilimini, ne yaptığını ve ne üzerinde çalıştığını bilir."],
+  ["M", "6.6", "Öç almanın en iyi yolu, haksızlık edene benzememektir."],
+  ["E", "19", "Kazanmanın sana bağlı olmadığı hiçbir yarışa girmezsen yenilmez olabilirsin."],
+  ["M", "6.7", "Toplum yararına olan bir işten bir başka yararlı işe geçmeyi sevinç kaynağın bil."],
+  ["S", "21", "Doğru yolu onaylamakta, o yolda yürümekten daha ustasın."],
+  ["M", "6.8", "Zihin kendini yönlendirir ve olayların ona nasıl görüneceğini de belirler."],
+  ["M", "6.11", "Koşullar seni sarstığında, olabildiğince çabuk kendine dön."],
+  ["M", "6.15", "Kimi şeyler varlığa, kimileri yokluğa koşuyor."],
+  ["M", "6.18", "Yanımızda yaşayanı övmeyiz, ama hiç görmediğimiz gelecek kuşakların övgüsünü isteriz."],
+  ["M", "6.19", "Bir işi yapmak sana güç geliyor diye insana olanaksız olduğunu düşünme."],
+  ["E", "20", "Biri seni öfkelendirdiğinde, seni öfkelendirenin kendi yargın olduğunu hatırla."],
+  ["S", "22", "Bilgeliği kavrayan kişi, doğduğu günkü kadar kaygısız ölebilir."],
+  ["M", "6.21", "Yanlış düşündüğümü ya da davrandığımı gösterene sevinçle kulak veririm."],
+  ["M", "6.22", "Görevimi yaparım. Öteki şeyler beni tedirgin etmez."],
+  ["M", "6.24", "Ölüm, Büyük İskender’i de seyisini de aynı duruma getirdi."],
+  ["M", "6.29", "Beden henüz direniyorken ruhun önce pes etmesi utanç vericidir."],
+  ["M", "6.30", "Kendini sade, iyi, temiz, ciddi ve gösterişten uzak tut."],
+  ["E", "21", "Sana korkunç görünen şeyleri, en başta da ölümü, her gün gözünün önüne getir."],
+  ["S", "23", "Gerçek sevincin ağırbaşlı bir iş olduğuna inan bana."],
+  ["M", "6.36", "Bütün deniz evrende bir damla, içinde bulunduğumuz an sonsuzlukta bir noktadır."],
+  ["M", "6.38", "Evrendeki her şeyin birbirine nasıl bağlandığını sık sık düşün."],
+  ["M", "6.39", "Payına düşen koşullara uyum sağla. Birlikte yaşadığın insanları içtenlikle sev."],
+  ["M", "6.42", "Hepimiz aynı sonuca doğru çalışırız. Kimimiz bunu bilerek, kimimiz bilmeden yapar."],
+  ["M", "6.43", "Güneş yağmurun işine kalkışır mı?"],
+  ["S", "24", "Sıkıntı geldiğinde zaten ona dayanacaksın. Gelmeden onu niçin çağırıyorsun?"],
+  ["E", "22", "Felsefeye gönül veriyorsan, daha ilk günden insanların alayına hazır ol."],
+  ["M", "6.48", "Sevinmek istediğinde, birlikte yaşadığın insanların erdemlerini düşün."],
+  ["M", "6.50", "İnsanları ikna etmeye çalış. Adalet gerektiriyorsa onlar istemese de doğru olanı yap."],
+  ["M", "6.51", "Akıllı insan iyiliğini kendi eylemlerinde bulur."],
+  ["M", "6.52", "Bir şey hakkında yargıda bulunmamak ve iç huzurunu korumak elindedir."],
+  ["S", "25", "Yolculuk için yükünü hafiflet. Sahip olduklarımızın hiçbiri vazgeçilmez değildir."],
+  ["M", "6.53", "Söyleneni dikkatle dinlemeye ve konuşanın ne düşündüğünü anlamaya alış."],
+  ["E", "23", "Her konuda filozof olmakla yetin. Öyle görünmek istiyorsan kendi gözüne öyle görün."],
+  ["M", "6.54", "Arı kolonisi için iyi olmayan şey, arı için de iyi değildir."],
+  ["M", "6.56", "Benimle aynı zamanda dünyaya gelenlerden kaçı çoktan ayrıldı."],
+  ["M", "7.1", "Başına bir şey geldiğinde, bunun daha önce de insanların başına geldiğini hatırla."],
+  ["M", "7.2", "İlkelerini canlı tutan düşünceleri yeniden canlandırmak elindedir."],
+  ["S", "26", "Yaşlılığın etkisini bedenimde hissediyorum, ama zihnime zarar verdiğini görmüyorum."],
+  ["M", "7.4", "Konuşurken söylenene, hareket ederken yapılan işe dikkat et."],
+  ["M", "7.5", "Aklım bu işe yetiyorsa, doğanın verdiği bu aracı kullanırım."],
+  ["E", "24", "Dürüst ve güvenilir kalmamı istiyorsanız, bana bunları yitireceğim yolu göstermeyin."],
+  ["M", "7.6", "Nice ünlü unutuldu. Onların ününü yayanlardan nicesi de çoktan öldü."],
+  ["M", "7.7", "Yardım almaktan utanma. Sana düşen, görevini yerine getirmektir."],
+  ["M", "7.8", "Gelecek seni tedirgin etmesin. Karşısına bugünkü aklınla çıkacaksın."],
+  ["S", "27", "Sana yukarıdan öğüt vermiyorum. İkimizi de ilgilendiren dertleri konuşuyorum."],
+  ["M", "7.9", "Her şey birbirine bağlıdır. Bu bağ kutsaldır."],
+  ["M", "7.11", "Akıl sahibi bir varlık için akla uygun eylem, doğaya da uygundur."],
+  ["E", "25", "Bir karşılığı ödemeden onunla elde edileni almak istemek haksızlıktır."],
+  ["M", "7.13", "Bedenin ayrı uzuvları gibi, insanlar da birlikte çalışmak üzere yaratılmıştır."],
+  ["M", "7.15", "Kim ne yaparsa yapsın, ne söylerse söylesin, ben iyi olmalıyım."],
+  ["M", "7.18", "Değişimden korkan var mı? Değişim olmadan ne meydana gelebilir?"],
+  ["S", "28", "İklimini değil, ruhunu değiştirmeye ihtiyacın var."],
+  ["M", "7.20", "Beni kaygılandıran tek şey, insan doğasına aykırı davranmak olur."],
+  ["M", "7.21", "Her şeyi unutman da herkesin seni unutması da yakındır."],
+  ["E", "26", "Komşunun bardağı kırıldığında gösterdiğin sükûneti kendi bardağın kırıldığında da göster."],
+  ["M", "7.22", "Yanlış yapanları bile sevebilmek insana özgüdür."],
+  ["M", "7.25", "Doğa, gördüğün her şeyi değiştirecek ve onların maddesinden yeni şeyler yapacaktır."],
+  ["S", "29", "Dinlemeye istekli olmayan biriyle konuşmamak gerekir."],
+  ["M", "7.26", "Biri sana haksızlık ederse, neyi iyi ya da kötü sandığı için öyle yaptığını düşün."],
+  ["M", "7.27", "Eksiklerine değil, elindekilere bak. Onlar olmasaydı onları ne kadar isterdin, düşün."],
+  ["M", "7.28", "Kendine dön. Akıl, adil davrandığında kendi başına hoşnuttur."],
+  ["E", "27", "Hedef ıskalansın diye konulmaz."],
+  ["M", "7.29", "Kendini şimdiki zamanla sınırla."],
+  ["M", "7.30", "Dikkatini söylenene ver. Yapılan işe ve onu yapanlara aklınla nüfuz et."],
+  ["S", "30", "Yaşlı dostumu sağlığı bozulmuş, yılların ağırlığıyla boğuşurken gördüm."],
+  ["M", "7.31", "Sadeliği ve alçakgönüllülüğü kendine süs edin. İnsanları sev."],
+  ["M", "7.47", "Yıldızların yolculuğunu, sanki sen de onlarla gidiyormuşsun gibi seyret."],
+  ["M", "7.49", "Geçmişi, iktidarların nice büyük değişiklikten geçtiğini düşün."],
+  ["E", "28", "Bedenini bir yabancıya verseler öfkelenirsin. Öyleyse zihnini neden her önüne gelene bırakıyorsun?"],
+  ["M", "7.52", "Biri güreşte daha usta olabilir. Bu, onu daha toplumsal ya da daha ölçülü kılmaz."],
+  ["M", "7.54", "İçinde bulunduğun durumu kabul etmek ve çevrendekilere adil davranmak her zaman elindedir."],
+  ["S", "31", "Çalışmak, yüce zihinlerin besinidir."],
+  ["M", "7.55", "Başkalarının zihnini yoklama. Doğanın seni nereye götürdüğüne bak."],
+  ["M", "7.57", "Başına geleni ve kaderinin ipliğine dokunanı sev."],
+  ["M", "7.59", "İçine bak. İyiliğin kaynağı oradadır. Kazmaya devam ettikçe fışkırır."],
+  ["M", "7.61", "Yaşama sanatı dansçılıktan çok güreşe benzer. Beklenmedik hamleye hazır dur."],
+  ["E", "29", "Her işin öncesini ve sonrasını düşün, sonra işe giriş."],
+  ["M", "7.62", "Beğenisini arzuladığın insanların hangi ilkelere göre yaşadığına dikkat et."],
+  ["S", "32", "İnsanları geleceğe bu kadar aç kılan ne? Henüz kendilerini bulamamış olmaları."],
+  ["M", "7.64", "Acı duymakta utanılacak bir şey yoktur."],
+  ["M", "7.65", "İnsanlık dışı davrananlara, onların insanlara davrandığı gibi davranma."],
+  ["M", "7.68", "Bütün dünya sana karşı çıksa da zihnini huzurlu tutabilirsin."],
+  ["M", "7.71", "Kaçabileceğin kendi kötülüğünden kaçmayıp başkalarınınkinden kaçmaya çalışmak gülünçtür."],
+  ["E", "30", "Görevlerimizi insanlarla ilişkilerimiz belirler."],
+  ["S", "33", "Bütün orman aynı yüksekliğe ulaşmışsa tek bir ağaç göze çarpmaz."],
+  ["M", "7.73", "İyilik yaptın ve biri ondan yararlandı. Neden bir de övgü ya da karşılık arıyorsun?"],
+  ["M", "8.2", "Her davranışından önce kendine sor: Bundan pişman olacak mıyım?"],
+  ["M", "8.4", "Öfkeden patlasan da insanlar yine aynı şeyleri yapacak."],
+  ["M", "8.8", "Okumaya zamanın olmayabilir, ama kibri dizginlemek için zamanın var."],
+  ["M", "8.9", "Ne saray hayatından ne kendi hayatından şikâyet ettiğini artık kimse duymasın."],
+  ["E", "31", "Yararlı ve zararlı olanı, kendi yönetebildiğin şeylerle sınırla."],
+  ["S", "34", "Davranışlarından ve mektuplarından kendini ne kadar aştığını görmek beni sevindiriyor."],
+  ["M", "8.10", "Pişmanlık, yararlı bir şeyi ihmal ettiğin için kendini kınamandır."],
+  ["M", "8.11", "Bu şey kendi başına nedir? Neyden oluşur ve ne işe yarar?"],
+  ["M", "8.12", "Uykudan kalkmak zorunda kaldığında, topluma yararlı işin insan doğasına uygun olduğunu hatırla."],
+  ["M", "8.14", "Karşılaştığın kişinin iyi ve kötü hakkında neler düşündüğünü kendine sor."],
+  ["M", "8.15", "İncir ağacının incir vermesine şaşırmadığın gibi, dünyanın doğurduğu şeylere de şaşırma."],
+  ["S", "35", "Bir dost seni sever. Ama seni seven herkes dostun değildir."],
+  ["E", "32", "Bir kâhine danışmaya gittiğinde, olayın nasıl sonuçlanacağını bilmediğini hatırla."],
+  ["M", "8.16", "Yanlışını göstereni dinleyip fikrini değiştirmek de özgürlüğüne uygundur."],
+  ["M", "8.18", "Ölen şey evrenden çıkmaz. Burada kalır, değişir ve parçalarına ayrılır."],
+  ["M", "8.19", "Atın da asmanın da güneşin de bir amacı vardır."],
+  ["M", "8.21", "Öven de övülen de hatırlayan da hatırlanan da kısa ömürlüdür."],
+  ["M", "8.22", "İster bir düşünce, ister bir davranış, ister bir söz olsun, önündekine dikkat et."],
+  ["S", "36", "Yok oluyor sandığımız her şey aslında yalnızca biçim değiştirir."],
+  ["M", "8.22", "Bugün iyi olabilecekken yarın iyi olmayı seçiyorsun."],
+  ["E", "33", "Çoğu zaman sus, ya da yalnızca gerekli olanı kısa biçimde söyle."],
+  ["M", "8.23", "Bir şey mi yapıyorum? Onu insanların iyiliğini gözeterek yaparım."],
+  ["M", "8.26", "İnsanın kendine yaraşan işi yapması, ona hoşnutluk verir."],
+  ["M", "8.29", "Şu anda zihnime kötü düşünceyi, arzuyu ve tedirginliği almamak elimdedir."],
+  ["S", "37", "Zorunluluklardan kaçamazsın. Ama onların üstesinden gelebilirsin."],
+  ["M", "8.30", "İster senatoda ister herhangi biriyle konuş, gösterişsiz ve açık konuş."],
+  ["M", "8.32", "Hayatını her bir davranışında düzenlemek senin görevin."],
+  ["E", "34", "Sana haz vaat eden bir izlenime hemen kapılma. Kararı ertele, kendine zaman ver."],
+  ["M", "8.33", "Varlığı kibirlenmeden kabul et ve onu bırakmaya hazır ol."],
+  ["M", "8.36", "Hayatının tüm dertlerini bir anda zihnine doldurup kendini tedirgin etme."],
+  ["M", "8.42", "Başkalarına bilerek acı vermedim. Kendime de acı vermem yakışık almaz."],
+  ["S", "38", "Sohbet daha yararlıdır, çünkü yavaş yavaş ruhun içine işler."],
+  ["M", "8.44", "Şu anı kendine ayırmaya bak."],
+  ["M", "8.45", "Beni nereye atarsan at, orada da zihnimi huzurlu tutacağım."],
+  ["E", "35", "Bir şeyi yapman gerektiğine açıkça karar verdiysen, yaparken görülmekten kaçınma."],
+  ["M", "8.47", "Seni sarsan dışarıdaki şeyin kendisi değil, onun hakkındaki yargındır."],
+  ["M", "8.49", "İlk izlenimin bildirdiğinden fazlasını kendine söyleme."],
+  ["M", "8.50", "Salatalık acıysa at. Yolda diken varsa yolunu değiştir. Bu yeter."],
+  ["S", "39", "Büyük işlerin görüntüsü insanı çağırır ve yükseltir."],
+  ["M", "8.51", "İşinde ağırdan alma, sözünü dağınık söyleme, düşüncelerinin başıboş gezmesine izin verme."],
+  ["M", "8.53", "Kendini beğenmeyen birini memnun etmek mi istiyorsun?"],
+  ["E", "36", "Bir sofrada en büyük payı almak bedenine yarayabilir. Ama ev sahibine saygıyla bağdaşmaz."],
+  ["M", "8.59", "İnsanlar birbirleri için vardır. Onlara öğret ya da onlara katlan."],
+  ["M", "8.61", "Başkalarının zihnini anlamaya çalış ve onların da seninkini anlamasına izin ver."],
+  ["M", "9.1", "Doğa, akıl sahibi varlıkları birbirlerine yardım etmeleri için var etti."],
+  ["S", "40", "Filozofun sözü korkularımı yatıştırmalı, huzursuzluğumu dindirmeli."],
+  ["M", "9.2", "İnsanın yalan, ikiyüzlülük, lüks ve kibri tatmadan dünyadan ayrılması en mutlu pay olurdu."],
+  ["M", "9.3", "Ölümü hor görme. O da doğanın istediği şeylerden biridir."],
+  ["E", "37", "Gücünü aşan bir rolü üstlenirsen, başarabileceğin rolü de elinden kaçırırsın."],
+  ["M", "9.4", "Haksızlık eden kendine haksızlık eder, çünkü kendini kötüleştirir."],
+  ["M", "9.5", "Bazen bir şeyi yapmayan kişi de haksızlık eder."],
+  ["S", "41", "Kendi içinden elde edebileceğin bir akıl için yakarmak akılsızlıktır."],
+  ["M", "9.6", "Bu anki yargına anlayış, davranışına ortak yarar, mizacına kabulleniş yön versin."],
+  ["M", "9.7", "Kuruntuyu sil, arzuyu dizginle ve zihninin yönetimini elinde tut."],
+  ["M", "9.9", "Ortak bir şeyi paylaşan varlıklar, kendi benzerlerine doğru çekilir."],
+  ["M", "9.32", "Seni tedirgin eden pek çok gereksiz şeyi kaldırabilirsin. Onlar yalnızca yargında bulunur."],
+  ["E", "38", "Yürürken ayağını incitmekten nasıl kaçınıyorsan, aklını incitmekten de öyle kaçın."],
+  ["M", "9.33", "Gördüğün her şey tez yok olacak. Yok oluşuna tanık olanlar da."],
+  ["S", "42", "Bir şeyi kazanmaya uğraşırken, onun için ne ödediğine de bak."],
+  ["M", "9.34", "İnsanların hangi ilkelerle yaşadığını, neyle uğraştığını ve neye saygı duyduğunu düşün."],
+  ["M", "9.35", "Kayıp denen şey, değişimden başka bir şey değildir."],
+  ["M", "9.37", "Seni tedirgin eden ne? Bunda yeni olan ne var?"],
+  ["M", "9.38", "Biri yanlış yaptıysa zarar kendisinindir. Belki de yanlış yapmamıştır."],
+  ["E", "39", "Ayağın ayakkabının ölçüsü olduğu gibi, beden de sahip olacaklarının ölçüsüdür."],
+  ["M", "9.42", "Birinin utanmazlığı seni kızdırdıysa sor: Dünyada hiç utanmaz insan olmaması mümkün mü?"],
+  ["S", "43", "Kendini hakkında dolaşan dedikodulara göre ölçmen için bir neden yok."],
+  ["M", "10.2", "Doğanın senden ne istediğine dikkat et. Sonra yapman gerekeni yap ve olanı kabul et."],
+  ["M", "10.4", "Biri yanılıyorsa ona nazikçe öğret ve yanlışını göster."],
+  ["M", "10.5", "Başına geleceklerin ipliğini nedenler zinciri çok önceden eğirmiştir."],
+  ["M", "10.6", "Her şeyden önce, doğanın yönettiği bütünün bir parçası olduğumu kabul edeyim."],
+  ["E", "41", "Zihnine öncelik ver. Bedene ilişkin işleri asıl uğraşın yapma."],
+  ["M", "10.10", "Örümcek sinek yakalamakla övünür. Biri de tavşan, bir başkası ağda balık yakalamakla."],
+  ["S", "44", "Felsefenin bir iyiliği varsa, soy kütüğüne bakmamasıdır."],
+  ["M", "10.11", "Her şeyin bir başkasına nasıl dönüştüğünü seyretmeyi alışkanlık edin."],
+  ["M", "10.12", "Ne yapman gerektiğini araştırabilirsin. Açıkça görüyorsan o yoldan sakince git."],
+  ["M", "10.14", "Her şeyi veren ve geri alan doğaya, ver ne dilersen, al ne dilersen, de."],
+  ["M", "10.15", "Sana kalan ömür kısa. Sanki bir dağda yaşıyormuş gibi yaşa."],
+  ["E", "42", "Biri seni incitir ya da kötülerse, doğru sandığına göre davrandığını hatırla."],
+  ["S", "45", "Okuduklarının sayısı değil, niteliği önemlidir."],
+  ["M", "10.16", "İyi insanın nasıl olması gerektiğini anlatmayı bırak. İyi insan ol."],
+  ["M", "10.17", "Her bir şey bütün maddenin yanında bir kum tanesi, bütün zamanın yanında bir andır."],
+  ["M", "10.18", "Var olan her şeye bak ve onun şimdiden değişmeye, çözülmeye başladığını gör."],
+  ["M", "10.20", "Doğanın getirdiği, onu getirdiği anda her şeyin iyiliği içindir."],
+  ["M", "10.23", "Üzerinde durduğun bu toprak parçası öteki topraklardan farklı değildir."],
+  ["S", "46", "Kitabını ikinci kez okuduktan sonra daha ayrıntılı konuşacağım. Yargım henüz kesinleşmedi."],
+  ["M", "10.24", "Şu anda zihnimi nasıl biçimlendiriyorum? Onu ne için kullanıyorum?"],
+  ["E", "43", "Her şeyin iki sapı vardır: birinden tutulabilir, ötekinden tutulamaz."],
+  ["M", "10.27", "Şimdi olup bitenlerin geçmişte de olup bittiğini ve yeniden olacağını düşün."],
+  ["M", "10.30", "Başkasının kusuru seni kızdırdığında, senin de hangi bakımdan benzer biçimde yanıldığına bak."],
+  ["M", "10.32", "Sade ve iyi olmadığını kimse haklı olarak söyleyemesin."],
+  ["M", "10.33", "Bu hayatta akla en uygun biçimde ne söylenebilir, ne yapılabilir?"],
+  ["S", "47", "Onlar köle, diyorlar. Hayır, onlar insan."],
+  ["M", "10.34", "İlkeleri içine işlemiş kişiye en kısa öğüt bile ne yapması gerektiğini hatırlatır."],
+  ["E", "44", "Senden daha zengin olmam, senden daha iyi olduğumu göstermez."],
+  ["M", "10.34", "Çocukların da seni övenler de yerenler de yapraklar gibidir."],
+  ["M", "10.35", "Sağlıklı göz görünür her şeyi görür. Yalnızca yeşil olanı istemez."],
+  ["M", "10.37", "Birinin bir iş yaptığını gördüğünde, bunu ne amaçla yaptığını kendine sor."],
+  ["M", "11.1", "Akıl sahibi ruh kendini görür, inceler ve seçtiği biçime sokar."],
+  ["S", "48", "Felsefe insanlığa ne sunar? Yol gösterir."],
+  ["M", "11.4", "Ortak yarar için bir şey yaptım mı? Ödülümü almışım demektir."],
+  ["E", "45", "Biri çabuk yıkandıysa kötü yıkandı deme. Çabuk yıkandı de."],
+  ["M", "11.5", "Senin sanatın ne? İyi olmak."],
+  ["M", "11.7", "Felsefe yapmak için tam da şimdi içinde bulunduğun hayattan daha uygun bir hayat yoktur."],
+  ["M", "11.8", "İnsandan ayrılan insan, ağaçtan koparılan dal gibi bütünden ayrılır."],
+  ["S", "49", "Zamanımızı ne kadar korursak koruyalım, gereksiz işlere ayıracak kadar bol değildir."],
+  ["M", "11.10", "Hiçbir doğa sanattan aşağı değildir. Çünkü sanatlar doğayı taklit eder."],
+  ["M", "11.13", "Biri beni küçümsüyorsa o düşünsün. Ben, küçümsenecek bir şey yapmamaya bakarım."],
+  ["E", "46", "Kendine filozof deme. İlkeleri uzun uzun anlatmak yerine onlara uygun davran."],
+  ["M", "11.14", "İnsanlar birbirini küçümser, yine de birbirine dalkavukluk eder."],
+  ["M", "11.15", "Dürüst davranacağını ilan etmene gerek yok. Bu, davranışlarından belli olmalı."],
+  ["M", "11.17", "Her şeyin nereden geldiğini, neyden oluştuğunu ve neye dönüşeceğini düşün."],
+  ["S", "50", "Açgözlü kişi çoğu zaman kendi açgözlülüğünü fark etmez."],
+  ["M", "11.18", "Biri seni gücendirdiğinde, birbirimiz için var olduğumuzu hatırla."],
+  ["M", "11.18", "Sen de çok yanlış yapıyorsun. Sen de başkaları gibi bir insansın."],
+  ["E", "47", "Azla yetinebiliyorsan bununla övünme. Su içtiğini her fırsatta anlatma."],
+  ["M", "11.18", "Bir davranışın hangi amaçla yapıldığını bilmeden onun yanlış olduğuna karar veremezsin."],
+  ["M", "11.18", "Bizi insanların eylemleri değil, o eylemler hakkındaki kendi yargılarımız tedirgin eder."],
+  ["M", "11.18", "Bir davranışa duyduğumuz öfke, çoğu kez davranışın kendisinden daha çok acı verir."],
+  ["S", "51", "Yalnız bedene değil, karaktere de iyi gelen bir yer seçmeliyiz."],
+  ["M", "11.18", "İçten gelen iyi huy yenilmez."],
+  ["M", "11.21", "Hayatında hep aynı amacı taşımayan, ömrü boyunca aynı kişi olarak kalamaz."],
+  ["M", "11.29", "Önce kurallara uymayı öğrenmeden başkalarına kural koyamazsın."],
+  ["E", "48", "Filozof, yararı da zararı da kendinden bekler."],
+  ["M", "12.3", "Beden, soluk ve akıldan oluşuyorsun."],
+  ["M", "12.4", "İnsan kendini başkalarından çok sever de kendisiyle ilgili başkasının yargısına daha çok değer verir."],
+  ["S", "52", "Sözlerini işittiğinden çok davranışlarını gördüğünde hayran olacağın bir rehber seç."],
+  ["M", "12.6", "Başarmaktan umudunu kestiğin şeylerin bile alıştırmasını yap."],
+  ["M", "12.8", "Eylemlerin amaçlarını, haz ve acının ne olduğunu incele."],
+  ["M", "12.10", "Nesneleri madde, biçim ve amaç bakımından ayırıp kendi içlerinde ne olduklarına bak."],
+  ["E", "49", "Benim istediğim doğayı anlamak ve onun izinden gitmektir."],
+  ["M", "12.13", "Hayatta olup bitene hayret eden, ona ne kadar yabancıdır."],
+  ["S", "53", "Yanlışlarımızı düzeltebilmek için uyanalım."],
+  ["M", "12.15", "Kandil sönene kadar ışığını yitirmez. İçindeki doğruluk ve adalet daha önce mi sönsün?"],
+  ["M", "12.16", "Biri yanlış yapmış gibi göründüğünde sor: Bunun yanlış olduğunu nereden biliyorum?"],
+  ["M", "12.17", "Doğru değilse yapma. Gerçek değilse söyleme."],
+  ["M", "12.19", "Seni kukla gibi çeken dürtülerden daha üstün bir yanın olduğunu artık gör."],
+  ["E", "50", "Kendine düşünerek koyduğun ahlak kurallarına, yasa imiş gibi uy."],
+  ["M", "12.20", "Düşünmeden veya amaçsız davranma. Eylemlerini ortak yarara yönelt."],
+  ["S", "54", "Bu düşüncelerle kendimi sessizce yüreklendirmekten vazgeçmedim."],
+  ["M", "12.21", "Çok geçmeden, şu anda gördüğün şeylerin ve yaşayanların hiçbiri kalmayacak."],
+  ["M", "12.22", "Yargı senin elindedir. Onu değiştirdiğinde fırtınayı geçmiş denizci gibi durulursun."],
+  ["M", "12.23", "Vaktinde biten bir eylem, bitmiş olmakla hiçbir zarara uğramaz."],
+  ["M", "12.25", "Yargını bırak. Onu bırakmana kim engel?"],
+  ["E", "51", "Felsefenin ilk ve en gerekli bölümü, ilkelerini uygulamaktır."],
+  ["M", "12.29", "Hayatın güvencesi, her şeyi baştan sona incelemek ve gerçeği söylemektir."],
+  ["S", "55", "Yaşadığın yer huzuruna pek az katkıda bulunur. Her şeyi katlanılır kılacak olan zihindir."],
+  ["M", "12.30", "Duvarlar ve dağlar onu bölse de güneşin ışığı birdir."],
+  ["M", "12.32", "Sonsuz zamanın insana ayrılan payı ne küçük. Sonsuzluk onu ne çabuk yutar."],
+  ["M", "12.33", "Zihnin yönetici yanı kendini nasıl kullanıyor? Her şey buna bağlı."],
+  ["M", "12.36", "Bu büyük şehirde, yani dünyada bir yurttaştın. Beş yıl ya da üç yıl, ne fark eder?"],
+];
+const STOIC_SECTION_HEIGHT = 128;
+const STOIC_SECTION_TITLES = ['GÜNÜN STOACI SÖZÜ', 'ŞÜKRETTİKLERİM'];
+const ROMAN_BOOKS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
 const formatMeasure = n => n.toLocaleString('tr-TR', { maximumFractionDigits: 2 });
 
 /* ============================== form helpers ============================== */
@@ -444,7 +838,8 @@ function readOptions() {
     interval: parseInt(document.getElementById('interval').value, 10),
     notesPages: parseInt(document.getElementById('notesPages').value, 10),
     cover: document.getElementById('coverPage').checked,
-    font: document.getElementById('fontChoice').value || DEFAULT_FONT
+    font: document.getElementById('fontChoice').value || DEFAULT_FONT,
+    stoic: document.getElementById('pdfEdition').value === 'stoic'
   };
 }
 
@@ -464,6 +859,17 @@ function dateKey(d) {
 function dayTitle(date) {
   return DAYS_FULL[date.getDay()] + ' ' + String(date.getDate()).padStart(2, '0') + ' | ' + MONTHS[date.getMonth()];
 }
+function quoteForDate(date) {
+  const index = (Date.UTC(2000, date.getMonth(), date.getDate()) - Date.UTC(2000, 0, 1)) / 86400000;
+  const [author, ref, text] = STOIC_QUOTES[index];
+  const [name, work, baseUrl] = STOIC_SOURCES[author];
+  const section = author === 'S' ? ref + '. mektup' : ref;
+  let url = baseUrl;
+  if (author === 'M') url += '/Book_' + ROMAN_BOOKS[Number(ref.split('.')[0]) - 1];
+  if (author === 'S') url += '/Letter_' + ref;
+  return { text, citation: name + ' · ' + work + ', ' + section, url };
+}
+
 function startOfWeek(d, weekStart) {
   const r = new Date(d);
   const diff = (d.getDay() - weekStart + 7) % 7;
@@ -648,7 +1054,8 @@ function drawDayHeader(doc, ctx) {
 }
 
 function drawPlanBody(doc, o) {
-  const top = 132, bodyTop = 152, bottom = PH - M;
+  const top = 132, bodyTop = 152;
+  const bottom = PH - M - (o.stoic ? STOIC_SECTION_HEIGHT : 0);
   const colGap = 16;
   const tasksW = 200, schedW = CW - tasksW - colGap;
   const tasksX = o.leftHanded ? CR - tasksW : CL;
@@ -703,6 +1110,32 @@ function drawPlanBody(doc, o) {
   doc.setLineDashPattern([], 0);
 }
 
+function drawStoicSection(doc, date) {
+  const { text, citation, url } = quoteForDate(date);
+  const top = PH - M - STOIC_SECTION_HEIGHT + 17;
+  capsText(doc, STOIC_SECTION_TITLES[0], CL, top, 9, { charSpace: 1.2 });
+  doc.setDrawColor(NAVY); doc.setLineWidth(0.7);
+  doc.line(CL, top + 5, CR, top + 5);
+
+  doc.setFont(PDF_FONT, 'bold');
+  doc.setFontSize(10);
+  doc.setCharSpace(0);
+  const lines = doc.splitTextToSize('“' + text + '”', CW);
+  doc.text(lines, CL, top + 18, { lineHeightFactor: 1.2 });
+  const citationY = top + 18 + lines.length * 12;
+  capsText(doc, citation, CL, citationY, 7.5, { color: TEXT_MUTED, charSpace: 0 });
+  doc.link(CL, citationY - 8, doc.getTextWidth(citation), 10, { url });
+
+  const gratitudeY = top + 54;
+  capsText(doc, STOIC_SECTION_TITLES[1], CL, gratitudeY, 9, { charSpace: 1.2 });
+  doc.setDrawColor(LINE_LIGHT); doc.setLineWidth(0.6);
+  for (let i = 1; i <= 3; i++) {
+    const y = gratitudeY + i * 18;
+    capsText(doc, i + '.', CL, y - 2, 8, { color: TEXT_MUTED, charSpace: 0 });
+    doc.line(CL + 14, y, CR, y);
+  }
+}
+
 function drawNotesBody(doc) {
   const top = 138, bottom = PH - M, step = 24;
   doc.setDrawColor(LINE_LIGHT); doc.setLineWidth(0.6);
@@ -718,7 +1151,12 @@ function drawCover(doc, o, monthPage) {
   capsText(doc, o.name.toLocaleUpperCase('tr-TR'), PW / 2, 240 + dy, 30, { charSpace: 4, align: 'center' });
   doc.setDrawColor('#9fbedd'); doc.setLineWidth(2.5);
   doc.line(PW / 2 - 26, 258 + dy, PW / 2 + 26, 258 + dy);
-  capsText(doc, o.year + ' GÜNLÜK AJANDA', PW / 2, 284 + dy, 11, { color: TEXT_MUTED, charSpace: 2.4, align: 'center' });
+  const edition = o.stoic ? ' STOACI GÜNLÜK AJANDA' : ' GÜNLÜK AJANDA';
+  capsText(doc, o.year + edition, PW / 2, 284 + dy, 11, { color: TEXT_MUTED, charSpace: 2.4, align: 'center' });
+  if (o.stoic) {
+    capsText(doc, 'Sözler kamu malı çevirilerden Türkçeye aktarıldı.', PW / 2, 307 + dy, 8,
+      { color: TEXT_MUTED, charSpace: 0, align: 'center' });
+  }
 
   // month grid 4 x 3
   const bw = 92, bh = 46, gx = 14, gy = 16;
@@ -829,6 +1267,7 @@ function buildPdf(o, onProgress) {
             newPage();
             drawDayHeader(doc, { date, o, pageOf, monthPage, mode: 'plan', planPage, noteIdx: -1 });
             drawPlanBody(doc, o);
+            if (o.stoic) drawStoicSection(doc, date);
             // Daily Notes pages
             for (let k = 0; k < o.notesPages; k++) {
               newPage();
@@ -867,7 +1306,8 @@ async function generate() {
     fill.style.width = '100%';
     await new Promise(r => setTimeout(r, 30));
     const safe = o.name.normalize().replace(/[^\p{L}\p{M}\p{N}_\s-]+/gu, '').trim().replace(/\s+/g, '-') || 'ajanda';
-    doc.save(safe + '-' + o.year + '-günlük-ajanda.pdf');
+    const suffix = o.stoic ? '-stoacı-günlük-ajanda.pdf' : '-günlük-ajanda.pdf';
+    doc.save(safe + '-' + o.year + suffix);
     label.textContent = doc.internal.getNumberOfPages().toLocaleString('tr-TR') + ' sayfalık PDF hazır.';
   } catch (err) {
     label.textContent = 'PDF oluşturulamadı. Lütfen tekrar deneyin.';
@@ -885,7 +1325,8 @@ function renderPreview() {
   pv.style.fontFamily = (PDF_FONTS[o.font] || PDF_FONTS[DEFAULT_FONT]).stack;  // WYSIWYG with chosen font
   // Match the chosen page shape: the preview is 318 px wide, and extra height goes to the body.
   const shape = PAGE_SHAPES[o.pageShape];
-  const pvH = 318 * shape.height / PW, extra = pvH - 424;
+  const pvH = 318 * shape.height / PW;
+  const extra = pvH - 424 - (o.stoic ? 318 * STOIC_SECTION_HEIGHT / PW : 0);
   pv.style.height = pvH.toFixed(1) + 'px';
   updateShapeHint();
   const sample = new Date(o.year, 0, 1);
@@ -930,10 +1371,18 @@ function renderPreview() {
 
   const body = '<div class="pv-body" style="height:' + (300 + extra).toFixed(1) + 'px">' +
     (o.leftHanded ? sched + tasks : tasks + sched) + '</div>';
-  pv.innerHTML = months + titleRow + weekRow + body;
+  const stoic = o.stoic ?
+    '<div class="pv-stoic"><h4>' + STOIC_SECTION_TITLES[0] + '</h4><p></p><small></small><h4>' +
+    STOIC_SECTION_TITLES[1] + '</h4><ol><li></li><li></li><li></li></ol></div>' : '';
+  pv.innerHTML = months + titleRow + weekRow + body + stoic;
+  if (o.stoic) {
+    const { text, citation } = quoteForDate(sample);
+    pv.querySelector('.pv-stoic p').textContent = '“' + text + '”';
+    pv.querySelector('.pv-stoic small').textContent = citation;
+  }
 
   document.getElementById('pvCaption').textContent =
-    'Günlük Plan · ' + shape.short + ' · ' + (o.leftHanded ? 'Sol el' : 'Sağ el') + ' · ' +
+    (o.stoic ? 'Stoacı Günlük Plan · ' : 'Günlük Plan · ') + shape.short + ' · ' + (o.leftHanded ? 'Sol el' : 'Sağ el') + ' · ' +
     (o.weekStart === 1 ? 'Pazartesi başlangıçlı' : 'Pazar başlangıçlı') + ' · ' + o.year;
   updateEstimate();
 }
