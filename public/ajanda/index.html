@@ -506,7 +506,7 @@
             <option value="standard">Günlük Ajanda</option>
             <option value="stoic">Stoacı Günlük Ajanda</option>
           </select>
-          <p class="field-hint" id="editionHint">Stoacı sürüm, her günlük plana kaynaklı bir söz ve üç şükür satırı ekler.</p>
+          <p class="field-hint" id="editionHint">Stoacı sürüm günlük plana bir söz ve üç şükür satırı, son not sayfasına da dört erdem için gün sonu değerlendirmesi ekler.</p>
         </div>
         <div class="generate-bar">
           <button class="generate" id="generateBtn" type="button">PDF oluştur</button>
@@ -1650,12 +1650,29 @@ function drawStoicSection(doc, theme, date) {
   }
 }
 
-function drawNotesBody(doc, theme) {
+function drawNotesBody(doc, theme, showReflection) {
   const top = 138, bottom = PH - M, step = 24;
+  const notesBottom = showReflection ? bottom - 152 : bottom;
   doc.setDrawColor(theme.rule); doc.setLineWidth(0.6);
-  for (let y = top + step; y <= bottom; y += step) {
+  for (let y = top + step; y <= notesBottom; y += step) {
     doc.line(CL, y, CR, y);
   }
+  if (showReflection) drawStoicReflection(doc, theme, bottom - 140);
+}
+
+function drawStoicReflection(doc, theme, top) {
+  capsText(doc, theme, 'Gün biterken kendine sor', CL, top + 12, 10, { charSpace: 0.4 });
+  doc.setDrawColor(theme.ink); doc.setLineWidth(0.7);
+  doc.line(CL, top + 17, CR, top + 17);
+  capsText(doc, theme, 'Bugün Stoacılığın dört erdemine göre nasıl yaşadın?', CL, top + 32, 10, { charSpace: 0 });
+
+  doc.setDrawColor(theme.rule); doc.setLineWidth(0.6);
+  const virtues = ['Adalet', 'Cesaret', 'Ölçülülük', 'Bilgelik'];
+  virtues.forEach((virtue, i) => {
+    const y = top + 54 + i * 25;
+    capsText(doc, theme, virtue, CL, y - 3, 9, { charSpace: 0 });
+    doc.line(CL + 72, y, CR, y);
+  });
 }
 
 function drawLicenseNotice(doc, theme) {
@@ -1810,7 +1827,7 @@ function buildPdf(o, onProgress) {
             for (let k = 0; k < o.notesPages; k++) {
               newPage();
               drawDayHeader(doc, theme, { date, o, pageOf, monthPage, mode: 'notes', planPage, noteIdx: k });
-              drawNotesBody(doc, theme);
+              drawNotesBody(doc, theme, o.stoic && k === o.notesPages - 1);
             }
           }
           onProgress && onProgress(i / total);
