@@ -17,318 +17,440 @@
     src: url(data:font/woff2;base64,d09GMgABAAAAADMgAA0AAAAAeeQAADLMAAIAxQAAAAAAAAAAAAAAAAAAAAAAAAAAG5sAHIQ+BmAAgVwREAr5WN9FATYCJAOHVAuDbAAEIAXJSAcgGwRqZQfIBd0B4LvQEmskQtg4QOOZLzkSYb8oKaXk/z8mN8bADsWqH4pEioQsN0yNpWQVuaIttpFSJgTJJyNv3LracC+0YXgHSYteJNz4ZMPY5FKogXxgTfP/JBaLTw6LpVDP2MEHDf8aPhq+mzJqav7mfZEorvk6PkJjn+Ryeb5nDX73zexXx0STeXJpJLFMyyRCEm00Dk1EdoaHufVvBUgsWBSrYGywsbFgAxYJY4wURoUIMlB6JgM5sQKjwcjTPgX8p31mcd438rxSscKe/u/3qrOehS4UzN/4h3b+JFCNtPMwgoFOJ7AXAFNzOinmN0sgLNnp3mSRhgRJSvBN+YvwSfvj+6+pzl/ZOcxIBZKJZQcQDZcP8v6kW1XNU15Vht2rdQ2CwEQoGzZdAWUuvkH4H2MpBghzGw8exIuIP0cMV8XQBUtMdvN+pnvbT4b9nTjfdHPvTIAkFD0kacaxAf6/a9raVQ9QjT3g8xNmFuWM6Wyny7hDyF3K8JMDo20oDXv1LAaipe7r3p+3qa73/CWDHLoSK6yWhxFwS7psNHX6+nfS6d/TGS7kuwuRfAH5bDdWwlJAKtpFJQUmWSFDWKUgjAUccactW4G2dFi6d107AyITTniEAXBA4cVun8s+6c1dZmdnzk2Iq9VfXTOvulRl9j13Ge4F5BQkrdazP0GHiE0IS7bMsunWGHLuSkURTGSG5Lmnv/l+fNiB6c/MvfsqpZQQRMQ9iAQJErqvzzUR116gQ23mTUVzbAMFsBVXLOjjL00YB5AvPNrkBUhwgHRwPP/kBC8IOkm0OnBQQAutrf0UiAxwwEmZkhdyRJc16YqxxffoMnNj3EsZKXlbTO2inmfmHjz6o/ECBNcoYVB4JKRixVFRi6djYuOWLpsCK2h+C1vU4pbU27JWt7d97e9ABzvU/7rV3X4PWqaffi84fOvt1e+jDexttNcWR2010jaXbWduR6R2cvVzrHZlaq+N9hlpv5sOuO+gt4ZYOmKkX3k75ilU6z23QayNiLYg2+au7XztiN/P0dmae+kAWwcFG2Bq0Og3iPpGWeb6NHF7E8LAhAhua/BwsTkQosS4FcVtR9ICkExdEGPsUAQ2FiUZrvU268OADRwmp7xsm6W2s7BDwOoZ2+Opvbbab70DrjuIasBNg27QmrVfxTrmLUg2jFhsUIhgegoyuAm34Y4FiRSAtY2JUhRfbpva0cEgBRYWJ2PO0trlhh2C240+Iw6UCIyzIKOJoeyGwE1+m3DHF5sZkxXs4IYM2AxbYCtsg+2wG/bCPtgPB+AgHIJjcIqJxvYFzRu9p7AjgwCammenShMubcKM4XIB0iAdMiELciCfl/S801LVwf2ATuiC6XwdYD30QT9sgI18E2AH7ISfYRfsgcMwAIMwBGfgLEMUuZWwuyiEztWFB7pnsw49SkCbHAIoDBJ05CaNhTYkZUS2IVpzxnrVH8lFAEAQAK8ZuN8id6L0dcPI88apFmPWFB2EBb3a3rcSDJbxqGziENrgXZEtT667W1eJU6C2ADEgklMKCIUDuriFEUziARDfGjnPmBsE9MWW8B1j4RD9iRKRRqApswfCDygOGJIZuuvo5mdkig4fXsTlHJISwn2DpPuFQasSmtCgRlzh+NUwu/oGFP4uv7lqy3urxri7ni8McCPxRox7QQ2cm+tMGivLxEKZ0Ghh3tEBIwFOQdtswh2ELzp8/SgI9gJ283zvbV8TaOEBIotgJvAgkuDkMo3yCIaTAsYkqarVDbUNWlecH0r7zRg9FP6ysWRxLYkXCEjicrJj4uLEIy2LRcNn+4SIIFy4KGDc1YZ0v0gfyEEOsbvpyYLvEckl6INvu+hb6pRuCLRabyyD8V+jYMh7vpeSInWwHuU+Tq/NKIvr63YGyzFLF5mnoT4lKNCokBRGKBd+QbRVO1dkrIKuSk1fiAMnTdhlpVicslgptQGMj1thhLEAx9lOBjBwM7gSr6E1L5srAOIBxcIqu66mR5m5c5AdO0qCxL7QFBYAwacR1K4GWEtKyEEu2ThLA1P5SiPZXgWUZktTSzEa79RIRbh6yK0KjxAIlzBhgCuciV45YK5qj+fr6ELAcV0BkhdSgzYLIw0nAcb/IwDWAHgIQo5xnGgnipTSEQPWeEHULHTBQKw+XHBdZQIlAWf7CFn7gcodSFYQg1Hw+xcng+9qwNwxB5ght+Z9Etgu8hh1UgnLHQImyCghwiChkLBx8YhLFJepJt+5RlG7VzezsnFWKp6pu/doufJ45CtQos40Hfw6dZnup8L1YdfYbIutttlevvgRXfqvTrnmuhtuuuW2O3UszXQgCx4MSRCSUShCUIUhQCJCISCJwAXBAyM2igSUFIwMXCwYOYQ4AVQCqQXRGCVeMK0QOhQmKGahrMLYIDmLhTOUTKDJhjYaRq5webA8MPLhFKAogVeH6CcQ8xNmoV4wy8CsFmwNuM0/1Bbbhdk7DsohQDkC439QfoVxShaGwUXizklq3UKGTKN4113++zoqAZQVBGCIx31UvGDBoARGEAR+VAQ2tgAMHD4MRIyBcDEQKwkio0gwCSGhRpjEJUIZkUQE6UWys3td0pC4O4rp0sUMGWKmLIbYQMkZKgl0MTTBkHCCNrCKgFAiEAPOixMSTTNdgG7EocdA6CSQBMaGWmcjsk00SDYjFmmHXch2Q0Tag2QfCLI60mFDyG4gmgy0o0MMdExEOomBzhhIZyCSnEWSSwRO8IRA8IRgIDyFRlzBes6yUAyHW5vdoLfd4WQWcXdaKjMRMD8aENCze0mF7dTnjnj88boGwHxqQmk54L8wdkwpEL9QXz4OxL5R3YqACCzYzciGCICM7MvflKrMFQAowdxgIMJBTODIdQOoIGxawJt6USyzhgzRUdWOO05jxDu9RK3fSnVMBeLcIUKYWNg4OKXKttZub4wo4lcNAAR5A0BBxp92BvxG/XkZNbnpRWT2tSamoHMPHBoG5lRwnzwfGwAG/XbfJ8/nj0RAxxdNaXKjhTWJEH/lvu++734Oz1kOj0UjmdLDXuS+3MKgI8bh6Swg5egLFSDUGyPZyMBUAAW2+UGFgqnh84IpVyO3q2B1eA1BAPVW5QJueWUGeUisz5uhtW1TP/nl+MubwNOAmwn2/03ICJiYJ9SNz2sacC8zOMAegPxWQ5iY4MCy7wX2gyFQb/8GOKflx400xQ8II7JkpriG6nQN172GHLd/a9hatna2DrZetv6YB4O1c8xH9j+01o0lzVxT1NNpX6ttO9HzfafXgyVDOLp//7fx9/df5td0j2xDLSXv/c8+m89SAekX5pgUbw0yWhb8CLJ/AF9gWiBfPKOAsDvF4B9h7wuH/JoMPQJUhfUcQJngMr0Mu+8Qv9r2a9PhoyAC1Wt/hjtAeniJDOFXnIYqP9lwKn6h0u9dtZvItIGResQy9p66dw99xC+4Ip3FL0j6tQNPpK872QTmcEx0IMQVDDXNgkQgwO7sGbnMQe04O7rVUgv+MZJvxbBVM/QBKHrehBBqrnW/b0ZzIatuAiBJKmJ7CFiq7UU3ovXhoA2u2GTjYTcU37gN9miv45jF5RkGogcHlNIvWkpeStRUAGITuaYYKRdUrlm471t0SrX5E3fi1h8T0ElZLPneHehvnVcB56OJUiq7RsmO20beyIaSeTQqMYCNvbVwmVlkcJR+B1MdAKFuEDkqVPRZTLyYYznKzZtETNMSFSNHWHw+TFk8xQi6SDGP949CbLa0BQAH1M78JPRg03ZOsE6kHG9i41QzZZFHtqlkiG1Zd4ycafByxWNmZv6kzinm8fnOQUDpXNPgOt07CACheqb9MoBZGmjNIo5imCanpjjgkhiEDgAxzlhDrjz/dWaclxP78ty3xS2619qTX3ioYv9pRYBXK/aU7z2Yt7/y0LnLyOhG5UFNjIAAARlekoLQygCDRtHFRCcz6hZCgOll4wiLP6R2NqADC0W1wAoWGpsGRS51nktFKQTusA1zyOlyUDBZg3emRWibpXJgiP5LW6pvi4upKo7MA/w4HFNHY4PzTWUy1nvfL20pbhYig6RCzsuvUdfRt8sD+NBZ9MgajbAalJCoxGQkq2FBvbzG3NlymnY/CKSb+qgb2pcuu5kH7ilHHhnxzffDjQXabT6gXJHSiOu5nAw6XH9/SW8TWFEXps3W9RVv+DNHke4oLcXgciYxcmuHTXM9qXpETTKf+VP4CprWWWoWFJwL8w3BF1IpGfXWmxjBLZdCrgxXOns/kRDTAp3prXCTP/pn8j9Piz6ZkIGapFzWPNNBmk/0bpwNEt5aUSOoVv8yEx+jXh1gNbc3GW2W8YeVUTQdDbEy9L+hJdPkX55Fd9AkKZH/bucaBw9DbDQkjhUdmp4uSU0MpjRBU/6IPtDCwvVP44IHZYTMU9Pbs7gNddfvrnwC39euSfIN+oOtGdYGTXzWcPIc/rsx/ZnVVo0Ry6lNaaexlgfcQIDg2W92ftQGhjzG4Bwlq0Vk4GMyVJ48lQyPi1LQ+hxuw+iisdBrw2T2olhlnyZ/eUU1etyplOL5WSH3oylRNIhUC1K6r+ky4W6RdMluoG0VarLoPbZUlCeXtaHVowlHKB7/DHCPR8CDcCyiDWRY9m3nBUmhnU5ZItDro/t+mmBGCdbkN6rRlMZZamiug06AUAx64hM8TtEpcJ7eYYY8ULumHprf75iCqcjeD5Nh8cbvn8HMN3UNiB8F9j38mvRFpoTf/hUxolbic9ImCaEU+atRSs4xk5s5/AaqUJWD6V+V628IAabYCQP8LxVARqk0lzvKCrZRMtIOINtd5VY2SrSkDuNhSeh8ZuKdhEJRdQRnsni3swaYFgE1xKNJSnQNyoIHKhFJ31YoC6KpeefPYvuCNslHiY3tJLEAtZjR7QjOZQ/bhskYsmDBoDKV5n6zcrdJzZplHr1ra6rH18HN0uPnllrLQBd67HA0zYi6YQcOjqQX++cIx290zwyIvaZZVihtZJLREIFTIZhlB0V8tEBl1z89ftUn7gO6Zv6mIBWitL1dJMzZnpb+MBbGBn2yjPGDLZVzXNNiElEC+FBN+TScEjxuWgJoUWrTADIMbdLz3XpTXdt+yuqF4osrbFlMcxN0rPn55XEdCLSmD3NubmlsEYN3qhh5sm1NTHl5L5vdLkSzUnagNmyRusg0SJ2k60uyB/reeyoji6BJIfExT5kFmPenVNZbSbt080CfZlphcxG9Vg8CxYVmFasST3Q5gVs5bqQbla036gKsqYEcgIogZgzqKVNA3U07MGQ7NFSFTZQtRv7fimAfi7c9NkqHruAdobx6n0nVd4nQS+eHQYfHBboUCRMypo4OiwDZNE0iRGFMbfmhVmIkdK+0yRFXJ2h6GrhTV3y5iphOgE+O3qXHU2wTlLBbXrEcoCX2JAbSRK94nxL88JM8kEs7Eo4v90a7aL9k92B16mmh3H0x86QUtoM4Lw9qavLdgQQIBJ8jI4aKDNToIu3Iu47FNcq8UJ/aehwhlB6OadZV8hmzWPPJ5fGg06jvLokywOxKgrckMANWpOrEpcQ9Kbslb2e8foGoWw4dFfO40ZUBGFL1WolzvvoCRzbm4GOkMmfwwvaRZ42o0aSI/HtZdxeoayX46TOmffld1x7AmJkl5C3lrQjLLL1UqEcDUWfWkaVYoDwKqGpKYVf4V9+j2BBHHln4f2MvljA4G7w0RbPg1kcWaoUhLKrc0oGQXHd2BmsnCsDUMO0Qs2Y+vuvQhPqT1mh3lwMwvZPobe6Dv+n1NyVkPzezn8O5Ax2m9H4AX/iSi2ZCXKpzZ00LfJ8o9AZGB1EjLK+W3jPgFb3EhkZmegd7dDP8byfbsO1K5vAdlJBgdXPVN6pJPe3FVtAfzokZ++Rwur7X72vhcNp6L+40FlyrSa7CcmEovSHARnIEDwYLJfgSpKC04UA7rmyfOD+UE+rsltrOp+v+6ICAU8jwR7x7sQgeVfPzyeibamSEhDXRYC9Q7+NF2mgUE0zGzBfYP9/PseCRAZaEbaafqJLVFYjGZCbB3rxHZQ1JBkX26b1X55p7D9YOD5fKc+YSXBDLh2Y+ezqO7lGnum9V7Gw9ZNWF4w+260xdUUdl2cvr+muXSHH7Zqrhs+jFlv5idxPB0G9pXzMNOie8LlBP2vsqvUlp+eJOUslYTQaGlS9xm1EDH0RXxOaZzpbiZKkGdxuz+kxJTxL3y4mytLnQRXOPSkrC0UxmsZkbAbrl1MYYp/9zk0XCT1k3CZQH93O06kaHAuvGY8ZbUwriIo3CRlgJy/A6+0tHvsElq2XCkDpZuFNFGta1buxQi3Rm6/fhPUuwf5ZTDXgPRJm0iDOyUxjs/eRi4v8olyhCBUNiMErkHBb3JBHLLS2XigwCd9CG08fh2iGuYrExIfTexihyiIid+dQSbU9drunrrfKfC4tC7/u82QuZPqIQ9/PjNKZue/98uYfj/SCMi+NWFBgq7hudrHgBEhUx59eL4YF0T+D450ApUQDLUA9kft1ACvS/6+y9cteNx2g2zQ2eHz74u/J0gJV7d5cj+zugJZbkAKXU2nJfFLRBIzzSrb+jdMXfjs2nNAEDtdRvNcxa1RD0sU+VAaFiaA+j1D4HbxG1vWiotAqdmg3xcLDLVJvdlFM+2O0g92W8r1CYlHOIyz/E4Rzmcw8D5oU8zvLaW3QyviSFNNb+fFQHe14Na15eI3ZSiZU01kIsMdd+p9A+55HG5oF/QjuysZP4DRQ99sTFf479iKDROZ6i1LD86tF7DZhBjjcwCTb4zyMUXS8pKKhyIwurFzGYQune/TsHmunPmX0PI0H+MT7JfP66fBrDxCezZxhIMdF6fCONFKnJtQh5lrzt1dzkW4Wy9ORZvTu/vppjLh7adl5aG5um8FCNcXxnD4ybWf3vW5k5Sp6sSRBamN37RUnVUTjSdjp1JcgbnMC57QKPfr+fNIHfhvGpVZh2gU/f/CgzLjq6MqImtFYuDaul1cRUkkHJmR+3bUbBf+76clXumCpqdXB1KAJZQ6uJrvgHzBs+8vLZ7jfXP+tRGofqMr3n7c6ks0ffHj1Zr03WrYvaA0Q9fVubt/Y39G9v3t4H1rLPsEQfoiVU/cwXvOxt46llHSAu90vjF/DHIP1/E51nSqMImcJSCRAUHZq8t2VK8+6Bw1P2tUxuHurY5VN0JWiV7dPb5Z1JOsVEUFE3axbS9DlXp0x+/IvDM8M7Dwyj5dwx6nJzQYAdYQs76t1oatMadcmaNImbksKOfCJnGikV8vz6Mr4pykZMoJnBq+JEvSFGY4pz2C1tG2a7grZ4p9hmDw0glrD/fEC1xWj52WZNPjVOXIi6xK5d9R8QHveeaD8Rk6zbV9vrfbYsKBPOso3pxn9oBb9XGC1Jal26yumCenN9L37qhLgYbTR3rFaQZ9UW0zQSN3KIXTu2BgTekTEzj2Rx5IocZpKBU24sV68taZlmt4VEVBEzJfoksatH/UYqSaHm0NImxzd4heWbKegg0v839NJidoHqJ5TdhyG+E3ziEqDbxiGEnliDVLl1gghTaSpVJnEQUy7xtYp01l5dplHCtO/LjIiNdVPm0U0GJTE7emv+y2iGsFomqd3vJ2FfVjn2JoiCOeI5QPxATs/ekcVWjZ/W3dEUv6WsoUNrQ1Arq7IFw/xkX3t5ND+ZvIHrnpyg+SSN1FzjYiNunv2NISsCgghrxzN13v2ZHnYe/ekMdR54Nq70J+C53+Ph5NGe9qhzwU+XTVg793R5L5UzNhat1IHfZMV5ZSxr0VhPqpxinDLSdkDkn2MQ/0dsemyNQU75k0IhjielKFJkY3PMzQyza7qqrFTVneaKnpiX0xWdQ3OE/UEv7sxCqUo3qNrqTH21dam7OifuNJYWrFY0lhnm5uvF9a706hgdedvZu9HwJ4I1GDpp/zseK1HQZM7zKOWct1JG7rlBPJ1lwRqZrK0s5Kvf9/WDxStuK1b0fDla+eXo/L+CeuUrcXUInBeEkygnhl8RA26Mbq+NVEpcTlkpUYGJO/50yV42onE9TVaAtPOiTJ+ekv9SZ1NYSxbHURzHDOnT1rGjkYY9+fUCigy2lEjZs2cQ4CPel2EVSQ387JzYmeVj1DM9WfVctS4DtY3SWPOnJLOieZKSmIu0s6WSq3VAO2g0jdfjCzvl6YW8DpeN05lZOSOhEm3wxx675SQcW39TynRLEfFOodiEyY2JRGWIDI5IoB1c6yP0f/N92071bSh5o+wEPkDtAbHjEOqFTQyNaUJkZm5MT3G5emZBTiNfp/NgtlIn9AxLo2zk5Ih8YxLVQzFS+ZSI0K5eFDjJBbyeoR4aoLm9gGNQ8K8sEGJs3a+iaaaQmbT6VSxRnRy8EHGjCq8P5bejglXnedktL+xbwYfBoR5jLPDUIGcGiOoXw8WrEFFeBLZnnH9o8kASMw1OS9+dMGmoB/w5TlmHQNXV+Y9VBDUpaj4W1TSsEOAV7lo+NC+lXu4o5kzP2LViaK4zgv2XovPS4zC5aYuEjrTx0+To0RzDYpEjrQlo9y+tCIpVVKMzYxUeh1HiSdGUkBUIQkOp/nXP+TRc7PrH0tdoDJzqWDFPwPKNJYMjZ7/K5MW4PGImjkfKbjlAF2Vgswl52FjCjealu1fwuiq3mjB4WREmOUrsjM9JqzXikGuD16zB2EIZPVdT8B195+M1JrlOMgGMHWQ+tzIz2NbY6BStnJX8MJsYl1CL44gmFI4myKU8Jv2KyMrg/IlIVqu5bmNcEVmTMp66M6ppo2QwkJKgFwKx4YKxx3jRxwa/DPpPmjmlP/JpquCRmz0DkS/efGcmqSwuwGJiWhDY1unL58OOliGOrgWvFaET4WGT27s8rd1hE+HIyVlds44eLZjUha5BoGsndpb+enQJeFB+fPTG2rNEK8HacHbJWff1mn7fbYqD7Jh4ewl4DHv6S//UgDAHApkyEb7oyUFED6C0C1ZrCnxPfZHreYW+p0A7+Je3/nS99y9woKhMTNgnrBSBwKfl/5TcPmo5xOm0tuMsJGtq2yTQPFQ7BH7c6IkT6TNA3K3xdTidwkKagxKKEbkgG+HeV4MzIxKtYjWnqSWLFT3Xya9BGqBjrigEOaih6eGCa/2GR51HluMikEA96H8FtxmoQk+Rb8pPXbOa9GNxO/4/kXty7/AHCz5O6cyaB1bQb2YRJLoMntxMKNVOHT+jTmXE7KSPrTlPU6qsLubNX07TWVeo4OEuESRzQiFGD49NFsmLxkzsmtY4p4HRojrvv5fP3++/MUyhqpQOj16cCn4T3a5ixrfXz57YNblzAt+GncxKjcenOcTRu4yRelLoXLI81DgQ1wOCRywRxWlZTreRNGYMF4ur3cIleb3ebn+3BTyoa66qsWdgkylV1cck5uA4Jjw6r7SodVr31B6fvgLz5fcOfsf6h39Hx6qSMxwxKaA2IgEvYY3zJ/mH/AA+1cJT8hfVhbviVeCPS5zLx5tp9R/jT89rPcKr6n6xBPxvM4eBCy0PCKv8YEBxNPsTcv0gG21ZHslevCPV/7YSaYDXW2PU0tNhVTaJXNSvx6Qnif1k7cwozvT59gnLeKJVtst8PW+MMyVGx1s0GTtjq8xPUyfOaNCN5mnMEaXaqb7fEP92nB7P+qW9iiqXOdwWSZZKGmcD6pHiv+BLrBx5UWFLl55WFW/L4qkYbZqL/v/n8zceuDIcSlWrXPnGKBu4f8Y/Ah+1JrqwbPK07u6eKdSsoBU3aHA+zyLFKdJSbydztr8kc55MMu3iLzJ8qYASDAJ7cETsfhxJkjw6NVOTT1wTUVhtwXLjJeH48APhRLGzJKc0roByjFMyLoUkpPEAfMRS1MHt9Hl9RxVOGu4MkVC+w4bhWfTW9K8WcGAkIuGUiBfyq8lfEBnomlpGcMAr02Vq/r7JuFStCjz9B+1EhLmyYLOvfEy783Ep6Bvx/MBUeFhm0vfW5R9LKoiXEL8WE8rXfZxj/xySi0DnZXwC7z+WoJX6GqqFZjHVzOn9bx1sqbOV5mA4nK1zwb/DmNSAUFcKsXvpcQG7INLE5SgeEMc8RRE39V0ZWQXodSf/Fn30zvAef0V4550BfMXyJfwK/jLxVWWsSd3mjaXOYp4Qr9of3N8vOs6cSJN52xTeeKAdrE2sBfCWDoICmtvPZBUxJnVojSv6qlDbnyZHMGnoa0eJ4fn66Kr4A5SI16euUkgVIeB/Z7od5PUZ5PULZXn8A/+CHso+WdSex7eKxEZsnrKhuMuD9LR79g2RaGOfETGcstTb79vkPOdF+gqhGcT2mM9EiWRM+650oiyhnCCNbIy3EGTSAgl72os5tWVMDB1rMP+MMCKfNd5phD54/OALiZrTDtx1qU5uopdOmyuRpzqdac7UtBv7afSTxwJNjkh14iS7KrwJHPCUtEK6/0q54uFpNzOcOMG/z+Nd5nOPuYe+CrLcnqGaaBZ9pCbf7Y/3W7OtPa2d7s74TqC9UTu6tubZ8XoG0hLGcO+ctehIdY4tV1uJ3cGorklBc3g3MeHlu8zY/lop42zvxV2yyKRSfbrZQ7nMKq8x4MU8KB5bsc6M7Rsr4YcHvrn/m/YgmfN6av5toJ3JrGQyLUy6VDIrh2nMZ51J/7tJoGRlqrpKCjtjnU5/bGlh5JkZ9ZTdOzOnxxYWyjJmJPLLreZirkZTwgUFJpZBCSl+n3feKzSi+elZlbn5nrIU3rQ1jBzSKSQNL82xYm89B7r1q4uwWmeLRoeo3155EX70VZTilpgVtdUVtIdM4Aj1KJV3JbO3lrNhJxVtAP+HL79tVbnbb13LabOqSq+tfepKyJn8caRgoisBiFcOPGqbYAQJx03i6lRbFU+jtagUW1S1yQzBCdwirvM3sdAkpduTTES+0ExgRNhlUpotxkzkiyxkDMWanfV2MUW0N4rZcfWIflxC4pjvrYrc+yHSDBub9prAAdoFpgIT0HJ4q85vZrNPDa8WCFbdPcVmbzy7qpzPzKJSm5jMFio1B4gQfRuaN/Q39Nc21/YtH2gYAA2Xu+jeicngwAhGL9TLoycf0vrTI+EZvSUMBxxqiI0TrMQjcNXT/UNgrIvsyl82sxpm4O2RQrL9g4kpSk6sAVd8nY+4xNKWfAYDMa8kFMFPD43IhqmLAIsmWXtXH87nv35O1iORLHv+OlboMbeP3aIxOkfL2ABQGxmMAyBw1LLbNlV6++njOW0WVZkU56vjmsLtigPlm6gcHywXnpVCaYeaPNfZG+Y+nrFRRM0heAQWvvu3ML51rYj2uef97vkqfL3Au93VX2T3xDcsuoghJiehMGkkMejBcqoyF035UjNQtnX+5sF+H77/q+/rdoqvH+AjFrqwe7/t8VMky6wqjraNFnbk4eptRMzPjSqGGHOjg/WZ/zLbPfuylOnGYevg6Wx/x8zocndM6ZjmSu/wd3bGbH7/tCnAm53G6cpkYlklKdiH3VkyQQzb72ZjTYpt6P/02YoKJXeqbzhbFHN8uZtkk1gF7bcyEVGOtPFAO9hjv7IbCYPC+pP7sQd1T7d4LfEM1zQXPkbuJvS85Api1ksI4aeOc4+djOTg9Y+sNGmMi7CbXTLuuoBeTcOfPcm5dJEbFbMuihR2a+pdlPSS/kUHGC5jJbXWEta7ZGZ0caUIR5fpxv3LKsysj9AphuNnpdFiWMMhrmRJoi7KYhWN6kuitx1NlYcaB3ntvA0l/XCGtp5DhEkUaQz3KIFmT9z3xm5wqBSG3KKwSO37N3RdQgYLf4TOk6d1f62eZOoNOLTtmyyH3uhM57YYUvN5Km0eT2umFWmUrHydOZsv5+tx8n2FBQdMEiDqGWgYmP3JLpNLfjNOIPiyMT0149PiN3YQPcr7NWbP9nVkaF+6cTlpsbzxiy+ls+Uyx9k0TuHC8y6GVGHjb/c2Anf8LEWDM3NPrZ9lxP/WD04qk4/wHGlNk+MwufX7omjW81P5xgAmT1czLCdNMCPrQDRPsOkTI6kViJrmEsbjiqrFmKcwpolrxrlFeohLl0T/qhSzvnEzm3vg4IHw6A6Mf5TFVWNGh2IU+FAxbhOkgjyH3c8awNy73pJhDh5vAmnGvhTCVLD5QJtH/KPybcVpdEId3A2TbJWDg7/neA+M4RsAODOUA9/lsAts9py/BwQ/79vINhYa7wDtNNoWPv8FjfaMz98EtN2i6Ur57hjBJkXcQpsI3YDCFGMwJWjUVKBd8CSFhEtNooUjz3/HWi4HEnEFSbpw1FcUGJc30Djg1tTT6AGHxtLKaLw1AuFP3Kwb71R7sTgo4HXSyuncteWbvOJkgPofgpQJ7Ep269IqBrOpu43Lbe1uYjIqeltBBHTt0+SEjMkfRzztziSADzk7IEWXOeV3Vb4vNRGMOpcl27kpWwHspRtW398kda72ZttyK8Qg/4xWm7nkBXxbTaXGtuBHlYMiU1NfUVh5XFc41+bUgy0h4pSAgDy5iG9P27KksZiamJOPQVyTbUPATkAMKI7AGOoj5PnBArzTVem6bLpL8SCcu7OzEO4YQ5IqDrCGE5EGdV6K2kOWKdyobeyq3GUCXbYWb4SRCz4FokZRnpELhrCGHKNddGwypeLl/LtvCd7eJvLUAkaBjBKEDswAM1NbPvs/t3i9i2+jqwI4WaYml2k8fzSCULmgvtrvWTIFQtJnLuqoHu9yuwAEwmo1KdQYqZmmQg21U+dEUGepD/0BQrFVJVMKBOUzZPq7pUIAO8Eg90dFXSdTrgMO3s91ZL7ZSiMMzPaFo+/+QTIeNpOJK+b4sFgXB2xh7PzvT26Tb28E2mpaKY1zRMRKf6M4gb91CCelg2BT1Vr62tFjAOwEnZIkFCRRKIkCYeJN8ptHIKTn0YnA+N/Y1aOLTvDXyFt/99JVZrt4LRHFpTmFlhoclFWx2oGW0HTqbBIYk3n8BJ545E8lKcWb8v2gFXk89cR9G3jXUBwGNrQ8AFn5wYjiaDYkgOyzdkPSErt5IABOEQTYJMhiwCl8ewKn8mXz2hvobdIAp0KRp0YA1IXAKcJOAzZBEaam+J4pEeCZ9VE8sRIv/a74HOFP6gqRqm7yEMgXmvdIYjFgPmfkgS1wP6MFvY+zS0X6P/+56flh/tEa2uG3+QV6VPbHx0yC8gFbeMBrJzhTjP8PLADgtt5L/XaGv+Pw1SfMZ9Bom0Skw8XXKMS6gNQGiJJ+pvb/vesBvFznebWGxHj+dhFp8eu8gCC54JImFdEZ/s7yvPIQZfFre4CBnHUpk9zkeeXQ4htJHzHWM6iofdOkHsAFVvsrlB5ANcpzOYtY2xkcDyFAE1gPbutd4JOnmkBOnMFwvH1TSA/gwiZP9VKS5rkSQ9zFhpSAIOlzuZOkdIYrue8sT/VRJKfYcE2AgSx25Wjnk9KleRrJHOLxVG8kQs+f96Kd6l080XHPX/8Theff18JZZ+Eua6ObJDatw+qm7yT/vyNww86PcQOA+2b+TX8t0G7zobaNppUjjWPDOnOAhT52rN/8QabY+75tH/T/1uuBvcARAM4DLOff/vF/yqtf/6e89uBTdifTAPflSUpqiHyKLaxzCuedH5CPUmecz/koymCe5iUZ4LM6M/mRultnKD2LLHliMynjWkCd5nibSeI/lzND5A6aqvOm2IY6T5AHUvCcN4B6sKvchWYuXXL4mXijFZ95CfgZZMJlRXOPXwcYVm/gaHS+K7sL8adYbbfEpLx8c2mGqfjEROEz34G6+5ERB+dMXSH3Pfd199Xz9xxrirlbV9z31Kvc5d7lEVYguhsI5ITuxgrkiigaIN9D6gl9ZLyj655C4lUKeB2HXPcoupvyyPMsQHgVQay6a7GmMg86zWsAX3UB6vpfRuocMpufWVD8XHa4Tq2flHKUbIk/KodNxS9RqprRUpgqdleUKmfcsPXB3IgVLZtDiLHJa1R9sL5Wr6arq0AA5dR92Wu4Fkr3exC1XwC8d2m/EPDl6UNr6j5rbtnctTDKBHTK/xWibPm0UDjkeYD4ZeV+r3/F+gbkFDlZyFMqWGve0nbyjlbgO09sdLZ6IXmZsFCifMVLNaX3RFk2L0pFeIMksGguHm4GKEAHCbGShCkMWyokLj9XVpDTiAuHowqBuoOuYvDrJ+8NpstXXprxWTGWJjmu+bPG5REoXTMHX0C+pqLpNvBkCkcttZB6kSZbjfnQRUC9JLjunO9FRY2ZLlvmBVaXlrdwGQJyFV1eIRaJJnuwioqVrxYxCKnDyFm72DCyhE4+f0UnX0LzaKi8yBUhgrUWpXhzbUJOIUQdQZE/plhXB1eYoHw+5ZzDSKMoj+m8zSmUCPy+JxOXShbIQwjQLmtb5Qony326NlBlA1FeoBWK5JW19krMIF0O0OEcklVizVBHlsVqKAqD4lvdcNLtmotMP3ZeYHcDXv80zB5S/EBC39l2oB+ax37cCBa9H9ok75LdG89rulbPZy+atKIoj/Cj2kDw7eMWoei7r7uNwSt5UW33w+bvLuu9ga+tJcejFgENvIEf1QsE33BExJJ/12jg/lIvwm8HVpTgZz7Cf76NuI+fQ3S5aECHHOFkVtD1k1qsrhXq2oJ0xsxu7iRHR4pbrpBHjmY226HJ9yfoH+WU4aUC7bfRRqQxBOj6Wt7R5R5AoL30lIeQT2X46XE3qkihdZdQh4YAAvhdEbhSgWOPy9XStpgABrJsATwFnLtAEFR1gQoyqQuMVVcXOKZzXRC4XnYJQA+yS9gJP0S8J0XSnTSsTL50xlaOZ3mAd7SbzRGcscP3yjLYB1qHiZTAgP7LmQdmFay56uQV69gJw+2Z+6mRVER+k3HC3lLYtbFa3tJZasenKu6HZXQv1m0anRe922m551HeBbWEuO76m/xRckkQNPzdy8POGDcWKQfUbZ875FInRjVsTCQXYxK8jI8s5HCFbcHSIFNnH7FqeWj4er6DmesrupFYvDz9KiOQG+JYobDrnz/8zu+cm3tRfguQYtnL3oF1uUnWj0xcVopRhgkjmGHteHqlatbUfTeguE5Cy2qBpkSCig4k/mlcA0/8hNKUyHSw2cCSaHbfAnPJXEhl+BGrtSaXM4Y4xvHX8gQt2tHAunIufU3jskbsFKi/utqvkrh92+xd6HReHDudjndrM7u5rrfFB2tjgP3+6ixx8Vta5cmveGBU+n1p5+ticpjuF2GWIzggM/5Tmj/ehwpnGm06+vgPDMAbwcze77iKUXJ4IwarpJEKeo2Di2iGHV6IUQ8jbBlGm7QI3vMYUmWn1uGNV4bYbZGSXbS238FegyZixk1/Z/butOt7YHaYYMWLwqAR4vB9UmeRGzehUAje0PxvnPkPVEp/KZAEVghdW9Zu4wfvmXIEugrQAMCRy5fcIi28VLhKAEBx7taGSoCk5hoTLzP6YdAjAJFjmwlhjmxoZGVhM4YJw/Qp3oluSko7Eenj2GQUrjmy8MtVmbfTr6zRKr1JufQyiaEtgw4JyDhJF+Mnr6R2WwV80hF2TkioLFVzKK0hQQKJAUZlzgjwQyKtZNHQbKaz6agIvBwnx0I6BMjJdCkSCtREcmF6vS8OIYuGjOxVXkvhGX7itUNsigP61dmsRwmlZnUDrxwXjUHpo5axPscJyshjyRTaOLhSA4w0MMlz8DSXzWoYClSanCB12LNm8cf//MBJGcgU6g8FW42HtK4V+xWCh9TgzuYCZyPjT25aYfvPSdSjnBSA4oN7XkC/MSUnWeu7UGfGF+eL5eZo0z1O0xe3F/1atvwVSKQCgiRdsK95khIipHTP1XqQz4fa6/VgQG7+rVfyxwFF0UTWDn2ocxFjaD+1kOOlXvBEreygydnEcILVZpQM5qNc1zKp6vitWfh9fy79tXL3/VCwWiP/hrcmqd0DgKvkdqMun0ecsVeu8aE/tQWfugBwwq1KNxIlFRHozogUrP0CqhoQton6ijfbSeNDR7Fn96zDPBynsQlkVX+yRlxoeiUWIwIoh9tAZOetk4K0BMPqR1VtFQ51qtok02Yd0ltX1j7wZttYGAoyiSAu+EO1SmXAUNLlDpXMOhkHAiL0AbSWoByzdHGdinTlcEzwRS447ObknRW4VA1kyuw6z3Bn1bKouwiRj7zCmgBbSoQcTUGoZp+tnq1xj+6cqeMuzYO4BCEta9+8Hja326xY4eew4Hz2fIbEWdWiBi47rbWXys18JARrhSBVcWhSLCb3Kwwhb9t/aZIwqVXylGMK8BgAiakaVTX4cYV405keSqWqYKsqX7gqhfWiwkp7IVm0VYg6DXp++BG9YSaGVrpmVKb0ZKEQ3BQyaFBGP/bj4ERrXsexkCiu42M66bNd6pingLks66/jmHSySLW/m0IUGcpu8lTrXHMNkTZ4tk3H5i9q/5E+mH/S2FlN/sFryGXQvjI8vhqWHBoNqda99I6ErV86VKJTyZNyFcA96366aC5vqnRSXsdUxchBKmr+MVxM6V9/C+VvykN1uVbet/Q5z/klna7mbYXBFioOwVHSY345RboCk3K4xpH6gvm58TslZUITFXd6RJOx/Vd0G7iVVBM1y7559Y6i+ZyydClnt26EbnTmI8YG5sBviapvuHBXKwghYU84bSMI0JrZaWfJ2nMiagb20QRxias8800VcKyo1usMeJQBjUod2iOtpwlzp5AzlFsVFL60ZiggtnKw368dcnzr9xvdvKIfaejy+HAVvbUUH0ORU9N4dPSIx7lcPVXIUOt5EdNZk/0Gg3SKnSbcQuPGEstb5e1Q6Mkcb6m3sRM7ZUUIjS5nwFEW9E4tJOcPhlqJPPQ9dpNFTxWjQ/Sbnz/sCLkidKs3VnY6tUoKu58rQKuS2BEIxWOvycvxAAA9hg4/a6gkSkzTcUB06Pnsf89z2fiyc+uOZ7E7E9721RM9C6gsOGZF9mtXGH5CtOpq2y1B3XLdebTV5K+e9LCkfVU188QEO9Q/61j9bdvcwiR3i9Qvuk+RkzfSPOXCAguwWwv/NnddhnVNg488ayX8bx0ErvAOBzR4/yq2TIhlcsJUofc0e1q0ogtW1sHPLxWo5OOY/sYQbrmrfdyTcFPZYkSljnAeMt2wI9RwwsIbN3AuUavl/gYB2MG7Y8Nf4GYac64+bEKLueKINmY5aCeECrqBN1fpNZ+mD+Wl7reYezOuolsKzgHhx+7G6OQ0zt9j8hsntcCDMsWjIXjpPfq7WgJuP/Sc/yEV+E3+blOAtCmESePKiWYrHzo0+Q51YiCRxBeRYSLoiPZQMTPJlwzeaurdtvMy4HS/eIz5QQMePiyjiZwtIxwFWMibUJscCkuQymdHH7Om6OLndTCxhu6GgN+4yCAQJifAP0vjIy89gliSugZiiqt1LCXEJ/naRSBNqKjSTXaUmwl2+H/PEJ914vn/9csHUds=) format('woff2');
   }
   :root {
-    --navy: #212a52;
-    --navy-soft: #3d4670;
-    --pastel-blue: #c7d9ee;
-    --pastel-blue-deep: #9fbedd;
-    --pastel-grey: #eff0f2;
-    --page-bg: #e9eef5;
-    --card-border: #dde4ec;
-    --text-muted: #6b7488;
-    --line-light: #c5cdd9;
+    color-scheme: light;
+    --ink: #211b36;
+    --muted: #5f566f;
+    --accent: #5a36be;
+    --accent-deep: #472696;
+    --outline: #dfd7eb;
+    --surface: #ffffff;
+    --canvas: #f7f5fb;
+    --paper-ink: #212a52;
+    --paper-muted: #596278;
+    --paper-rule: #c5cdd9;
+    --paper-tab: #e8edf4;
+    --paper-selected: #c7d9ee;
+    --shell: 1184px;
+    --gutter: clamp(16px, 4vw, 48px);
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  *, *::before, *::after { box-sizing: border-box; }
+  body, h1, h2, h4, p, ol { margin: 0; }
+  html { scroll-behavior: smooth; }
   body {
-    font-family: 'Ajanda Sans', 'Trebuchet MS', sans-serif;
-    background: var(--page-bg);
-    color: var(--navy);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Ajanda Sans', sans-serif;
+    background: var(--canvas);
+    color: var(--ink);
+    line-height: 1.55;
     min-height: 100vh;
   }
-  header.topbar {
-    background: #ffffff;
-    border-bottom: 1px solid var(--card-border);
-    padding: 14px 28px;
+  a { color: var(--accent-deep); text-underline-offset: 0.22em; }
+  :focus-visible { outline: 3px solid #7957d6; outline-offset: 3px; }
+  .site-header {
+    background: var(--surface);
+    border-bottom: 1px solid #ebe5f2;
+  }
+  .header-inner, .site-shell, .site-footer {
+    max-width: var(--shell);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+  .header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    min-height: 65px;
+    padding-block: 8px;
+  }
+  .brand {
     display: flex;
     align-items: center;
-    gap: 18px;
+    gap: 9px;
+    min-height: 44px;
+    color: var(--ink);
+    font-weight: 750;
+    line-height: 1.2;
+    text-decoration: none;
   }
-  header.topbar img { height: 34px; }
-  header.topbar h1 { font-size: 19px; font-weight: 700; letter-spacing: 0.4px; }
-  header.topbar .sub { font-size: 12.5px; color: var(--text-muted); margin-top: 1px; }
+  .brand-icon {
+    position: relative;
+    display: grid;
+    place-items: center;
+    flex: 0 0 34px;
+    height: 34px;
+    background: var(--accent);
+    border-radius: 10px;
+  }
+  .brand-icon::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid #fff;
+    border-radius: 3px;
+  }
+  .brand-icon::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 5px;
+    border-block: 1px solid #fff;
+    top: 15px;
+  }
+  .header-nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(12px, 2.2vw, 28px);
+    font-size: 0.875rem;
+    font-weight: 650;
+  }
+  .header-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .header-nav a:hover { color: var(--accent); text-decoration: underline; }
+
+  .intro {
+    margin-block: clamp(18px, 3.5vw, 38px) clamp(20px, 3vw, 32px);
+    padding: clamp(24px, 4.7vw, 54px);
+    border: 1px solid #e8ddf8;
+    border-radius: clamp(18px, 3vw, 28px);
+    background:
+      radial-gradient(ellipse at 100% 0%, #ffddbd 0%, transparent 43%),
+      radial-gradient(ellipse at 92% 105%, #cfc8ff 0%, transparent 57%),
+      linear-gradient(108deg, #eee4fc 4%, #f7edfb 65%, #fbe8e2 100%);
+  }
+  .intro h1 {
+    font-size: clamp(1.95rem, 4.7vw, 3.45rem);
+    line-height: 1.06;
+    letter-spacing: -0.065em;
+    font-weight: 780;
+    max-width: 22ch;
+    text-wrap: balance;
+  }
+  .intro p {
+    max-width: 55ch;
+    margin-top: 12px;
+    color: #514461;
+    font-size: clamp(1rem, 1.6vw, 1.125rem);
+  }
 
   .layout {
     display: grid;
-    grid-template-columns: minmax(380px, 520px) minmax(340px, 1fr);
-    gap: 26px;
-    max-width: 1180px;
-    margin: 26px auto;
-    padding: 0 24px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.03fr);
+    gap: clamp(16px, 3vw, 32px);
     align-items: start;
   }
-  @media (max-width: 880px) { .layout { grid-template-columns: 1fr; } }
-
-  .site-footer {
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 0 24px 32px;
-  }
-  .site-footer nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px 24px;
-    border-top: 1px solid var(--card-border);
-    padding-top: 16px;
-    font-size: 14px;
-  }
-  .site-footer a {
-    color: var(--navy);
-    text-underline-offset: 0.2em;
-  }
-
+  .settings { display: grid; gap: 14px; }
   .card {
-    background: #ffffff;
-    border: 1px solid var(--card-border);
-    border-radius: 8px;
-    padding: 20px 22px;
-    margin-bottom: 18px;
-    box-shadow: 0 1px 3px rgba(33, 42, 82, 0.05);
+    background: var(--surface);
+    border: 1px solid #e9e2f0;
+    border-radius: 20px;
+    padding: clamp(16px, 2.6vw, 26px);
+    box-shadow: 0 4px 20px #32234c08;
   }
-  .card h2 { font-size: 16px; margin-bottom: 4px; }
-  .card .accent { width: 42px; height: 3px; background: var(--pastel-blue-deep); border-radius: 2px; margin: 6px 0 8px; }
-  .card p.desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px; }
-
-  .field { margin-bottom: 13px; }
+  .card h2 {
+    font-size: 1.2rem;
+    font-weight: 740;
+    letter-spacing: -0.035em;
+    margin-bottom: 15px;
+  }
+  .card .desc {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin: -9px 0 16px;
+  }
+  .field { min-width: 0; margin-bottom: 15px; }
   .field:last-child { margin-bottom: 0; }
   .field label {
     display: block;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    color: var(--text-muted);
+    color: var(--ink);
+    font-size: 0.9rem;
+    font-weight: 660;
     margin-bottom: 5px;
   }
-  .field-hint { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; margin-top: 6px; }
+  .field-hint {
+    color: var(--muted);
+    font-size: 0.875rem;
+    margin-top: 7px;
+  }
   .field input[type="text"], .field select {
     width: 100%;
-    font-family: inherit;
-    font-size: 14.5px;
-    color: var(--navy);
-    padding: 9px 11px;
-    border: 1px solid var(--line-light);
-    border-radius: 6px;
-    background: #fff;
-    outline: none;
+    min-height: 46px;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--ink);
+    padding: 9px 12px;
+    border: 1px solid var(--outline);
+    border-radius: 11px;
+    background-color: #faf8fd;
   }
-  .field input:focus, .field select:focus { border-color: var(--pastel-blue-deep); box-shadow: 0 0 0 3px var(--pastel-blue); }
-  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-
-  .check { display: flex; align-items: center; gap: 9px; font-size: 14px; }
-  .check input { width: 16px; height: 16px; accent-color: var(--navy); }
-
-  .generate-bar { display: flex; align-items: center; gap: 16px; }
+  .field select {
+    appearance: none;
+    padding-inline-end: 32px;
+    background-image:
+      linear-gradient(45deg, transparent 50%, #65557d 50%),
+      linear-gradient(135deg, #65557d 50%, transparent 50%);
+    background-position: right 17px center, right 12px center;
+    background-size: 5px 5px;
+    background-repeat: no-repeat;
+  }
+  .field input[type="text"]:hover, .field select:hover { border-color: #a99ac0; }
+  .field input[type="text"]:focus, .field select:focus { background-color: #fff; border-color: var(--accent); }
+  .row2, .row3 { display: grid; gap: 12px; margin-bottom: 15px; }
+  .row2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .row3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .row2 .field, .row3 .field { margin-bottom: 0; }
+  .check { display: flex; align-items: center; gap: 10px; min-height: 44px; }
+  .check label { margin: 0; font-weight: 500; }
+  .check input { flex: 0 0 18px; height: 18px; margin: 0; accent-color: var(--accent); }
+  .export-card { background: #f0e9ff; border-color: #dfd0f8; }
+  .generate-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
   button.generate {
-    font-family: inherit;
-    font-size: 15px;
+    min-height: 48px;
+    padding: 11px 21px;
+    font: inherit;
     font-weight: 700;
-    letter-spacing: 0.6px;
     color: #fff;
-    background: var(--navy);
-    border: none;
-    border-radius: 6px;
-    padding: 13px 30px;
+    background: var(--accent);
+    border: 0;
+    border-radius: 11px;
+    box-shadow: 0 5px 14px #5a36be30;
     cursor: pointer;
-    transition: background 0.15s;
+    transition: background-color 0.15s;
   }
-  button.generate:hover { background: var(--navy-soft); }
-  button.generate:disabled { background: var(--text-muted); cursor: wait; }
-  #pageEstimate { font-size: 13px; color: var(--text-muted); }
-
+  button.generate:hover { background: var(--accent-deep); }
+  button.generate:disabled { background: #676078; box-shadow: none; cursor: wait; }
+  #pageEstimate { color: var(--muted); font-size: 0.875rem; font-variant-numeric: tabular-nums; }
   .progress-wrap { margin-top: 14px; display: none; }
-  .progress-track { height: 8px; background: var(--pastel-grey); border-radius: 4px; overflow: hidden; }
-  .progress-fill { height: 100%; width: 0%; background: var(--pastel-blue-deep); border-radius: 4px; transition: width 0.1s; }
-  .progress-label { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+  .progress-track { height: 8px; background: #ddd0f6; border-radius: 100px; overflow: hidden; }
+  .progress-fill { height: 100%; width: 0%; background: var(--accent); transition: width 0.15s; }
+  .progress-label { color: var(--ink); font-size: 0.875rem; margin-top: 7px; }
 
-  /* ---------- live preview ---------- */
-  .preview-card { position: sticky; top: 20px; }
+  .preview-card { scroll-margin-top: 16px; }
   .preview-stage {
-    background: var(--pastel-grey);
-    border: 1px solid var(--card-border);
-    border-radius: 6px;
-    padding: 18px;
     display: flex;
     justify-content: center;
+    overflow: hidden;
+    padding: clamp(12px, 4vw, 32px);
+    border: 1px solid #e9e1f4;
+    border-radius: 15px;
+    background-color: #f2edfa;
+    background-image: radial-gradient(#8474a849 0.9px, transparent 0.9px);
+    background-size: 10px 10px;
   }
   .pv-page {
-    background: #fff;
+    flex: none;
+    zoom: var(--preview-zoom, 1);
     width: 318px;
     height: 424px;
-    border: 1px solid var(--line-light);
-    box-shadow: 0 2px 8px rgba(33,42,82,0.10);
     padding: 10px 12px;
-    font-size: 6px;
     overflow: hidden;
+    background: #fff;
+    border: 1px solid var(--paper-rule);
+    box-shadow: 0 6px 20px #332a5530;
+    color: var(--paper-ink);
+    font-size: 6px;
+    line-height: normal;
   }
   .pv-months { display: flex; gap: 1.5px; justify-content: center; margin-bottom: 8px; }
   .pv-months span {
     flex: 1; text-align: center; padding: 2.5px 0;
-    background: var(--pastel-grey); color: var(--text-muted);
+    background: var(--paper-tab); color: var(--paper-muted);
     font-weight: 700; letter-spacing: 0.5px; font-size: 5.5px;
     border-radius: 1.5px;
   }
-  .pv-months span.on { background: var(--pastel-blue); color: var(--navy); }
+  .pv-months span.on { background: var(--paper-selected); color: var(--paper-ink); }
   .pv-titlerow { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
   .pv-title { font-weight: 700; font-size: 9.5px; letter-spacing: 1.2px; }
   .pv-nav { display: flex; gap: 2px; }
-  .pv-nav i { width: 16px; height: 8px; border: 0.7px solid var(--navy); border-radius: 1.5px; display: flex; align-items: center; justify-content: center; font-style: normal; font-size: 5px; }
+  .pv-nav i { width: 16px; height: 8px; border: 0.7px solid var(--paper-ink); border-radius: 1.5px; display: flex; align-items: center; justify-content: center; font-style: normal; font-size: 5px; }
   .pv-weekrow { display: flex; align-items: flex-start; gap: 4px; margin-bottom: 8px; }
-  .pv-day { text-align: center; color: var(--text-muted); }
-  .pv-day b { display: block; border: 0.7px solid var(--line-light); border-radius: 1.5px; color: var(--text-muted); padding: 2px 4.5px; font-size: 6px; margin-bottom: 1.5px; }
-  .pv-day.in b { border-color: var(--navy); color: var(--navy); }
-  .pv-day.on b { background: var(--pastel-blue); border-color: var(--pastel-blue); color: var(--navy); }
-  .pv-toggle { margin-left: auto; border: 0.8px solid var(--navy); border-radius: 2px; padding: 2.5px 7px; font-weight: 700; letter-spacing: 0.8px; font-size: 5.5px; align-self: flex-start; }
+  .pv-day { text-align: center; color: var(--paper-muted); }
+  .pv-day b { display: block; border: 0.7px solid var(--paper-rule); border-radius: 1.5px; color: var(--paper-muted); padding: 2px 4.5px; font-size: 6px; margin-bottom: 1.5px; }
+  .pv-day.in b { border-color: var(--paper-ink); color: var(--paper-ink); }
+  .pv-day.on b { background: var(--paper-selected); border-color: var(--paper-selected); color: var(--paper-ink); }
+  .pv-toggle { margin-left: auto; border: 0.8px solid var(--paper-ink); border-radius: 2px; padding: 2.5px 7px; font-weight: 700; letter-spacing: 0.8px; font-size: 5.5px; align-self: flex-start; }
   .pv-body { display: flex; gap: 10px; height: 300px; }
   .pv-col { flex: 1; }
-  .pv-col h4 { font-size: 6.5px; letter-spacing: 1.2px; border-bottom: 0.8px solid var(--navy); padding-bottom: 2.5px; margin-bottom: 4px; font-weight: 700; }
-  .pv-task { display: flex; align-items: flex-end; gap: 3px; height: 12.2px; border-bottom: 0.6px solid var(--line-light); }
-  .pv-task i { width: 5px; height: 5px; border: 0.7px solid var(--navy); margin-bottom: 1px; }
-  .pv-slot { border-top: 0.6px solid var(--line-light); color: var(--text-muted); letter-spacing: 0.6px; padding-top: 1px; font-size: 5px; }
+  .pv-col h4 { font-size: 6.5px; letter-spacing: 1.2px; border-bottom: 0.8px solid var(--paper-ink); padding-bottom: 2.5px; margin-bottom: 4px; font-weight: 700; }
+  .pv-task { display: flex; align-items: flex-end; gap: 3px; height: 12.2px; border-bottom: 0.6px solid var(--paper-rule); }
+  .pv-task i { width: 5px; height: 5px; border: 0.7px solid var(--paper-ink); margin-bottom: 1px; }
+  .pv-slot { border-top: 0.6px solid var(--paper-rule); color: var(--paper-muted); letter-spacing: 0.6px; padding-top: 1px; font-size: 5px; }
   .pv-rem { margin-top: 6px; }
   .pv-rem h4 { font-size: 6.5px; letter-spacing: 1.2px; font-weight: 700; margin-bottom: 3px; }
-  .pv-rem div { border: 0.7px solid var(--line-light); height: 34px; }
-  .pv-stoic { border-top: 0.8px solid var(--navy); margin-top: 6px; padding-top: 5px; line-height: 1.3; }
+  .pv-rem div { border: 0.7px solid var(--paper-rule); height: 34px; }
+  .pv-stoic { border-top: 0.8px solid var(--paper-ink); margin-top: 6px; padding-top: 5px; line-height: 1.3; }
   .pv-stoic h4 { font-size: 6.5px; letter-spacing: 0.6px; }
   .pv-stoic p { font-size: 6.8px; margin: 2px 0; }
-  .pv-stoic small { display: block; font-size: 5.5px; color: var(--text-muted); margin-bottom: 5px; }
+  .pv-stoic small { display: block; font-size: 5.5px; color: var(--paper-muted); margin-bottom: 5px; }
   .pv-stoic ol { padding-left: 9px; }
-  .pv-stoic li { height: 9px; border-bottom: 0.6px solid var(--line-light); color: var(--text-muted); }
-  .pv-caption { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 12px; }
+  .pv-stoic li { height: 9px; border-bottom: 0.6px solid var(--paper-rule); color: var(--paper-muted); }
+  .pv-caption { text-align: center; font-size: 0.875rem; color: var(--muted); margin-top: 14px; }
 
-  .note {
-    font-size: 12.5px; color: var(--text-muted); line-height: 1.65;
-    background: var(--pastel-grey); border-radius: 6px; padding: 12px 14px; margin-top: 14px;
+  .preview-help { margin-top: 13px; color: var(--muted); font-size: 0.875rem; }
+  .preview-help summary { width: fit-content; color: var(--accent-deep); font-weight: 650; cursor: pointer; }
+  .preview-help p { margin-top: 6px; }
+
+  .site-footer { margin-block: 32px; }
+  .site-footer nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0 24px;
+    border-top: 1px solid var(--outline);
+    padding-top: 8px;
+    font-size: 0.875rem;
+  }
+  .site-footer a { display: inline-flex; align-items: center; min-height: 44px; }
+  #ayarlar { scroll-margin-top: 16px; }
+
+  @media (min-width: 801px) and (min-height: 760px) {
+    .preview-card { position: sticky; top: 20px; }
+  }
+  @media (max-width: 800px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 440px) {
+    .header-nav { gap: 12px; }
+    .intro h1 { letter-spacing: -0.05em; }
+    .row3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .row3 .field:last-child { grid-column: 1 / -1; }
+    button.generate { flex: 1 0 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    button.generate, .progress-fill { transition: none; }
   }
 </style>
 </head>
 <body>
 
-<header class="topbar">
-  <div>
-    <h1>Günlük Ajanda Oluşturucu</h1>
-    <div class="sub">Tabletiniz için sayfaları birbirine bağlantılı, kişiselleştirilmiş bir PDF ajanda oluşturun.</div>
+<header class="site-header" id="sayfa-basi">
+  <div class="header-inner">
+    <a class="brand" href="#sayfa-basi"><span class="brand-icon" aria-hidden="true"></span>Günlük Ajanda</a>
+    <nav class="header-nav" aria-label="Sayfa içi gezinme">
+      <a href="#ayarlar">Ayarlar</a>
+      <a href="#onizleme">Önizleme</a>
+    </nav>
   </div>
 </header>
 
-<div class="layout">
-  <div class="settings">
-
-    <div class="card">
-      <h2>Belge Adı</h2>
-      <div class="accent"></div>
-      <p class="desc">Bu ad kapakta ve dosya adında görünür. Ajandanızı kolay bulmak için ayırt edici bir ad seçin.</p>
-      <div class="field">
-        <label for="docName">Ad</label>
-        <input type="text" id="docName" value="Günlük Ajanda">
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Belge Ayarları</h2>
-      <div class="accent"></div>
-      <p class="desc">Bu ayarlar ajandanın tüm sayfalarına uygulanır.</p>
-      <div class="field">
-        <label for="calYear">Takvim Yılı</label>
-        <select id="calYear"></select>
-      </div>
-      <div class="row2">
-        <div class="field">
-          <label for="weekStart">Haftanın İlk Günü</label>
-          <select id="weekStart">
-            <option value="1" selected>Pazartesi</option>
-            <option value="0">Pazar</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="handedness">Baskın El</label>
-          <select id="handedness">
-            <option value="right" selected>Sağ el</option>
-            <option value="left">Sol el</option>
-          </select>
-        </div>
-      </div>
-      <div class="field">
-        <label for="fontChoice">Yazı Tipi</label>
-        <select id="fontChoice"></select>
-      </div>
-      <div class="field">
-        <label for="pageShape">Sayfa Ölçüsü</label>
-        <select id="pageShape"></select>
-        <p class="field-hint" id="pageShapeHint"></p>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Günlük Sayfalar</h2>
-      <div class="accent"></div>
-      <p class="desc">Her günün görevler, program ve hatırlatmalar içeren plan sayfasından çizgili not sayfalarına geçebilirsiniz.</p>
-      <div class="row3">
-        <div class="field">
-          <label for="schedStart">Başlangıç Saati</label>
-          <select id="schedStart"></select>
-        </div>
-        <div class="field">
-          <label for="schedEnd">Bitiş Saati</label>
-          <select id="schedEnd"></select>
-        </div>
-        <div class="field">
-          <label for="interval">Zaman Aralığı</label>
-          <select id="interval">
-            <option value="30" selected>30 dakika</option>
-            <option value="60">60 dakika</option>
-          </select>
-        </div>
-      </div>
-      <div class="field">
-        <label for="notesPages">Günlük Not Sayfaları</label>
-        <select id="notesPages">
-          <option value="1">Günde 1 sayfa</option>
-          <option value="2" selected>Günde 2 sayfa</option>
-          <option value="3">Günde 3 sayfa</option>
-        </select>
-      </div>
-      <div class="field check">
-        <input type="checkbox" id="coverPage" checked>
-        <label for="coverPage" style="margin:0; text-transform:none; font-size:14px; letter-spacing:0; color:var(--navy); font-weight:400;">Ay bağlantılarını içeren kapak sayfası ekle</label>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="field">
-        <label for="pdfEdition">PDF Sürümü</label>
-        <select id="pdfEdition">
-          <option value="standard">Günlük Ajanda</option>
-          <option value="stoic">Stoacı Günlük Ajanda</option>
-        </select>
-        <p class="field-hint">Stoacı sürüm, her günlük plana kaynaklı bir söz ve üç şükür satırı ekler.</p>
-      </div>
-      <div class="generate-bar">
-        <button class="generate" id="generateBtn">PDF OLUŞTUR</button>
-        <span id="pageEstimate"></span>
-      </div>
-      <div class="progress-wrap" id="progressWrap">
-        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-        <div class="progress-label" id="progressLabel">Hazırlanıyor&hellip;</div>
-      </div>
-      <div class="note">
-        Ay sekmeleri takvimi açar. Takvimdeki tarihler ve hafta şeridindeki günler günlük plana götürür.
-        Oklarla hafta, takvimde ise ay değiştirebilirsiniz. Günlük plan ve not sayfaları birbirine bağlıdır.
-      </div>
-    </div>
-
+<main class="site-shell">
+  <div class="intro">
+    <h1>Günlük ajandanı oluştur</h1>
+    <p>Takvimini, günlük planını ve not sayfalarını cihazına uygun bir PDF’de bir araya getir.</p>
   </div>
 
-  <div class="preview-card card">
-    <h2>Önizleme</h2>
-    <div class="accent"></div>
-    <p class="desc">Günlük plan sayfası, ayarları değiştirdikçe güncellenir.</p>
-    <div class="preview-stage">
-      <div class="pv-page" id="pvPage"></div>
+  <div class="layout">
+    <div class="settings" id="ayarlar">
+
+      <div class="card">
+        <h2>Belge ayarları</h2>
+        <div class="field">
+          <label for="docName">Belge adı</label>
+          <input type="text" id="docName" value="Günlük Ajanda">
+        </div>
+        <div class="field">
+          <label for="calYear">Takvim yılı</label>
+          <select id="calYear"></select>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="weekStart">Haftanın ilk günü</label>
+            <select id="weekStart">
+              <option value="1" selected>Pazartesi</option>
+              <option value="0">Pazar</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="handedness">Baskın el</label>
+            <select id="handedness">
+              <option value="right" selected>Sağ el</option>
+              <option value="left">Sol el</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="fontChoice">Yazı tipi</label>
+          <select id="fontChoice"></select>
+        </div>
+        <div class="field">
+          <label for="pageShape">Sayfa ölçüsü</label>
+          <select id="pageShape" aria-describedby="pageShapeHint"></select>
+          <p class="field-hint" id="pageShapeHint"></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Günlük sayfalar</h2>
+        <div class="row3">
+          <div class="field">
+            <label for="schedStart">Başlangıç saati</label>
+            <select id="schedStart"></select>
+          </div>
+          <div class="field">
+            <label for="schedEnd">Bitiş saati</label>
+            <select id="schedEnd"></select>
+          </div>
+          <div class="field">
+            <label for="interval">Zaman aralığı</label>
+            <select id="interval">
+              <option value="30" selected>30 dakika</option>
+              <option value="60">60 dakika</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="notesPages">Günlük not sayfaları</label>
+          <select id="notesPages">
+            <option value="1">Günde 1 sayfa</option>
+            <option value="2" selected>Günde 2 sayfa</option>
+            <option value="3">Günde 3 sayfa</option>
+          </select>
+        </div>
+        <div class="field check">
+          <input type="checkbox" id="coverPage" checked>
+          <label for="coverPage">Ay bağlantılarını içeren kapak sayfası ekle</label>
+        </div>
+      </div>
+
+      <div class="card export-card">
+        <h2>PDF indir</h2>
+        <div class="field">
+          <label for="pdfEdition">PDF sürümü</label>
+          <select id="pdfEdition" aria-describedby="editionHint">
+            <option value="standard">Günlük Ajanda</option>
+            <option value="stoic">Stoacı Günlük Ajanda</option>
+          </select>
+          <p class="field-hint" id="editionHint">Stoacı sürüm, her günlük plana kaynaklı bir söz ve üç şükür satırı ekler.</p>
+        </div>
+        <div class="generate-bar">
+          <button class="generate" id="generateBtn" type="button">PDF oluştur</button>
+          <span id="pageEstimate"></span>
+        </div>
+        <div class="progress-wrap" id="progressWrap">
+          <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+          <div class="progress-label" id="progressLabel" role="status">Hazırlanıyor&hellip;</div>
+        </div>
+      </div>
+
     </div>
-    <div class="pv-caption" id="pvCaption"></div>
+
+    <section class="preview-card card" id="onizleme" aria-labelledby="previewTitle">
+      <h2 id="previewTitle">Canlı önizleme</h2>
+      <p class="desc">Günlük plan sayfası, ayarlarına göre güncellenir.</p>
+      <div class="preview-stage">
+        <div class="pv-page" id="pvPage"></div>
+      </div>
+      <p class="pv-caption" id="pvCaption"></p>
+      <details class="preview-help">
+        <summary>PDF’de nasıl gezinirim?</summary>
+        <p>Ay sekmeleri takvimi açar. Tarihler günlük plana götürür. Oklarla hafta veya ay değiştirebilir, günlük plan ve not sayfaları arasında geçiş yapabilirsin.</p>
+      </details>
+    </section>
   </div>
-</div>
+</main>
 
 <footer class="site-footer">
   <nav aria-label="Proje bağlantıları">
@@ -362,17 +484,13 @@ const CL = M, CR = PW - M, CW = CR - CL;    // content box
 // keep their layout and the extra height goes to writing space.
 const PAGE_SHAPES = {
   '3x4':   { short: '3:4',      height: 720,
-             option: '3:4 · E-mürekkep tabletler ve 13 inç iPad',
              desc: 'Boox, reMarkable, Kindle Scribe, Supernote ve 13 inç iPad için.' },
   'a4':    { short: 'A4 oranı', height: PW * Math.SQRT2,
-             option: 'A4 oranı · 11 inç iPad, iPad mini ve baskı',
              desc: '11 inç iPad, iPad mini, Surface Pro ve A4 kâğıda baskı için.' },
   '16x10': { short: '16:10',    height: 864,
-             option: '16:10 · Samsung ve diğer Android tabletler',
              desc: 'Samsung Galaxy Tab ve diğer Android tabletler için.' },
   'kobo-libra-colour': { short: 'Kobo Libra Colour', height: PW * 1680 / 1264,
-             option: 'Kobo Libra Colour · 1264 × 1680 piksel',
-             desc: 'Kobo Libra Colour ekranının dikey en-boy oranına uygun.' }
+             desc: '1264 × 1680 piksel Kobo Libra Colour ekranının dikey oranına uygun.' }
 };
 const DEFAULT_SHAPE = '3x4';
 
@@ -840,7 +958,7 @@ const DEFAULT_FONT = 'ptsans';
   Object.entries(PAGE_SHAPES).forEach(([key, s]) => {
     const opt = document.createElement('option');
     opt.value = key;
-    opt.textContent = s.option;
+    opt.textContent = s.short;
     if (key === DEFAULT_SHAPE) opt.selected = true;
     sel.appendChild(opt);
   });
@@ -1417,6 +1535,14 @@ document.querySelectorAll('input, select').forEach(el => {
   el.addEventListener('change', renderPreview);
 });
 renderPreview();
+
+if (typeof ResizeObserver !== 'undefined') {
+  const stage = document.querySelector('.preview-stage');
+  new ResizeObserver(([entry]) => {
+    const fit = Math.min(360, entry.contentRect.width) / 318;
+    stage.style.setProperty('--preview-zoom', fit);
+  }).observe(stage);
+}
 </script>
 
 <!-- Embedded jsPDF 4.2.1 (base64), used as an offline fallback only if the CDN copy is unavailable. type="text/plain" prevents it from executing on load. -->

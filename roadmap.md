@@ -1,7 +1,8 @@
 # Agenda subdomain
-- [x] Replace the static agenda byte-for-byte with pinned GitHub version ddfd27d7; preserve domain settings and other pages.
-- [x] Verify all three footer links open; generate and inspect eight 743-page PDFs (Standard/Stoacı × four sizes); check agenda host and eight existing routes.
-- [x] Prepare the updated preview; do not publish without owner approval.
+- [x] Replace the static agenda byte-for-byte with pinned GitHub version 80491865; preserve domain settings and other pages.
+- [x] Verify lavender/peach colors, desktop side-by-side layout, stacked layout at 320/390/768px without overflow and full-width mobile PDF button.
+- [x] Open all three GitHub links; generate and inspect eight 743-page Standard/Stoacı PDFs across four sizes; verify agenda host and eight existing routes.
+- [x] Prepare desktop/mobile preview screenshots; do not publish without owner approval.
 
 # AI STEP concept landing page
 - [x] Turn the uploaded presentation into a bilingual interactive product-concept page at /ai-step, with no homepage link.
